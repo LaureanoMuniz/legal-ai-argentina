@@ -4,8 +4,11 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .env
-data/raw/
-data/processed/
+data/raw/*
 !data/raw/.gitkeep
+!data/raw/infoleg/
+data/raw/infoleg/*
+!data/raw/infoleg/README.md
+data/processed/*
 !data/processed/.gitkeep
 .DS_Store

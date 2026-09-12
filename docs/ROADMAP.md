@@ -7,8 +7,8 @@ sin medir la actual.
 | Fase | Qué | Métrica / entregable | Estado |
 |---|---|---|---|
 | 0 | Arquitectura, docs, repo | README, ARCHITECTURE, ROADMAP, DECISIONS | hecha |
-| 1 | Ingestion reproducible desde Infoleg | `data/raw` completo para el corpus laboral, manifest, tests del fetcher | en curso |
-| 2 | Parser con estructura jurídica | `documents/articles/relations.jsonl`, versiones original/current, tests con fixtures reales | |
+| 1 | Ingestion reproducible desde Infoleg | `data/raw` completo para el corpus laboral, manifest, tests del fetcher | hecha |
+| 2 | Parser con estructura jurídica | `documents/articles/relations.jsonl`, versiones original/current, tests con fixtures reales | siguiente |
 | 3 | RAG baseline: vector → top-k → Claude → respuesta con fuentes | Postgres + pgvector, FastAPI, OTel → Langfuse, latencia baseline | |
 | 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | |
 | 5 | BM25 (`pg_search`) e híbrido con RRF | vector vs BM25 vs híbrido, mismo benchmark | |
@@ -30,6 +30,11 @@ sin medir la actual.
 3. Descargar `norma.htm`, `texact.htm` y las dos páginas de vínculos por norma, con User-Agent de navegador, reintentos, rate limit y caché en disco.
 4. CLI `legal-ai ingest catalog|resolve|fetch`.
 5. Tests: parsing del CSV, resolución del manifest, fetcher con respuestas grabadas (sin red en CI).
+
+Resultado (catálogo 2026-09-12): 266 normas resueltas (6 seeds + 260
+modificatorias: 189 decretos, 77 leyes). 834 archivos HTML descargados, todos
+HTTP 200, 0 fallos. 249 normas con texto original, 53 con texto actualizado,
+17 sin ningún link de texto en el catálogo. 89 MB en `data/raw/infoleg`.
 
 ## Problemas que esperamos encontrar (y medir)
 

@@ -61,6 +61,7 @@ data/raw/infoleg/
     vinculos_modificada_por.htm    modo=2
     meta.json                      url, fetched_at, http status, sha256
 data/processed/<corpus>/
+  resolved.json                  manifest resuelto a id_norma (fecha de catálogo, motivo de inclusión)
   documents.jsonl
   articles.jsonl
   relations.jsonl
