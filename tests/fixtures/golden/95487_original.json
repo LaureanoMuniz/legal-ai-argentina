@@ -1,0 +1,39 @@
+{
+ "file": "95487/norma.htm",
+ "n_articles": 3,
+ "articles": [
+  {
+   "key": "1",
+   "label": "1",
+   "heading": null,
+   "status": "vigente",
+   "annex": null,
+   "sections": [],
+   "n_notes": 0,
+   "text_sha256": "e8b3719b5a669afdabf94a99afbb042b57f643445c632af5b2061a58fba4c122"
+  },
+  {
+   "key": "2",
+   "label": "2",
+   "heading": null,
+   "status": "vigente",
+   "annex": null,
+   "sections": [],
+   "n_notes": 0,
+   "text_sha256": "b642e29cd6317ef6a2956511390c4e31e01cddcd70ffe14b006a20489d07f1c9"
+  },
+  {
+   "key": "3",
+   "label": "3",
+   "heading": null,
+   "status": "vigente",
+   "annex": null,
+   "sections": [],
+   "n_notes": 0,
+   "text_sha256": "aac81ea9612ef222af89dbd6768dd22fed62716870e9ecd4d1ceec88044983aa"
+  }
+ ],
+ "n_annexes": 1,
+ "n_antecedentes_lines": 0,
+ "warnings": []
+}
