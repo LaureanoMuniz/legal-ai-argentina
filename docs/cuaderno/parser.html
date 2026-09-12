@@ -1,0 +1,619 @@
+<title>Bitácora del Parser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --paper: #F6F6F3;
+  --paper-2: #EDEEEA;
+  --ink: #1C222E;
+  --ink-2: #4B5462;
+  --muted: #7B838F;
+  --rule: #D6D9D5;
+  --accent: #3B4B9B;
+  --accent-soft: #E3E6F5;
+  --brass: #9A6F1E;
+  --brass-soft: #F3E9D2;
+  --warn: #A63D2F;
+  --warn-soft: #F6E1DC;
+  --good: #1F6F4A;
+  --code-bg: #E8EAE6;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14181F; --paper-2: #1B2029; --ink: #E4E7EA; --ink-2: #B4BBC5; --muted: #808896;
+    --rule: #2C3340; --accent: #98A6EC; --accent-soft: #1E2440; --brass: #D9B15A; --brass-soft: #2E2612;
+    --warn: #E3846F; --warn-soft: #3A1F1A; --good: #6CC9A0; --code-bg: #0E1216; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14181F; --paper-2: #1B2029; --ink: #E4E7EA; --ink-2: #B4BBC5; --muted: #808896;
+  --rule: #2C3340; --accent: #98A6EC; --accent-soft: #1E2440; --brass: #D9B15A; --brass-soft: #2E2612;
+  --warn: #E3846F; --warn-soft: #3A1F1A; --good: #6CC9A0; --code-bg: #0E1216; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 17px; line-height: 1.6; padding-block: 0 4rem; padding-inline: clamp(16px, 4vw, 40px); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.frame { max-width: 1120px; margin-inline: auto; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+@media (max-width: 860px) { .frame { grid-template-columns: minmax(0, 1fr); gap: 0; } nav.toc { position: static; border-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; margin-bottom: 1.5rem; } }
+header.masthead { grid-column: 1 / -1; padding-block: 2.5rem 1.5rem; border-bottom: 1px solid var(--rule); display: grid; gap: .5rem; }
+.eyebrow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.masthead p { margin: 0; color: var(--ink-2); max-width: 62ch; }
+.status { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8rem; color: var(--ink-2); margin-top: .5rem; }
+.status b { color: var(--accent); font-weight: 500; }
+nav.toc { position: sticky; top: 24px; align-self: start; border-right: 1px solid var(--rule); padding-right: 1.25rem; font-size: .9rem; }
+nav.toc .eyebrow { margin-bottom: .75rem; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+nav.toc a { color: var(--ink-2); text-decoration: none; display: block; line-height: 1.35; }
+nav.toc a:hover { color: var(--accent); }
+nav.toc .sub { padding-left: .9rem; font-size: .82rem; color: var(--muted); }
+main { max-width: 68ch; }
+section { padding-block: 2.25rem; border-bottom: 1px solid var(--rule); }
+section:last-of-type { border-bottom: 0; }
+h2 { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.85rem; line-height: 1.15; margin: 0 0 1rem; text-wrap: balance; }
+h3 { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.3rem; line-height: 1.25; margin: 1.75rem 0 .5rem; text-wrap: balance; }
+p { margin: 0 0 1rem; } ul, ol { padding-left: 1.25rem; margin: 0 0 1rem; } li { margin-bottom: .35rem; } strong { font-weight: 600; }
+.lead { font-size: 1.12rem; color: var(--ink-2); }
+code, pre { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace; font-size: .86em; }
+code { background: var(--code-bg); padding: .1em .35em; border-radius: 3px; }
+pre { background: var(--code-bg); border-radius: 6px; padding: .9rem 1rem; overflow-x: auto; line-height: 1.5; margin: 0 0 1rem; }
+pre code { background: none; padding: 0; font-size: .82rem; }
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .9rem 1.1rem; margin: 1.25rem 0; border-radius: 0 6px 6px 0; }
+.callout .eyebrow { color: var(--accent); margin-bottom: .3rem; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.callout.industria { border-color: var(--brass); background: var(--brass-soft); } .callout.industria .eyebrow { color: var(--brass); }
+.callout.error { border-color: var(--warn); background: var(--warn-soft); } .callout.error .eyebrow { color: var(--warn); }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 0 0 1.25rem; font-variant-numeric: tabular-nums; }
+.table-wrap { overflow-x: auto; margin: 0 0 1.25rem; } .table-wrap table { margin: 0; }
+th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); }
+td.num { text-align: right; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .85rem; white-space: nowrap; }
+caption { caption-side: bottom; text-align: left; font-size: .8rem; color: var(--muted); padding-top: .4rem; }
+figure { margin: 1.5rem 0; } figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; }
+
+.timeline { display: grid; gap: 1.5rem; margin: 1.5rem 0; }
+.it { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1rem; }
+.it .rail { display: grid; justify-items: center; align-content: start; gap: .35rem; }
+.it .dot { width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 2px solid var(--accent); background: var(--paper); color: var(--accent); font-family: "IBM Plex Mono", monospace; font-size: .8rem; font-weight: 500; display: grid; place-items: center; }
+.it .line { width: 2px; flex: 1; background: var(--rule); height: 100%; min-height: 2rem; }
+.it .card { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.2rem; background: var(--paper-2); }
+.it h3 { margin: 0 0 .6rem; font-size: 1.2rem; }
+.it dl { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: 0 0 .8rem; font-size: .95rem; }
+.it dt { font-family: "IBM Plex Mono", monospace; font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: .2rem; }
+.it dd { margin: 0; } .it dd code { font-size: .8em; }
+@media (max-width: 520px) { .it dl { grid-template-columns: 1fr; } }
+.delta { display: flex; flex-wrap: wrap; gap: .4rem .8rem; font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--ink-2); }
+.delta span { border: 1px solid var(--rule); border-radius: 999px; padding: .1rem .55rem; }
+.delta .down { color: var(--good); border-color: var(--good); } .delta .up { color: var(--warn); border-color: var(--warn); }
+
+svg.chart { width: 100%; height: auto; display: block; }
+svg.chart .bar { fill: var(--accent); }
+svg.chart .bar.hi { fill: var(--warn); }
+svg.chart .axis { stroke: var(--rule); stroke-width: 1; }
+svg.chart .lbl { fill: var(--ink-2); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg.chart .val { fill: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 500; }
+svg.chart .bar:hover { opacity: .8; }
+
+.pyramid { display: grid; gap: .5rem; margin: 1rem 0 1.25rem; }
+.pyramid .lvl { border: 1px solid var(--rule); border-radius: 6px; padding: .6rem .9rem; background: var(--paper-2); font-size: .95rem; }
+.pyramid .lvl b { display: block; font-family: "IBM Plex Mono", monospace; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: .15rem; }
+
+.quiz { display: grid; gap: 1.5rem; margin: 0 0 1.5rem; }
+.q { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.2rem; background: var(--paper-2); }
+.q fieldset { border: 0; padding: 0; margin: 0; }
+.q legend { font-weight: 600; line-height: 1.45; margin-bottom: .75rem; text-wrap: pretty; }
+.q .n { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; color: var(--muted); display: block; margin-bottom: .25rem; letter-spacing: .06em; }
+.opts { display: grid; gap: .45rem; }
+.opt { display: grid; grid-template-columns: 1.4rem 1fr; gap: .6rem; align-items: start; padding: .55rem .7rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); cursor: pointer; font-size: .95rem; line-height: 1.45; }
+.opt:hover { border-color: var(--accent); }
+.opt input { margin: .3rem 0 0; accent-color: var(--accent); }
+.opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.q[data-state="ok"] .opt:has(input:checked) { border-color: var(--good); background: var(--accent-soft); }
+.q[data-state="ko"] .opt:has(input:checked) { border-color: var(--warn); background: var(--warn-soft); }
+.q[data-state] .opt.is-correct { border-color: var(--good); }
+.q[data-state] .opt { cursor: default; }
+.fb { margin-top: .8rem; font-size: .93rem; line-height: 1.5; padding: .7rem .9rem; border-radius: 6px; border-left: 3px solid var(--rule); background: var(--paper); }
+.fb[hidden] { display: none; }
+.q[data-state="ok"] .fb { border-color: var(--good); } .q[data-state="ko"] .fb { border-color: var(--warn); }
+.fb b { font-weight: 600; }
+.score { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1.5rem; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.score .big { font-family: "Newsreader", Georgia, serif; font-size: 2rem; font-weight: 600; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.score .msg { color: var(--ink-2); }
+.score button { margin-left: auto; font: inherit; font-size: .85rem; padding: .4rem .8rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink); cursor: pointer; }
+.score button:hover { border-color: var(--accent); color: var(--accent); }
+footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="frame">
+  <header class="masthead">
+    <div class="eyebrow">Legal AI Argentina · Fase 2 · bitácora de ingeniería</div>
+    <h1>Ocho iteraciones para leer una ley</h1>
+    <p>Todo lo que se rompió al pasar el parser de Infoleg de cuatro documentos de prueba a 933 normas reales: el síntoma, el diagnóstico, el arreglo, el test que quedó y cómo se movieron los números. Con una autoevaluación al final.</p>
+    <div class="status">
+      <span>Advertencias <b>2.082 → 893</b></span>
+      <span>Falsos encabezados <b>917 → 48</b></span>
+      <span>Tests <b>37 → 51</b></span>
+      <span>Golden files <b>4 normas reales</b></span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Índice">
+    <div class="eyebrow">Índice</div>
+    <ol>
+      <li><a href="#metodo">1. El método</a></li>
+      <li><a href="#curva">2. La curva de advertencias</a></li>
+      <li><a href="#iteraciones">3. Las ocho iteraciones</a></li>
+      <li class="sub"><a href="#it1">Las leyes citan leyes</a></li>
+      <li class="sub"><a href="#it2">Dos copias, dos tipeos</a></li>
+      <li class="sub"><a href="#it3">Un imperativo en plural</a></li>
+      <li class="sub"><a href="#it4">Un capítulo sin artículos</a></li>
+      <li class="sub"><a href="#it7">La señal del estilo</a></li>
+      <li><a href="#tests">4. Cómo se testea un parser</a></li>
+      <li><a href="#errores">5. Errores míos, con nombre</a></li>
+      <li><a href="#herramienta">6. Cuándo cambiar de herramienta</a></li>
+      <li><a href="#quiz">Autoevaluación</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="metodo">
+      <h2>1. El método</h2>
+      <p class="lead">Un parser no se termina cuando pasa los tests. Se termina cuando corre sobre todos los datos reales y lo que no entiende queda contado, no escondido.</p>
+      <p>El ciclo que se repitió ocho veces en la Fase 2 tiene cinco pasos y siempre el mismo orden:</p>
+      <ol>
+        <li><strong>Correr sobre el corpus completo</strong> (933 normas, 3 segundos) con <code>--warnings</code>.</li>
+        <li><strong>Agrupar las advertencias</strong> por tipo y por documento. Un tipo que explota en un solo documento es un caso raro; uno repartido en cientos es una regla que falta.</li>
+        <li><strong>Abrir el documento peor</strong> y mirar las líneas crudas alrededor del fallo. Nunca adivinar desde el número.</li>
+        <li><strong>Escribir el test primero</strong> con esas líneas reales reducidas al mínimo, verlo fallar, arreglar, verlo pasar.</li>
+        <li><strong>Regenerar los golden files y volver al paso 1.</strong> Si el golden de la LCT cambió, mirar por qué antes de aceptarlo.</li>
+      </ol>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Esto es un ciclo de <strong>evaluación continua</strong> sobre un conjunto fijo de datos, la misma disciplina que después vamos a usar con el benchmark de retrieval: un cambio a la vez, medir antes y después, y no aceptar una mejora sin saber qué empeoró. La diferencia con un test unitario es que el corpus no tiene respuesta esperada; la señal es la distribución de advertencias. Se le llama a veces “test de contrato” contra la fuente real.</p>
+      </div>
+    </section>
+
+    <section id="curva">
+      <h2>2. La curva de advertencias</h2>
+      <p>Advertencias totales del parser sobre las 933 normas, después de cada iteración. La subida de la iteración 3 no es una regresión: se incorporaron 2.658 artículos de anexos que antes no se comparaban, y con ellos vinieron sus advertencias.</p>
+      <figure>
+        <svg class="chart" viewBox="0 0 720 260" role="img" aria-label="Barras: advertencias por iteración. 0: 2082, 1: 1238, 2: 745, 3: 1002, 4: 978, 5: 904, 6: 904, 7: 893">
+          <line class="axis" x1="60" y1="210" x2="700" y2="210"/>
+          <text class="lbl" x="56" y="214" text-anchor="end">0</text>
+          <text class="lbl" x="56" y="114" text-anchor="end">1.000</text>
+          <line class="axis" x1="60" y1="110" x2="700" y2="110" stroke-dasharray="2 4"/>
+          <text class="lbl" x="56" y="24" text-anchor="end">2.000</text>
+          <line class="axis" x1="60" y1="20" x2="700" y2="20" stroke-dasharray="2 4"/>
+          <g>
+            <rect class="bar" x="80" y="1.8" width="52" height="208.2" rx="0"><title>Iteración 0 · primera pasada: 2.082</title></rect>
+            <text class="val" x="106" y="12" text-anchor="middle" fill="var(--paper)">2.082</text>
+            <text class="lbl" x="106" y="228" text-anchor="middle">0</text>
+            <text class="lbl" x="106" y="242" text-anchor="middle">1ª pasada</text>
+          </g>
+          <g>
+            <rect class="bar" x="158" y="86.2" width="52" height="123.8"><title>Iteración 1 · modo cita básico: 1.238</title></rect>
+            <text class="val" x="184" y="80" text-anchor="middle">1.238</text>
+            <text class="lbl" x="184" y="228" text-anchor="middle">1</text>
+            <text class="lbl" x="184" y="242" text-anchor="middle">cita</text>
+          </g>
+          <g>
+            <rect class="bar" x="236" y="135.5" width="52" height="74.5"><title>Iteración 2 · similitud 0,9 y epígrafes: 745</title></rect>
+            <text class="val" x="262" y="129" text-anchor="middle">745</text>
+            <text class="lbl" x="262" y="228" text-anchor="middle">2</text>
+            <text class="lbl" x="262" y="242" text-anchor="middle">similitud</text>
+          </g>
+          <g>
+            <rect class="bar hi" x="314" y="109.8" width="52" height="100.2"><title>Iteración 3 · entran 2.658 artículos de anexos: 1.002</title></rect>
+            <text class="val" x="340" y="103" text-anchor="middle">1.002</text>
+            <text class="lbl" x="340" y="228" text-anchor="middle">3</text>
+            <text class="lbl" x="340" y="242" text-anchor="middle">+anexos</text>
+          </g>
+          <g>
+            <rect class="bar" x="392" y="112.2" width="52" height="97.8"><title>Iteración 4 · capítulos y notas compuestas: 978</title></rect>
+            <text class="val" x="418" y="106" text-anchor="middle">978</text>
+            <text class="lbl" x="418" y="228" text-anchor="middle">4</text>
+            <text class="lbl" x="418" y="242" text-anchor="middle">capítulos</text>
+          </g>
+          <g>
+            <rect class="bar" x="470" y="119.6" width="52" height="90.4"><title>Iteración 5 · cita: mirar todo el cuerpo: 904</title></rect>
+            <text class="val" x="496" y="113" text-anchor="middle">904</text>
+            <text class="lbl" x="496" y="228" text-anchor="middle">5</text>
+            <text class="lbl" x="496" y="242" text-anchor="middle">cuerpo</text>
+          </g>
+          <g>
+            <rect class="bar" x="548" y="119.6" width="52" height="90.4"><title>Iteración 6 · comillas tras los dos puntos: 904 (sin cambio)</title></rect>
+            <text class="val" x="574" y="113" text-anchor="middle">904</text>
+            <text class="lbl" x="574" y="228" text-anchor="middle">6</text>
+            <text class="lbl" x="574" y="242" text-anchor="middle">comillas</text>
+          </g>
+          <g>
+            <rect class="bar" x="626" y="120.7" width="52" height="89.3"><title>Iteración 7 · estilo del encabezado: 893</title></rect>
+            <text class="val" x="652" y="114" text-anchor="middle">893</text>
+            <text class="lbl" x="652" y="228" text-anchor="middle">7</text>
+            <text class="lbl" x="652" y="242" text-anchor="middle">estilo</text>
+          </g>
+        </svg>
+        <figcaption>Advertencias del parser sobre las 933 normas del corpus laboral, por iteración. Pasá el mouse sobre una barra para ver qué cambió. La iteración 3 se destaca porque subió a propósito.</figcaption>
+      </figure>
+      <p>Lo que no muestra la barra: cada iteración movió tipos distintos. Los falsos encabezados (“cross-reference-like header ignored”) bajaron de 917 a 48. Los “cambiados sin nota” bajaron de 687 a 4 en la LCT pero quedaron en 557 en el corpus, casi todos anexos de resoluciones que Infoleg reescribe entero. Esa distinción es la que importa, y por eso el reporte agrupa por tipo y por documento.</p>
+    </section>
+
+    <section id="iteraciones">
+      <h2>3. Las ocho iteraciones</h2>
+      <p>En orden cronológico. Cada tarjeta es un ciclo completo del método.</p>
+      <div class="timeline">
+
+        <div class="it" id="it0">
+          <div class="rail"><div class="dot">0</div><div class="line"></div></div>
+          <div class="card">
+            <h3>La primera pasada, o cuánto miente un fixture</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>37 tests verdes, golden files de 4 normas perfectos. Sobre el corpus: 2.082 advertencias, 917 de ellas “encabezado descartado como referencia cruzada”.</dd>
+              <dt>Diagnóstico</dt><dd>Los cuatro documentos de prueba eran textos <em>consolidados</em> o leyes cortas. Ninguno era una ley modificatoria, que es el tipo más común del corpus (630 resoluciones y 189 decretos que modifican otras normas).</dd>
+              <dt>Lección</dt><dd>Un fixture representa lo que uno conoce. El corpus representa lo que existe. Nunca son lo mismo.</dd>
+            </dl>
+            <div class="delta"><span>advertencias 2.082</span><span>falsos encabezados 917</span><span>artículos 8.748</span></div>
+          </div>
+        </div>
+
+        <div class="it" id="it1">
+          <div class="rail"><div class="dot">1</div><div class="line"></div></div>
+          <div class="card">
+            <h3>Las leyes citan leyes</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>En la Ley 25.877 el parser descartaba “ARTICULO 19”, “ARTICULO 20”, “ARTICULO 21”... como referencias cruzadas.</dd>
+              <dt>Diagnóstico</dt><dd>El art. 18 dice “Sustitúyese el artículo 245 de la Ley 20.744 por el siguiente:” y abajo transcribe <em>“Artículo 245. — Indemnización por antigüedad...”</em>. El parser tomó ese 245 como encabezado; el 19 real parecía ir hacia atrás y se descartaba.</dd>
+              <dt>Arreglo</dt><dd>Modo cita: si la línea anterior termina en “por el siguiente:” y llega un encabezado que no es el número esperado, va al cuerpo del artículo anfitrión. Se sale del modo cita al ver el número esperado.</dd>
+              <dt>Test</dt><dd><code>test_quoted_articles_inside_modifying_law_stay_in_body</code>: seis líneas reducidas de la Ley 25.877, con dos artículos citados seguidos.</dd>
+            </dl>
+            <div class="delta"><span class="down">advertencias 2.082 → 1.238</span><span class="down">falsos encabezados 917 → 229</span><span class="down">saltos 193 → 80</span></div>
+          </div>
+        </div>
+
+        <div class="it" id="it2">
+          <div class="rail"><div class="dot">2</div><div class="line"></div></div>
+          <div class="card">
+            <h3>Dos copias, dos tipeos; y un epígrafe de dos oraciones</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>120 artículos de la LCT marcados “cambiados sin nota fechada”. El texto actualizado y el anexo del Decreto 390/76 no coincidían.</dd>
+              <dt>Diagnóstico</dt><dd>Mirando pares: “rigen” / “rige”, “a) por esta ley;” / “a) Por esta ley.”, una coma. Dos transcripciones humanas del mismo texto. Y aparte: el art. 7 del decreto, “Condiciones menos favorables. Nulidad. — Las partes, en”, se tragaba “Las partes, en” dentro del epígrafe.</dd>
+              <dt>Arreglo</dt><dd>Comparar por similitud normalizada (sin mayúsculas, puntuación ni espacios) con umbral 0,9, y tomar las notas de Infoleg como autoridad: sin nota, sin cambio. El epígrafe se corta en el primer “. —” aunque tenga varias oraciones. El modo cita ahora se activa con cualquier línea que termine en “:”, y absorbe también capítulos citados.</dd>
+              <dt>Test</dt><dd><code>test_transcription_differences_count_as_unchanged</code>, y el caso “Onerosidad. — Presunción. — El trabajo no se presume gratuito.” en <code>test_patterns</code>.</dd>
+            </dl>
+            <div class="delta"><span class="down">advertencias 1.238 → 745</span><span class="down">LCT cambiados sin nota 120 → 4</span><span class="down">falsos encabezados 229 → 149</span></div>
+          </div>
+        </div>
+
+        <div class="it" id="it3">
+          <div class="rail"><div class="dot">3</div><div class="line"></div></div>
+          <div class="card">
+            <h3>Un imperativo en plural, un índice, y los anexos entran</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>El test de citas seguía fallando con un “21#2” inexplicable. En el Decreto 1135/2004, 29 falsos encabezados “ARTICULO 1º”, “ARTICULO 2º” pelados.</dd>
+              <dt>Diagnóstico</dt><dd>“ARTICULO 21. — Incorpóranse en la Ley 14.250 los siguientes artículos:” quedaba <em>entero como epígrafe</em>, cuerpo vacío, y sin cuerpo no había línea con “:” que mirar. La lista de imperativos tenía “Incorpórase” pero no “Incorpóranse”. Los “ARTICULO 1º” pelados eran un <strong>índice</strong> al final del decreto (“INDICE DEL ORDENAMIENTO”). Y de paso: 2.658 artículos vivían en anexos y el plan los ignoraba.</dd>
+              <dt>Arreglo</dt><dd>Imperativo genérico (palabra con tilde terminada en -se / -nse); un epígrafe nunca termina en “:”; la línea “INDICE” manda todo lo que sigue al tráiler; las notas parciales (“párrafo incorporado por...”) fechan un cambio; los artículos de anexo entran con clave prefijada (<code>98232:anexoi:1</code>).</dd>
+              <dt>Test</dt><dd><code>test_index_table_goes_to_trailer</code>, <code>test_partial_note_dates_the_change_without_warning</code>, <code>test_annex_articles_of_ordinary_documents_get_prefixed_keys</code>.</dd>
+            </dl>
+            <div class="delta"><span class="up">advertencias 745 → 1.002</span><span class="down">falsos encabezados 149 → 65</span><span class="up">artículos 8.965 → 11.623</span></div>
+            <p style="margin:.8rem 0 0;font-size:.92rem;color:var(--ink-2)">La subida es cobertura, no regresión: 2.658 artículos nuevos trajeron sus propias comparaciones original/actual. Un número que sube después de ampliar el alcance no se lee igual que uno que sube con el mismo alcance.</p>
+          </div>
+        </div>
+
+        <div class="it" id="it4">
+          <div class="rail"><div class="dot">4</div><div class="line"></div></div>
+          <div class="card">
+            <h3>Un capítulo derogado sin artículos, y una nota con dos eventos</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>El test del corpus pedía 2 artículos para el Decreto 390/76 y ahora daba 279. En la LCT quedaban los arts. 89 y 147 “cambiados sin nota”.</dd>
+              <dt>Diagnóstico</dt><dd>El decreto ahora incluía su anexo como propio, además de servir de original de la LCT: duplicado. El art. 89 traía “(Capítulo VIII derogado por art. 26 de la Ley 27.802)”, un alcance que el regex de notas no conocía. El art. 147 traía “(Párrafo tercero sustituido por... Decreto 27/2018. Derogado por... Ley 27.444. ‘No se revive el texto anterior (Conf. Manual de Técnica Legislativa)’)”: dos eventos y un paréntesis adentro del paréntesis.</dd>
+              <dt>Arreglo</dt><dd>Un documento que es <code>original_from</code> de otro no repite su anexo. Alcances “Capítulo / Título / Sección” en las notas, con propagación a los artículos del mismo contenedor. Un nivel de paréntesis anidado y partición de la nota en eventos. Y “Decreto Nacional N°” como tipo válido.</dd>
+              <dt>Lo que salió mal primero</dt><dd>La propagación marcó como derogados los arts. 62 a 89: <strong>44 derogados en vez de 16</strong>. El golden lo mostró al instante. Motivo: el art. 89 está en el Capítulo VII; el Capítulo VIII derogado tenía artículos sin número y Infoleg colgó la nota del último artículo numerado anterior. Regla final: propagar sólo si el número de capítulo coincide con el del artículo que porta la nota; si no, advertencia y el artículo sigue vigente.</dd>
+              <dt>Test</dt><dd><code>test_chapter_derogation_propagates_to_sibling_articles</code>, <code>test_chapter_derogation_outside_its_chapter_is_a_warning_not_a_status</code>, <code>test_compound_note_with_nested_parenthesis_yields_two_events</code>. El golden de la LCT registra la advertencia del Capítulo VIII como resultado esperado.</dd>
+            </dl>
+            <div class="delta"><span class="down">advertencias 1.002 → 978</span><span class="down">LCT cambiados sin nota 4 → 0</span><span>LCT derogados 16 (tras pasar por 44)</span></div>
+          </div>
+        </div>
+
+        <div class="it" id="it5">
+          <div class="rail"><div class="dot">5</div><div class="line"></div></div>
+          <div class="card">
+            <h3>Mirar todo el cuerpo, no las últimas tres líneas</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>La Ley 25.877 volvía a fallar: “numbering gap 18 → 21” y “ARTICULO 19” descartado.</dd>
+              <dt>Diagnóstico</dt><dd>Entre la línea con “:” y el “Artículo 21” citado había más de tres líneas (el capítulo citado, su título). La ventana de tres líneas del modo cita era arbitraria y corta.</dd>
+              <dt>Arreglo</dt><dd>Cualquier línea del cuerpo del artículo abierto que termine en “:” habilita el modo cita para un encabezado inesperado. El riesgo, un salto real de numeración después de una enumeración, es raro en textos legales porque los artículos derogados siguen apareciendo como encabezados.</dd>
+              <dt>Test</dt><dd>Se agregaron tres líneas intermedias al fixture de la iteración 1.</dd>
+            </dl>
+            <div class="delta"><span class="down">advertencias 978 → 904</span><span class="down">falsos encabezados 65 → 49</span><span class="down">saltos 66 → 47</span></div>
+          </div>
+        </div>
+
+        <div class="it" id="it6">
+          <div class="rail"><div class="dot">6</div><div class="line"></div></div>
+          <div class="card">
+            <h3>Comillas después de los dos puntos</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>El mismo caso de la Ley 25.877 persistía en <code>norma.htm</code> pero no en <code>texact.htm</code>.</dd>
+              <dt>Diagnóstico</dt><dd>Hipótesis: la introducción termina en <code>:</code> seguido de una comilla de apertura. Se permitió <code>: “</code>. Los números no se movieron.</dd>
+              <dt>Lección</dt><dd>Una iteración sin efecto también es información: la hipótesis era incompleta. Se dejó el cambio (es correcto) y se volvió a mirar el documento.</dd>
+            </dl>
+            <div class="delta"><span>advertencias 904 → 904</span></div>
+          </div>
+        </div>
+
+        <div class="it" id="it7">
+          <div class="rail"><div class="dot">7</div><div class="line" style="background:transparent"></div></div>
+          <div class="card">
+            <h3>La señal del estilo</h3>
+            <dl>
+              <dt>Síntoma</dt><dd>Todavía “ARTICULO 19” descartado en la Ley 25.877 original.</dd>
+              <dt>Diagnóstico</dt><dd>Trazando el parser línea por línea: la introducción del art. 18 termina en “...que en cada caso se incluyen.” Sin dos puntos. La única señal que quedaba: la ley anfitriona escribe “ARTICULO” y la citada “Artículo”.</dd>
+              <dt>Arreglo</dt><dd>El parser recuerda los prefijos de los encabezados aceptados del documento. Un encabezado inesperado con un prefijo que no está en ese conjunto, dentro de un artículo abierto, es cita. En la LCT, que empieza con “Artículo 1°” y sigue con “Art. 2°”, los dos estilos entran al conjunto porque el 2 es el número esperado.</dd>
+              <dt>Test</dt><dd><code>test_quoted_articles_without_colon_are_detected_by_style</code>.</dd>
+            </dl>
+            <div class="delta"><span class="down">advertencias 904 → 893</span><span class="down">falsos encabezados 49 → 48</span><span class="down">Ley 25.877: 0 advertencias de estructura</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Iteración</th><th class="num">Advert.</th><th class="num">Falsos enc.</th><th class="num">Duplic.</th><th class="num">Saltos</th><th class="num">Cambiado s/nota</th><th class="num">Falta en actual</th><th class="num">Artículos</th></tr></thead>
+        <tbody>
+          <tr><td>0 · primera pasada</td><td class="num">2.082</td><td class="num">917</td><td class="num">63</td><td class="num">193</td><td class="num">687</td><td class="num">222</td><td class="num">8.748</td></tr>
+          <tr><td>1 · modo cita</td><td class="num">1.238</td><td class="num">229</td><td class="num">30</td><td class="num">80</td><td class="num">698</td><td class="num">201</td><td class="num">8.924</td></tr>
+          <tr><td>2 · similitud, epígrafes</td><td class="num">745</td><td class="num">149</td><td class="num">27</td><td class="num">70</td><td class="num">298</td><td class="num">201</td><td class="num">8.965</td></tr>
+          <tr><td>3 · imperativos, índice, anexos</td><td class="num">1.002</td><td class="num">65</td><td class="num">20</td><td class="num">66</td><td class="num">634</td><td class="num">217</td><td class="num">11.623</td></tr>
+          <tr><td>4 · capítulos, notas compuestas</td><td class="num">978</td><td class="num">65</td><td class="num">20</td><td class="num">66</td><td class="num">609</td><td class="num">217</td><td class="num">11.346</td></tr>
+          <tr><td>5 · cita: todo el cuerpo</td><td class="num">904</td><td class="num">49</td><td class="num">16</td><td class="num">47</td><td class="num">563</td><td class="num">228</td><td class="num">11.331</td></tr>
+          <tr><td>6 · comillas</td><td class="num">904</td><td class="num">49</td><td class="num">16</td><td class="num">47</td><td class="num">563</td><td class="num">228</td><td class="num">11.331</td></tr>
+          <tr><td>7 · estilo</td><td class="num">893</td><td class="num">48</td><td class="num">16</td><td class="num">43</td><td class="num">557</td><td class="num">228</td><td class="num">11.322</td></tr>
+        </tbody>
+        <caption>Cada fila sale del log de <code>legal-ai parse laboral --warnings</code> tras la iteración. “Falta en actual” son artículos presentes en el texto original y ausentes en el actualizado; 192 de los 228 son un solo documento, el Decreto 27/2018, cuyo texto actualizado no tiene encabezados.</caption>
+      </table>
+      </div>
+    </section>
+
+    <section id="tests">
+      <h2>4. Cómo se testea un parser</h2>
+      <p>Cuatro niveles, y ninguno reemplaza a los otros. Cada nivel atrapó cosas que el anterior dejaba pasar.</p>
+      <div class="pyramid">
+        <div class="lvl"><b>1 · Unitarios parametrizados</b>Un regex, muchas entradas reales. <code>test_match_article_variants</code> tiene 18 líneas de encabezado sacadas del corpus (“Art. 29 BIS. —”, “Art. 189. Bis —”, “ARTICULO 1º.-”, “Art.4 -”). Cada variante nueva que aparece se agrega como un caso más. Corre en milisegundos.</div>
+        <div class="lvl"><b>2 · Estructura con documentos sintéticos</b>Diez a veinte líneas que imitan un patrón (una ley que cita otra, un decreto con anexo, una resolución con VISTO y tabla). Prueban la máquina de estados aislada del HTML. Son los tests que se escriben primero cuando se diagnostica un fallo: se reduce el documento real al mínimo que reproduce el problema.</div>
+        <div class="lvl"><b>3 · Golden files de documentos reales</b>Cuatro HTML de Infoleg copiados a <code>tests/fixtures</code>. Un script genera el resultado esperado (clave, epígrafe, estado, jerarquía, hash del texto de cada artículo) y una persona lo revisa una vez contra hechos conocidos: 293 artículos, los 16 derogados, el 92 bis, el 245. Si un cambio del parser altera la salida, el test falla y obliga a mirar. El golden nunca se edita a mano: se regenera y se revisa el diff.</div>
+        <div class="lvl"><b>4 · Corrida sobre el corpus completo</b>Sin respuesta esperada. La señal es el reporte: cuántas advertencias, de qué tipo, en qué documentos. Es el nivel que reveló las ocho iteraciones. Los tres anteriores estaban verdes desde el principio.</div>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los golden files (también “snapshot tests” o “characterization tests”) son la técnica estándar para código cuya salida es grande y estructurada: parsers, compiladores, renderizadores. Su valor está en el diff, no en el archivo. Y la regla de oro es la que seguimos: <strong>se regeneran con un script y se revisa el cambio</strong>; editarlos a mano convierte el test en documentación de lo que uno quería, no de lo que el código hace.</p>
+      </div>
+      <h3>El golden que cambió y estuvo bien que cambiara</h3>
+      <p>Cuando la iteración 4 introdujo las notas de capítulo, el golden de la LCT pasó de 0 a 1 advertencia: “capitulo VIII derogation noted at article 89, which is not inside it”. Se revisó, era correcto (es un dato real de la fuente), y se aceptó como parte del resultado esperado. Un golden no es “cero advertencias”: es “estas advertencias, y ninguna otra”.</p>
+    </section>
+
+    <section id="errores">
+      <h2>5. Errores míos, con nombre</h2>
+      <p>Tres que valen más que los arreglos, porque son de método y no de regex.</p>
+      <div class="callout error">
+        <div class="eyebrow">Error 1 · La tubería que escondía el rojo</div>
+        <p>Dos veces se hizo un commit con tests fallando y una con errores de tipos. La causa: <code>uv run pytest | tail -1</code>. El código de salida de una tubería es el del último comando, y <code>tail</code> siempre termina bien. El <code>&amp;&amp;</code> que debía frenar el commit veía verde. Se arregló capturando el código de salida de pytest antes de la tubería, y se corrigieron los commits con <code>--amend</code>. Lección: la verificación tiene que fallar de verdad, no parecer que falla.</p>
+      </div>
+      <div class="callout error">
+        <div class="eyebrow">Error 2 · Reemplazos de texto sobre código recién formateado</div>
+        <p>Tres arreglos “no se aplicaron”: el script buscaba un bloque de código exacto, pero <code>ruff format</code> había cambiado los saltos de línea un paso antes. El parser siguió con el regex viejo mientras los tests decían que el nuevo estaba. Se detectó porque un test seguía fallando con un valor que la lógica nueva no podía producir. Lección: después de editar, leer lo que quedó en el archivo, no lo que uno cree que escribió.</p>
+      </div>
+      <div class="callout error">
+        <div class="eyebrow">Error 3 · Propagar sin verificar el alcance</div>
+        <p>La primera propagación de “Capítulo VIII derogado” asumió que el artículo que porta la nota está dentro del capítulo derogado. Era razonable y era falso. El golden lo atrapó en segundos (44 derogados contra 16 conocidos) porque el golden guardaba el estado de cada artículo, no sólo el conteo. Lección: cuando un test de regresión guarda detalle, un error de lógica se ve como un diff enorme y obvio.</p>
+      </div>
+    </section>
+
+    <section id="herramienta">
+      <h2>6. Cuándo cambiar de herramienta</h2>
+      <p>Ocho iteraciones de expresiones regulares levantan la pregunta obvia: ¿no había que usar otra cosa? Tres candidatos y por qué no, todavía.</p>
+      <ul>
+        <li><strong>Una librería de HTML</strong> (selectolax, BeautifulSoup). El markup de Infoleg no tiene estructura semántica: <code>&lt;p&gt;</code> y <code>&lt;br&gt;</code>, un <code>&lt;b&gt;</code> que a veces envuelve el párrafo entero. Recorrer ese árbol no da nada que las líneas no den.</li>
+        <li><strong>Una gramática formal</strong> (PEG, con <code>lark</code> o <code>parsimonious</code>). Es el paso correcto cuando aparecen dos niveles de anidación o cuando las reglas dependen de contexto que el regex no puede expresar. Hoy hay un nivel de paréntesis anidado y una máquina de estados de 200 líneas que se lee entera. El día que la máquina de estados no se lea entera, se cambia.</li>
+        <li><strong>Un LLM para extraer estructura.</strong> No es determinista, cuesta dinero por cada corrida de las 933 normas, y cuando falla no hay un test que diga en qué línea. Para un dataset que se regenera cada vez que cambia el parser, eso es inaceptable. Donde sí puede servir: revisar las 893 advertencias y proponer reglas, con una persona validando.</li>
+      </ul>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>La heurística que se usa es simple: la herramienta se cambia cuando el costo de la siguiente regla en la herramienta actual supera el costo de migrar. Con 48 falsos encabezados restantes concentrados en tres documentos y 557 “cambiados sin nota” que son un problema de la fuente y no del parser, la siguiente regla todavía es barata. Se documenta el criterio (ADR-016) para que la decisión se pueda revisar con números, no con cansancio.</p>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <h2>Autoevaluación</h2>
+      <p>Diez preguntas sobre el método, no sobre los regex. Respuesta inmediata y explicación; las respuestas se guardan en este navegador.</p>
+      <div class="quiz" id="quiz"></div>
+      <div class="score" id="score" hidden>
+        <span class="big" id="score-num">0 / 10</span>
+        <span class="msg" id="score-msg"></span>
+        <button type="button" id="quiz-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <footer>
+      Bitácora de la Fase 2 del proyecto Legal AI Argentina. Los números salen del log de <code>legal-ai parse laboral --warnings</code> tras cada iteración, sobre el catálogo de Infoleg del 2026-09-12. Código en el repo <code>legal-ai</code>, rama <code>main</code>.
+    </footer>
+  </main>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    id: "p1",
+    text: "Los 37 tests y los 4 golden files estaban verdes, y la primera corrida sobre las 933 normas dio 2.082 advertencias. ¿Qué falló?",
+    options: [
+      { t: "Los tests estaban mal escritos.", ok: false, fb: "Estaban bien: probaban lo que decían probar. El problema era lo que no probaban." },
+      { t: "Nada falló: los fixtures representaban lo que se conocía y el corpus lo que existe. Faltaba un nivel de verificación: correr sobre todos los datos reales.", ok: true, fb: "Exacto. Ninguno de los cuatro documentos de prueba era una ley modificatoria, que es el tipo más común del corpus. Un fixture nunca es una muestra representativa; es una muestra de lo que uno sabía al elegirlo." },
+      { t: "El parser tenía un bug en la decodificación de charset.", ok: false, fb: "La decodificación funcionó en los 886 archivos. Las advertencias eran de estructura." },
+      { t: "Infoleg cambió los datos entre el fixture y la corrida.", ok: false, fb: "Los fixtures son copias de los mismos archivos de raw. Nada cambió." }
+    ]
+  },
+  {
+    id: "p2",
+    text: "En la iteración 3 las advertencias subieron de 745 a 1.002. ¿Cómo hay que leer ese número?",
+    options: [
+      { t: "Como una regresión: hay que revertir la iteración.", ok: false, fb: "Revertir habría tirado 2.658 artículos de anexos que antes ni se miraban." },
+      { t: "Como cobertura: entraron 2.658 artículos nuevos con sus propias comparaciones, así que el alcance cambió y el número no es comparable con el anterior.", ok: true, fb: "Un total que sube cuando el alcance se amplía no se lee igual que uno que sube con el mismo alcance. Por eso el reporte separa por tipo: los falsos encabezados, que sí son comparables, bajaron de 149 a 65 en la misma iteración." },
+      { t: "Como ruido aleatorio del parser.", ok: false, fb: "El parser es determinista: mismos bytes, mismo resultado. No hay ruido." },
+      { t: "Como un error del script que cuenta advertencias.", ok: false, fb: "El conteo era correcto; lo que cambió fue el universo contado." }
+    ]
+  },
+  {
+    id: "p3",
+    text: "¿Por qué los golden files se regeneran con un script y nunca se editan a mano?",
+    options: [
+      { t: "Porque el JSON es difícil de editar.", ok: false, fb: "Es perfectamente editable. La razón es otra." },
+      { t: "Porque un golden editado a mano documenta lo que uno quería que pasara, no lo que el código hace; regenerar y revisar el diff mantiene al test honesto.", ok: true, fb: "Sí. El valor del golden está en el diff cuando cambia. Si se ajusta a mano para que pase, deja de detectar regresiones y pasa a ser un deseo." },
+      { t: "Porque el script es más rápido.", ok: false, fb: "La velocidad no es el punto; la fidelidad al comportamiento real sí." },
+      { t: "Porque el golden no debe cambiar nunca.", ok: false, fb: "Cambia cada vez que el parser mejora. En la iteración 4 pasó de 0 a 1 advertencia y estuvo bien aceptarlo." }
+    ]
+  },
+  {
+    id: "p4",
+    text: "La primera propagación de “Capítulo VIII derogado” marcó 44 artículos como derogados en vez de 16. ¿Qué la atrapó y por qué tan rápido?",
+    options: [
+      { t: "El test unitario de notas.", ok: false, fb: "Ese test probaba que la nota se parseaba bien, y se parseaba bien. El error era de propagación." },
+      { t: "El golden de la LCT, porque guarda el estado de cada artículo y no sólo el conteo total; el diff mostró 28 artículos que cambiaron de vigente a derogado.", ok: true, fb: "Cuando un test de regresión guarda detalle por artículo, un error de lógica aparece como un diff grande y obvio, y además dice exactamente cuáles. Con un conteo total habría sido “44 ≠ 16” y a buscar." },
+      { t: "La corrida sobre el corpus.", ok: false, fb: "También lo habría mostrado, pero después y con menos precisión. El golden lo vio primero." },
+      { t: "Pyright.", ok: false, fb: "Los tipos estaban bien. Era un error de semántica legal, no de tipos." }
+    ]
+  },
+  {
+    id: "p5",
+    text: "Se hizo un commit con un test fallando porque el comando era `uv run pytest | tail -1 && git commit`. ¿Cuál es el problema exacto?",
+    options: [
+      { t: "pytest no devuelve código de salida.", ok: false, fb: "Sí lo devuelve: distinto de cero cuando algo falla." },
+      { t: "El código de salida de una tubería es el del último comando, y tail termina bien aunque pytest haya fallado; el && vio éxito.", ok: true, fb: "Correcto. Se arregló guardando el código de pytest antes de la tubería (o con pipefail). Lección general: una verificación que no puede fallar no es una verificación." },
+      { t: "git commit ignora el resultado de los tests.", ok: false, fb: "git no sabe nada de tests; el && era el que debía frenar y no frenó." },
+      { t: "tail -1 corta la salida y pytest se interrumpe.", ok: false, fb: "pytest corre completo; sólo se muestra la última línea." }
+    ]
+  },
+  {
+    id: "p6",
+    text: "¿Por qué el prefijo del encabezado (“Artículo”, “Art.”, “ARTICULO”) se matchea distinguiendo mayúsculas, pero el sufijo (“bis”, “BIS”, “Bis”) no?",
+    options: [
+      { t: "Por consistencia con el estilo de código.", ok: false, fb: "No es una cuestión de estilo sino de datos." },
+      { t: "Porque una línea que empieza con “artículo 245” en minúscula es casi siempre una referencia cruzada partida por un salto de línea, mientras que el sufijo aparece en el corpus como bis, BIS y Bis para el mismo artículo.", ok: true, fb: "Las dos decisiones salen de mirar el corpus: “artículo 245.” al inicio de línea apareció dentro del cuerpo del art. 29 bis; y “Art. 29 BIS”, “Art. 189. Bis”, “Art. 92 TER” son encabezados reales. Cada regla de mayúsculas tiene su caso de test." },
+      { t: "Porque los regex de Python no permiten mezclar.", ok: false, fb: "Sí permiten: (?i:bis|ter) hace insensible sólo ese grupo." },
+      { t: "Porque Infoleg siempre escribe los prefijos en mayúscula.", ok: false, fb: "No: la LCT usa “Artículo 1°” y luego “Art. 2°”." }
+    ]
+  },
+  {
+    id: "p7",
+    text: "En la iteración 6 se permitió una comilla después de los dos puntos y las advertencias quedaron en 904, sin cambio. ¿Qué se hace con una iteración así?",
+    options: [
+      { t: "Se revierte, porque no sirvió.", ok: false, fb: "El cambio era correcto (hay introducciones que terminan en ‘: “’); simplemente no era la causa de este caso." },
+      { t: "Se deja el cambio si es correcto en sí, se anota que la hipótesis era incompleta, y se vuelve al documento a mirar en vez de a adivinar.", ok: true, fb: "Una iteración sin efecto es información: la hipótesis no explicaba el fallo. La siguiente iteración trazó el parser línea por línea y encontró que la introducción no terminaba en dos puntos." },
+      { t: "Se bajan los umbrales hasta que el número baje.", ok: false, fb: "Eso es ajustar el termómetro, no curar la fiebre." },
+      { t: "Se ignora ese documento y se sigue.", ok: false, fb: "Era la Ley 25.877, una semilla del corpus. No se ignora." }
+    ]
+  },
+  {
+    id: "p8",
+    text: "¿Cuál es la señal más confiable de que “Artículo 245. — Indemnización...” dentro de una ley modificatoria es una cita y no un artículo de esa ley?",
+    options: [
+      { t: "Que aparece entre comillas.", ok: false, fb: "A veces. Infoleg no es consistente con las comillas." },
+      { t: "Que el número no es el siguiente esperado y además hay una línea del cuerpo que termina en “:” o el prefijo (“Artículo”) es distinto al estilo del documento (“ARTICULO”).", ok: true, fb: "Ninguna señal sola alcanzó. La secuencia esperada descarta los casos normales; los dos puntos y el estilo atrapan las citas. La Ley 25.877 tuvo un caso donde sólo el estilo la delataba." },
+      { t: "Que el texto habla de indemnizaciones.", ok: false, fb: "El contenido no dice nada sobre la estructura." },
+      { t: "Que el número es grande.", ok: false, fb: "Una ley puede tener 300 artículos propios." }
+    ]
+  },
+  {
+    id: "p9",
+    text: "Quedan 557 artículos “cambiados sin nota” en anexos de resoluciones. ¿Por qué no se siguió iterando hasta cero?",
+    options: [
+      { t: "Por cansancio.", ok: false, fb: "Se paró con un criterio, no con cansancio." },
+      { t: "Porque es un problema de la fuente, no del parser: Infoleg reescribe el anexo entero con una nota a nivel anexo, no por artículo, y modelar notas de anexo es un cambio de alcance que se anotó como seguimiento.", ok: true, fb: "Distinguir “el parser lee mal” de “la fuente no dice” es la decisión más importante del reporte. Las 557 quedan contadas y explicadas en el roadmap; forzar el número a cero habría sido inventar fechas." },
+      { t: "Porque el umbral de similitud ya estaba bajo.", ok: false, fb: "El umbral no es el problema: esos textos sí cambiaron de verdad." },
+      { t: "Porque no hay forma de saberlo.", ok: false, fb: "Sí hay: la nota de anexo y la resolución sustituyente. Es trabajo futuro, no imposible." }
+    ]
+  },
+  {
+    id: "p10",
+    text: "¿Cuándo corresponde reemplazar las expresiones regulares por una gramática formal?",
+    options: [
+      { t: "Ahora, porque ocho iteraciones son demasiadas.", ok: false, fb: "La cantidad de iteraciones no es el criterio; casi todas fueron reglas de dominio que cualquier herramienta habría necesitado." },
+      { t: "Cuando aparezca anidación de dos o más niveles o reglas dependientes de contexto que la máquina de estados no exprese, o cuando la máquina de estados deje de leerse entera; hoy hay un nivel de paréntesis y 200 líneas.", ok: true, fb: "El criterio es el costo de la siguiente regla contra el costo de migrar. Queda documentado en el ADR-016 para poder revisarlo con números." },
+      { t: "Nunca: los regex siempre alcanzan.", ok: false, fb: "No alcanzan para anidación arbitraria. Es una cuestión de cuándo, no de si." },
+      { t: "Cuando un LLM lo sugiera.", ok: false, fb: "Un LLM puede proponer reglas; la decisión de herramienta se toma con el reporte en la mano." }
+    ]
+  }
+];
+
+(function () {
+  const KEY = "cuaderno-legal-ai:quiz-parser";
+  const quiz = document.getElementById("quiz");
+  const scoreBox = document.getElementById("score");
+  const scoreNum = document.getElementById("score-num");
+  const scoreMsg = document.getElementById("score-msg");
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+  function render() {
+    quiz.replaceChildren();
+    QUESTIONS.forEach((q, qi) => {
+      const box = document.createElement("div"); box.className = "q"; box.id = q.id;
+      const fs = document.createElement("fieldset");
+      const lg = document.createElement("legend");
+      const n = document.createElement("span"); n.className = "n"; n.textContent = "Pregunta " + (qi + 1) + " de " + QUESTIONS.length;
+      lg.append(n, document.createTextNode(q.text));
+      const opts = document.createElement("div"); opts.className = "opts";
+      const fb = document.createElement("div"); fb.className = "fb"; fb.hidden = true;
+      q.options.forEach((o, oi) => {
+        const label = document.createElement("label"); label.className = "opt";
+        const input = document.createElement("input");
+        input.type = "radio"; input.name = q.id; input.id = q.id + "-" + oi; input.value = String(oi);
+        const span = document.createElement("span"); span.textContent = o.t;
+        label.append(input, span);
+        input.addEventListener("change", () => answer(q, oi, box, fb));
+        opts.append(label);
+      });
+      fs.append(lg, opts, fb); box.append(fs); quiz.append(box);
+      if (saved[q.id] !== undefined) {
+        const chosen = box.querySelector("#" + q.id + "-" + saved[q.id]);
+        if (chosen) { chosen.checked = true; answer(q, saved[q.id], box, fb, true); }
+      }
+    });
+    updateScore();
+  }
+  function answer(q, oi, box, fb, silent) {
+    const o = q.options[oi];
+    saved[q.id] = oi; if (!silent) persist();
+    box.dataset.state = o.ok ? "ok" : "ko";
+    box.querySelectorAll("input").forEach(i => { i.disabled = true; });
+    box.querySelectorAll(".opt").forEach((l, i) => { if (q.options[i].ok) l.classList.add("is-correct"); });
+    fb.replaceChildren();
+    const b = document.createElement("b"); b.textContent = o.ok ? "Correcto. " : "No es esa. ";
+    fb.append(b, document.createTextNode(o.fb));
+    if (!o.ok) {
+      const right = q.options.find(x => x.ok);
+      const p = document.createElement("p"); p.style.margin = ".5rem 0 0";
+      const rb = document.createElement("b"); rb.textContent = "La correcta: ";
+      p.append(rb, document.createTextNode(right.t)); fb.append(p);
+    }
+    fb.hidden = false; updateScore();
+  }
+  function updateScore() {
+    const answered = Object.keys(saved).filter(k => QUESTIONS.some(q => q.id === k));
+    if (answered.length === 0) { scoreBox.hidden = true; return; }
+    const correct = answered.filter(k => QUESTIONS.find(q => q.id === k).options[saved[k]].ok).length;
+    scoreNum.textContent = correct + " / " + QUESTIONS.length;
+    if (answered.length < QUESTIONS.length) scoreMsg.textContent = "Respondiste " + answered.length + " de " + QUESTIONS.length + ".";
+    else if (correct === QUESTIONS.length) scoreMsg.textContent = "Todas. El método quedó.";
+    else if (correct >= QUESTIONS.length - 2) scoreMsg.textContent = "Bien. Releé las explicaciones de las que fallaste.";
+    else scoreMsg.textContent = "Vale la pena volver a las secciones 1 y 4.";
+    scoreBox.hidden = false;
+  }
+  document.getElementById("quiz-reset").addEventListener("click", () => {
+    saved = {}; persist(); render();
+    document.getElementById("quiz").closest("section").scrollIntoView({ block: "start" });
+  });
+  render();
+})();
+</script>
