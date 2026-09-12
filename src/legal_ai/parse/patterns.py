@@ -3,14 +3,14 @@ import re
 from pydantic import BaseModel
 
 _ARTICLE_RE = re.compile(
-    r"^(?:ARTICULO|ARTÍCULO|Artículo|Articulo|Art\.)\s*"
+    r"^(?P<prefix>ARTICULO|ARTÍCULO|Artículo|Articulo|Art\.)\s*"
     r"(?P<num>\d{1,4})\s*[°ºª]?\s*\.?\s*"
     r"(?P<suf>(?i:bis|ter|qu[aá]ter|quinquies))?(?![a-záéíóúA-ZÁÉÍÓÚ])\s*[°ºª]?\s*"
     r"(?P<sep>[.:\-–—](?:\s*[.:\-–—])*)?\s*"
     r"(?P<rest>.*)$"
 )
 _CROSS_REF_RE = re.compile(r"^(?:de\s|del\s|y\s|,|que\s|a\s\d|al\s)", re.IGNORECASE)
-_HEADING_WITH_BODY_RE = re.compile(r"^(?P<h>[^.]{2,80}?)\.\s*[—–-]\s*(?P<b>\S.*)$")
+_HEADING_WITH_BODY_RE = re.compile(r"^(?P<h>.{2,80}?)\.\s*[—–-]\s*(?P<b>\S.*)$")
 _HEADING_ONLY_RE = re.compile(r"^(?P<h>.{2,80}?)\.?$")
 _SENTENCE_START_RE = re.compile(
     r"^(?:El|La|Los|Las|Se|Cuando|Si|En|No|Toda|Todo|Todas|Todos|Queda|Quedan|Es|Son|Ser[áa]n?|"
@@ -18,10 +18,10 @@ _SENTENCE_START_RE = re.compile(
     r"Hasta|Desde|Ante|Corresponde|Deber[áa]n?|Podr[áa]n?|Tendr[áa]n?)\s"
 )
 _IMPERATIVE_RE = re.compile(
-    r"^(?:Comun[íi]quese|Reg[íi]strese|Publ[íi]quese|D[ée]se|Arch[íi]vese|Apru[ée]base|"
-    r"Establ[ée]cese|Fij[aá]se|Der[óo]gase|Sustit[úu]yese|Incorp[óo]rase|Modif[íi]case|"
-    r"Cr[ée]ase|Fac[úu]ltase|Instr[úu]yese|Encomi[ée]ndase|Prorr[óo]gase|Disp[óo]nese)"
+    r"^(?:Comun[íi]quese|Reg[íi]strese|Publ[íi]quese|D[ée]se|Arch[íi]vese|T[ée]ngase|"
+    r"[A-ZÁÉÍÓÚ][a-záéíóúñ]*[áéíóú][a-záéíóúñ]*(?:se|nse)\b)"
 )
+_HEADING_TAIL_RE = re.compile(r"^(?P<h>[A-ZÁÉÍÓÚ][^.]{1,40})\.\s*[—–-]\s*(?P<b>\S.*)$")
 _HIERARCHY_RE = re.compile(
     r"^(?P<kind>LIBRO|T[IÍ]TULO|CAP[IÍ]TULO|SECCI[OÓ]N)\s+"
     r"(?P<num>[IVXLCDM]+|\d+|[A-ZÁÉÍÓÚ]+)(?![a-záéíóú])\s*"
@@ -41,6 +41,7 @@ class ArticleHeader(BaseModel):
     heading: str | None
     body: str
     raw: str
+    prefix: str
 
     @property
     def label(self) -> str:
@@ -57,9 +58,18 @@ def _split_heading(rest: str) -> tuple[str | None, str]:
         return None, rest
     with_body = _HEADING_WITH_BODY_RE.match(rest)
     if with_body and with_body.group("h")[0].isupper() and not _IMPERATIVE_RE.match(rest):
-        return with_body.group("h").strip(), with_body.group("b").strip()
+        heading, body = with_body.group("h").strip(), with_body.group("b").strip()
+        while True:
+            tail = _HEADING_TAIL_RE.match(body)
+            if not tail or len(tail.group("h").split()) > 4 or _IMPERATIVE_RE.match(body):
+                break
+            heading = f"{heading}. {tail.group('h').strip()}"
+            body = tail.group("b").strip()
+        return heading, body
     if (
         len(rest) <= 80
+        and " — " not in rest
+        and not rest.endswith(":")
         and rest[0].isupper()
         and len(rest.split()) <= 10
         and not _IMPERATIVE_RE.match(rest)
@@ -88,6 +98,7 @@ def match_article(line: str) -> ArticleHeader | None:
         heading=heading,
         body=body,
         raw=line,
+        prefix=match.group("prefix"),
     )
 
 

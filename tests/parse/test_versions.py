@@ -133,7 +133,42 @@ def test_changed_without_note_warns_and_uses_document_date():
     )
     current_v = next(v for v in versions if v.id == "7:1@current")
     assert current_v.effective_from == date(2001, 6, 1)
-    assert "1: current text differs from original but has no dated note" in warnings
+    assert any(
+        w.startswith("1: current text differs from original but has no dated note")
+        for w in warnings
+    )
+
+
+def test_transcription_differences_count_as_unchanged():
+    original = parse_text(
+        [
+            "Art. 1. — Uno.",
+            "El contrato de trabajo y la relación de trabajo se rigen: a) por esta ley; b) Por las leyes.",
+        ]
+    )
+    current = parse_text(
+        [
+            "Art. 1. — Uno.",
+            "El contrato de trabajo y la relación de trabajo se rige:",
+            "a) Por esta ley.",
+            "b) Por las leyes.",
+        ]
+    )
+    _, versions, warnings = build_articles(
+        7,
+        original=VersionSource(
+            parsed=original, document_id=7, fecha_boletin=date(1976, 5, 21), url=None
+        ),
+        current=VersionSource(
+            parsed=current, document_id=7, fecha_boletin=date(2001, 6, 1), url=None
+        ),
+    )
+    current_v = next(v for v in versions if v.id == "7:1@current")
+    assert current_v.unchanged_from_original is True
+    assert current_v.effective_from == date(1976, 5, 21)
+    assert current_v.similarity_to_original is not None and current_v.similarity_to_original > 0.9
+    assert next(v for v in versions if v.id == "7:1@original").effective_until is None
+    assert warnings == []
 
 
 def test_only_original_available():
@@ -154,3 +189,56 @@ def test_only_original_available():
     assert [v.version_kind for v in versions] == ["original", "original"]
     assert versions[0].effective_from == date(2000, 10, 11) and versions[0].effective_until is None
     assert warnings == []
+
+
+def test_partial_note_dates_the_change_without_warning():
+    original = parse_text(
+        ["Art. 89. — Auxilios. — El trabajador estará obligado a prestar los auxilios."]
+    )
+    current = parse_text(
+        [
+            "Art. 89. — Auxilios.",
+            "El trabajador estará obligado a prestar los auxilios.",
+            "Los auxilios prestados fuera de la jornada serán remunerados. (Párrafo incorporado por art. 2° de la Ley N° 25.345 B.O. 17/11/2000)",
+        ]
+    )
+    _, versions, warnings = build_articles(
+        7,
+        original=VersionSource(
+            parsed=original, document_id=7, fecha_boletin=date(1976, 5, 21), url=None
+        ),
+        current=VersionSource(
+            parsed=current, document_id=7, fecha_boletin=date(1974, 9, 27), url=None
+        ),
+    )
+    current_v = next(v for v in versions if v.id == "7:89@current")
+    assert current_v.effective_from == date(2000, 11, 17)
+    assert (
+        current_v.modification_kind == "incorporado" and current_v.unchanged_from_original is False
+    )
+    assert next(v for v in versions if v.id == "7:89@original").effective_until == date(
+        2000, 11, 17
+    )
+    assert warnings == []
+
+
+def test_annex_articles_of_ordinary_documents_get_prefixed_keys():
+    original = parse_text(
+        [
+            "Artículo 1º — Apruébase el texto ordenado que como Anexo I forma parte del presente.",
+            "Art. 2º — Comuníquese, publíquese y archívese.",
+            "ANEXO I",
+            "ARTICULO 1º.- Las convenciones colectivas se celebran por escrito.",
+            "ARTICULO 2º.- Regirán desde su homologación.",
+        ]
+    )
+    articles, versions, _ = build_articles(
+        98232,
+        original=VersionSource(
+            parsed=original, document_id=98232, fecha_boletin=date(2004, 9, 3), url=None
+        ),
+        current=None,
+    )
+    assert [a.id for a in articles] == ["98232:1", "98232:2", "98232:anexoi:1", "98232:anexoi:2"]
+    assert articles[2].annex == "ANEXO I" and articles[0].annex is None
+    assert len(versions) == 4

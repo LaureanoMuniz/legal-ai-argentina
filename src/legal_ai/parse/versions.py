@@ -1,4 +1,6 @@
+import difflib
 import hashlib
+import re
 from datetime import date
 
 from pydantic import BaseModel
@@ -39,6 +41,7 @@ class ArticleVersionRecord(BaseModel):
     source_url: str | None
     text_sha256: str
     unchanged_from_original: bool | None = None
+    similarity_to_original: float | None = None
 
 
 class VersionSource(BaseModel):
@@ -47,22 +50,47 @@ class VersionSource(BaseModel):
     fecha_boletin: date | None
     url: str | None
     use_annex_articles: bool = False
+    include_annex: bool = True
 
     def articles(self) -> list[ParsedArticle]:
-        return (
-            self.parsed.annex_articles() if self.use_annex_articles else self.parsed.main_articles()
-        )
+        if self.use_annex_articles:
+            return self.parsed.annex_articles()
+        if not self.include_annex:
+            return self.parsed.main_articles()
+        prefixed = [
+            a.model_copy(update={"key": f"{_annex_slug(a.annex)}:{a.key}"})
+            for a in self.parsed.annex_articles()
+        ]
+        return self.parsed.main_articles() + prefixed
+
+
+_PUNCT_RE = re.compile(r"[^\w\s]", re.UNICODE)
+SIMILARITY_THRESHOLD = 0.9
+
+
+def similarity(a: str, b: str) -> float:
+    left = " ".join(_PUNCT_RE.sub(" ", a).casefold().split())
+    right = " ".join(_PUNCT_RE.sub(" ", b).casefold().split())
+    if left == right:
+        return 1.0
+    return difflib.SequenceMatcher(None, left, right, autojunk=False).ratio()
+
+
+def _annex_slug(label: str | None) -> str:
+    return (label or "anexo").lower().replace(" ", "")
 
 
 def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def _latest_whole_note(article: ParsedArticle) -> ModificationNote | None:
-    dated = [n for n in article.notes if n.affects_whole_article and n.by.bo_date is not None]
-    if not dated:
+def _latest_dated_note(article: ParsedArticle) -> ModificationNote | None:
+    dated = [n for n in article.notes if n.by.bo_date is not None]
+    whole = [n for n in dated if n.affects_whole_article]
+    pool = whole or dated
+    if not pool:
         return None
-    return max(dated, key=lambda n: n.by.bo_date or date.min)
+    return max(pool, key=lambda n: n.by.bo_date or date.min)
 
 
 def _record(document_id: int, article: ParsedArticle, annex_reset: bool) -> ArticleRecord:
@@ -89,6 +117,7 @@ def _version(
     effective_until: date | None,
     note: ModificationNote | None,
     unchanged: bool | None,
+    sim: float | None = None,
 ) -> ArticleVersionRecord:
     text = "" if article.status == "derogado" else strip_notes(article.text)
     return ArticleVersionRecord(
@@ -109,6 +138,7 @@ def _version(
         source_url=source.url,
         text_sha256=_sha(text),
         unchanged_from_original=unchanged,
+        similarity_to_original=sim,
     )
 
 
@@ -131,10 +161,18 @@ def build_articles(
         articles.append(_record(document_id, base, annex_reset=from_annex))
 
         cur_from: date | None = None
+        changed = True
         if cur is not None and current is not None:
-            note = _latest_whole_note(cur)
-            same_text = orig is not None and strip_notes(orig.text) == strip_notes(cur.text)
-            unchanged = same_text and cur.status == "vigente"
+            note = _latest_dated_note(cur)
+            sim = similarity(strip_notes(orig.text), strip_notes(cur.text)) if orig else None
+            unchanged = (
+                orig is not None
+                and note is None
+                and cur.status == "vigente"
+                and sim is not None
+                and sim >= SIMILARITY_THRESHOLD
+            )
+            changed = not unchanged
             if note is not None:
                 cur_from = note.by.bo_date
             elif unchanged and original is not None:
@@ -143,7 +181,8 @@ def build_articles(
                 cur_from = current.fecha_boletin
                 if orig is not None:
                     warnings.append(
-                        f"{key}: current text differs from original but has no dated note"
+                        f"{key}: current text differs from original but has no dated note "
+                        f"(similarity {sim:.2f})"
                     )
             versions.append(
                 _version(
@@ -155,13 +194,13 @@ def build_articles(
                     None,
                     note,
                     unchanged if orig is not None else None,
+                    sim,
                 )
             )
 
         if orig is not None and original is not None:
             until: date | None = None
             if cur is not None:
-                changed = cur.status != "vigente" or strip_notes(orig.text) != strip_notes(cur.text)
                 until = cur_from if changed else None
             elif current is not None:
                 warnings.append(f"{key}: present in original, missing in current")

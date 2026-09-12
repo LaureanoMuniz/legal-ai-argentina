@@ -4,14 +4,27 @@ from datetime import date
 from pydantic import BaseModel
 
 _NOTE_RE = re.compile(
-    r"\(\s*(?P<scope>Art[íi]culo|Art\.|Incisos?\s+[^\s,]+(?:\)|\b)|[ÚU]ltimo\s+p[áa]rrafo|"
+    r"\(\s*(?P<scope>Art[íi]culo|Art\.|Cap[íi]tulo\s+\S+|T[íi]tulo\s+\S+|Secci[óo]n\s+\S+|"
+    r"Incisos?\s+[^\s,]+(?:\)|\b)|[ÚU]ltimo\s+p[áa]rrafo|"
     r"Pen[úu]ltimo\s+p[áa]rrafo|Primer\s+p[áa]rrafo|Segundo\s+p[áa]rrafo|Tercer\s+p[áa]rrafo|"
-    r"Cuarto\s+p[áa]rrafo|P[áa]rrafos?\s+\S+|Puntos?\s+\S+|Apartados?\s+\S+|"
+    r"Cuarto\s+p[áa]rrafo|"
+    r"P[áa]rrafos?(?:\s+(?:\d+[°º]?|[a-z]\)|primero|segundo|tercero|cuarto|quinto|final|[úu]ltimo))?|"
+    r"Puntos?\s+\S+|Apartados?\s+\S+|"
     r"Expresi[óo]n\s+\"[^\"]+\")\s*"
     r"(?P<kind>sustituid|derogad|incorporad|observad|vetad|restablecid|modificad|renumerad|"
     r"suspendid|abrogad)[oa]s?\s+"
-    r"por\s+(?P<by>[^()]*?)\s*\)",
+    r"por\s+(?P<by>(?:[^()]|\([^()]*\))*?)\s*\)",
     re.IGNORECASE,
+)
+_EXTRA_EVENT_RE = re.compile(
+    r"\.\s+(?=(?P<kind>Sustituid|Derogad|Incorporad|Observad|Vetad|Restablecid|Modificad|"
+    r"Renumerad|Suspendid|Abrogad)[oa]s?\s+por\s)",
+    re.IGNORECASE,
+)
+_EVENT_HEAD_RE = re.compile(
+    r"^(?P<kind>sustituid|derogad|incorporad|observad|vetad|restablecid|modificad|renumerad|"
+    r"suspendid|abrogad)[oa]s?\s+por\s+(?P<by>.*)$",
+    re.IGNORECASE | re.DOTALL,
 )
 _BY_RE = re.compile(
     r"^(?:art(?:[íi]culo|\.)?\s*(?P<art>\d{1,4})\s*[°ºª]?\s*(?P<artsuf>(?i:bis|ter))?\s+"
@@ -20,8 +33,8 @@ _BY_RE = re.compile(
     r"Decisi[óo]n\s+Administrativa|"
     r"Disposici[óo]n)\s*"
     r"(?:N(?:ro|°|º|\.)?\.?\s*)?(?P<num>\d[\d.]*(?:/\d{2,4})?)\s*"
-    r"(?:B\.?\s*O\.?\s*(?P<bo>\d{1,2}/\d{1,2}/\d{4}))?\.?\s*"
-    r"(?:Vigencia:\s*(?P<vig>.*?))?\s*$",
+    r"(?:B\.?\s*O\.?\s*(?P<bo>\d{1,2}/\d{1,2}/\d{4}))?\s*\.?\s*"
+    r"(?:Vigencia:\s*(?P<vig>[^\"]*?))?\s*(?:\..*|\".*)?$",
     re.IGNORECASE | re.DOTALL,
 )
 _TIPO_CANON = {
@@ -99,11 +112,21 @@ class ModificationNote(BaseModel):
     def affects_whole_article(self) -> bool:
         return self.scope == "articulo"
 
+    @property
+    def affects_container(self) -> bool:
+        return self.scope in ("capitulo", "titulo", "seccion")
+
 
 def _classify_scope(scope: str) -> tuple[str, str | None]:
     lowered = scope.lower()
     if lowered.startswith(("artículo", "articulo", "art.")):
         return "articulo", None
+    if lowered.startswith(("capítulo", "capitulo")):
+        return "capitulo", scope.split(None, 1)[1].strip()
+    if lowered.startswith(("título", "titulo")):
+        return "titulo", scope.split(None, 1)[1].strip()
+    if lowered.startswith(("sección", "seccion")):
+        return "seccion", scope.split(None, 1)[1].strip()
     if lowered.startswith("inciso"):
         return "inciso", scope.split(None, 1)[1].strip() if " " in scope else None
     if "párrafo" in lowered or "parrafo" in lowered:
@@ -123,15 +146,25 @@ def parse_notes(text: str) -> list[ModificationNote]:
     notes: list[ModificationNote] = []
     for match in _NOTE_RE.finditer(normalized):
         scope, detail = _classify_scope(match.group("scope"))
-        notes.append(
-            ModificationNote(
-                kind=KIND_CANON[match.group("kind").lower()],
-                scope=scope,
-                scope_detail=detail,
-                by=parse_by_clause(match.group("by")),
-                raw=match.group(0),
-            )
+        segments = _EXTRA_EVENT_RE.split(match.group("by"))
+        kinds = [match.group("kind")] + [k for k in segments[1::2]]
+        bodies = (
+            [segments[0]]
+            + [
+                _EVENT_HEAD_RE.match(seg).group("by")  # type: ignore[union-attr]
+                for seg in segments[2::2]
+            ]
         )
+        for kind, body in zip(kinds, bodies, strict=True):
+            notes.append(
+                ModificationNote(
+                    kind=KIND_CANON[kind.lower()],
+                    scope=scope,
+                    scope_detail=detail,
+                    by=parse_by_clause(body),
+                    raw=match.group(0),
+                )
+            )
     return notes
 
 

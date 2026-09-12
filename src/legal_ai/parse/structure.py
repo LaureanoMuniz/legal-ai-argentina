@@ -1,3 +1,5 @@
+import re
+
 from pydantic import BaseModel, Field
 
 from legal_ai.parse.notes import ModificationNote, parse_notes
@@ -12,6 +14,8 @@ from legal_ai.parse.patterns import (
 )
 
 _ORDER = ["LIBRO", "TITULO", "CAPITULO", "SECCION"]
+_QUOTE_INTRO_RE = re.compile(r":\s*$")
+_INDEX_RE = re.compile(r"^[IÍ]NDICE\b")
 
 
 class ParsedArticle(BaseModel):
@@ -76,6 +80,8 @@ class _Builder:
         self.header: ArticleHeader | None = None
         self.body: list[str] = []
         self.prev_number: int | None = None
+        self.quoting = False
+        self.styles: set[str] = set()
         self.closed = False
         self.in_antecedentes = False
         self.seen_keys: set[str] = set()
@@ -119,9 +125,28 @@ class _Builder:
             self.sections.pop(kind, None)
         self.sections[section.kind] = section
 
+    def _recent_colon(self) -> bool:
+        return any(_QUOTE_INTRO_RE.search(line) for line in self.body[-3:])
+
+    def _expected(self, header: ArticleHeader) -> bool:
+        if self.prev_number is None:
+            return True
+        return header.number == self.prev_number + 1 or (
+            header.number == self.prev_number and header.suffix is not None
+        )
+
     def accept_article(self, header: ArticleHeader) -> bool:
         if self.prev_number is None:
             return True
+        expected = self._expected(header)
+        if self.quoting:
+            if expected and (not self.styles or header.prefix in self.styles):
+                self.quoting = False
+                return True
+            return False
+        if self.header is not None and not expected and self._recent_colon():
+            self.quoting = True
+            return False
         if header.number < self.prev_number and header.suffix is None:
             return False
         if header.number == self.prev_number and header.suffix is None:
@@ -138,6 +163,11 @@ class _Builder:
             self.flush_article()
             self.in_antecedentes = True
             return
+        if _INDEX_RE.match(line):
+            self.flush_article()
+            self.closed = True
+            self.trailer.append(line)
+            return
         annex_label = match_annex(line)
         if annex_label is not None:
             self.flush_article()
@@ -145,10 +175,20 @@ class _Builder:
             self.annex = annex_label
             self.sections = {}
             self.prev_number = None
+            self.quoting = False
+            self.styles = set()
             self.seen_keys = set()
             self.closed = False
             return
         section = match_hierarchy(line)
+        if (
+            section is not None
+            and self.header is not None
+            and (self.quoting or self._recent_colon())
+        ):
+            self.quoting = True
+            self.body.append(line)
+            return
         if section is not None:
             self.flush_article()
             self.set_section(section)
@@ -156,15 +196,19 @@ class _Builder:
             self.closed = False
             return
         header = match_article(line)
+        if header is not None and self.closed and not self.quoting and not self._expected(header):
+            self.trailer.append(line)
+            return
         if header is not None and self.accept_article(header):
             self.flush_article()
             self.pending_section = None
             self.header = header
             self.body = [header.body] if header.body else []
             self.prev_number = header.number
+            self.styles.add(header.prefix)
             self.closed = is_closing(header.body)
             return
-        if header is not None:
+        if header is not None and not self.quoting:
             self.warnings.append(f"cross-reference-like header ignored: {line}")
         if self.pending_section is not None and len(line) <= 120:
             self.pending_section.name = line
@@ -193,8 +237,37 @@ class _Builder:
         )
 
 
+def _propagate_container_notes(articles: list[ParsedArticle]) -> list[str]:
+    warnings: list[str] = []
+    for source in articles:
+        for note in list(source.notes):
+            if not (note.affects_container and note.kind in ("derogado", "abrogado")):
+                continue
+            kind = note.scope.upper()
+            container = next((s for s in source.sections if s.kind == kind), None)
+            detail = (note.scope_detail or "").upper().rstrip(".")
+            if container is None or container.number.upper() != detail:
+                warnings.append(
+                    f"{note.scope} {detail} derogation noted at article {source.label}, "
+                    f"which is not inside it"
+                )
+                continue
+            path = [(s.kind, s.number) for s in source.sections]
+            for sibling in articles:
+                if sibling.annex != source.annex:
+                    continue
+                if [(s.kind, s.number) for s in sibling.sections][: len(path)] != path:
+                    continue
+                if not any(n.raw == note.raw for n in sibling.notes):
+                    sibling.notes.append(note)
+                sibling.status = "derogado"
+    return warnings
+
+
 def parse_text(lines: list[str]) -> ParsedText:
     builder = _Builder()
     for line in lines:
         builder.feed(line)
-    return builder.build()
+    parsed = builder.build()
+    parsed.warnings.extend(_propagate_container_notes(parsed.articles))
+    return parsed

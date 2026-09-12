@@ -1173,7 +1173,7 @@
     "TITULO II Del Contrato de Trabajo en General",
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
-   "n_notes": 0,
+   "n_notes": 1,
    "text_sha256": "28ca8c9e257cf66561fc9d4768fafda6901275c2bcf93a24d7e035fe702e7bcb"
   },
   {
@@ -2018,7 +2018,7 @@
     "TITULO IV De la Remuneración del Trabajador",
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
-   "n_notes": 0,
+   "n_notes": 2,
    "text_sha256": "dd2968641e5d0f8b28b71e1611790f10a5a6e7da4c41c32473f64bac5e1f3caf"
   },
   {
@@ -3425,7 +3425,7 @@
     "TITULO XII De la Extinción del Contrato de Trabajo",
     "CAPITULO X De la extinción del contrato de trabajo por"
    ],
-   "n_notes": 0,
+   "n_notes": 2,
    "text_sha256": "9c28dd3b58714cbaafe3420d35f4408cc1dc3d5dd6e41e3cbc08b8fe2a602cff"
   },
   {
@@ -3760,5 +3760,7 @@
  ],
  "n_annexes": 0,
  "n_antecedentes_lines": 214,
- "warnings": []
+ "warnings": [
+  "capitulo VIII derogation noted at article 89, which is not inside it"
+ ]
 }

@@ -166,3 +166,102 @@ def test_duplicate_key_is_kept_with_warning():
     parsed = parse_text(["Art. 5. — Uno.", "Texto.", "Art. 5. — Dos.", "Texto dos."])
     assert [a.key for a in parsed.articles] == ["5", "5#2"]
     assert "duplicate article 5" in parsed.warnings
+
+
+MODIFYING_LAW = [
+    "LEY 25.877",
+    "ARTICULO 18. — Sustitúyese el artículo 245 de la Ley Nº 20.744 (t.o. 1976) por el siguiente:",
+    "Artículo 245. — Indemnización por antigüedad o despido. En los casos de despido dispuesto por el empleador sin justa causa.",
+    "La base salarial no podrá exceder el equivalente de tres (3) veces el importe mensual.",
+    "ARTICULO 19. — Sustitúyese el artículo 3º de la Ley Nº 23.546 y su modificatoria, por el siguiente:",
+    "Artículo 3º — Quienes reciban la comunicación del artículo anterior estarán obligados a responder.",
+    "ARTICULO 20. — Sustitúyense los artículos 4º y 5º de la Ley Nº 23.546 por los siguientes:",
+    "Artículo 4º — En el plazo de quince (15) días a contar desde la recepción.",
+    "Artículo 5º — Las partes están obligadas a negociar de buena fe.",
+    "ARTICULO 21. — Incorpóranse en la Ley Nº 14.250 los siguientes artículos:",
+    "Capítulo III – Ambitos de Negociación Colectiva.",
+    "Artículo 21. — Los convenios colectivos tendrán los siguientes ámbitos:",
+    "— Convenio nacional, regional o de otro ámbito territorial.",
+    "Artículo 22. — La representación de los trabajadores en la negociación.",
+    "ARTICULO 22. — Cuando por un conflicto de trabajo alguna de las partes decidiera la adopción de medidas.",
+    "ARTICULO 23. — Comuníquese al Poder Ejecutivo.",
+]
+
+
+def test_quoted_articles_inside_modifying_law_stay_in_body():
+    parsed = parse_text(MODIFYING_LAW)
+    assert [a.key for a in parsed.articles] == ["18", "19", "20", "21", "22", "23"]
+    art18 = parsed.article("18")
+    assert art18 is not None
+    assert "Artículo 245. — Indemnización por antigüedad" in art18.text
+    assert art18.text.endswith("tres (3) veces el importe mensual.")
+    art20 = parsed.article("20")
+    assert art20 is not None
+    assert "Artículo 4º" in art20.text and "Artículo 5º" in art20.text
+    art21 = parsed.article("21")
+    assert art21 is not None
+    assert "Capítulo III" in art21.text and "Artículo 22. — La representación" in art21.text
+    assert all(s.kind != "CAPITULO" for a in parsed.articles for s in a.sections)
+    assert not any("cross-reference" in w for w in parsed.warnings)
+    assert not any("numbering gap" in w for w in parsed.warnings)
+
+
+def test_index_table_goes_to_trailer():
+    parsed = parse_text(
+        [
+            "ARTICULO 21.- Con relación a los convenios colectivos.",
+            "INDICE DEL ORDENAMIENTO DE LA LEY Nº 14.250",
+            "ARTICULO Nº",
+            "FUENTE",
+            "ARTICULO 1º",
+            "artículo 8º de la Ley Nº 25.877",
+        ]
+    )
+    assert [a.key for a in parsed.articles] == ["21"]
+    assert parsed.trailer.startswith("INDICE DEL ORDENAMIENTO")
+    assert "ARTICULO 1º" in parsed.trailer
+    assert parsed.warnings == []
+
+
+def test_chapter_derogation_propagates_to_sibling_articles():
+    parsed = parse_text(
+        [
+            "CAPITULO VII",
+            "Del trabajo",
+            "Art. 87. — Uno.",
+            "Texto uno.",
+            "CAPITULO VIII",
+            "De los auxilios",
+            "Art. 88. — Auxilios.",
+            "Texto ochenta y ocho.",
+            "Art. 89. — Peligro.",
+            "El trabajador estará obligado. ( Capítulo VIII derogado por art. 26 de la Ley Nº 27.802 B.O. 6/3/2026.)",
+            "CAPITULO IX",
+            "Otro",
+            "Art. 90. — Noventa.",
+            "Texto noventa.",
+        ]
+    )
+    status = {a.key: a.status for a in parsed.articles}
+    assert status == {"87": "vigente", "88": "derogado", "89": "derogado", "90": "vigente"}
+    art88 = parsed.article("88")
+    assert art88 is not None and art88.notes[0].by.numero == "27802"
+
+
+def test_chapter_derogation_outside_its_chapter_is_a_warning_not_a_status():
+    parsed = parse_text(
+        [
+            "CAPITULO VII",
+            "De los derechos",
+            "Art. 89. — Peligro.",
+            "El trabajador estará obligado. ( Capítulo VIII derogado por art. 26 de la Ley Nº 27.802 B.O. 6/3/2026.)",
+            "CAPITULO IX",
+            "Otro",
+            "Art. 90. — Noventa.",
+            "Texto noventa.",
+        ]
+    )
+    assert {a.key: a.status for a in parsed.articles} == {"89": "vigente", "90": "vigente"}
+    assert parsed.warnings == [
+        "capitulo VIII derogation noted at article 89, which is not inside it"
+    ]

@@ -218,6 +218,7 @@ def _original_source(
         document_id=norm.id_norma,
         fecha_boletin=norm.fecha_boletin,
         url=norm.url_original,
+        include_annex=norm.id_norma not in resolved.original_sources.values(),
     )
 
 

@@ -86,3 +86,27 @@ def test_strip_notes():
         "El contrato de trabajo por tiempo indeterminado se entenderá celebrado a prueba durante los "
         "primeros seis (6) meses."
     )
+
+
+def test_chapter_scope_note_affects_whole_article():
+    text = "El trabajador estará obligado. ( Capítulo VIII derogado por art. 26 de la Ley Nº 27.802 B.O. 6/3/2026. Vigencia: a partir de su publicación en el Boletín Oficial.)"
+    [note] = parse_notes(text)
+    assert note.kind == "derogado" and note.scope == "capitulo" and note.scope_detail == "VIII"
+    assert note.affects_container and not note.affects_whole_article
+    assert note.by.numero == "27802" and note.by.bo_date == date(2026, 3, 6)
+
+
+def test_compound_note_with_nested_parenthesis_yields_two_events():
+    text = (
+        "Texto. (Párrafo tercero sustituido por art. 168 del Decreto N° 27/2018 B.O. 11/1/2018. "
+        "Derogado por art. 134 de la Ley N° 27.444 B.O. 18/06/2018 . "
+        '"No se revive el texto anterior a la derogación (Conf. Manual de Técnica Legislativa)".)'
+    )
+    notes = parse_notes(text)
+    assert [(n.kind, n.scope, n.scope_detail) for n in notes] == [
+        ("sustituido", "parrafo", "tercero"),
+        ("derogado", "parrafo", "tercero"),
+    ]
+    assert notes[0].by.numero == "27/2018" and notes[0].by.bo_date == date(2018, 1, 11)
+    assert notes[1].by.numero == "27444" and notes[1].by.bo_date == date(2018, 6, 18)
+    assert strip_notes(text) == "Texto."
