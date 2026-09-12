@@ -4,6 +4,10 @@ import zipfile
 from pathlib import Path
 
 import pytest
+from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
+
+from legal_ai.settings import Settings
 
 NORM_COLUMNS = [
     "id_norma",
@@ -162,3 +166,28 @@ def relations_zip(tmp_path: Path) -> Path:
         RELATION_COLUMNS,
         FIXTURE_RELATIONS,
     )
+
+
+@pytest.fixture(scope="session")
+def db_engine():
+    from legal_ai.db.engine import ensure_database, make_engine, upgrade_database
+
+    url = Settings().test_database_url
+    try:
+        ensure_database(url)
+        upgrade_database(url)
+    except OperationalError as exc:
+        pytest.skip(f"Postgres de test no disponible en {url}: {exc}")
+    engine = make_engine(url)
+    yield engine
+    engine.dispose()
+
+
+@pytest.fixture
+def db(db_engine):
+    yield db_engine
+    from legal_ai.db.schema import metadata
+
+    with db_engine.begin() as conn:
+        for table in reversed(metadata.sorted_tables):
+            conn.execute(text(f'TRUNCATE TABLE "{table.name}" CASCADE'))
