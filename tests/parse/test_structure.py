@@ -180,6 +180,9 @@ MODIFYING_LAW = [
     "Artículo 5º — Las partes están obligadas a negociar de buena fe.",
     "ARTICULO 21. — Incorpóranse en la Ley Nº 14.250 los siguientes artículos:",
     "Capítulo III – Ambitos de Negociación Colectiva.",
+    "Título preliminar de la negociación.",
+    "Consideraciones generales sobre los ámbitos.",
+    "Reglas de articulación entre convenios.",
     "Artículo 21. — Los convenios colectivos tendrán los siguientes ámbitos:",
     "— Convenio nacional, regional o de otro ámbito territorial.",
     "Artículo 22. — La representación de los trabajadores en la negociación.",
@@ -265,3 +268,18 @@ def test_chapter_derogation_outside_its_chapter_is_a_warning_not_a_status():
     assert parsed.warnings == [
         "capitulo VIII derogation noted at article 89, which is not inside it"
     ]
+
+
+def test_quoted_articles_without_colon_are_detected_by_style():
+    parsed = parse_text(
+        [
+            "ARTICULO 18. — Incorpóranse en la Ley Nº 14.250 los capítulos que contendrán los artículos que en cada caso se incluyen.",
+            "Capítulo III – Ambitos de Negociación Colectiva.",
+            "Artículo 21. — Los convenios colectivos tendrán los siguientes ámbitos:",
+            "— Convenio nacional.",
+            "Artículo 22. — La representación de los trabajadores.",
+            "ARTICULO 19. — Sustitúyese el artículo 3º de la Ley Nº 23.546.",
+        ]
+    )
+    assert [a.key for a in parsed.articles] == ["18", "19"]
+    assert parsed.warnings == []

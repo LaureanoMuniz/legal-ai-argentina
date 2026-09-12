@@ -14,7 +14,7 @@ from legal_ai.parse.patterns import (
 )
 
 _ORDER = ["LIBRO", "TITULO", "CAPITULO", "SECCION"]
-_QUOTE_INTRO_RE = re.compile(r":\s*$")
+_QUOTE_INTRO_RE = re.compile(r":\s*[\"“«'‘]?\s*$")
 _INDEX_RE = re.compile(r"^[IÍ]NDICE\b")
 
 
@@ -126,7 +126,7 @@ class _Builder:
         self.sections[section.kind] = section
 
     def _recent_colon(self) -> bool:
-        return any(_QUOTE_INTRO_RE.search(line) for line in self.body[-3:])
+        return any(_QUOTE_INTRO_RE.search(line) for line in self.body)
 
     def _expected(self, header: ArticleHeader) -> bool:
         if self.prev_number is None:
@@ -144,7 +144,8 @@ class _Builder:
                 self.quoting = False
                 return True
             return False
-        if self.header is not None and not expected and self._recent_colon():
+        foreign_style = bool(self.styles) and header.prefix not in self.styles
+        if self.header is not None and not expected and (self._recent_colon() or foreign_style):
             self.quoting = True
             return False
         if header.number < self.prev_number and header.suffix is None:
