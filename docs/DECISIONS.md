@@ -199,3 +199,58 @@ salario mínimo casi idénticas), que es exactamente lo que el benchmark tiene
 que detectar. Cada norma conserva `tipo_norma` y `reason`, así que un filtro
 por tipo en la consulta se puede evaluar como experimento en la Fase 5. 163 de
 las nuevas normas no tienen texto en Infoleg: quedan con metadata sola.
+
+## ADR-015: La versión "original" de la LCT es el texto ordenado de 1976
+
+**Contexto.** Infoleg no tiene el cuerpo de la Ley 20.744 de 1974: su
+`norma.htm` es la ley aprobatoria (3 artículos). El texto vigente es el texto
+ordenado por Decreto 390/76, cuyo `norma.htm` trae los 277 artículos como
+anexo, con la numeración que se usa hasta hoy.
+
+**Decisión.** El manifest permite declarar `original_from` en una semilla.
+Para la LCT apunta al Decreto 390/76; el parser toma los artículos del anexo
+como versión `original`, con `effective_from` 1976-05-21 y
+`source_document_id` 229909. La versión de 1974 con la numeración vieja queda
+fuera del alcance. Un documento que sirve de `original_from` no incluye su
+anexo como artículos propios, para no duplicar.
+
+**Consecuencias.** Toda cita "original" de la LCT es al t.o. 1976, y así se
+etiqueta. Si una fuente futura trae el texto de 1974, entra como una versión
+más, no reemplaza a esta.
+
+## ADR-016: Parser propio por líneas, sin librería de HTML
+
+**Contexto.** El HTML de Infoleg es plano: `<p>`, `<br>`, `<b>`, `<span>`,
+sin clases ni estructura semántica; el `<b>` a veces envuelve el `<p>`.
+
+**Decisión.** Aplanar a líneas de texto y reconocer estructura con expresiones
+regulares probadas contra las variantes reales de encabezado, con golden
+files de cuatro normas reales (LCT actualizada, anexo del Decreto 390/76,
+Resolución 384/2004, Ley 25.323). Las advertencias del parser son salida de
+primera clase (`parse_report.json`), no logs.
+
+**Alternativas.** selectolax/BeautifulSoup: una dependencia para recorrer un
+árbol que no significa nada. Un LLM para extraer estructura: no determinista,
+caro para 933 normas y opaco para debuggear.
+
+**Consecuencias.** Cada variante nueva es un caso de test. Las normas sin
+artículos numerados (comunicaciones del BCRA, circulares, decretos de
+promulgación) quedan con `front_matter` y sin artículos, listadas en el
+reporte.
+
+## ADR-017: Las notas de Infoleg son la autoridad sobre cambios; el texto se compara por similitud
+
+**Contexto.** Las dos copias de un mismo artículo (anexo del Decreto 390/76 y
+`texact.htm`) difieren en transcripción. Con igualdad exacta, 120 artículos
+de la LCT aparecían "cambiados sin nota".
+
+**Decisión.** Un artículo `current` sin nota fechada cuenta como sin cambios
+si su similitud normalizada con el `original` es ≥ 0,9 (`effective_from` = la
+fecha del original). Con nota fechada, entera o parcial, la fecha de la nota
+manda. Por debajo de 0,9 y sin nota, se emite advertencia y se usa la fecha
+del documento actual.
+
+**Consecuencias.** En la LCT quedan 2 advertencias reales (arts. 89 y 147,
+notas compuestas o de capítulo). En anexos de resoluciones que Infoleg
+reescribe entero sin nota por artículo quedan cientos, y son honestas: no
+sabemos la fecha de ese cambio.

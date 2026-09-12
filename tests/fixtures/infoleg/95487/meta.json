@@ -1,0 +1,32 @@
+{
+  "id_norma": 95487,
+  "files": {
+    "norma.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/anexos/95000-99999/95487/norma.htm",
+      "status_code": 200,
+      "sha256": "625699f2c2dd2de2cd5c9936d003fb91d9143e4ad7790de0f451ad5869fa14e4",
+      "size_bytes": 9858,
+      "content_type": "text/html",
+      "fetched_at": "2026-09-12T17:23:42.362610Z"
+    },
+    "vinculos_modifica.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/verVinculos.do?modo=1&id=95487",
+      "status_code": 200,
+      "sha256": "45bae73cfb4a1f7d8d69859fbfbd6f40f741406a3e48395898c557614719ad2a",
+      "size_bytes": 4693,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "fetched_at": "2026-09-12T17:23:42.837072Z"
+    },
+    "vinculos_modificada_por.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/verVinculos.do?modo=2&id=95487",
+      "status_code": 200,
+      "sha256": "3afc149e97bea51958209238770f4ff352a79548a81772a7cd5a26f0576faa04",
+      "size_bytes": 2957,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "fetched_at": "2026-09-12T17:23:43.338142Z"
+    }
+  },
+  "missing": [
+    "texact.htm"
+  ]
+}

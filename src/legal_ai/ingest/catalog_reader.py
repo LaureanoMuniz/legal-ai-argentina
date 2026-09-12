@@ -104,3 +104,11 @@ class InMemoryCatalog:
 
     def relations(self) -> Iterable[RelationRow]:
         return list(self._relations)
+
+
+def collect_rows(catalog: Catalog, ids: set[int]) -> dict[int, list[NormRow]]:
+    rows: dict[int, list[NormRow]] = {}
+    for row in catalog.norms():
+        if row.id_norma in ids:
+            rows.setdefault(row.id_norma, []).append(row)
+    return rows

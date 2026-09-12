@@ -1,0 +1,3580 @@
+{
+ "file": "229909/norma.htm",
+ "n_articles": 279,
+ "articles": [
+  {
+   "key": "1",
+   "label": "1",
+   "heading": null,
+   "status": "vigente",
+   "annex": null,
+   "sections": [],
+   "n_notes": 0,
+   "text_sha256": "aa5a88aa35b6a98a7f66e0d7d99eaf8d3659b3ea6d02422c609322cc3e9c06d1"
+  },
+  {
+   "key": "2",
+   "label": "2",
+   "heading": null,
+   "status": "vigente",
+   "annex": null,
+   "sections": [],
+   "n_notes": 0,
+   "text_sha256": "66633a17515684738a667fb275ee23821fd681893c1d76eb439a4d2a98e3c4c0"
+  },
+  {
+   "key": "1",
+   "label": "1",
+   "heading": "Fuentes de regulación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0140704d031e97d972d3d76516aa9648a7d7eaf5d6eea0b0d38b1b19fa794925"
+  },
+  {
+   "key": "2",
+   "label": "2",
+   "heading": "Ámbito de aplicación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "04dae0564ec842853394b5e91e58ce34e678da5e7a0c8f0ff9e1baafd79a3c29"
+  },
+  {
+   "key": "3",
+   "label": "3",
+   "heading": "Ley aplicable",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "80224b52a8a428c3a254ca1e62169ceb8afeb9f4b16bebad212615f8d1c50a42"
+  },
+  {
+   "key": "4",
+   "label": "4",
+   "heading": "Concepto de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "d3d807984c7112261de021e360123287b0d64fcf61f8d99eb96a1ac3c643217b"
+  },
+  {
+   "key": "5",
+   "label": "5",
+   "heading": "Empresa-Empresario",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "82e067626703cddcc76eed160fe88da18c9b6afe89e655f71ad0cdada8d92f49"
+  },
+  {
+   "key": "6",
+   "label": "6",
+   "heading": "Establecimiento",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ebbce73379b32d4770f5c293828aaafd4fecc491d8ce7d944b8aeb83be0e449e"
+  },
+  {
+   "key": "7",
+   "label": "7",
+   "heading": "Condiciones menos favorables. Nulidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "77217f41434900380d6bc16e225feedca200f6a896dbbe7e220946e9bedb206f"
+  },
+  {
+   "key": "8",
+   "label": "8",
+   "heading": "Condiciones más favorables provenientes de convenciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "20bd42d292d408d0ff7b26ecfe4d2f05744edc3d97219e7f3ae32a20e436b1da"
+  },
+  {
+   "key": "9",
+   "label": "9",
+   "heading": null,
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ea871594feaccf9c692c9daf1bdee95e2fff7b47aad186e867487fac804188ce"
+  },
+  {
+   "key": "10",
+   "label": "10",
+   "heading": "Conservación del contrato",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e2c94896ecbf9947112f883004705dee3c7c6ee219f82587d5846100b86dcf82"
+  },
+  {
+   "key": "11",
+   "label": "11",
+   "heading": "Principios de interpretación y aplicación de la ley. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e929624fc298b5f0fd1da9154293f4bbe62ae0071108ef6de429b61e5f86385f"
+  },
+  {
+   "key": "12",
+   "label": "12",
+   "heading": "Irrenunciabilidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "83971c15383a9f59526d4451714f2742533312f829a8981037e36eaeaf04d209"
+  },
+  {
+   "key": "13",
+   "label": "13",
+   "heading": "Substitución de las cláusulas nulas",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0de4919586c3a6c15ff5e8714baaf041e5145465c4a0e031cf0489e91d51753b"
+  },
+  {
+   "key": "14",
+   "label": "14",
+   "heading": "Nulidad por fraude laboral",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0a64ce6a24d053607061dbd6502350388e0f8e78bfbcd69b3603bfefb253fed7"
+  },
+  {
+   "key": "15",
+   "label": "15",
+   "heading": "Acuerdos transaccionales conciliatorios o liberatorios",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b188ca9833285e6a733ae3d6f44388114d61323da7b58cfa1185f3f09447d571"
+  },
+  {
+   "key": "16",
+   "label": "16",
+   "heading": "Aplicación analógica de las convenciones colectivas de",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "09dd4a72862a07da35205dd799b61e5ab1891325376d784de2f37b15c0598a89"
+  },
+  {
+   "key": "17",
+   "label": "17",
+   "heading": "Prohibición de hacer discriminaciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6c2bfe38b070de2e3ccda9b341d049105267d8268e3bd5da5e5258c05d65cdc1"
+  },
+  {
+   "key": "18",
+   "label": "18",
+   "heading": "Tiempo de servicio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e15a2c91dc8b454a1667cd4ddaf59b1fd0ecec7a21fe1c92729c70a483e87678"
+  },
+  {
+   "key": "19",
+   "label": "19",
+   "heading": "Plazo de preaviso",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e0ada9e0825989ecc401a80038380ce9b164852b40061c39145583325b3bc485"
+  },
+  {
+   "key": "20",
+   "label": "20",
+   "heading": "Gratuidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO I Disposiciones Generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "60e8f89dbbbc0488bf33d6ea0ee4a1c436b77712adbad9bc726f4680b62b87cf"
+  },
+  {
+   "key": "21",
+   "label": "21",
+   "heading": "Contrato de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO I Del contrato y la relación de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f1e9ec671d333e67acc8f5fdafdabeadcdeb27d54b59b5d766016af9abcf76d9"
+  },
+  {
+   "key": "22",
+   "label": "22",
+   "heading": "Relación de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO I Del contrato y la relación de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4402d447f1faf94a4a655bc7f4a70be47aefbe3d17a877ca452c5852a4703a63"
+  },
+  {
+   "key": "23",
+   "label": "23",
+   "heading": "Presunción de la existencia del contrato de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO I Del contrato y la relación de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "887dc750b7955a4b8418cf2ef517f38bcbd6ecff0749d5c58eccc5029dff3846"
+  },
+  {
+   "key": "24",
+   "label": "24",
+   "heading": "Efectos del contrato sin relación de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO I Del contrato y la relación de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "64d73f582a7938951c12e558f639cfe82fdea1c99821efbe50e16117554d3f32"
+  },
+  {
+   "key": "25",
+   "label": "25",
+   "heading": "Trabajador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ad9fa284bda17fda9496cf74231bbd78faf64e67306bee8cdd071d0bcff417cb"
+  },
+  {
+   "key": "26",
+   "label": "26",
+   "heading": "Empleador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "39bcf4f9ca5eaf1572038ccdb98c2b9a3dbff65d63d31a0e58ef6c8c8fca03d0"
+  },
+  {
+   "key": "27",
+   "label": "27",
+   "heading": "Socio-empleado",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "77f273171cda6434d60cc601a41fc42ea90c86458508ee17727d135415e4b57c"
+  },
+  {
+   "key": "28",
+   "label": "28",
+   "heading": "Auxiliares del trabajador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1ce384ad2cbb732c60e73e5a3d0aa7047efd4d06787a5c9e520b37c83658f077"
+  },
+  {
+   "key": "29",
+   "label": "29",
+   "heading": "Interposición y mediación. Solidaridad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "d4a66e1e195f08806322ddc1380a9e1c190d788c13c6eed04143452dc0c2a19b"
+  },
+  {
+   "key": "30",
+   "label": "30",
+   "heading": "Subcontratación y delegación. Solidaridad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "d103e225e7ae477146ef806c62400ae2d80daf63a83eafd1ceb2a0fb31ab82be"
+  },
+  {
+   "key": "31",
+   "label": "31",
+   "heading": "Empresas subordinadas o relacionadas",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO II De los sujetos del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4db4c01ae0d6355bc5b66b34b7a985d41d283b7859469f12f1109703d6e2ce97"
+  },
+  {
+   "key": "32",
+   "label": "32",
+   "heading": "Capacidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ca0bcd47ef90786a8cb31009dbab30210970ea518e80b470b4afb454491fae63"
+  },
+  {
+   "key": "33",
+   "label": "33",
+   "heading": "Facultad para estar en juicio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "fc8fe4c24203203fe46c97d86fab4c972d4fbe0e30bcec9e41aa2a6e25b2859e"
+  },
+  {
+   "key": "34",
+   "label": "34",
+   "heading": "Facultad de libre administración y disposición de bienes",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "99dc00edffc53b6c2145703276dbedb817ba5dc4e17b5a11be0aff0d2a324b58"
+  },
+  {
+   "key": "35",
+   "label": "35",
+   "heading": "Menores emancipados por matrimonio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ddf88ea763bd52e25e56094415b0dd051b2e04ffb3b5a711e7cb665dfa919a91"
+  },
+  {
+   "key": "36",
+   "label": "36",
+   "heading": "Actos de las personas jurídicas",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c4e9bb8de0efb9c6772068d03d4b6cc8831e84dba35d5229846af36dca404b05"
+  },
+  {
+   "key": "37",
+   "label": "37",
+   "heading": "Principio general",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c88705b5ba6268b9339b9dfff5470f71d54f8c80c64be0ed4fd4e37a17db0033"
+  },
+  {
+   "key": "38",
+   "label": "38",
+   "heading": "Servicios excluídos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1e1da741d45e9ab75ada76060483c9daf45fdec459c3b854de185f5d10d79aad"
+  },
+  {
+   "key": "39",
+   "label": "39",
+   "heading": "Trabajo ilícito",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0720fda4605d3c616b86cf7b874d59d5c3496d27976223a88ab3c72aa9fcff09"
+  },
+  {
+   "key": "40",
+   "label": "40",
+   "heading": "Trabajo prohibido",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "59bb332f339de1b1f60d825f7b906f747ec34e79f43d0aa2149c21be68b494c6"
+  },
+  {
+   "key": "41",
+   "label": "41",
+   "heading": "Nulidad del contrato de objeto ilícito",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e9107ac045ffe7f95454fc245ef8855fa3a6d90eda38046ce23e47b0082dd5c4"
+  },
+  {
+   "key": "42",
+   "label": "42",
+   "heading": "Nulidad del contrato de objeto prohibido",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "fa42da07a4c837cad9aa016479dc4f3aa7846daf0d16c5110f3f8a2e91252915"
+  },
+  {
+   "key": "43",
+   "label": "43",
+   "heading": "Prohibición parcial",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "5744e603ccbabe82dc8df25e2883e6393d3ef1f5c24f80f8994b07b927e349a2"
+  },
+  {
+   "key": "44",
+   "label": "44",
+   "heading": "Nulidad por ilicitud o prohibición. Su declaración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO IV Del objeto del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2cc619be15e295d38aeb48ce192119d618c342eb94008ee5572a25c5e2b2f99c"
+  },
+  {
+   "key": "45",
+   "label": "45",
+   "heading": "Consentimiento",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO V De la formación del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "fc7754a5a914c86c6eb9c99b6dfa509400eb38e535dbb61736eb0b4a1a86829c"
+  },
+  {
+   "key": "46",
+   "label": "46",
+   "heading": "Enunciación del contenido esencial",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO V De la formación del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "302d6e718cc6e3fa69cf8c51b214344d59a84359dc247c807d00f50e598cceec"
+  },
+  {
+   "key": "47",
+   "label": "47",
+   "heading": "Contrato por equipo. Integración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO V De la formación del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "aa13e54c9de6f5cb4ed8d605dfd79ed07d11e26684c1574126120aa61601561f"
+  },
+  {
+   "key": "48",
+   "label": "48",
+   "heading": "Forma",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c5410de2411651d3aac552a528c8209c7b021f9b4c15b612eb489dbada9af5f0"
+  },
+  {
+   "key": "49",
+   "label": "49",
+   "heading": "Nulidad por omisión de la forma",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f37529a614e8537630a0a162ce65f51c721ba1b9054f5e69f17f14d8b2dfef55"
+  },
+  {
+   "key": "50",
+   "label": "50",
+   "heading": "Prueba",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ba0367e982ca0980f4f3199f9c0e420b386bf33c39e69b02e777b09bb55eefe2"
+  },
+  {
+   "key": "51",
+   "label": "51",
+   "heading": "Aplicación de estatutos profesionales o convenciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6671e9e0c0a8c0a27f763534b7b3b891e42ef8d4608186cc21d5dd49712b1661"
+  },
+  {
+   "key": "52",
+   "label": "52",
+   "heading": "Libro especial. Formalidades. Prohibiciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "750b5419d07726fd0062370e9dbcb3147b4896c6c5532a6f703bccb64b6350cc"
+  },
+  {
+   "key": "53",
+   "label": "53",
+   "heading": "Omisión de formalidades",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4d3610b78cb10440ad17e65cac3149c68094f318f88bd9c8086b737be2be9ec0"
+  },
+  {
+   "key": "54",
+   "label": "54",
+   "heading": "Aplicación a los registros, planillas u otros elementos de",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "313b4e6a24cddd8105cffed59c301642ec9a2e28b5f896343c62c16613bcf1a9"
+  },
+  {
+   "key": "55",
+   "label": "55",
+   "heading": "Omisión de su exhibición",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ffa38dec8f39f05e1abe0e244100ac50c9d2924dc743ab12dda69223dc0a6a29"
+  },
+  {
+   "key": "56",
+   "label": "56",
+   "heading": "Remuneraciones. Facultad de los jueces",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1539d95824b5a3395868607c6e5b901e6d0fc23110df67db5fb49a7f85de6b0c"
+  },
+  {
+   "key": "57",
+   "label": "57",
+   "heading": "Intimaciones. Presunción",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "516601a8fea8f5bb4f88dbd825499f985d4cae281e071349d7004633652da6ad"
+  },
+  {
+   "key": "58",
+   "label": "58",
+   "heading": "Renuncia al empleo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e0d00c895327d8946158fd44c067dd2b8a567858f8de6abf6ea022f13bd8d604"
+  },
+  {
+   "key": "59",
+   "label": "59",
+   "heading": "Firma. Impresión digital",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "01f5ef17c37be9714cb29c215493521031f58c028ef8bd07847f8db009d9807c"
+  },
+  {
+   "key": "60",
+   "label": "60",
+   "heading": "Firma en blanco. Invalidez. Modos de oposición",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0727927642392851a9f6ed142906b7bb942aa855532acc27e70bbb52f057b2c8"
+  },
+  {
+   "key": "61",
+   "label": "61",
+   "heading": "Formularios",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VI De la forma y prueba del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b6f006a62b6f85ace7b0ec313005992f9a2de46d6cbfe84da77497710993d0f8"
+  },
+  {
+   "key": "62",
+   "label": "62",
+   "heading": "Obligación genérica de las partes",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0aa8c813fbfd72e2a61feb1d251710221fad97e70051fd3225c237b4856fe378"
+  },
+  {
+   "key": "63",
+   "label": "63",
+   "heading": "Principio de la buena fe",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b8e7b10e1ff15020d7f4411bb326865d39dcf99feeac6969fdd82aebacf2683a"
+  },
+  {
+   "key": "64",
+   "label": "64",
+   "heading": "Facultad de organización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b38a14b3f048e0d04fe593d48430d02b950cca3f8de22841dd88dbbe80e5d329"
+  },
+  {
+   "key": "65",
+   "label": "65",
+   "heading": "Facultad de dirección",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "70aa52f5e1efea8aef85828915b9e925c9f7fa7e3fa73c45e8110c6c47147bc3"
+  },
+  {
+   "key": "66",
+   "label": "66",
+   "heading": "Facultad de modificar las formas y modalidades del trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e4e645aa700061b16cdcdb9c31bc3962edfb7e65c3f9fad083cde57a42e2a2be"
+  },
+  {
+   "key": "67",
+   "label": "67",
+   "heading": "Facultades disciplinarias. Limitación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "5baa5c233a2ff32f0d0c27428a4b1185db4c164748799c7d747805c27ae589f3"
+  },
+  {
+   "key": "68",
+   "label": "68",
+   "heading": "Modalidades de su ejercicio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2611d23d16e0fbdff1bce1b0b6f784465ca3dcd1b51a91fb0c6d63a691c27fae"
+  },
+  {
+   "key": "69",
+   "label": "69",
+   "heading": "Modificación del contrato de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f6e0e3731a65f4bebb3ca5598b748606e2442d0749841b24b3ba73dde6cdccec"
+  },
+  {
+   "key": "70",
+   "label": "70",
+   "heading": "Controles personales",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6e2ba279774fa315cad8f67059bff89795b2fe59e218e2d27fce4c82d27e766b"
+  },
+  {
+   "key": "71",
+   "label": "71",
+   "heading": "Conocimiento",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "5eb631c3a18c02d7d9821efd3a157c0c2d9723cc44514df8b19e665f377f7e65"
+  },
+  {
+   "key": "72",
+   "label": "72",
+   "heading": "Verificación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c7be30403c3b081c5138b4c8bb4ef46940fc19f24fbb7fc7e5eb23266dc787ca"
+  },
+  {
+   "key": "73",
+   "label": "73",
+   "heading": "Prohibición",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "72fcf615e692e1c71dba3ae2a94af9955e4f42ef9e1cd18e156b10ca5fae6e42"
+  },
+  {
+   "key": "74",
+   "label": "74",
+   "heading": "Pago de la remuneración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "62b7d1a6f709fa974cb48fb468035f907b04452b2758b7babc5139b4d0772c82"
+  },
+  {
+   "key": "75",
+   "label": "75",
+   "heading": "Deber de seguridad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1c812b9a6ddbda84304616115d573de3cb00c186f54e110746cab9c1731cef67"
+  },
+  {
+   "key": "76",
+   "label": "76",
+   "heading": "Reintegro de gastos y resarcimiento de daños",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "108af3ae13962b67114b5252e58177f61b873359fb7549f6d4c7ff3483dc3db9"
+  },
+  {
+   "key": "77",
+   "label": "77",
+   "heading": "Deber de protección. Alimentación y vivienda",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9e87a2d7473ec3fc2b84358c2d6044cf35873e156f315186caf17a50ef779def"
+  },
+  {
+   "key": "78",
+   "label": "78",
+   "heading": "Deber de ocupación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "24ffdd96367b08c585139e8a45e1fca210c0abc570bba9cf6d790f2d253a4af2"
+  },
+  {
+   "key": "79",
+   "label": "79",
+   "heading": "Deber de diligencia e iniciativa del empleador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "113426d170bdcea5cf9863e56621fea446f7a41286b71509d49a4d457f50f660"
+  },
+  {
+   "key": "80",
+   "label": "80",
+   "heading": "Deber de observar las obligaciones frente a los organismos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "8f3359efed72a5279c36781c68d1506ac3398e4cc2195dce1eb38920bbc535c9"
+  },
+  {
+   "key": "81",
+   "label": "81",
+   "heading": "Igualdad de trato",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "dd270359eddb4347643ce188e191b72f2769a3e0ceeb71a28231ff4fb9e565f0"
+  },
+  {
+   "key": "82",
+   "label": "82",
+   "heading": "Invenciones del trabajador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "d8aa7fd65f11b387bb02b79afb53c0f6d3bf8bb9c8c65c8b6a2b263a04952c8b"
+  },
+  {
+   "key": "83",
+   "label": "83",
+   "heading": "Preferencia del empleador. Prohibición. Secreto",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6b90439b49f33c132b813be220f7ac1cdc0a246a871b832cec2e7678b3a94bba"
+  },
+  {
+   "key": "84",
+   "label": "84",
+   "heading": "Deberes de diligencia y colaboración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1a14cf483fb4e23dbdade2c66ca58b223a9f52144fa055b4b96aaffaea92a016"
+  },
+  {
+   "key": "85",
+   "label": "85",
+   "heading": "Deber de fidelidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a0892953a6f95b573e3b25e84c3400378784ab0c4b53ddb4035bbca28c1487c2"
+  },
+  {
+   "key": "86",
+   "label": "86",
+   "heading": "Cumplimiento de órdenes e instrucciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "44c282e3222fb7f3eb3271e3395a919370a69a291735dffa9c5f9390516203b0"
+  },
+  {
+   "key": "87",
+   "label": "87",
+   "heading": "Responsabilidad por daños",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2f67a1c7eb7e32f7370f8f53b5831eab9daf3eb9f06b43a8b4a1dbb3ce681338"
+  },
+  {
+   "key": "88",
+   "label": "88",
+   "heading": "Deber de no concurrencia",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9f25d5336aa306246e0971a3b30b6db2bf81c9108f4286f2c21f2399e83bd087"
+  },
+  {
+   "key": "89",
+   "label": "89",
+   "heading": "Auxilios o ayudas extraordinarias",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO II Del contrato de trabajo en general",
+    "CAPITULO VII De los derechos y deberes de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "991fbd037d9d9e63838130b1ee560abf3dfee96e3acb55359082aa632ca8a21b"
+  },
+  {
+   "key": "90",
+   "label": "90",
+   "heading": "Indeterminación del plazo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO I Principios generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "74e862faaec9bc8b32c74315a2b3284e36b06acb6d0822c5c002d643e9931ad4"
+  },
+  {
+   "key": "91",
+   "label": "91",
+   "heading": "Alcance",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO I Principios generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "cb192ba65dbac5037f19311dc6d9e2a886fcab66a244fce45cbfb8781caa2aa6"
+  },
+  {
+   "key": "92",
+   "label": "92",
+   "heading": "Prueba",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO I Principios generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6994c02f079fd34bfe4cf4b5ba30cc88cd2ef168aae9ce405090790a79e9d914"
+  },
+  {
+   "key": "93",
+   "label": "93",
+   "heading": "Duración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO II Del contrato de trabajo a plazo fijo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "dae131b4541b9ee1823b04e7cb5322b24a6e5c53b429f8dadd6f75e050d5acdf"
+  },
+  {
+   "key": "94",
+   "label": "94",
+   "heading": "Deber de preavisar. Conversión del contrato",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO II Del contrato de trabajo a plazo fijo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "84d52bb51ef738d29afa000a8dbea7e9b244ba23ca8ca1faf95246c14ee57764"
+  },
+  {
+   "key": "95",
+   "label": "95",
+   "heading": "Despido antes del vencimiento del plazo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO II Del contrato de trabajo a plazo fijo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ec637729e38797642b59b1a2cddebb71d4cc50b49a0d52dd7b62e94dd9a0d3da"
+  },
+  {
+   "key": "96",
+   "label": "96",
+   "heading": "Caracterización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO III Del contrato de trabajo de temporada"
+   ],
+   "n_notes": 0,
+   "text_sha256": "44af044ad576c7c6af043b1d419a084dac819b143a451e497097004547efdecd"
+  },
+  {
+   "key": "97",
+   "label": "97",
+   "heading": "Equiparación a los contratos a plazo fijo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO III Del contrato de trabajo de temporada"
+   ],
+   "n_notes": 0,
+   "text_sha256": "3ab2f7efdf17b6a110cc1ac9ced30c9508579de65fbfe37faac3115ba8a535fb"
+  },
+  {
+   "key": "98",
+   "label": "98",
+   "heading": "Comportamiento de las partes a la época de la reiniciación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO III Del contrato de trabajo de temporada"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b09caffa1a490f82163d5bec35ab3f6fdf3a7a9f2a5cc2d7e9a89f710dc072e8"
+  },
+  {
+   "key": "99",
+   "label": "99",
+   "heading": "Caracterización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO IV Del contrato de trabajo eventual"
+   ],
+   "n_notes": 0,
+   "text_sha256": "46f0233cb2e902d416144b20d0796bac2d86acf92d2fe58a9e6f078f27c2021f"
+  },
+  {
+   "key": "100",
+   "label": "100",
+   "heading": "Aplicación de la ley. Condiciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO IV Del contrato de trabajo eventual"
+   ],
+   "n_notes": 0,
+   "text_sha256": "809b42b9f3e0c42f3827b9cd6c52745f37203bf2f162bc8ef8d25b91cfa6aa24"
+  },
+  {
+   "key": "101",
+   "label": "101",
+   "heading": "Caracterización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO V Del contrato de trabajo de grupo o por equipo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "701ba130802fe5ca2b9ea41874b32645d9d6ad7f4dc4177b5251f787491081e2"
+  },
+  {
+   "key": "102",
+   "label": "102",
+   "heading": "Trabajo prestado por integrantes de una sociedad. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO III De las modalidades del contrato de trabajo",
+    "CAPITULO V Del contrato de trabajo de grupo o por equipo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "aa4bd95fb435f0169cbc3a6dae58ea504df06b35b70b435a60adb38cd363c728"
+  },
+  {
+   "key": "103",
+   "label": "103",
+   "heading": "Concepto",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6d4cb1a4441fe7b95e2d86274e640af7ac4422c4daabe0e4448dd7f60e889abb"
+  },
+  {
+   "key": "104",
+   "label": "104",
+   "heading": "Formas de determinar la remuneración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "67be7bb3f879631c30e5b93e3caeaa9f4cf183f25d3a4efb5c84e3dbec7866b8"
+  },
+  {
+   "key": "105",
+   "label": "105",
+   "heading": "Formas de pago. Prestaciones complementarias",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "75e98d65bce6395c9862526ae17327cb3e2c453e474f3f9bbf96d42bd9203a1c"
+  },
+  {
+   "key": "106",
+   "label": "106",
+   "heading": "Viáticos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6e348f259a9f0b5cf3434ee1e477201bd87b31a19c2b46424d9258908f1e66bf"
+  },
+  {
+   "key": "107",
+   "label": "107",
+   "heading": "Remuneración en dinero",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "15db062bc99451e8aaf3c1635ca28165360525d917cbe9eb2aab60dfca48a543"
+  },
+  {
+   "key": "108",
+   "label": "108",
+   "heading": "Comisiones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0984a66145edd44d84d236c774160d889c335feebd235e4f9d9dfa64e6e55c93"
+  },
+  {
+   "key": "109",
+   "label": "109",
+   "heading": "Comisiones colectivas o porcentajes sobre ventas. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "35c73e096281e32db06c1f4cef0fff52a3e47f905cadd3c948dce4c0d67402c9"
+  },
+  {
+   "key": "110",
+   "label": "110",
+   "heading": "Participación en las utilidades",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "be2b4c14f4d2b81070c455f1313e409f6dcc88e464e42f55850c1ffbb26f0e22"
+  },
+  {
+   "key": "111",
+   "label": "111",
+   "heading": "Verificación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "7de23632ba4d6cdfafdfe1dd29010b6ab92eb0fc80dc01125d528bd63108041d"
+  },
+  {
+   "key": "112",
+   "label": "112",
+   "heading": "Salarios por unidad de obra",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0b0d8ae011b6ccd8b3552d97e62a7de90d40ea5dab2699bd72a267bab126dd8d"
+  },
+  {
+   "key": "113",
+   "label": "113",
+   "heading": "Propinas",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "72713be3926382dee9e47495766ea5b198e677e3c593d120338f2c11ecce8848"
+  },
+  {
+   "key": "114",
+   "label": "114",
+   "heading": "Determinación de la remuneración por los jueces",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "5c587e578fde610485c7b408eabdf0d72ccc49478002252aafdced1f882e45ad"
+  },
+  {
+   "key": "115",
+   "label": "115",
+   "heading": "Onerosidad. Presunción",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO I Del sueldo o salario en general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "38b0f364e0660b0c9af9269f6732b544156943785ed4e02d53796a731f7a934f"
+  },
+  {
+   "key": "116",
+   "label": "116",
+   "heading": "Concepto",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO II Del salario mínimo vital y móvil"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a3aff2c6972b87faf52dd7bf1e4730306acb6f42d4186c1ddfd1601d8a0839de"
+  },
+  {
+   "key": "117",
+   "label": "117",
+   "heading": "Alcance",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO II Del salario mínimo vital y móvil"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f689750ffd69c7773d2a26fd987e6d5f8e78e0e77597a2f4a18a8f2bd41e2e98"
+  },
+  {
+   "key": "118",
+   "label": "118",
+   "heading": "Modalidades de su determinación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO II Del salario mínimo vital y móvil"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1e5f143b8a94790aca81cdf6a01ab917de0ea63ffd5c3539ea8405bd351ffc39"
+  },
+  {
+   "key": "119",
+   "label": "119",
+   "heading": "Prohibición de abonar salarios inferiores",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO II Del salario mínimo vital y móvil"
+   ],
+   "n_notes": 0,
+   "text_sha256": "935617b411621cde1a0d8ff6c74c613d774d68bc11ba50de8dcf96eb1dd78a5c"
+  },
+  {
+   "key": "120",
+   "label": "120",
+   "heading": "Inembargabilidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO II Del salario mínimo vital y móvil"
+   ],
+   "n_notes": 0,
+   "text_sha256": "39b1f1f5dbb0bb127d3ac1baab7717396669a254d885cb441265142bdaba2022"
+  },
+  {
+   "key": "121",
+   "label": "121",
+   "heading": "Concepto",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO III Del sueldo anual complementario"
+   ],
+   "n_notes": 0,
+   "text_sha256": "598783f646cd7a205539d15669982e1011b2165b77ac96831cf7d6dbc44daf25"
+  },
+  {
+   "key": "122",
+   "label": "122",
+   "heading": "Epocas de pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO III Del sueldo anual complementario"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e401f5b3ba7d58e8bd6d8427e7e4c92c1db022b1f961e70b78ada5442fe7b852"
+  },
+  {
+   "key": "123",
+   "label": "123",
+   "heading": "Extinción del contrato de trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO III Del sueldo anual complementario"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1df6fc16e68bdf940a7da8c9f141ba2feed383d0975b4c7ada6f839eab03da4b"
+  },
+  {
+   "key": "124",
+   "label": "124",
+   "heading": "Medios de pago. Control. Ineficacia de los pagos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "fb66d3b9ef7ed5f587f0aa2844c2d4026406bc24b5a200eef873bd7f612334ab"
+  },
+  {
+   "key": "125",
+   "label": "125",
+   "heading": "Constancias bancarias. Prueba de pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "14627f2f30b9c2d99d78dd56d1af0a38d5635ade311db9ba07adb758995b77b0"
+  },
+  {
+   "key": "126",
+   "label": "126",
+   "heading": "Períodos de pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "dba9cb1210efc7b9540a10c006f9edc3eeab472058ab17e54d96d057cb7de76e"
+  },
+  {
+   "key": "127",
+   "label": "127",
+   "heading": "Remuneraciones accesorias",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a4f59822d80ca2a1c299e4d3d82da17fec4e63f5fd43a6a6c8646b15b07c8af0"
+  },
+  {
+   "key": "128",
+   "label": "128",
+   "heading": "Plazo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "8a7f4f90460c88b092c0ce9b03f88fc8e1ca71e09661c68e658ef1b5f266efab"
+  },
+  {
+   "key": "129",
+   "label": "129",
+   "heading": "Días, horas y lugares de pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f8d60f71cf2ac0fc8a40f9fc3e7465ac4f80fa1cd95554d4ceee516ddd1ca1f7"
+  },
+  {
+   "key": "130",
+   "label": "130",
+   "heading": "Adelantos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ef1637be6b2faecd43d8b151dd5a89bb1e1164ab49bfeeccb78d47e818cc970e"
+  },
+  {
+   "key": "131",
+   "label": "131",
+   "heading": "Retenciones. Deducciones y compensaciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "94b0a8111ede4446c86580001a69c4002faa20e5be4100092ac60dfdc856d1f1"
+  },
+  {
+   "key": "132",
+   "label": "132",
+   "heading": "Excepciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "7f68cf816a35ad1a315ecbcda37eac5f1e20311b43fa5da74f1c705500f613ec"
+  },
+  {
+   "key": "133",
+   "label": "133",
+   "heading": "Porcentaje máximo de retención",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f3f05ebf3535b34a8f7d285d48e9c9f234460d530941c37894884b1598b36ede"
+  },
+  {
+   "key": "134",
+   "label": "134",
+   "heading": "Otros recaudos. Control",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "61e427f0fbfcaa0f85f8e55a3dcfd45160517876c152118033bb09f7577958ff"
+  },
+  {
+   "key": "135",
+   "label": "135",
+   "heading": "Daños graves e intencionales. Caducidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a5edc73ce62d244dbf9b9b59c337c6575db8bd2130cb992ecb945c677da42633"
+  },
+  {
+   "key": "136",
+   "label": "136",
+   "heading": "Contratistas e intermediarios",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "827118acfbf8da7d66ac4d865951ae0416fbb9a4baadb45f5ab78fa5f6cc0907"
+  },
+  {
+   "key": "137",
+   "label": "137",
+   "heading": "Mora",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "52876062cc507045ec1f1566af6bcb98120c3edaf27b628ead78d75805863330"
+  },
+  {
+   "key": "138",
+   "label": "138",
+   "heading": "Recibos y otros comprobantes de pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "849f1227cb5d8b93b603bb9a938e68f6e9205200f84cb7edb75c88b5244f0e4f"
+  },
+  {
+   "key": "139",
+   "label": "139",
+   "heading": "Doble ejemplar",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "33aca397d8bc05734696d6e4fccd05ab5433cc2e88b36e4730971b3d8ca7532c"
+  },
+  {
+   "key": "140",
+   "label": "140",
+   "heading": "Contenido necesario",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "8549ab5452433f709e955166fba4454af8c02979a5a0de3bab8769b47f2eca3e"
+  },
+  {
+   "key": "141",
+   "label": "141",
+   "heading": "Recibos separados",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "7fee96d9600c044ecb53208fc8b8b23964cc4a8c6e2f8499d82edb81b9565231"
+  },
+  {
+   "key": "142",
+   "label": "142",
+   "heading": "Validez probatoria",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "39296ec7107579b4453de5614261f6cbaa85be3cbb0781c5ccf6fdc71e266a37"
+  },
+  {
+   "key": "143",
+   "label": "143",
+   "heading": "Conservación. Plazo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "3c09ab8d797db0446192e1182b0970a9d0749549c31d772664aa144ee4aacb67"
+  },
+  {
+   "key": "144",
+   "label": "144",
+   "heading": "Libros y registros. Exigencia del recibo de pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e9588b92c7be3ff551b9004fa06a43f9ffdd1ca8295b12744c5ca485c0985eaf"
+  },
+  {
+   "key": "145",
+   "label": "145",
+   "heading": null,
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "083dbbed63a19fda2b1019814a897d1181325f21251078fa4daa2a6b838914d2"
+  },
+  {
+   "key": "146",
+   "label": "146",
+   "heading": "Recibos y otros comprobantes de pago especiales",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2c431770b2f528065041583ba7491b61e31b0fe2271668b6cceade45cb349f78"
+  },
+  {
+   "key": "147",
+   "label": "147",
+   "heading": "Cuota de embargabilidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4d4a141873aca8f1ac43f5cb948cdbc4da2dd8b6b8a1238bf21b029e9451b9e2"
+  },
+  {
+   "key": "148",
+   "label": "148",
+   "heading": "Cesión",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "57f8cd2d4b379083a030a25d14f0c2e8bc1e897c6508eb3830172f6b1f0c100c"
+  },
+  {
+   "key": "149",
+   "label": "149",
+   "heading": "Aplicación al pago de indemnizaciones u otros beneficios. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IV De la remuneración del trabajador",
+    "CAPITULO IV De la tutela y pago de la remuneración"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0bab9c2b4924927216ec47147fe69f020eba3722c328e58b00ec01f67375b6c9"
+  },
+  {
+   "key": "150",
+   "label": "150",
+   "heading": "Licencia ordinaria",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4ddee91b9d000f8b2a9d0cf318e1b7599163d559c09cf6b79daaa0e3276b8273"
+  },
+  {
+   "key": "151",
+   "label": "151",
+   "heading": "Requisitos para su goce. Comienzo de la licencia",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "36cf885b1e736db257142cea6af1b38790df1f11ccd705f262dd55d12740df97"
+  },
+  {
+   "key": "152",
+   "label": "152",
+   "heading": "Tiempo trabajado. Su cómputo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "33b174e66e4156b60ea9023c8a9c29912ed28364def75c9859778b6cd20b19d9"
+  },
+  {
+   "key": "153",
+   "label": "153",
+   "heading": "Falta de tiempo mínimo. Licencia proporcional",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "fe593f61576e93dd8cd138455a4a61fb95ed89c0523fcc94e9e89cb0ddb4cfd4"
+  },
+  {
+   "key": "154",
+   "label": "154",
+   "heading": "Epoca de otorgamiento. Comunicación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "558a573f758a8b31f396565f6472c7e919f319e4a6c29f232f1eebed28dfce70"
+  },
+  {
+   "key": "155",
+   "label": "155",
+   "heading": "Retribución",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "488df1501314f84214eeb6557e9137c16b784109c3e04bb7a06e968936035c00"
+  },
+  {
+   "key": "156",
+   "label": "156",
+   "heading": "Indemnización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e20c906ba85a6a83696892a992de14db6f7d5a83ea857e24a6246d86c933aca6"
+  },
+  {
+   "key": "157",
+   "label": "157",
+   "heading": "Omisión del otorgamiento",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO I Régimen general"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f3c69b47c37e2cc69d6af41f53f317388a180fee7563b003f12beab3cfec139a"
+  },
+  {
+   "key": "158",
+   "label": "158",
+   "heading": "Clases",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO II Régimen de las licencias especiales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "578aa747c5b1ca43b8aa26ad937261cf03b4f5ef1347594c024d27116c24d8f1"
+  },
+  {
+   "key": "159",
+   "label": "159",
+   "heading": "Salario. Cálculo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO II Régimen de las licencias especiales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2f8e1acf07b480eaea89385238ad9447fcf88b3c08f86b38d580ef4cf533b068"
+  },
+  {
+   "key": "160",
+   "label": "160",
+   "heading": "Día hábil",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO II Régimen de las licencias especiales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9db45d750e02fd20f5b8e29f037f40e6cf420e5b5b8b3b8a0af66d1dc936dfaa"
+  },
+  {
+   "key": "161",
+   "label": "161",
+   "heading": "Licencia por exámenes. Requisitos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO II Régimen de las licencias especiales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "094976c2f4facbe5b159e4da89bb9567347ad22a076caccf0ba0e3bc1cafdd83"
+  },
+  {
+   "key": "162",
+   "label": "162",
+   "heading": "Compensación en dinero. Prohibición",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO III Disposiciones comunes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6a011562c8e5b3ccbc7907368c9c21221db7e448c5e8f4a53769dc773c25a550"
+  },
+  {
+   "key": "163",
+   "label": "163",
+   "heading": "Trabajadores de temporada",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO III Disposiciones comunes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "210cb2dcafa58c6b8cc59bc15ba6c5ad97e423023df0cdad3db9c6983cc09ef7"
+  },
+  {
+   "key": "164",
+   "label": "164",
+   "heading": "Acumulación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO V De las vacaciones y otras licencias",
+    "CAPITULO III Disposiciones comunes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0ca7fdaa954d4de3a79e1146bfa629a3d277c250280436f3cc3e7f481b6cb8f4"
+  },
+  {
+   "key": "165",
+   "label": "165",
+   "heading": null,
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "45dcf8a73124df812862651749e1dd1d22a72e56491310ea7f2410f7c807ad02"
+  },
+  {
+   "key": "166",
+   "label": "166",
+   "heading": "Aplicación de las normas sobre descanso semanal. Salario",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ded02115ea5c0bb4bfd4805d3c5abecccff8eafe3e17f9d0fb34d3eb13160780"
+  },
+  {
+   "key": "167",
+   "label": "167",
+   "heading": "Días no laborables. Opción",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f0443b052fac77cf81877cfb081167b8fd70b0df21f3a1303ee015c967e037f7"
+  },
+  {
+   "key": "168",
+   "label": "168",
+   "heading": "Condiciones para percibir el salario",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "50fb62416041afaaec5ef3bba8773460a8419477a6ae001a18e2c73a3ce89b85"
+  },
+  {
+   "key": "169",
+   "label": "169",
+   "heading": "Salario. Su determinación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9719e79a76a67dbc11558c2b075a58c7091315fac92f4f5a26d83b0be4f568ac"
+  },
+  {
+   "key": "170",
+   "label": "170",
+   "heading": "Caso de accidente o enfermedad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6badc50f761becac79132f538224390f8ff7ff297735963ed41c3b88d81e2b36"
+  },
+  {
+   "key": "171",
+   "label": "171",
+   "heading": "Trabajo a domicilio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VI De los feriados obligatorios y días no laborables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6484ab7a53f5509d70e7d0c2de8029c4f89e3d67d9821ec5808490c5f353c39d"
+  },
+  {
+   "key": "172",
+   "label": "172",
+   "heading": "Capacidad. Prohibición de trato discriminatorio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO I Disposiciones generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c26a1685a051dbddc88e55948f73aa45c3ed1dd0321ead174a9e4f6764eaa6f1"
+  },
+  {
+   "key": "173",
+   "label": "173",
+   "heading": "Trabajo nocturno. Espectáculos públicos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO I Disposiciones generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a043265cf31ee245323068fa3341a22f7218315be7c2c6df95e5d27bbc4ad1c6"
+  },
+  {
+   "key": "174",
+   "label": "174",
+   "heading": "Descanso al mediodía",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO I Disposiciones generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "8bf457c61a7e23510e769970dd3e6ffc8e773e7ca0f22f8592e8a68e7d787a72"
+  },
+  {
+   "key": "175",
+   "label": "175",
+   "heading": "Trabajo a domicilio. Prohibición",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO I Disposiciones generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9865cee369af393a437fe6247238402a5ed920131e6cd3495f11da622edbe8ce"
+  },
+  {
+   "key": "176",
+   "label": "176",
+   "heading": "Tareas penosas, peligrosas o insalubres. Prohibición. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO I Disposiciones generales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "aaaaefc8a99c062a41d809781a6eccfc8363099c78e897bdeaf68edf6fd44639"
+  },
+  {
+   "key": "177",
+   "label": "177",
+   "heading": "Prohibición de trabajar. Conservación del empleo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO II De la protección de la maternidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9ff2d6a41ba629b4736e25d473190eefe44d603404d890a86bda4d1e14a5af8c"
+  },
+  {
+   "key": "178",
+   "label": "178",
+   "heading": "Despido por causa del embarazo. Presunción",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO II De la protección de la maternidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "bff4987d78099c2e0089e7bec0115595484855a997c57ec296cc84f7f8bf5864"
+  },
+  {
+   "key": "179",
+   "label": "179",
+   "heading": "Descanso diarios por lactancia",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO II De la protección de la maternidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9293bc17fa8cb33c0e2ef9b44103c8283fa96d04342084ff0bda943126cd6d0d"
+  },
+  {
+   "key": "180",
+   "label": "180",
+   "heading": "Nulidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO III De la prohibición del despido por causa de matrimonio"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a4bbd2d5a74f43c6b291042dde0ab6b013ea5fc143d1d1074b1d02f631e0e3b1"
+  },
+  {
+   "key": "181",
+   "label": "181",
+   "heading": "Presunción",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO III De la prohibición del despido por causa de matrimonio"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e981cd55695a2c26315ef6966108d541c2819487ca9ff0ca9b09b609a6257439"
+  },
+  {
+   "key": "182",
+   "label": "182",
+   "heading": "Indemnización especial",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO III De la prohibición del despido por causa de matrimonio"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c1de91305d004e45cc84ec90147285c9136ef6cac479fd7e25f35ddf4f127aa8"
+  },
+  {
+   "key": "183",
+   "label": "183",
+   "heading": "Distintas situaciones. Opción en favor de la mujer",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO IV Del estado de excedencia"
+   ],
+   "n_notes": 0,
+   "text_sha256": "febf9f3643cd108d5e094cdc11725846fb8a51b1df0d24da8f2367212ee8f4e5"
+  },
+  {
+   "key": "184",
+   "label": "184",
+   "heading": "Reingreso",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO IV Del estado de excedencia"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0a2fc949b97e140492b1c5551e5292c94d7a93d762a00b70da9879573afd76e1"
+  },
+  {
+   "key": "185",
+   "label": "185",
+   "heading": "Requisito de antigüedad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO IV Del estado de excedencia"
+   ],
+   "n_notes": 0,
+   "text_sha256": "fc199627cc1f5a3965db4500b5bd0adc3a01f96dc6fd5772ef25043e8251680e"
+  },
+  {
+   "key": "186",
+   "label": "186",
+   "heading": "Opción tácita",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VII Trabajo de mujeres",
+    "CAPITULO IV Del estado de excedencia"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e0e4aada3decbe15c3c6b40e5f38eee65c8577e591b54bae7b95e5c6ca1807b3"
+  },
+  {
+   "key": "187",
+   "label": "187",
+   "heading": "Disposiciones generales. Capacidad. Igualdad de",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e98e8f8848e34b8d1f252245d2ce4afb44e21f4f9c2b974e24a6ecf5d2725cc6"
+  },
+  {
+   "key": "188",
+   "label": "188",
+   "heading": "Certificado de aptitud física",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4fd38d93b7ad3fde1765ec7e5380950aed41054f10619f9f940bbc127126206f"
+  },
+  {
+   "key": "189",
+   "label": "189",
+   "heading": null,
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "23ef8cbdcc6229b4e5088db4e9e35b9fab2f34e4d01731bdc78c51a4d589b9d5"
+  },
+  {
+   "key": "190",
+   "label": "190",
+   "heading": "Jornada de trabajo. Trabajo nocturno",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1dd53c5ed75dee076c174251dd95ed70a8da76d8596d9f3f746194afe3993ae9"
+  },
+  {
+   "key": "191",
+   "label": "191",
+   "heading": "Descanso al mediodía. Trabajo a domicilio. Tareas penosas,",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "880ae6a9467bf135c195f6787b2dd418f67ee4a44942f6234b9da83b2b771442"
+  },
+  {
+   "key": "192",
+   "label": "192",
+   "heading": "Ahorro",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c0e516ed0637c383e556813ca918e3d3c22accb3505d334fe3b86d003b56a457"
+  },
+  {
+   "key": "193",
+   "label": "193",
+   "heading": "Importe a depositar. Comprobación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "881fd341ec47a4cef358691204603c14c4da9f81a3ddea5dbbdabf8e94d5e71f"
+  },
+  {
+   "key": "194",
+   "label": "194",
+   "heading": "Vacaciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "55b7834d38c3de96968302a13a02a4ec69633f8c5939ca1a91fcc38bf77abd57"
+  },
+  {
+   "key": "195",
+   "label": "195",
+   "heading": "Accidente o enfermedad. Presunción de culpa del empleador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO VIII Del trabajo de los menores"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2b8cb1db3f49ea690fbb99b7d5014cf95c05f20f15cf18f1e5425bfbb7ed731e"
+  },
+  {
+   "key": "196",
+   "label": "196",
+   "heading": "Determinación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "176284f574cfd897fa6c090411175a8305d262c4359cfb5eca5da372da16ab48"
+  },
+  {
+   "key": "197",
+   "label": "197",
+   "heading": "Concepto. Distribución del tiempo de trabajo. Limitaciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "cf8bbc75e29091333f2353645ecd8affb803c28d9283ec4d0fbb78e727798b45"
+  },
+  {
+   "key": "198",
+   "label": "198",
+   "heading": "Jornada reducida",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "d2669f90a2e5cf680a85a3c721a61716b51fae483f6c75cd642cc34c0a0d65b4"
+  },
+  {
+   "key": "199",
+   "label": "199",
+   "heading": "Límite máximo. Excepciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "12ad416b5b58a40bd6dd3f8cb1e2d624da3bc7ebf43fc0fe35fddd453c2d6295"
+  },
+  {
+   "key": "200",
+   "label": "200",
+   "heading": "Trabajo nocturno e insalubre",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "eba8a6f178cec149f9e907af84072f1e2318b920187c9ee4202936b5796f6270"
+  },
+  {
+   "key": "201",
+   "label": "201",
+   "heading": "Horas suplementarias",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "31f60b2dd24f11c7898a5a807f316a065d82adc95e93251d80a425a6d49710cb"
+  },
+  {
+   "key": "202",
+   "label": "202",
+   "heading": "Trabajo por equipos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "42f39fe102d256138f121300d0b3aa5fba04042c0d068e32745b1a3877c38f93"
+  },
+  {
+   "key": "203",
+   "label": "203",
+   "heading": "Obligación de prestar servicios en horas suplementarias. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO I Jornada de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "66ef6aee16497cb960d2aa298a98054fb5994582ec63b64f0d66aa8c0b25f5a7"
+  },
+  {
+   "key": "204",
+   "label": "204",
+   "heading": "Prohibición de trabajar",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO II Del descanso semanal"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ee79cdbb2364f32d5b5454988e1811fee84b296174efd708e2e3d8ec051db0a6"
+  },
+  {
+   "key": "205",
+   "label": "205",
+   "heading": "Salarios",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO II Del descanso semanal"
+   ],
+   "n_notes": 0,
+   "text_sha256": "321a4db2c493076fac28261768faf46fd9900ec0d31a83bf6d8725026348e90a"
+  },
+  {
+   "key": "206",
+   "label": "206",
+   "heading": "Excepciones. Exclusión",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO II Del descanso semanal"
+   ],
+   "n_notes": 0,
+   "text_sha256": "87bf4eed9c7a65ecdfd0c4d5145eef2a18cc711e2542ffb989bc3174f87fce13"
+  },
+  {
+   "key": "207",
+   "label": "207",
+   "heading": "Salarios por días de descansos no gozados",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO IX De la duración del trabajo y descanso semanal",
+    "CAPITULO II Del descanso semanal"
+   ],
+   "n_notes": 0,
+   "text_sha256": "06e4137be10af1f80e61db0a8cad0f6c33d95215a8f45eeac565f919a1b9e345"
+  },
+  {
+   "key": "208",
+   "label": "208",
+   "heading": "Plazo. Remuneración",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO I De los accidentes y enfermedades inculpables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "8b4442b019d8becb9386f7c9c5f6dff9e367e53942718e167f85e0ff55c5409e"
+  },
+  {
+   "key": "209",
+   "label": "209",
+   "heading": "Aviso al empleador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO I De los accidentes y enfermedades inculpables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1ecd139699dfc99fa9c6e4f7b5ca2ac8e6531de7d3e9da36d42589174f8f17fd"
+  },
+  {
+   "key": "210",
+   "label": "210",
+   "heading": "Control",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO I De los accidentes y enfermedades inculpables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f6436018174bf9edd0123a87d54df72b78b523ccbc4d89af2598c979c54c7a0f"
+  },
+  {
+   "key": "211",
+   "label": "211",
+   "heading": "Conservación del empleo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO I De los accidentes y enfermedades inculpables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "3231b80cbd80265cb98b50d4b1c9b1239cca2f1751be902d3920387665af7d30"
+  },
+  {
+   "key": "212",
+   "label": "212",
+   "heading": "Reincorporación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO I De los accidentes y enfermedades inculpables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "aff20c847326f04ca30f7889cf42135b274253a16065950b759327603384eb9f"
+  },
+  {
+   "key": "213",
+   "label": "213",
+   "heading": "Despido del trabajador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO I De los accidentes y enfermedades inculpables"
+   ],
+   "n_notes": 0,
+   "text_sha256": "eef20bfbe9b944d4610b9fecf70306ccc51a0db8c8f61e06afca0a7e2e316cbc"
+  },
+  {
+   "key": "214",
+   "label": "214",
+   "heading": "Reserva del empleo. Cómputo como tiempo de servicio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO II Servicio militar y convocatorias especiales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1f9dc318310a5041d496073068d2bf98856c25d0a6385fe36c39501365e4fbb7"
+  },
+  {
+   "key": "215",
+   "label": "215",
+   "heading": "Reserva del empleo. Cómputo como tiempo de servicio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO III Del desempeño de cargos electivos"
+   ],
+   "n_notes": 0,
+   "text_sha256": "18fde3a58cfd75debb86c053c8bc2a2adf330c5dc291e4f8ffa7ec5c56ab43ba"
+  },
+  {
+   "key": "216",
+   "label": "216",
+   "heading": "Despido o no reincorporación del trabajador",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO III Del desempeño de cargos electivos"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ecce9ab6a97df3c83cf361be6a61cfbd098eadbea8a91f3005885d423376991d"
+  },
+  {
+   "key": "217",
+   "label": "217",
+   "heading": "Reserva del empleo. Cómputo como tiempo de servicio. Fuero",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO IV Del desempeño de cargos electivos o"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1b32778f183bf2b407798be23cfa17a5fa40fcda35de8fef2f3a05af57faf264"
+  },
+  {
+   "key": "218",
+   "label": "218",
+   "heading": "Requisitos de su validez",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "829fb63a51719de000c6a75b3703ff7e36805039b74093f868e02f6101a00fbc"
+  },
+  {
+   "key": "219",
+   "label": "219",
+   "heading": "Justa causa",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "19b0eebbc2007e8048e20437b0e0f28a4bef2bc08f7545674c448dcf6c0f9019"
+  },
+  {
+   "key": "220",
+   "label": "220",
+   "heading": "Plazo máximo. Remisión",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c9416bd832fe94fa5432ea77a071326ba1ac14ac09d744a52fc97d145de62d25"
+  },
+  {
+   "key": "221",
+   "label": "221",
+   "heading": "Fuerza mayor",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9f1976a26b7f43fa73400d89dd467fcbd19197853b66a5216e42fe34058230dd"
+  },
+  {
+   "key": "222",
+   "label": "222",
+   "heading": "Situación de despido",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "29a402103a4fcf4ae7fb1dfc57d8666ba51b9fa4a520c86f9bfe82ecd5a2163d"
+  },
+  {
+   "key": "223",
+   "label": "223",
+   "heading": "Salarios de suspensión",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b2e784da63d38efebe2217dc969c563adccd4860e16d4a33edb7536844bc9166"
+  },
+  {
+   "key": "224",
+   "label": "224",
+   "heading": "Suspensión preventiva. Denuncia del empleador y de",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
+    "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2f49d2a1af9199278bb27d9d468ae817007c579336eb269677ac9bbeac756e95"
+  },
+  {
+   "key": "225",
+   "label": "225",
+   "heading": "Transferencia del establecimiento",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XI De la transferencia del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "5b70d2bbd186b1813634c3ce8bba5506a0ff86015f885742df6cb2906e91af9a"
+  },
+  {
+   "key": "226",
+   "label": "226",
+   "heading": "Situación de despido",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XI De la transferencia del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "3af0c29bbcd039cd06ebd00cba54da4e388818cfaee9822da2f30e68a16ec24d"
+  },
+  {
+   "key": "227",
+   "label": "227",
+   "heading": "Arrendamiento o cesión transitoria del establecimiento. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XI De la transferencia del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "98f1cc5963a77ce42d5157de06e8bbe672277a337a71dbb5abf09aa75bf95e2a"
+  },
+  {
+   "key": "228",
+   "label": "228",
+   "heading": "Solidaridad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XI De la transferencia del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "5eba8e743a521574f3692fbb25c6916d47f369f70c99640724b1bcd1036809f6"
+  },
+  {
+   "key": "229",
+   "label": "229",
+   "heading": "Cesión del personal",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XI De la transferencia del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "524e17c895d16f12bc7187112ceaf9c25c1d05e5b7c5a003f35f4a647a3dc2fc"
+  },
+  {
+   "key": "230",
+   "label": "230",
+   "heading": "Transferencia a favor del Estado",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XI De la transferencia del contrato de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "aa8f0f8bde1da1c06c0893ef569a9beff8437ace65426f793d1248ba121bcec7"
+  },
+  {
+   "key": "231",
+   "label": "231",
+   "heading": "Plazos",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "398d35862d0fea1eca6ebaf441e3b894ec0fff8caa9857365c50520def7f63a2"
+  },
+  {
+   "key": "232",
+   "label": "232",
+   "heading": "Indemnización sustitutiva",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "61e8211426a672d40245f34b25d6af9e685b43eb8ded57f7996e8bd284fcfeb3"
+  },
+  {
+   "key": "233",
+   "label": "233",
+   "heading": "Comienzo del plazo. Integración de la indemnización con los",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "14b115bb46a34d966a94fbc9f37d8c35ccad75424fa1e18edce865fb7656a209"
+  },
+  {
+   "key": "234",
+   "label": "234",
+   "heading": "Retractación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "287c0929d552e21da8e31d283a987a3db338d57964290ba74b746a8831b1c0fc"
+  },
+  {
+   "key": "235",
+   "label": "235",
+   "heading": "Prueba",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "eef2ce9865d9c0e5f5acf32990915c57963b4cf8ae5f30f8724e1f7b2f9da469"
+  },
+  {
+   "key": "236",
+   "label": "236",
+   "heading": "Extinción. Renuncia al plazo faltante. Eximición de la",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2b7f21d1dc84a3720ddf7239226c0a19336e95e5485fb34e717777a81e80334c"
+  },
+  {
+   "key": "237",
+   "label": "237",
+   "heading": "Licencia diaria",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a98767ce57cb0d6192aa04f441af9b449f78de5d3b879047c4535242f5374279"
+  },
+  {
+   "key": "238",
+   "label": "238",
+   "heading": "Obligaciones de las partes",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6ea864a910f6021e3c1348d448f4d0049412f67b32a4c817aa5681660ff1a1cf"
+  },
+  {
+   "key": "239",
+   "label": "239",
+   "heading": "Eficacia",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO I Del preaviso"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1c5aaa99300e6c955d786db2ba18d0ea9a1d9dc3ecb3c476672dd8a994e4015a"
+  },
+  {
+   "key": "240",
+   "label": "240",
+   "heading": "Forma",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO II De la extinción del contrato de trabajo por renuncia del trabajador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0a86c3f51c7e2d1b32a3641d08767169f919089dc25196bcefbc9b70875eba6e"
+  },
+  {
+   "key": "241",
+   "label": "241",
+   "heading": "Formas y modalidades",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO III De la extinción del contrato de trabajo por voluntad concurrente de las partes"
+   ],
+   "n_notes": 0,
+   "text_sha256": "e641efc8e003dae1cbe4fcf662eb03cdd7b9edb13576e50f5aa0b40cbf2f4fad"
+  },
+  {
+   "key": "242",
+   "label": "242",
+   "heading": "Justa causa",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1dbc111b84c46c589a14dbd4ba150c62603fa06a95228a734e6eadace7ac40a2"
+  },
+  {
+   "key": "243",
+   "label": "243",
+   "heading": "Comunicación. Invariabilidad de la causa de despido",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
+   ],
+   "n_notes": 0,
+   "text_sha256": "ee04c60bcc5dcf6953776a076850d8f81466987c41f9e1f1410fca5d5eea560a"
+  },
+  {
+   "key": "244",
+   "label": "244",
+   "heading": "Abandono del trabajo",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
+   ],
+   "n_notes": 0,
+   "text_sha256": "d4205f49987844943962bed93d427cd461ab78e2f5ef46f260ed3fc259ce813f"
+  },
+  {
+   "key": "245",
+   "label": "245",
+   "heading": "Indemnización por antigüedad o despido",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4968741146585943ed151e33827ca02f6e1ac71035fab04f1d17e7b7c3d9baed"
+  },
+  {
+   "key": "246",
+   "label": "246",
+   "heading": "Despido indirecto",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
+   ],
+   "n_notes": 0,
+   "text_sha256": "c6844a935bf37977d2903804ed8a347708e1b966cdf66193827dac33285e213e"
+  },
+  {
+   "key": "247",
+   "label": "247",
+   "heading": "Monto de la indemnización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO V De la extinción del contrato de trabajo por fuerza mayor o por falta o disminución de trabajo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "334be9421fecdd5fed19c0a83e227e97af2d92203d8df019b230323ae32fd1e8"
+  },
+  {
+   "key": "248",
+   "label": "248",
+   "heading": "Indemnización por antigüedad. Monto. Beneficiarios",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO VI De la extinción del contrato de trabajo por muerte del trabajador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f88f2231daa68bd4468cf53f3ba346713aaf15e22e01f9bbf3367a9a75f5d844"
+  },
+  {
+   "key": "249",
+   "label": "249",
+   "heading": "Condiciones. Monto de la indemnización",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO VII De la extinción del contrato de trabajo por muerte del empleador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b8b8bbd615f3b310a96a6287e56b487d8e9283d820f6e69cec1e5d55499d67dc"
+  },
+  {
+   "key": "250",
+   "label": "250",
+   "heading": "Monto de la indemnización. Remisión",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO VIII De la extinción del contrato de trabajo por vencimiento del plazo"
+   ],
+   "n_notes": 0,
+   "text_sha256": "88b34ef97760aefbc1bf57d02f7520e7b369ab95cf7eed4948b44d23c721129b"
+  },
+  {
+   "key": "251",
+   "label": "251",
+   "heading": "Calificación de la conducta del empleador. Monto de la",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO IX De la extinción del contrato de trabajo por quiebra o concurso del empleador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b62ee938663f3008cb8f24a4aed7e6b4716252d08ffb1d65089986c353478da3"
+  },
+  {
+   "key": "252",
+   "label": "252",
+   "heading": "Intimación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO X De la extinción del contrato de trabajo por jubilación del trabajador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1195a83e759b6236d27a8e8dee4a2325c7abd427dac8c96394983a0286b27e04"
+  },
+  {
+   "key": "253",
+   "label": "253",
+   "heading": "Trabajador jubilado",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO X De la extinción del contrato de trabajo por jubilación del trabajador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "62c989aa796df09b8a70571a19cf70d259ec248bba0c4ced01b15b720a99a226"
+  },
+  {
+   "key": "254",
+   "label": "254",
+   "heading": "Incapacidad e inhabilidad. Monto de la indemnización. —",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO XI De la extinción del contrato de trabajo por incapacidad o inhabilidad del trabajador"
+   ],
+   "n_notes": 0,
+   "text_sha256": "8107f201961d42725173b869f2f341252d7574297f1c835a411bb3bde17141cc"
+  },
+  {
+   "key": "255",
+   "label": "255",
+   "heading": "Reingreso del trabajador. Deducción de las Indemnizaciones",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XII De la extinción del contrato de trabajo",
+    "CAPITULO XII Disposición común"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b721e40794dff790f0aafde06919d407d0a9bd37a9a3ac439d09e3a9497e1c03"
+  },
+  {
+   "key": "256",
+   "label": "256",
+   "heading": "Plazo común",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIII De la prescripción y caducidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "051e5bd177a3258927d1dbb5778d315d586c5a8704cc820752e243870549ae8b"
+  },
+  {
+   "key": "257",
+   "label": "257",
+   "heading": "Interrupción por actuaciones administrativas",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIII De la prescripción y caducidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "3c7901b15effb82ae7405590d695a9bdaf5bce7bf20e595b69b298e2a287b1dc"
+  },
+  {
+   "key": "258",
+   "label": "258",
+   "heading": "Accidentes y enfermedades profesionales",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIII De la prescripción y caducidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f22a4b9b8de78f66fabc5a73cd8d6b609103d179aa3e9722456378b8acf894ee"
+  },
+  {
+   "key": "259",
+   "label": "259",
+   "heading": "Caducidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIII De la prescripción y caducidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "19bb09c7f0a9b0f45b73d4449896dadce26b48edf8da8af3e4134d88454992b4"
+  },
+  {
+   "key": "260",
+   "label": "260",
+   "heading": "Pago insuficiente",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIII De la prescripción y caducidad"
+   ],
+   "n_notes": 0,
+   "text_sha256": "f4c381e4c6c55646d6a6d5c50857b08d519dd2a5c925fe0660efe98279266f50"
+  },
+  {
+   "key": "261",
+   "label": "261",
+   "heading": "Alcance",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "00fce9ea4b8401b9419c1b4df9f57ee56a953d93ae50ea3e1ff09a939f601c37"
+  },
+  {
+   "key": "262",
+   "label": "262",
+   "heading": "Causahabientes",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "6df71521360b29157cee1f5bea7b662bc081d94b50ac82591dc9aa1895ebba4a"
+  },
+  {
+   "key": "263",
+   "label": "263",
+   "heading": "Acuerdos conciliatorios o liberatorios",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "4e54c41d430d06c065503137a8a14fadceb7b8201a236988168874a2091fbee7"
+  },
+  {
+   "key": "264",
+   "label": "264",
+   "heading": "Irrenunciabilidad",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "90bc9a702c75496107eb3c4bb372bd529a3b80a1384b8b5ce6a8fd69183f2a38"
+  },
+  {
+   "key": "265",
+   "label": "265",
+   "heading": "Exclusión del fuero de atracción",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "9d73036b31b391f672c80edf56cd0306fb056b82ac631f5b913c6223fdf3d84f"
+  },
+  {
+   "key": "266",
+   "label": "266",
+   "heading": "Derecho de pronto pago",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1cc7fa8e75d5f7766be277c4ec15a9e3d107bb161d6c8900fa7e64e53a32e555"
+  },
+  {
+   "key": "267",
+   "label": "267",
+   "heading": "Continuación de la empresa",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO I De la preferencia de los créditos laborales"
+   ],
+   "n_notes": 0,
+   "text_sha256": "1248b93cde00d1fc53e6601d01390df03de37e757542cb4f81aaf87c27ff7d9e"
+  },
+  {
+   "key": "268",
+   "label": "268",
+   "heading": "Privilegios especiales",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "00526252c7019b644d9501dfabb7ca0b2f8e36babce13e78652ceb835f630e86"
+  },
+  {
+   "key": "269",
+   "label": "269",
+   "heading": "Bienes en poder de terceros",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "a1c9f30300f2ac9961d35f0ff390ad58dc2f039f1d3d7e22c94b8e805ea915f9"
+  },
+  {
+   "key": "270",
+   "label": "270",
+   "heading": "Preferencia",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "0ce11746b99732ae7d793b816d874d2e913e146b578b207594b334cd5a445572"
+  },
+  {
+   "key": "271",
+   "label": "271",
+   "heading": "Obras y construcciones. Contratistas",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "38a1434b6711aa65a49fd68dbe2cdc8b2af5c0e9ed3c8acd99ae2cd9468c6a68"
+  },
+  {
+   "key": "272",
+   "label": "272",
+   "heading": "Subrogación",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b982bd9b9d5ff75a1a20ff667589af6617a93f614aad3c03f8cb9427837d58ff"
+  },
+  {
+   "key": "273",
+   "label": "273",
+   "heading": "Privilegios generales",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "769d83d838a47421bc4904780e2404b07c2826514bcf07c7baab9a1a2dc3ebf4"
+  },
+  {
+   "key": "274",
+   "label": "274",
+   "heading": "Disposiciones comunes",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XIV De los privilegios",
+    "CAPITULO II De las clases de privilegios"
+   ],
+   "n_notes": 0,
+   "text_sha256": "2df7d240017834d75b90e0793f30a517bce4d9e5871dc93804cd4061568b555c"
+  },
+  {
+   "key": "275",
+   "label": "275",
+   "heading": "Conducta maliciosa y temeraria",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XV Disposiciones complementarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "09cacc2c4d13ac0f31189264fe9b16cb62c0f1b914ff2c4f496dc294f6620e56"
+  },
+  {
+   "key": "276",
+   "label": "276",
+   "heading": "Actualización por depreciación monetaria",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XV Disposiciones complementarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "465e8add0266a6c48aec776b0e1314d0e361a526c8b5b3d95304bd05aa395396"
+  },
+  {
+   "key": "277",
+   "label": "277",
+   "heading": "Pago en juicio",
+   "status": "vigente",
+   "annex": "ANEXO",
+   "sections": [
+    "TITULO XV Disposiciones complementarias"
+   ],
+   "n_notes": 0,
+   "text_sha256": "b44d012a86305873e11ce115eaaca2ac1f6898211f7184e8428de4762b95e1c8"
+  }
+ ],
+ "n_annexes": 1,
+ "n_antecedentes_lines": 0,
+ "warnings": []
+}

@@ -1,0 +1,38 @@
+{
+  "id_norma": 25552,
+  "files": {
+    "norma.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/norma.htm",
+      "status_code": 200,
+      "sha256": "d2902da829fd4faf2f8ace734ced631b61c487552fc29dc80f6f2c283eb6c7c4",
+      "size_bytes": 209653,
+      "content_type": "text/html",
+      "fetched_at": "2026-09-12T16:43:27.380741Z"
+    },
+    "texact.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/texact.htm",
+      "status_code": 200,
+      "sha256": "6c7f515edca5ee27e10103d1ad47e111fb89ffd45488d8e81410954ddd417561",
+      "size_bytes": 249911,
+      "content_type": "text/html",
+      "fetched_at": "2026-09-12T16:43:27.886880Z"
+    },
+    "vinculos_modifica.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/verVinculos.do?modo=1&id=25552",
+      "status_code": 200,
+      "sha256": "785306e8b65fa359b21470f3a9bdba23e05c18835a694cf9c38005838750b509",
+      "size_bytes": 21100,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "fetched_at": "2026-09-12T16:43:28.382533Z"
+    },
+    "vinculos_modificada_por.htm": {
+      "url": "http://servicios.infoleg.gob.ar/infolegInternet/verVinculos.do?modo=2&id=25552",
+      "status_code": 200,
+      "sha256": "4f01be6b36ef4b7ab0d666a03fa8cd67e7b8695edee89f182656bf006d442a5a",
+      "size_bytes": 239765,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "fetched_at": "2026-09-12T16:43:29.117232Z"
+    }
+  },
+  "missing": []
+}
