@@ -1,5 +1,5 @@
 import re
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 from pydantic import BaseModel
@@ -83,7 +83,7 @@ def split_text(text: str, max_chars: int = MAX_CHUNK_CHARS) -> list[str]:
     return _pack(expanded, max_chars, "\n")
 
 
-def choose_version(versions: list[Mapping[str, Any]]) -> Mapping[str, Any] | None:
+def choose_version(versions: Sequence[Mapping[str, Any]]) -> Mapping[str, Any] | None:
     by_kind = {v["version_kind"]: v for v in versions}
     chosen = by_kind.get("current") or by_kind.get("original")
     if (
@@ -96,7 +96,7 @@ def choose_version(versions: list[Mapping[str, Any]]) -> Mapping[str, Any] | Non
 
 
 def build_chunks(
-    doc: Mapping[str, Any], article: Mapping[str, Any], versions: list[Mapping[str, Any]]
+    doc: Mapping[str, Any], article: Mapping[str, Any], versions: Sequence[Mapping[str, Any]]
 ) -> list[ChunkRecord]:
     if article.get("annex"):
         return []
