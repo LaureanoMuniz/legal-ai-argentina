@@ -50,7 +50,11 @@ HTTP 200, 0 fallos. 249 normas con texto original, 53 con texto actualizado,
   el convenio de comercio?" en la categoría "la respuesta no está en el corpus".
   La regla (art. 245 LCT) está; el monto vive en resoluciones que el manifest
   filtra. Debe medir abstención, no invención.
-- **Manifest laboral**: de las 263 normas vinculadas a la LCT, 134 quedan
-  afuera por `tipos: [Ley, Decreto]` (127 resoluciones: topes indemnizatorios,
-  promedios de remuneraciones, salario mínimo). Decidir con el benchmark si
-  entran, y con qué costo de ruido.
+- **Manifest laboral**: el filtro `tipos: [Ley, Decreto]` se quitó (ADR-014);
+  el corpus pasó de 266 a 931 normas. Medir en la Fase 5 si filtrar por tipo
+  en la consulta mejora o empeora el retrieval.
+- **Fase 2, modelo de documentos**: el catálogo tiene 4.489 `id_norma`
+  repetidos. Son resoluciones conjuntas: una fila por organismo firmante, cada
+  una con su propio `numero_norma`. En el corpus laboral hay 17. El resolver
+  hoy se queda con la última fila; `documents` debe guardar la lista de
+  (organismo, número) en vez de un solo par.

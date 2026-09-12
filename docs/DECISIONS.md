@@ -179,3 +179,23 @@ tests. Ragas y DeepEval se agregan después para comparar sus scores con los
 propios, no para reemplazarlos.
 
 **Consecuencias.** Se entiende qué mide cada número antes de confiar en él.
+
+## ADR-014: El corpus incluye todos los tipos de norma vinculados a las semillas
+
+**Contexto.** El plan original filtraba la expansión a leyes y decretos,
+asumiendo que las resoluciones eran ruido administrativo. Al mirar las 665
+normas excluidas: 650 resoluciones, muchas del Ministerio de Trabajo y del
+Consejo del Salario Mínimo, con topes indemnizatorios del art. 245, promedios
+de remuneraciones y salario mínimo. Es decir, los números que la LCT delega.
+
+**Decisión.** `expand.tipos` queda opcional en el manifest y en `laboral` se
+deja en `null` (todos los tipos). El corpus pasa de 266 a 931 normas.
+
+**Alternativas.** Mantener el filtro y agregar resoluciones a mano: decide
+sin medir. Filtrar por organismo: mismo problema.
+
+**Consecuencias.** Más ruido potencial en retrieval (53 resoluciones de
+salario mínimo casi idénticas), que es exactamente lo que el benchmark tiene
+que detectar. Cada norma conserva `tipo_norma` y `reason`, así que un filtro
+por tipo en la consulta se puede evaluar como experimento en la Fase 5. 163 de
+las nuevas normas no tienen texto en Infoleg: quedan con metadata sola.
