@@ -30,8 +30,10 @@ Derecho laboral argentino, desde fuentes oficiales:
   390/76): ~290 artículos, decenas de artículos sustituidos, derogados e
   incorporados por leyes posteriores (24.013, 25.323, 25.877, 27.742, 27.802,
   entre otras).
-- Las leyes que la modifican y complementan, resueltas desde la base de
-  Infoleg.
+- Las 925 normas que Infoleg vincula como modificatorias o complementarias
+  de esas leyes: resoluciones (topes indemnizatorios, salario mínimo,
+  registración), decretos y otras leyes. Se incluyen todos los tipos; filtrar
+  es una decisión que se toma con el benchmark, no antes (ADR-014).
 
 Fuente: [Infoleg](https://www.infoleg.gob.ar) vía el dataset abierto del
 Ministerio de Justicia en

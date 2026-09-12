@@ -236,7 +236,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
       <span>Lección <b>1</b> · Fases 0 y 1</span>
-      <span>Corpus <b>laboral</b></span>
+      <span>Corpus <b>laboral · 931 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>phase-1-ingestion</b></span>
     </div>
@@ -513,8 +513,8 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
         <tbody>
           <tr><td>Normas en el catálogo</td><td class="num">428.380</td><td>27.613 son leyes; el resto, resoluciones, decretos, disposiciones</td></tr>
           <tr><td>Semillas del corpus</td><td class="num">6</td><td>Leyes 20.744, 24.013, 25.323, 25.877, 27.742, 27.802</td></tr>
-          <tr><td>Normas resueltas</td><td class="num">266</td><td>6 semillas + 260 modificatorias (189 decretos, 77 leyes)</td></tr>
-          <tr><td>Modificatorias de la LCT en la tabla de relaciones</td><td class="num">263</td><td>Incluye resoluciones que filtramos; el manifest pide solo leyes y decretos</td></tr>
+          <tr><td>Normas resueltas</td><td class="num">931</td><td>6 semillas + 925 modificatorias: 630 resoluciones, 189 decretos, 77 leyes, 29 otras. Primero fueron 266, con un filtro a leyes y decretos que se quitó (ver abajo)</td></tr>
+          <tr><td>Normas vinculadas a la LCT en la tabla de relaciones</td><td class="num">263</td><td>Incluye 127 resoluciones con topes indemnizatorios y promedios de remuneraciones</td></tr>
           <tr><td>Tiempo de <code>resolve</code></td><td class="num">≈5 s</td><td>Dos pasadas streaming sobre 256 MB</td></tr>
           <tr><td>Texto actualizado de la LCT</td><td class="num">249.911 B</td><td>294 encabezados de artículo; 65 sustituidos, 7 derogados, 6 incorporados</td></tr>
           <tr><td>Tests</td><td class="num">33</td><td>0,2 s, sin red</td></tr>
@@ -525,13 +525,25 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
       <table>
         <thead><tr><th>Descarga completa</th><th class="num">Valor</th><th>Nota</th></tr></thead>
         <tbody>
-          <tr><td>Archivos HTML bajados</td><td class="num">834</td><td>Todos HTTP 200, 0 fallos, 11 servidos desde caché por la prueba previa</td></tr>
-          <tr><td>Normas con texto original</td><td class="num">249 / 266</td><td>17 normas no tienen ningún link de texto en el catálogo</td></tr>
-          <tr><td>Normas con texto actualizado</td><td class="num">53 / 266</td><td>Infoleg solo consolida las normas que fueron modificadas</td></tr>
-          <tr><td>Tamaño en disco</td><td class="num">89 MB</td><td>66 MB de catálogo + 23 MB de normas</td></tr>
+          <tr><td>Archivos HTML bajados</td><td class="num">2.748</td><td>Todos HTTP 200, 0 fallos. La segunda corrida reutilizó de caché los 834 de la primera</td></tr>
+          <tr><td>Normas con texto original</td><td class="num">751 / 931</td><td>180 normas no tienen ningún link de texto en el catálogo, solo metadata</td></tr>
+          <tr><td>Normas con texto actualizado</td><td class="num">135 / 931</td><td>Infoleg solo consolida las normas que fueron modificadas</td></tr>
+          <tr><td>Tamaño en disco</td><td class="num">112 MB</td><td>66 MB de catálogo + 46 MB de normas</td></tr>
         </tbody>
-        <caption>Los 17 sin texto y los 213 sin texto actualizado no son errores nuestros: es cómo viene la fuente. Quedan registrados en cada <code>meta.json</code> como <code>missing</code>.</caption>
+        <caption>Los 180 sin texto y los 796 sin texto actualizado no son errores nuestros: es cómo viene la fuente. Quedan registrados en cada <code>meta.json</code> como <code>missing</code>.</caption>
       </table>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 5 · Un filtro que decidía sin medir</div>
+        <p>El plan original expandía el corpus solo con leyes y decretos. Al revisar las normas que quedaban afuera, 665 en total, aparecieron las resoluciones que fijan los topes indemnizatorios del art. 245, los promedios de remuneraciones y el salario mínimo: los números que la ley delega. Se quitó el filtro (ADR-014) y el corpus pasó de 266 a 931 normas.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Recall primero, precisión después. Un corpus que no tiene el documento nunca lo va a recuperar; un corpus con ruido se puede filtrar en la consulta, y ese filtro se evalúa con el benchmark. Por eso cada norma conserva su <code>tipo_norma</code> y el motivo por el que entró: un filtro por tipo pasa a ser un experimento de la Fase 5, no una decisión a ciegas del día uno.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 6 · La clave primaria no es única</div>
+        <p>El catálogo tiene 4.489 <code>id_norma</code> repetidos. Son resoluciones conjuntas: una norma firmada por varios organismos, con una fila por organismo y el número que cada uno le asignó. En el corpus laboral hay 17. Nuestro resolver hoy se queda con la última fila y pierde un firmante. Va al modelo de documentos de la Fase 2: una norma puede tener varios pares (organismo, número).</p>
       </div>
       <div class="callout complicacion">
         <div class="eyebrow">Una rareza que apareció en los datos</div>

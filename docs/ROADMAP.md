@@ -31,10 +31,11 @@ sin medir la actual.
 4. CLI `legal-ai ingest catalog|resolve|fetch`.
 5. Tests: parsing del CSV, resolución del manifest, fetcher con respuestas grabadas (sin red en CI).
 
-Resultado (catálogo 2026-09-12): 266 normas resueltas (6 seeds + 260
-modificatorias: 189 decretos, 77 leyes). 834 archivos HTML descargados, todos
-HTTP 200, 0 fallos. 249 normas con texto original, 53 con texto actualizado,
-17 sin ningún link de texto en el catálogo. 89 MB en `data/raw/infoleg`.
+Resultado (catálogo 2026-09-12, tras ADR-014): 931 normas resueltas (6 seeds
++ 925 modificatorias: 630 resoluciones, 189 decretos, 77 leyes, 29 otras).
+2.748 archivos HTML descargados, todos HTTP 200, 0 fallos. 751 normas con
+texto original, 135 con texto actualizado, 180 sin ningún link de texto en el
+catálogo. 112 MB en `data/raw/infoleg`.
 
 ## Problemas que esperamos encontrar (y medir)
 
