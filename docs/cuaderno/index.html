@@ -1,0 +1,565 @@
+<title>Cuaderno Legal AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --paper: #F5F7F4;
+  --paper-2: #EDF0EB;
+  --ink: #1B2430;
+  --ink-2: #4A5561;
+  --muted: #7A838D;
+  --rule: #D5DAD3;
+  --accent: #0F6E56;
+  --accent-soft: #DCEDE6;
+  --brass: #9A6F1E;
+  --brass-soft: #F3E9D2;
+  --warn: #A63D2F;
+  --warn-soft: #F6E1DC;
+  --code-bg: #E9EDE7;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131A1F;
+    --paper-2: #1A2329;
+    --ink: #E4E8EA;
+    --ink-2: #B4BDC4;
+    --muted: #7F8B94;
+    --rule: #2B363E;
+    --accent: #5CC7A4;
+    --accent-soft: #163229;
+    --brass: #D9B15A;
+    --brass-soft: #2E2612;
+    --warn: #E3846F;
+    --warn-soft: #3A1F1A;
+    --code-bg: #0E1418;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131A1F;
+  --paper-2: #1A2329;
+  --ink: #E4E8EA;
+  --ink-2: #B4BDC4;
+  --muted: #7F8B94;
+  --rule: #2B363E;
+  --accent: #5CC7A4;
+  --accent-soft: #163229;
+  --brass: #D9B15A;
+  --brass-soft: #2E2612;
+  --warn: #E3846F;
+  --warn-soft: #3A1F1A;
+  --code-bg: #0E1418;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  padding-block: 0 4rem;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.frame {
+  max-width: 1120px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 48px;
+}
+@media (max-width: 860px) {
+  .frame { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  nav.toc { position: static; border-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+}
+
+header.masthead {
+  grid-column: 1 / -1;
+  padding-block: 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  gap: .5rem;
+}
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -.01em;
+}
+.masthead p { margin: 0; color: var(--ink-2); max-width: 62ch; }
+.status {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.25rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .8rem; color: var(--ink-2);
+  margin-top: .5rem;
+}
+.status b { color: var(--accent); font-weight: 500; }
+
+nav.toc {
+  position: sticky; top: 24px; align-self: start;
+  border-right: 1px solid var(--rule);
+  padding-right: 1.25rem;
+  font-size: .9rem;
+}
+nav.toc .eyebrow { margin-bottom: .75rem; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+nav.toc a { color: var(--ink-2); text-decoration: none; display: block; line-height: 1.35; }
+nav.toc a:hover { color: var(--accent); }
+nav.toc .sub { padding-left: .9rem; font-size: .82rem; color: var(--muted); }
+
+main { max-width: 68ch; }
+section { padding-block: 2.25rem; border-bottom: 1px solid var(--rule); }
+section:last-of-type { border-bottom: 0; }
+h2 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 600; font-size: 1.85rem; line-height: 1.15;
+  margin: 0 0 1rem; text-wrap: balance; letter-spacing: -.005em;
+}
+h3 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 600; font-size: 1.3rem; line-height: 1.25;
+  margin: 1.75rem 0 .5rem; text-wrap: balance;
+}
+p { margin: 0 0 1rem; }
+ul, ol { padding-left: 1.25rem; margin: 0 0 1rem; }
+li { margin-bottom: .35rem; }
+strong { font-weight: 600; }
+.lead { font-size: 1.12rem; color: var(--ink-2); }
+
+code, pre {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: .86em;
+}
+code { background: var(--code-bg); padding: .1em .35em; border-radius: 3px; }
+pre {
+  background: var(--code-bg); border-radius: 6px;
+  padding: .9rem 1rem; overflow-x: auto; line-height: 1.5;
+  margin: 0 0 1rem;
+}
+pre code { background: none; padding: 0; font-size: .82rem; }
+
+.callout {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: .9rem 1.1rem;
+  margin: 1.25rem 0;
+  border-radius: 0 6px 6px 0;
+}
+.callout .eyebrow { color: var(--accent); margin-bottom: .3rem; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.callout.industria { border-color: var(--brass); background: var(--brass-soft); }
+.callout.industria .eyebrow { color: var(--brass); }
+.callout.complicacion { border-color: var(--warn); background: var(--warn-soft); }
+.callout.complicacion .eyebrow { color: var(--warn); }
+
+table {
+  border-collapse: collapse; width: 100%;
+  font-size: .92rem; margin: 0 0 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.table-wrap { overflow-x: auto; margin: 0 0 1.25rem; }
+.table-wrap table { margin: 0; }
+th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); }
+td.num { text-align: right; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .85rem; white-space: nowrap; }
+caption { caption-side: bottom; text-align: left; font-size: .8rem; color: var(--muted); padding-top: .4rem; }
+
+figure { margin: 1.5rem 0; }
+figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; }
+svg.diagram { width: 100%; height: auto; display: block; }
+svg.diagram .box { fill: var(--paper-2); stroke: var(--rule); stroke-width: 1; }
+svg.diagram .box.hot { fill: var(--accent-soft); stroke: var(--accent); }
+svg.diagram .lbl { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 500; }
+svg.diagram .sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; }
+svg.diagram .arrow { stroke: var(--ink-2); stroke-width: 1.2; fill: none; marker-end: url(#arr); }
+svg.diagram .tier { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: .08em; }
+svg.diagram .stage { fill: var(--accent); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; }
+
+dl.gloss { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1.25rem; margin: 0; }
+dl.gloss dt { font-weight: 600; font-size: .95rem; }
+dl.gloss dd { margin: 0; color: var(--ink-2); font-size: .95rem; }
+@media (max-width: 520px) { dl.gloss { grid-template-columns: 1fr; } dl.gloss dd { margin-bottom: .5rem; } }
+
+.pensar li { margin-bottom: .6rem; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; font-size: .95rem; margin: 0 0 1rem; }
+.kv span:first-child { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8rem; padding-top: .15rem; }
+.tag { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: .72rem; padding: .1rem .45rem; border: 1px solid var(--rule); border-radius: 999px; color: var(--ink-2); vertical-align: middle; }
+.tag.done { border-color: var(--accent); color: var(--accent); }
+footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="frame">
+  <header class="masthead">
+    <div class="eyebrow">Cuaderno de laboratorio · Legal AI Argentina</div>
+    <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
+    <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
+    <div class="status">
+      <span>Lección <b>1</b> · Fases 0 y 1</span>
+      <span>Corpus <b>laboral</b></span>
+      <span>Catálogo Infoleg <b>2026-09-12</b></span>
+      <span>Rama <b>phase-1-ingestion</b></span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Índice">
+    <div class="eyebrow">Índice</div>
+    <ol>
+      <li><a href="#mapa">1. El mapa del sistema</a></li>
+      <li><a href="#fuente">2. La fuente: Infoleg</a></li>
+      <li class="sub"><a href="#hallazgos">Cuatro hallazgos</a></li>
+      <li><a href="#ingestion">3. Ingestion reproducible</a></li>
+      <li class="sub"><a href="#raw">raw vs processed</a></li>
+      <li class="sub"><a href="#fetch">Bajar sin romper nada</a></li>
+      <li class="sub"><a href="#tests">Tests sin red</a></li>
+      <li><a href="#stack">4. El stack y por qué</a></li>
+      <li><a href="#modelo">5. El modelo de datos</a></li>
+      <li><a href="#numeros">6. Los números de la corrida</a></li>
+      <li><a href="#proximo">7. Lo que viene: el parser</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar">Para pensar</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="mapa">
+      <h2>1. El mapa del sistema</h2>
+      <p class="lead">RAG (Retrieval-Augmented Generation) es una idea simple: antes de pedirle al modelo que responda, buscás los textos relevantes y se los ponés adelante. El modelo redacta; la evidencia viene de afuera.</p>
+      <p>La versión que construimos nosotros tiene cada etapa como una función separada, con entrada y salida que se pueden mirar. Eso es deliberado: cuando una respuesta salga mal, vamos a querer saber <em>en qué etapa</em> se rompió, y un framework que encadena todo adentro de una caja no deja ver eso.</p>
+
+      <figure>
+        <svg class="diagram" viewBox="0 0 720 330" role="img" aria-label="Pipeline del sistema: de la pregunta a la respuesta con evidencia, con las capas de datos debajo">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="var(--ink-2)"/>
+            </marker>
+          </defs>
+          <text class="tier" x="12" y="22">CONSULTA (FASES 3 A 9)</text>
+          <g>
+            <rect class="box" x="12" y="34" width="118" height="54" rx="4"/>
+            <text class="lbl" x="22" y="56">Pregunta</text>
+            <text class="sub" x="22" y="74">+ reescritura opcional</text>
+          </g>
+          <path class="arrow" d="M130 61 H154"/>
+          <g>
+            <rect class="box" x="156" y="34" width="132" height="54" rx="4"/>
+            <text class="lbl" x="166" y="56">Retrieval</text>
+            <text class="sub" x="166" y="74">vector · BM25 · híbrido</text>
+          </g>
+          <path class="arrow" d="M288 61 H312"/>
+          <g>
+            <rect class="box" x="314" y="34" width="110" height="54" rx="4"/>
+            <text class="lbl" x="324" y="56">Reranking</text>
+            <text class="sub" x="324" y="74">cross-encoder</text>
+          </g>
+          <path class="arrow" d="M424 61 H448"/>
+          <g>
+            <rect class="box" x="450" y="34" width="118" height="54" rx="4"/>
+            <text class="lbl" x="460" y="56">Contexto</text>
+            <text class="sub" x="460" y="74">artículos + versión</text>
+          </g>
+          <path class="arrow" d="M568 61 H592"/>
+          <g>
+            <rect class="box" x="594" y="34" width="114" height="54" rx="4"/>
+            <text class="lbl" x="604" y="56">LLM</text>
+            <text class="sub" x="604" y="74">salida estructurada</text>
+          </g>
+          <path class="arrow" d="M651 88 V112"/>
+          <g>
+            <rect class="box" x="450" y="114" width="258" height="54" rx="4"/>
+            <text class="lbl" x="460" y="136">Respuesta + claims + citas</text>
+            <text class="sub" x="460" y="154">cada afirmación apunta a artículo@versión</text>
+          </g>
+          <path class="arrow" d="M222 88 V112"/>
+          <g>
+            <rect class="box" x="12" y="114" width="412" height="54" rx="4"/>
+            <text class="lbl" x="22" y="136">Traza (OpenTelemetry → Langfuse)</text>
+            <text class="sub" x="22" y="154">candidatos, scores, prompt, tokens, latencia por etapa</text>
+          </g>
+
+          <text class="tier" x="12" y="205">DATOS (FASES 1 Y 2 · LO QUE HICIMOS AHORA)</text>
+          <g>
+            <rect class="box hot" x="12" y="216" width="150" height="54" rx="4"/>
+            <text class="lbl" x="22" y="238">Infoleg</text>
+            <text class="sub" x="22" y="256">CSV + HTML oficiales</text>
+          </g>
+          <path class="arrow" d="M162 243 H186"/>
+          <g>
+            <rect class="box hot" x="188" y="216" width="150" height="54" rx="4"/>
+            <text class="lbl" x="198" y="238">data/raw</text>
+            <text class="sub" x="198" y="256">inmutable, con sha256</text>
+          </g>
+          <path class="arrow" d="M338 243 H362"/>
+          <g>
+            <rect class="box" x="364" y="216" width="150" height="54" rx="4"/>
+            <text class="lbl" x="374" y="238">Parser</text>
+            <text class="sub" x="374" y="256">artículos + versiones</text>
+          </g>
+          <path class="arrow" d="M514 243 H538"/>
+          <g>
+            <rect class="box" x="540" y="216" width="168" height="54" rx="4"/>
+            <text class="lbl" x="550" y="238">Postgres</text>
+            <text class="sub" x="550" y="256">pgvector + BM25 + relaciones</text>
+          </g>
+          <path class="arrow" d="M624 216 V172 H600" />
+          <text class="stage" x="12" y="300">Fase 1 ✓ catálogo · resolución · descarga</text>
+          <text class="stage" x="364" y="300">Fase 2 → parser</text>
+          <text class="stage" x="540" y="300">Fase 3 → índice + RAG baseline</text>
+        </svg>
+        <figcaption>Arriba, el camino de una consulta. Abajo, el camino de los datos. Esta lección cubre los dos primeros bloques de abajo.</figcaption>
+      </figure>
+
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los equipos que llevan RAG a producción convergen en lo mismo que dibujamos: separar retrieval de generación, medir cada etapa por separado y trazar cada request. Las etapas opcionales (reescritura, reranking) se agregan cuando un benchmark muestra que suman, no antes. Por eso nuestro roadmap construye el benchmark (Fase 4) antes que el retrieval híbrido (Fase 5).</p>
+      </div>
+    </section>
+
+    <section id="fuente">
+      <h2>2. La fuente: Infoleg</h2>
+      <p>Infoleg es la base legislativa nacional del Ministerio de Justicia. Lo que hace que sirva como fuente de ingeniería no es solo que sea oficial: es que publica la base completa como datos abiertos, con licencia CC BY 4.0, actualizada todos los meses. Tres archivos:</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Archivo</th><th>Qué es</th><th class="num">Filas</th><th class="num">CSV</th></tr></thead>
+        <tbody>
+          <tr><td>normativa-nacional</td><td>Una fila por norma: tipo, número, organismo, fechas, títulos, resumen, y <em>links</em> al texto original y al texto actualizado</td><td class="num">428.380</td><td class="num">256 MB</td></tr>
+          <tr><td>normas-modificatorias</td><td>Aristas “A modifica a B”</td><td class="num">377.755</td><td class="num">60 MB</td></tr>
+          <tr><td>normas-modificadas</td><td>Las mismas aristas vistas desde B</td><td class="num">—</td><td class="num">—</td></tr>
+        </tbody>
+        <caption>Medido sobre el snapshot del 2026-09-12. Las filas de la tercera tabla no las contamos porque no la usamos todavía.</caption>
+      </table>
+      </div>
+
+      <h3 id="hallazgos">Cuatro hallazgos que cambiaron el diseño</h3>
+      <p>Esto es lo que aparece cuando uno abre los datos de verdad en vez de asumirlos. Cada hallazgo se convirtió en una decisión.</p>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 1 · Los textos no están en el CSV</div>
+        <p>El CSV trae metadata y dos URLs por norma (<code>norma.htm</code> = texto original, <code>texact.htm</code> = texto actualizado). El texto hay que ir a buscarlo a otro servidor. La ingestion pasa a tener dos etapas con ritmos distintos: bajar el catálogo (un ZIP, una vez por mes) y bajar los textos (cientos de requests, con cuidado).</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Separar <strong>catálogo</strong> de <strong>contenido</strong> es el patrón normal en cualquier data platform: primero se materializa el índice de qué existe, después se trae el cuerpo de forma incremental. Nuestro <code>ingest catalog</code> → <code>ingest resolve</code> → <code>ingest fetch</code> es exactamente eso.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 2 · 403 sin User-Agent</div>
+        <p>El servidor de textos rechaza requests sin un <code>User-Agent</code> de navegador. La primera descarga con <code>curl</code> devolvió un 403 de 199 bytes. Con el UA correcto, 200 y 249.911 bytes de HTML.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Scraping responsable: identificarse, respetar un ritmo (nosotros: 0,5 s entre requests), reintentar solo errores transitorios (429 y 5xx) con espera exponencial, y nunca reintentar un 403 o 404 porque no van a cambiar. Los datos son CC BY, así que el acceso es legítimo; el ritmo es cortesía con un servidor público.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 3 · No hay columna de “vigente / derogada”</div>
+        <p>El catálogo no dice si una norma está vigente. Tampoco a nivel artículo. La única señal está <em>dentro del HTML</em>, como notas entre paréntesis: <em>“(Artículo derogado por art. 207 de la Ley N° 27.802 B.O. 6/3/2026)”</em>. En la LCT contamos 65 artículos sustituidos, 7 derogados y 6 incorporados por esas notas.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Nunca confiar en que la fuente trae el campo que uno necesita. Se documenta el <strong>contrato de datos</strong> real (qué columnas hay, qué significan, qué falta) y se derivan los campos faltantes con código testeado, dejando registro de cómo se derivaron. Nuestro <code>status</code> por artículo va a ser un campo derivado del parser, no un dato de origen, y el schema lo marca así.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 4 · No hay versiones históricas</div>
+        <p>Infoleg guarda el texto original (1974) y el vigente (hoy). Entre medio, nada consolidado: solo la lista de normas que modificaron. Si alguien pregunta “¿qué decía el artículo 245 en 2021?”, la respuesta no está en ningún archivo; hay que reconstruirla. Este es el problema que en el roadmap llamamos <strong>Temporal Misgrounding</strong>: un sistema que responde con el texto de 2026 a una pregunta sobre 2021 y suena perfectamente convincente.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Modelado <strong>bitemporal</strong>: cada hecho tiene un período de validez en el mundo (<code>effective_from</code>, <code>effective_until</code>) separado del momento en que lo registramos. En bases de datos es el patrón “slowly changing dimension tipo 2”: en vez de sobrescribir una fila, se cierra la vigencia de la vieja y se abre una nueva. Nosotros lo llevamos a nivel artículo: una fila por versión, y el retrieval filtra por fecha. Las versiones intermedias se reconstruyen en la Fase 9 aplicando las modificatorias en orden.</p>
+      </div>
+    </section>
+
+    <section id="ingestion">
+      <h2>3. Ingestion reproducible</h2>
+      <p class="lead">“Reproducible” quiere decir: cualquiera clona el repo, corre tres comandos, y obtiene los mismos bytes que nosotros. Si algo cambia en Infoleg, se nota, y se sabe cuándo.</p>
+      <pre><code>uv run legal-ai ingest catalog          # 3 ZIP → data/raw/infoleg/catalog/2026-09-12/
+uv run legal-ai ingest resolve laboral  # manifest YAML → 266 id_norma
+uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/normas/&lt;id&gt;/</code></pre>
+
+      <h3 id="raw">raw vs processed</h3>
+      <p>Dos carpetas con reglas distintas. <code>data/raw/</code> es inmutable: se escribe una vez, nunca se edita, y solo se reescribe con <code>--force</code>. <code>data/processed/</code> es descartable: se borra y regenera con cada corrida del parser. Todo lo que pueda salir mal en el parsing se arregla en el código y se vuelve a correr, nunca tocando el original.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Es la arquitectura “medallion” de los lakehouses: <strong>bronze</strong> (crudo, tal cual llegó), <strong>silver</strong> (limpio y tipado), <strong>gold</strong> (listo para consumir). Nuestro <code>raw</code> es bronze; <code>processed</code> es silver; las tablas de Postgres con embeddings van a ser gold. La regla que importa es que bronze nunca se toca, porque es la única forma de volver atrás cuando el parser tiene un bug.</p>
+      </div>
+
+      <h3>Procedencia: hash y fecha en todo</h3>
+      <p>Cada ZIP del catálogo queda con su SHA-256, tamaño, URL y hora de descarga en un <code>manifest.json</code>. Cada HTML de norma, lo mismo en un <code>meta.json</code>. Cuando en dos meses el catálogo cambie, vamos a poder decir exactamente qué normas cambiaron y por qué un experimento de septiembre no da igual en noviembre.</p>
+      <pre><code>{
+  "snapshot_date": "2026-09-12",
+  "resources": [{
+    "name": "normas",
+    "sha256": "5f82a0efba62489cd4b15819d0ce4e125dd26d7e78d4e694701cec6a876ed2e9",
+    "size_bytes": 49616300
+  }, …]
+}</code></pre>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Data lineage y content-addressing: identificar un dato por el hash de su contenido (como hace git) en lugar de por su nombre. Herramientas como DVC o LakeFS hacen esto a escala; a la nuestra, un JSON con hashes cumple la misma función y se entiende de un vistazo.</p>
+      </div>
+
+      <h3>Descargar un ZIP sin cargarlo entero</h3>
+      <p>El CSV de normas descomprimido pesa 256 MB. No lo cargamos en memoria: lo leemos como stream desde adentro del ZIP, fila por fila, y validamos cada fila con un modelo Pydantic que convierte strings vacíos en <code>None</code>, fechas en <code>date</code> y contadores en <code>int</code>. Resolver el corpus recorre el archivo dos veces (semillas, después modificatorias) y tarda unos 5 segundos.</p>
+      <pre><code>with zipfile.ZipFile(zip_path) as zf, zf.open(inner) as raw:
+    text = io.TextIOWrapper(raw, encoding="utf-8-sig", newline="")
+    for row in csv.DictReader(text):
+        yield NormRow.model_validate(row)</code></pre>
+      <p>El detalle <code>utf-8-sig</code> importa: el archivo empieza con un BOM (bytes invisibles que marcan la codificación). Sin ese flag, la primera columna se llamaría <code>﻿id_norma</code> y ningún campo matchearía.</p>
+
+      <h3 id="fetch">Bajar sin romper nada: caché, ritmo y reintentos</h3>
+      <p>El cliente HTTP hace tres cosas que un <code>requests.get</code> suelto no hace:</p>
+      <ul>
+        <li><strong>Ritmo</strong>: espera hasta completar 0,5 s desde el request anterior. Se mide con un reloj inyectable para poder testearlo sin dormir de verdad.</li>
+        <li><strong>Reintentos</strong>: hasta 3 intentos en 429 y 5xx, esperando 1 s y después 2 s. Un 403 o un 404 fallan de inmediato.</li>
+        <li><strong>Caché</strong>: si el archivo ya está en disco y figura en <code>meta.json</code>, no se vuelve a pedir. Cortar la descarga a mitad y relanzarla retoma donde quedó. Eso es <strong>idempotencia</strong>: correr dos veces da el mismo resultado que correr una.</li>
+      </ul>
+      <p>Y una decisión chica con consecuencias: los bytes se guardan <em>tal cual</em>, sin decodificar. El HTML de Infoleg viene en ISO-8859-1, y decidir cómo interpretarlo es trabajo del parser, no del fetcher. Si mañana descubrimos que la decodificación estaba mal, no hay que volver a bajar nada.</p>
+
+      <h3 id="tests">Tests sin red</h3>
+      <p>Los 33 tests corren en 0,2 segundos y ninguno toca Internet. Los ZIP de prueba se construyen en un directorio temporal con siete normas inventadas <em>en estructura</em> pero con los identificadores reales de la LCT, y el tráfico HTTP se intercepta con <code>respx</code>, que permite decir “la tercera vez que pidan esta URL, devolvé 200; las dos primeras, 503”.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los tests de ingestion que dependen de un servidor externo se rompen cuando el servidor cambia, cuando la red falla, o cuando CI corre a las 3 de la mañana. Se grabaron o simulan las respuestas, y aparte se agrega un test de “contrato” que sí toca la fuente real, pero corre a mano o en un job separado. El nuestro fue la corrida real de la Tarea 8.</p>
+      </div>
+    </section>
+
+    <section id="stack">
+      <h2>4. El stack y por qué</h2>
+      <p>La primera propuesta era SQLite y numpy. Se descartó por pedido explícito: el objetivo es aprender lo que se usa en producción, no un sustituto didáctico. Lo que quedó, y la razón de cada pieza:</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pieza</th><th>Elección</th><th>Alternativa descartada y por qué</th></tr></thead>
+        <tbody>
+          <tr><td>Lenguaje</td><td>Python 3.12</td><td>TypeScript creció para agentes, pero embeddings open-weight, rerankers y las librerías de evaluación salen primero en Python.</td></tr>
+          <tr><td>Base de datos</td><td>Postgres 17 + pgvector (HNSW) + pg_search (BM25)</td><td>Qdrant o Weaviate: más rápidos en benchmarks puros, pero una segunda base que sincronizar. La metadata legal (versiones, relaciones) vive sí o sí en Postgres; tener el vector al lado simplifica todo.</td></tr>
+          <tr><td>BM25</td><td>pg_search (Tantivy)</td><td>El full-text nativo de Postgres (<code>ts_rank</code>) no es BM25 real. Se va a medir la diferencia.</td></tr>
+          <tr><td>Embeddings</td><td>bge-m3 local + Voyage por API</td><td>Elegir uno solo por leaderboard. En castellano jurídico se mide con el benchmark propio.</td></tr>
+          <tr><td>LLM</td><td>Claude Opus 5 con structured outputs</td><td>Wrappers de JSON tipo Instructor: innecesarios con salida estructurada nativa.</td></tr>
+          <tr><td>Observabilidad</td><td>OpenTelemetry (GenAI semconv) → Langfuse</td><td>JSON a disco: no es lo que se usa en producción. Phoenix: alternativa válida, misma instrumentación.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="callout">
+        <div class="eyebrow">Decisión que se mantiene</div>
+        <p>“Sin frameworks que escondan el retrieval” sigue vigente. Usar Postgres en vez de SQLite no es una abstracción: es la misma consulta SQL, visible, en un motor de verdad. LangChain o LlamaIndex sí esconderían el pipeline, y por eso no entran hasta que haya un agente (Fase 12), y ahí entra Pydantic AI, que es explícito.</p>
+      </div>
+    </section>
+
+    <section id="modelo">
+      <h2>5. El modelo de datos</h2>
+      <p class="lead">La decisión más importante de todo el proyecto cabe en una frase: <strong>el artículo es la unidad, y cada artículo tiene versiones</strong>.</p>
+      <p>El enfoque estándar de RAG parte el texto en pedazos de N tokens con solapamiento. Para una ley eso es destructivo: un pedazo puede empezar a mitad del artículo 245 y terminar a mitad del 246, y ya no se puede citar “Ley 20.744, art. 245”. Nosotros parseamos la estructura jurídica (título → capítulo → artículo) y el chunk es, en general, un artículo entero con su epígrafe.</p>
+      <div class="kv">
+        <span>documents</span><span>Una norma. La clave es el <code>id_norma</code> de Infoleg (la LCT es 25552).</span>
+        <span>document_relations</span><span>Aristas “modifica”, “deroga”, “reglamenta”, con la evidencia de dónde salió cada una.</span>
+        <span>articles</span><span>Un artículo con identidad estable: <code>25552:92bis</code>. Sabe su título, capítulo y epígrafe.</span>
+        <span>article_versions</span><span>El texto del artículo en un rango de vigencia: <code>original</code>, <code>current</code> o <code>reconstructed</code>, con <code>effective_from</code> y <code>effective_until</code>.</span>
+        <span>chunks</span><span>Lo que se indexa: texto + un prefijo de contexto + embedding + índice BM25. Apunta a una versión, no a un artículo.</span>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Dos técnicas que vamos a usar y medir. <strong>Structure-aware chunking</strong>: partir por la estructura del documento y no por tokens, común en legal, médico y documentación técnica. <strong>Contextual retrieval</strong> (Anthropic, 2024): anteponer a cada chunk una línea que diga de dónde viene (“Ley 20.744, Título XII, Art. 245, Indemnización por antigüedad, vigente desde 2024-07-08”) antes de calcular el embedding. Un artículo que dice “el importe previsto en el artículo anterior” no significa nada suelto; con el prefijo, sí.</p>
+      </div>
+      <p>Por qué las versiones desde el día uno: Infoleg nos da dos textos de cada artículo gratis (original y actualizado). Parsear los dos ya produce dos versiones por artículo, y las notas de modificación traen la fecha de cada cambio. Con eso, el problema de Temporal Misgrounding se puede <em>medir</em> desde la Fase 3, aunque la solución completa llegue en la 9.</p>
+    </section>
+
+    <section id="numeros">
+      <h2>6. Los números de la corrida</h2>
+      <p>Todo medido en esta sesión, con el snapshot del catálogo 2026-09-12.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Qué</th><th class="num">Valor</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>Normas en el catálogo</td><td class="num">428.380</td><td>27.613 son leyes; el resto, resoluciones, decretos, disposiciones</td></tr>
+          <tr><td>Semillas del corpus</td><td class="num">6</td><td>Leyes 20.744, 24.013, 25.323, 25.877, 27.742, 27.802</td></tr>
+          <tr><td>Normas resueltas</td><td class="num">266</td><td>6 semillas + 260 modificatorias (189 decretos, 77 leyes)</td></tr>
+          <tr><td>Modificatorias de la LCT en la tabla de relaciones</td><td class="num">263</td><td>Incluye resoluciones que filtramos; el manifest pide solo leyes y decretos</td></tr>
+          <tr><td>Tiempo de <code>resolve</code></td><td class="num">≈5 s</td><td>Dos pasadas streaming sobre 256 MB</td></tr>
+          <tr><td>Texto actualizado de la LCT</td><td class="num">249.911 B</td><td>294 encabezados de artículo; 65 sustituidos, 7 derogados, 6 incorporados</td></tr>
+          <tr><td>Tests</td><td class="num">33</td><td>0,2 s, sin red</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Descarga completa</th><th class="num">Valor</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>Archivos HTML bajados</td><td class="num">834</td><td>Todos HTTP 200, 0 fallos, 11 servidos desde caché por la prueba previa</td></tr>
+          <tr><td>Normas con texto original</td><td class="num">249 / 266</td><td>17 normas no tienen ningún link de texto en el catálogo</td></tr>
+          <tr><td>Normas con texto actualizado</td><td class="num">53 / 266</td><td>Infoleg solo consolida las normas que fueron modificadas</td></tr>
+          <tr><td>Tamaño en disco</td><td class="num">89 MB</td><td>66 MB de catálogo + 23 MB de normas</td></tr>
+        </tbody>
+        <caption>Los 17 sin texto y los 213 sin texto actualizado no son errores nuestros: es cómo viene la fuente. Quedan registrados en cada <code>meta.json</code> como <code>missing</code>.</caption>
+      </table>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Una rareza que apareció en los datos</div>
+        <p>En la tabla de relaciones, la LCT (25552) figura como “modificada por” los <code>id_norma</code> 15 y 93, que son… la misma Ley 20.744 con otros ids. Infoleg tiene varias entradas para una misma ley (texto original, texto ordenado, republicaciones). Es normal en bases legislativas y va a reaparecer en el parser: “una ley” no es un solo documento.</p>
+      </div>
+    </section>
+
+    <section id="proximo">
+      <h2>7. Lo que viene: el parser</h2>
+      <p>La Fase 2 convierte el HTML en artículos con versiones. Ya sabemos qué nos espera, porque miramos el HTML:</p>
+      <ul>
+        <li><strong>Numeración irregular</strong>: “Art. 92 bis”, “Art. 245”, “Artículo 1°”. Hay que normalizar sin perder el original.</li>
+        <li><strong>Notas inline</strong>: la información de vigencia está en paréntesis al final del texto, con formato casi (pero no exactamente) regular. Un regex con tests contra casos reales, no uno genérico.</li>
+        <li><strong>Codificación</strong>: ISO-8859-1 en los HTML, UTF-8 con BOM en los CSV. Dos mundos.</li>
+        <li><strong>Texto ordenado</strong>: la LCT que está en Infoleg es el texto ordenado por Decreto 390/76, que renumeró artículos respecto de la ley de 1974. Una cita histórica puede referir a un número que hoy es otro.</li>
+        <li><strong>Artículos derogados</strong>: hay que conservarlos con <code>status = derogado</code>, porque una pregunta sobre 2021 puede necesitarlos, pero no deben aparecer como evidencia de lo vigente.</li>
+      </ul>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los parsers de documentos legales se validan con <strong>golden files</strong>: se toma un documento real, se revisa a mano el resultado esperado una vez, y se guarda como fixture. Cualquier cambio en el parser que altere la salida rompe el test y obliga a mirar. Vamos a hacer eso con la LCT completa y con dos o tres leyes chicas.</p>
+      </div>
+    </section>
+
+    <section id="glosario">
+      <h2>Glosario</h2>
+      <dl class="gloss">
+        <dt>RAG</dt><dd>Retrieval-Augmented Generation. Buscar evidencia y dársela al modelo antes de que responda.</dd>
+        <dt>Embedding</dt><dd>Vector numérico que representa el significado de un texto; textos parecidos quedan cerca.</dd>
+        <dt>BM25</dt><dd>Algoritmo clásico de búsqueda por palabras, con peso por frecuencia y rareza del término.</dd>
+        <dt>Híbrido / RRF</dt><dd>Combinar resultados de vector y BM25. Reciprocal Rank Fusion los mezcla por posición en cada lista.</dd>
+        <dt>Reranker</dt><dd>Modelo que reordena los candidatos leyendo pregunta y texto juntos. Más lento, más preciso.</dd>
+        <dt>HNSW</dt><dd>Índice para búsqueda aproximada de vecinos cercanos en vectores; el que usa pgvector.</dd>
+        <dt>Idempotente</dt><dd>Operación que da el mismo resultado si se corre una o muchas veces.</dd>
+        <dt>Bitemporal</dt><dd>Modelar por separado cuándo algo fue válido en el mundo y cuándo lo registramos.</dd>
+        <dt>Temporal Misgrounding</dt><dd>Responder una pregunta sobre una fecha con la versión de otra fecha, sin avisar.</dd>
+        <dt>Golden file</dt><dd>Salida esperada, revisada a mano, guardada como test.</dd>
+      </dl>
+    </section>
+
+    <section id="pensar">
+      <h2>Para pensar</h2>
+      <p>Preguntas sin respuesta en esta página. Si las podés contestar, la lección quedó.</p>
+      <ol class="pensar">
+        <li>Si un abogado pregunta “¿cuánto es el período de prueba?”, ¿qué versión del art. 92 bis debería devolver el sistema y con qué fecha debería etiquetar la respuesta? ¿Qué pasa si no aclara fecha?</li>
+        <li>Guardamos los HTML sin decodificar. ¿Qué habría que volver a bajar si descubrimos un bug en el parser? ¿Y si lo descubrimos en el fetcher?</li>
+        <li>El manifest filtra las modificatorias a leyes y decretos. ¿Qué pregunta legal podría fallar por haber dejado afuera las resoluciones?</li>
+        <li>¿Por qué el catálogo se baja a una carpeta con fecha en vez de sobrescribir “el último”? ¿Qué experimento se volvería irreproducible si no lo hiciéramos?</li>
+      </ol>
+    </section>
+
+    <footer>
+      Lección 1 de una serie. Se actualiza en esta misma página con cada fase. Código: repo <code>legal-ai</code>, rama <code>phase-1-ingestion</code>.
+    </footer>
+  </main>
+</div>

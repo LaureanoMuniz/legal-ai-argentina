@@ -101,4 +101,8 @@ Los comandos que todavía no existen están marcados en el roadmap.
 
 ## Estado
 
-Fase 0 (arquitectura y documentación) completa. Fase 1 (ingestion) en curso.
+Fases 0 (arquitectura) y 1 (ingestion) completas. Fase 2 (parser) es la siguiente.
+
+Hay un cuaderno de aprendizaje por fase en `docs/cuaderno/` (se publica como
+página HTML): qué se construyó, qué problema real apareció y qué hace la
+industria con ese problema.
