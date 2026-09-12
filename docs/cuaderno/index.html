@@ -619,11 +619,11 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
           { t: "“¿Cuántos meses de preaviso corresponden con más de cinco años de antigüedad?”", ok: false,
             fb: "Eso está en el art. 231 de la LCT, que es semilla. El filtro no lo afecta." },
           { t: "“¿Cuál es el tope indemnizatorio vigente para el convenio de comercio?”", ok: true,
-            fb: "Los topes del art. 245 se publican por resolución de la Secretaría de Trabajo, no por ley ni decreto. Al filtrar tipos, esas resoluciones quedan afuera del corpus y el sistema debería abstenerse, no inventar un monto." },
+            fb: "El art. 245 (semilla) da la regla: tres veces el promedio de remuneraciones del convenio, con topes que homologa la Autoridad de Aplicación. El número concreto lo fija una resolución. De las 263 normas que Infoleg vincula a la LCT, el filtro dejó afuera 134: 127 son resoluciones, y entre ellas están “Topes indemnizatorios por actividad” (852/1999), “Ref.: art. 245. Fíjanse montos” (184/2004), “Nuevo tope indemnizatorio” (10/2011). Tenemos la regla, no el dato: el sistema debe abstenerse, no inventar un monto." },
           { t: "“¿Qué dice el art. 14 bis de la Constitución?”", ok: false,
             fb: "También fallaría, pero por otro motivo: la Constitución no modifica a la LCT, así que no entra por la expansión de modificatorias, con filtro o sin él." },
           { t: "“¿Está derogado el art. 28 de la LCT?”", ok: false,
-            fb: "La derogación está anotada inline en el texto actualizado de la LCT, que es semilla. No depende de las modificatorias expandidas." }
+            fb: "La derogación está escrita adentro del texto actualizado de la LCT: “Art. 28. (Artículo derogado por art. 207 de la Ley Nº 27.802 B.O. 6/3/2026)”. La LCT es semilla y las semillas nunca se filtran. El filtro solo decide qué otras normas entran; no puede sacar nada que ya esté en el texto de una semilla." }
         ]
       },
       {
