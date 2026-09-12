@@ -201,6 +201,30 @@ dl.gloss dd { margin: 0; color: var(--ink-2); font-size: .95rem; }
 .kv span:first-child { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8rem; padding-top: .15rem; }
 .tag { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: .72rem; padding: .1rem .45rem; border: 1px solid var(--rule); border-radius: 999px; color: var(--ink-2); vertical-align: middle; }
 .tag.done { border-color: var(--accent); color: var(--accent); }
+.quiz { display: grid; gap: 1.5rem; margin: 0 0 1.5rem; }
+.q { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.2rem; background: var(--paper-2); }
+.q fieldset { border: 0; padding: 0; margin: 0; }
+.q legend { font-weight: 600; line-height: 1.45; margin-bottom: .75rem; text-wrap: pretty; }
+.q .n { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; color: var(--muted); display: block; margin-bottom: .25rem; letter-spacing: .06em; }
+.opts { display: grid; gap: .45rem; }
+.opt { display: grid; grid-template-columns: 1.4rem 1fr; gap: .6rem; align-items: start; padding: .55rem .7rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); cursor: pointer; font-size: .95rem; line-height: 1.45; }
+.opt:hover { border-color: var(--accent); }
+.opt input { margin: .3rem 0 0; accent-color: var(--accent); }
+.opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.q[data-state="ok"] .opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.q[data-state="ko"] .opt:has(input:checked) { border-color: var(--warn); background: var(--warn-soft); }
+.q[data-state] .opt.is-correct { border-color: var(--accent); }
+.q[data-state] .opt { cursor: default; }
+.fb { margin-top: .8rem; font-size: .93rem; line-height: 1.5; padding: .7rem .9rem; border-radius: 6px; border-left: 3px solid var(--rule); background: var(--paper); }
+.fb[hidden] { display: none; }
+.q[data-state="ok"] .fb { border-color: var(--accent); }
+.q[data-state="ko"] .fb { border-color: var(--warn); }
+.fb b { font-weight: 600; }
+.score { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1.5rem; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.score .big { font-family: "Newsreader", Georgia, serif; font-size: 2rem; font-weight: 600; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.score .msg { color: var(--ink-2); }
+.score button { margin-left: auto; font: inherit; font-size: .85rem; padding: .4rem .8rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink); cursor: pointer; }
+.score button:hover { border-color: var(--accent); color: var(--accent); }
 footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 </style>
@@ -233,7 +257,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#numeros">6. Los números de la corrida</a></li>
       <li><a href="#proximo">7. Lo que viene: el parser</a></li>
       <li><a href="#glosario">Glosario</a></li>
-      <li><a href="#pensar">Para pensar</a></li>
+      <li><a href="#pensar">Autoevaluación</a></li>
     </ol>
   </nav>
 
@@ -548,15 +572,219 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
     </section>
 
     <section id="pensar">
-      <h2>Para pensar</h2>
-      <p>Preguntas sin respuesta en esta página. Si las podés contestar, la lección quedó.</p>
-      <ol class="pensar">
-        <li>Si un abogado pregunta “¿cuánto es el período de prueba?”, ¿qué versión del art. 92 bis debería devolver el sistema y con qué fecha debería etiquetar la respuesta? ¿Qué pasa si no aclara fecha?</li>
-        <li>Guardamos los HTML sin decodificar. ¿Qué habría que volver a bajar si descubrimos un bug en el parser? ¿Y si lo descubrimos en el fetcher?</li>
-        <li>El manifest filtra las modificatorias a leyes y decretos. ¿Qué pregunta legal podría fallar por haber dejado afuera las resoluciones?</li>
-        <li>¿Por qué el catálogo se baja a una carpeta con fecha en vez de sobrescribir “el último”? ¿Qué experimento se volvería irreproducible si no lo hiciéramos?</li>
-      </ol>
+      <h2>Autoevaluación</h2>
+      <p>Ocho preguntas sobre lo que leíste. Elegí una opción y vas a ver enseguida por qué está bien o por qué no. Las respuestas quedan guardadas en este navegador.</p>
+      <div class="quiz" id="quiz"></div>
+      <div class="score" id="score" hidden>
+        <span class="big" id="score-num">0 / 8</span>
+        <span class="msg" id="score-msg"></span>
+        <button type="button" id="quiz-reset">Volver a empezar</button>
+      </div>
     </section>
+
+    <script>
+    const QUESTIONS = [
+      {
+        id: "q1",
+        text: "Un abogado pregunta “¿cuánto dura el período de prueba?” sin aclarar fecha. ¿Qué debería hacer el sistema con el art. 92 bis?",
+        options: [
+          { t: "Devolver el texto original de 1974, porque es la ley tal como fue sancionada.", ok: false,
+            fb: "El original está derogado en ese punto: el art. 92 bis fue sustituido varias veces. Responder con él es Temporal Misgrounding al revés." },
+          { t: "Devolver la versión vigente hoy, etiquetada con su fecha de vigencia, y avisar que el artículo tuvo versiones anteriores.", ok: true,
+            fb: "Sin fecha, la convención razonable es “hoy”, pero la respuesta tiene que decir desde cuándo rige ese texto y que existieron otros. Así el usuario puede repreguntar por 2023 si lo necesita." },
+          { t: "Devolver todas las versiones juntas para que el abogado elija.", ok: false,
+            fb: "Tira el problema al usuario y hace la respuesta ilegible. Las versiones anteriores están disponibles si las pide, no mezcladas." },
+          { t: "Negarse a responder hasta que aclare la fecha.", ok: false,
+            fb: "Demasiado rígido para la pregunta más común. Abstenerse es para cuando no hay evidencia, no para cuando falta un parámetro con un default sensato." }
+        ]
+      },
+      {
+        id: "q2",
+        text: "Guardamos los HTML de Infoleg sin decodificar. Si descubrimos un bug, ¿qué hay que volver a bajar?",
+        options: [
+          { t: "En cualquier caso hay que volver a bajar todo, porque los archivos quedaron mal.", ok: false,
+            fb: "No: los bytes crudos son correctos por definición, son lo que el servidor mandó. Lo que puede estar mal es cómo los interpretamos." },
+          { t: "Bug en el parser: nada, se vuelve a correr sobre data/raw. Bug en el fetcher: sí, con --force.", ok: true,
+            fb: "Esa es la razón de separar raw de processed. El parser es reproducible sobre lo que ya está en disco; el fetcher es lo único que produce raw, así que un bug ahí sí obliga a bajar de nuevo." },
+          { t: "Bug en el parser: sí. Bug en el fetcher: no, porque el fetcher solo copia bytes.", ok: false,
+            fb: "Al revés. Un bug en el fetcher (por ejemplo, guardar la respuesta de una redirección equivocada) contamina raw, que es justo lo que no se puede reparar con código." },
+          { t: "Nunca hay que volver a bajar nada: para eso está el meta.json.", ok: false,
+            fb: "El meta.json registra qué se bajó y con qué hash; no repara un archivo mal bajado." }
+        ]
+      },
+      {
+        id: "q3",
+        text: "El manifest expande solo leyes y decretos que modifican a las semillas. ¿Cuál de estas preguntas podría fallar por ese filtro?",
+        options: [
+          { t: "“¿Cuántos meses de preaviso corresponden con más de cinco años de antigüedad?”", ok: false,
+            fb: "Eso está en el art. 231 de la LCT, que es semilla. El filtro no lo afecta." },
+          { t: "“¿Cuál es el tope indemnizatorio vigente para el convenio de comercio?”", ok: true,
+            fb: "Los topes del art. 245 se publican por resolución de la Secretaría de Trabajo, no por ley ni decreto. Al filtrar tipos, esas resoluciones quedan afuera del corpus y el sistema debería abstenerse, no inventar un monto." },
+          { t: "“¿Qué dice el art. 14 bis de la Constitución?”", ok: false,
+            fb: "También fallaría, pero por otro motivo: la Constitución no modifica a la LCT, así que no entra por la expansión de modificatorias, con filtro o sin él." },
+          { t: "“¿Está derogado el art. 28 de la LCT?”", ok: false,
+            fb: "La derogación está anotada inline en el texto actualizado de la LCT, que es semilla. No depende de las modificatorias expandidas." }
+        ]
+      },
+      {
+        id: "q4",
+        text: "El catálogo se baja a una carpeta con fecha en vez de sobrescribir “el último”. ¿Qué se volvería irreproducible si no lo hiciéramos?",
+        options: [
+          { t: "Los tests unitarios, que dependen del catálogo real.", ok: false,
+            fb: "Los tests no tocan el catálogo real: construyen ZIPs de prueba en un directorio temporal. Justamente para no depender de esto." },
+          { t: "Comparar un benchmark de septiembre con uno de noviembre: si Infoleg cambió textos entre medio, no sabrías si cambió el retrieval o los datos.", ok: true,
+            fb: "Cada experimento tiene que poder decir “corrí sobre el catálogo del 2026-09-12”. Si el catálogo es un blanco móvil, cualquier diferencia entre dos corridas es inexplicable." },
+          { t: "La descarga de textos, porque las URLs cambian de un mes a otro.", ok: false,
+            fb: "Las URLs de Infoleg son estables por id_norma. El problema no es la descarga, es saber contra qué versión de los datos se midió algo." },
+          { t: "Nada: el manifest.json ya guarda el hash, con eso alcanza.", ok: false,
+            fb: "El hash te dice que algo cambió, pero si sobrescribiste el archivo ya no tenés el contenido anterior para comparar ni para volver a correr el experimento viejo." }
+        ]
+      },
+      {
+        id: "q5",
+        text: "El CSV se abre con encoding=\"utf-8-sig\". ¿Qué pasaría con \"utf-8\" a secas?",
+        options: [
+          { t: "Nada visible: la sig solo afecta a la escritura de archivos, no a la lectura.", ok: false,
+            fb: "Afecta a la lectura: “sig” le dice al decoder que descarte el BOM inicial si está." },
+          { t: "Los acentos de titulo_sumario se leerían mal en todas las filas.", ok: false,
+            fb: "El BOM está una sola vez, al principio del archivo. Los acentos del cuerpo se decodifican bien en UTF-8 con o sin sig." },
+          { t: "La primera columna se llamaría “\ufeffid_norma”, el modelo no encontraría id_norma y la validación fallaría en la primera fila.", ok: true,
+            fb: "Tres bytes invisibles al comienzo (EF BB BF) se convierten en el carácter U+FEFF pegado al primer encabezado. Es un clásico de los CSV exportados desde Windows y aparece en cualquier pipeline de datos." },
+          { t: "El ZIP no se podría abrir, porque la codificación se declara en el contenedor.", ok: false,
+            fb: "El ZIP no sabe nada de la codificación del texto que contiene; eso se decide al envolver el stream con TextIOWrapper." }
+        ]
+      },
+      {
+        id: "q6",
+        text: "El cliente HTTP reintenta hasta tres veces con espera exponencial. ¿Cuál de estas respuestas NO se reintenta, y por qué?",
+        options: [
+          { t: "429 Too Many Requests", ok: false,
+            fb: "Sí se reintenta: es el servidor diciendo “más despacio”. Esperar y volver a intentar es exactamente la respuesta correcta." },
+          { t: "503 Service Unavailable", ok: false,
+            fb: "Sí se reintenta: es transitorio por definición." },
+          { t: "Timeout de conexión", ok: false,
+            fb: "Sí se reintenta: es un error de transporte, típicamente pasajero." },
+          { t: "403 Forbidden", ok: true,
+            fb: "Un 403 no cambia por esperar: es una decisión del servidor sobre el request (en nuestro caso, el User-Agent). Reintentarlo desperdicia tiempo y le pega tres veces a un servidor que ya dijo que no. Lo mismo vale para 404." }
+        ]
+      },
+      {
+        id: "q7",
+        text: "En modelado bitemporal se distinguen dos tiempos. ¿Cuál de estos campos nuestros es el “tiempo de validez” (cuándo el hecho era cierto en el mundo)?",
+        options: [
+          { t: "fetched_at, en meta.json", ok: false,
+            fb: "Ese es el tiempo de transacción: cuándo lo registramos nosotros. Sirve para procedencia, no para saber cuándo regía un artículo." },
+          { t: "effective_from / effective_until, en article_versions", ok: true,
+            fb: "Ese par dice desde y hasta cuándo un texto estuvo vigente en el mundo real, independientemente de cuándo lo bajamos. El filtro temporal del retrieval usa estos campos." },
+          { t: "snapshot_date, en manifest.json", ok: false,
+            fb: "Es la fecha del snapshot del catálogo: tiempo de transacción a nivel de dataset." },
+          { t: "resolved_at, en resolved.json", ok: false,
+            fb: "Es cuándo corrimos la resolución del corpus. Otro tiempo de transacción." }
+        ]
+      },
+      {
+        id: "q8",
+        text: "¿Por qué el chunk apunta a una article_version y no directamente al article?",
+        options: [
+          { t: "Porque las versiones son más cortas y entran mejor en el embedding.", ok: false,
+            fb: "El largo es el mismo: una versión es el texto completo del artículo en un momento dado." },
+          { t: "Porque así la cita puede decir artículo@versión y el filtro por fecha se aplica al chunk sin pasos extra.", ok: true,
+            fb: "Si el chunk apuntara al artículo, al recuperar “art. 245” no sabrías qué texto se usó ni podrías filtrar por vigencia. Con la versión, la evidencia y el filtro temporal salen del mismo lugar." },
+          { t: "Porque Postgres no permite claves foráneas a tablas con muchas filas.", ok: false,
+            fb: "Postgres no tiene ese límite. Es una decisión de modelado, no técnica." },
+          { t: "Porque los artículos derogados no tienen versión y así se excluyen solos.", ok: false,
+            fb: "Al contrario: los derogados sí tienen versión, con status = derogado y effective_until. Se necesitan para preguntas históricas." }
+        ]
+      }
+    ];
+
+    (function () {
+      const KEY = "cuaderno-legal-ai:quiz-l1";
+      const quiz = document.getElementById("quiz");
+      const scoreBox = document.getElementById("score");
+      const scoreNum = document.getElementById("score-num");
+      const scoreMsg = document.getElementById("score-msg");
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
+
+      function persist() { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+
+      function render() {
+        quiz.replaceChildren();
+        QUESTIONS.forEach((q, qi) => {
+          const box = document.createElement("div");
+          box.className = "q"; box.id = q.id;
+          const fs = document.createElement("fieldset");
+          const lg = document.createElement("legend");
+          const n = document.createElement("span"); n.className = "n"; n.textContent = "Pregunta " + (qi + 1) + " de " + QUESTIONS.length;
+          lg.append(n, document.createTextNode(q.text));
+          const opts = document.createElement("div"); opts.className = "opts";
+          const fb = document.createElement("div"); fb.className = "fb"; fb.hidden = true;
+          q.options.forEach((o, oi) => {
+            const label = document.createElement("label"); label.className = "opt";
+            const input = document.createElement("input");
+            input.type = "radio"; input.name = q.id; input.id = q.id + "-" + oi; input.value = String(oi);
+            const span = document.createElement("span"); span.textContent = o.t;
+            label.append(input, span);
+            input.addEventListener("change", () => answer(q, oi, box, fb));
+            opts.append(label);
+          });
+          fs.append(lg, opts, fb);
+          box.append(fs);
+          quiz.append(box);
+          if (saved[q.id] !== undefined) {
+            const chosen = box.querySelector("#" + q.id + "-" + saved[q.id]);
+            if (chosen) { chosen.checked = true; answer(q, saved[q.id], box, fb, true); }
+          }
+        });
+        updateScore();
+      }
+
+      function answer(q, oi, box, fb, silent) {
+        const o = q.options[oi];
+        saved[q.id] = oi; if (!silent) persist();
+        box.dataset.state = o.ok ? "ok" : "ko";
+        box.querySelectorAll("input").forEach(i => { i.disabled = true; });
+        box.querySelectorAll(".opt").forEach((l, i) => { if (q.options[i].ok) l.classList.add("is-correct"); });
+        fb.replaceChildren();
+        const b = document.createElement("b"); b.textContent = o.ok ? "Correcto. " : "No es esa. ";
+        fb.append(b, document.createTextNode(o.fb));
+        if (!o.ok) {
+          const right = q.options.find(x => x.ok);
+          const p = document.createElement("p"); p.style.margin = ".5rem 0 0";
+          const rb = document.createElement("b"); rb.textContent = "La correcta: ";
+          p.append(rb, document.createTextNode(right.t));
+          fb.append(p);
+        }
+        fb.hidden = false;
+        updateScore();
+      }
+
+      function updateScore() {
+        const answered = Object.keys(saved).filter(k => QUESTIONS.some(q => q.id === k));
+        if (answered.length === 0) { scoreBox.hidden = true; return; }
+        const correct = answered.filter(k => QUESTIONS.find(q => q.id === k).options[saved[k]].ok).length;
+        scoreNum.textContent = correct + " / " + QUESTIONS.length;
+        if (answered.length < QUESTIONS.length) {
+          scoreMsg.textContent = "Respondiste " + answered.length + " de " + QUESTIONS.length + ".";
+        } else if (correct === QUESTIONS.length) {
+          scoreMsg.textContent = "Todas. La lección quedó.";
+        } else if (correct >= 6) {
+          scoreMsg.textContent = "Bien. Releé las explicaciones de las que fallaste antes de la Fase 2.";
+        } else {
+          scoreMsg.textContent = "Vale la pena volver a las secciones 2 y 3 antes de seguir.";
+        }
+        scoreBox.hidden = false;
+      }
+
+      document.getElementById("quiz-reset").addEventListener("click", () => {
+        saved = {}; persist(); render();
+        document.getElementById("pensar").scrollIntoView({ block: "start" });
+      });
+
+      render();
+    })();
+    </script>
 
     <footer>
       Lección 1 de una serie. Se actualiza en esta misma página con cada fase. Código: repo <code>legal-ai</code>, rama <code>phase-1-ingestion</code>.
