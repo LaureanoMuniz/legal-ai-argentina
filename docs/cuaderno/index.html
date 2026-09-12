@@ -235,16 +235,17 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lección <b>1</b> · Fases 0 y 1</span>
+      <span>Lecciones <b>1 y 2</b> · Fases 0 a 2</span>
       <span>Corpus <b>laboral · 931 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
-      <span>Rama <b>phase-1-ingestion</b></span>
+      <span>Rama <b>main</b></span>
     </div>
   </header>
 
   <nav class="toc" aria-label="Índice">
     <div class="eyebrow">Índice</div>
     <ol>
+      <li class="sub" style="padding-left:0"><span class="eyebrow">Lección 1 · Fases 0 y 1</span></li>
       <li><a href="#mapa">1. El mapa del sistema</a></li>
       <li><a href="#fuente">2. La fuente: Infoleg</a></li>
       <li class="sub"><a href="#hallazgos">Cuatro hallazgos</a></li>
@@ -256,8 +257,14 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#modelo">5. El modelo de datos</a></li>
       <li><a href="#numeros">6. Los números de la corrida</a></li>
       <li><a href="#proximo">7. Lo que viene: el parser</a></li>
+      <li><a href="#pensar">Autoevaluación 1</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 2 · Fase 2</span></li>
+      <li><a href="#l2-mapa">8. El parser, de bytes a versiones</a></li>
+      <li><a href="#l2-hallazgos">9. Siete complicaciones</a></li>
+      <li><a href="#l2-numeros">10. Los números de la Fase 2</a></li>
+      <li><a href="#l2-proximo">11. Lo que viene: Postgres</a></li>
       <li><a href="#glosario">Glosario</a></li>
-      <li><a href="#pensar">Autoevaluación</a></li>
+      <li><a href="#pensar2">Autoevaluación 2</a></li>
     </ol>
   </nav>
 
@@ -567,6 +574,124 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
       </div>
     </section>
 
+    <section id="l2-mapa">
+      <div class="eyebrow">Lección 2 · Fase 2</div>
+      <h2>8. El parser, de bytes a versiones</h2>
+      <p class="lead">La Fase 2 convierte 886 archivos HTML en 11.322 artículos con jerarquía, notas de modificación, dos versiones cada uno y fechas de vigencia. Sin librería de HTML, sin LLM: un parser por líneas con expresiones regulares y cuatro documentos reales como golden files.</p>
+      <p>La cadena es corta y cada eslabón se puede correr solo:</p>
+      <pre><code>bytes → decode_html      charset del &lt;meta&gt;, fallback latin-1
+      → html_to_lines    bloques y &lt;br&gt; a líneas, sin etiquetas
+      → parse_text       máquina de estados: jerarquía, artículos, anexos, marcadores
+      → parse_notes      "(Artículo sustituido por art. 91 de la Ley 27.742 B.O. 8/7/2024)"
+      → build_articles   original vs current, effective_from / effective_until
+      → parse_vinculos   páginas de vínculos → relaciones tipadas
+      → parse_antecedentes  "Antecedentes Normativos" → historial por artículo</code></pre>
+      <p>La decisión de no usar una librería de HTML no es purismo: el markup de Infoleg es plano (<code>&lt;p&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;b&gt;</code>), no tiene clases ni estructura semántica, y a veces el <code>&lt;b&gt;</code> envuelve al <code>&lt;p&gt;</code>. Recorrer ese árbol no aporta nada; el texto en líneas sí.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los sistemas de información jurídica modelan un documento en tres planos que conviene tener en la cabeza (el modelo FRBR, base de estándares como Akoma Ntoso): la <strong>obra</strong> (la Ley 20.744 como acto), cada <strong>expresión</strong> (su texto vigente en una fecha dada) y cada <strong>manifestación</strong> (el HTML concreto de Infoleg). Nuestro <code>articles.jsonl</code> es la obra a nivel artículo, <code>article_versions.jsonl</code> son las expresiones, y <code>source_url</code> + <code>sha256</code> apuntan a la manifestación. Infoleg sólo publica dos expresiones por artículo; las demás hay que reconstruirlas.</p>
+      </div>
+    </section>
+
+    <section id="l2-hallazgos">
+      <h2>9. Siete complicaciones que no estaban en el plan</h2>
+      <p>El plan de la Fase 2 duró hasta la primera pasada sobre las 933 normas reales. Cada una de estas apareció en los datos, no en la teoría, y cada una dejó un test.</p>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 7 · El "texto original" de la LCT no es la LCT</div>
+        <p>El <code>norma.htm</code> de la Ley 20.744 tiene 3 artículos: "Apruébase el régimen del contrato de trabajo... cuyas disposiciones se considerarán incorporadas". El cuerpo de 1974 iba como anexo y Infoleg no lo tiene. El texto que todos citan hoy es el <strong>texto ordenado por Decreto 390/76</strong>, que renumeró los artículos, y ese texto completo está en el <code>norma.htm</code> del decreto, como anexo de 277 artículos.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los textos ordenados o consolidados son la unidad de trabajo real del derecho; la "ley original" es un dato histórico. Los sistemas serios modelan explícitamente de dónde sale cada versión. Nosotros lo declaramos en el manifest (<code>original_from</code> en la semilla de la LCT) y cada versión guarda <code>source_document_id</code>: la "original" de la LCT dice 229909, no 25552. Una cita al original de la LCT es siempre al t.o. 1976, y así se etiqueta (ADR-015).</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 8 · Las leyes citan leyes</div>
+        <p>Una ley modificatoria dice "Sustitúyese el artículo 245 por el siguiente:" y a continuación transcribe <em>"Artículo 245. — Indemnización por antigüedad..."</em>. Para el parser eso es un encabezado de artículo, y el siguiente artículo real de la ley anfitriona ("ARTICULO 19") parecía ir hacia atrás y se descartaba como referencia cruzada. En la primera pasada esto produjo 917 falsos encabezados.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Un documento embebido dentro de otro es el caso clásico donde un parser plano se rompe y donde hay que decidir señales. Usamos dos: la línea introductoria que termina en ":" (con o sin comilla de apertura) y el <strong>cambio de estilo</strong> del encabezado, porque la ley anfitriona escribe "ARTICULO" y la citada "Artículo". El texto citado queda dentro del artículo anfitrión, que es lo correcto jurídicamente: es parte de su contenido. Los falsos encabezados bajaron de 917 a 48.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 9 · Un capítulo derogado sin artículos numerados</div>
+        <p>El art. 89 de la LCT trae la nota "(Capítulo VIII derogado por art. 26 de la Ley 27.802)". Pero el art. 89 está en el Capítulo VII. El Capítulo VIII ("De la formación profesional", incorporado por Ley 24.576) tenía artículos <strong>sin número</strong>, así que al derogarlo Infoleg colgó la nota del último artículo numerado anterior. La primera versión del parser propagó la derogación a todo el capítulo del art. 89 y dio 44 artículos derogados en vez de 16.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los eventos a nivel contenedor (derogar un capítulo, un título) son distintos de los eventos a nivel artículo y hay que modelarlos como tales. La regla que quedó: una nota de capítulo sólo se propaga si el número coincide con el capítulo del artículo que la porta; si no, es una advertencia en el reporte y el artículo sigue vigente. El golden file de la LCT registra esa advertencia como parte del resultado esperado.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 10 · Dos transcripciones del mismo texto</div>
+        <p>Comparando el anexo del Decreto 390/76 con el texto actualizado, 120 artículos de la LCT aparecían "cambiados sin nota". Mirándolos: "rigen" contra "rige", "a) por esta ley;" contra "a) Por esta ley.", una coma de más. Son la misma norma tipeada dos veces.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Igualdad exacta de strings casi nunca es la pregunta correcta en datos reales; se usa <strong>similitud normalizada</strong> con un umbral (record linkage, deduplicación). Elegimos 0,9 sobre texto sin puntuación ni mayúsculas, y una regla de autoridad: si Infoleg no puso nota, el artículo no cambió, y el texto original es el del decreto. Con eso la LCT bajó a 2 casos reales. El umbral es una decisión, no una verdad: queda registrado en cada versión (<code>similarity_to_original</code>) para poder revisarlo.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 11 · Notas compuestas y paréntesis anidados</div>
+        <p>Art. 147: "(Párrafo tercero sustituido por art. 168 del Decreto N° 27/2018 B.O. 11/1/2018. Derogado por art. 134 de la Ley N° 27.444 B.O. 18/06/2018. 'No se revive el texto anterior... (Conf. Manual de Técnica Legislativa)'.)". Dos eventos en una nota, un paréntesis adentro del paréntesis, y una cita doctrinaria. El regex original cortaba en el primer paréntesis interno y perdía todo.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Las expresiones regulares tienen un límite natural en la anidación. Acá alcanzó con permitir un nivel y partir la nota en eventos ("Sustituido por... Derogado por..."), y cada evento sale como registro separado. Si aparecieran dos niveles de anidación o gramáticas más ricas, el paso siguiente sería una gramática formal (PEG), no más regex. Saber cuándo cambiar de herramienta es parte del oficio; con cuatro golden files y 893 advertencias todavía no hace falta.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 12 · Los anexos son la mitad del derecho</div>
+        <p>2.377 de los 11.322 artículos están en anexos: reglamentos de programas de empleo, textos ordenados de otras leyes, escalas. El plan los ignoraba. Y hay una trampa: el anexo del Decreto 1135/2004 es el texto ordenado de la Ley 14.250, que en Infoleg ya existe como norma propia. Incluir anexos duplica textos; excluirlos pierde reglamentos.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Recall primero, precisión después, otra vez. Los artículos de anexo entran con identidad propia (<code>98232:anexoi:1</code>) y con la marca <code>annex</code>, y un documento que sirve de <code>original_from</code> no repite su anexo. La deduplicación para retrieval se decide en la Fase 3 con el índice, midiendo, no acá a ciegas.</p>
+      </div>
+
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 13 · Lo que Infoleg no dice</div>
+        <p>El texto actualizado de la LCT termina con "Antecedentes Normativos": 69 eventos tipo "Artículo 245 sustituido por art. 81 del Decreto 70/2023 B.O. 21/12/2023". Es el historial completo de quién cambió qué y cuándo, incluidas sustituciones que después se volvieron a sustituir. Pero no trae los textos anteriores.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Es un log de eventos sin payload. En sistemas con <strong>event sourcing</strong>, el estado en cualquier fecha se reconstruye aplicando los eventos en orden; acá el payload de cada evento está en otro documento (la ley modificatoria, que cita el texto nuevo, ver complicación 8). Guardamos los 321 eventos en <code>history.jsonl</code>: es el índice que la Fase 9 va a seguir para reconstruir "qué decía el art. 245 en 2021".</p>
+      </div>
+    </section>
+
+    <section id="l2-numeros">
+      <h2>10. Los números de la Fase 2</h2>
+      <p>Medido sobre el corpus laboral, catálogo 2026-09-12. Parsear las 933 normas tarda unos 3 segundos.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Qué</th><th class="num">Valor</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>Documentos con texto</td><td class="num">751 / 933</td><td>14 con texto pero sin artículos numerados: comunicaciones del BCRA, circulares, decretos de promulgación</td></tr>
+          <tr><td>Artículos</td><td class="num">11.322</td><td>8.945 principales + 2.377 en anexos</td></tr>
+          <tr><td>Versiones</td><td class="num">15.327</td><td>10.641 <code>original</code>, 4.686 <code>current</code>, 189 derogadas</td></tr>
+          <tr><td>Relaciones</td><td class="num">13.136</td><td>13.074 de las páginas de vínculos, 62 de notas inline resueltas a una norma del corpus</td></tr>
+          <tr><td>Eventos de historial</td><td class="num">321</td><td>De 53 textos actualizados con "Antecedentes Normativos"</td></tr>
+          <tr><td>LCT</td><td class="num">293 art.</td><td>16 derogados, 75 sustituidos, 7 incorporados, 1 advertencia (Capítulo VIII)</td></tr>
+          <tr><td>Advertencias</td><td class="num">893</td><td>En 101 documentos. De 2.082 en la primera pasada</td></tr>
+          <tr><td>Tests</td><td class="num">51 archivos</td><td>Incluye golden files de 4 normas reales</td></tr>
+        </tbody>
+        <caption>Las 893 advertencias no son errores nuestros a esconder: 557 son anexos de resoluciones que Infoleg reescribe entero sin nota por artículo, 228 son artículos de un decreto cuyo texto actualizado no tiene encabezados. Están en el reporte para la Fase 3.</caption>
+      </table>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Las advertencias del parser son <strong>salida de primera clase</strong>, no logs: <code>parse_report.json</code> lista cada una por norma y el CLI las imprime con <code>--warnings</code>. Es la misma idea que las pruebas de calidad de datos en un pipeline (dbt tests, Great Expectations): lo que no se pudo interpretar se marca y se cuenta, no se descarta en silencio. Un chunk sin fecha de vigencia confiable en la Fase 9 va a tener que decir que no la tiene.</p>
+      </div>
+    </section>
+
+    <section id="l2-proximo">
+      <h2>11. Lo que viene: Postgres</h2>
+      <p>La Fase 3 lleva los JSONL a PostgreSQL con pgvector y pg_search, genera los chunks con prefijo de contexto ("Ley 20.744, Título XII, Art. 245, Indemnización por antigüedad, vigente desde 2026-03-06"), calcula embeddings con bge-m3 y arma el primer RAG: pregunta → vector → top-k → Claude → respuesta con citas <code>artículo@versión</code>. Necesita Docker Desktop prendido.</p>
+      <p>Tres decisiones que la Fase 3 hereda de esta: qué hacer con los 2.377 artículos de anexos (indexar, deduplicar o filtrar), cómo indexar las 14 normas sin artículos, y si el preámbulo (VISTO / CONSIDERANDO) de las 630 resoluciones entra como chunk propio. Las tres se deciden con el benchmark de la Fase 4, no antes.</p>
+    </section>
+
     <section id="glosario">
       <h2>Glosario</h2>
       <dl class="gloss">
@@ -580,6 +705,10 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
         <dt>Bitemporal</dt><dd>Modelar por separado cuándo algo fue válido en el mundo y cuándo lo registramos.</dd>
         <dt>Temporal Misgrounding</dt><dd>Responder una pregunta sobre una fecha con la versión de otra fecha, sin avisar.</dd>
         <dt>Golden file</dt><dd>Salida esperada, revisada a mano, guardada como test.</dd>
+        <dt>Texto ordenado</dt><dd>Versión consolidada de una ley con todas sus modificaciones incorporadas y, a veces, renumerada. El de la LCT es el Decreto 390/76.</dd>
+        <dt>FRBR</dt><dd>Modelo obra / expresión / manifestación: la ley, su texto en una fecha, el archivo concreto que lo contiene.</dd>
+        <dt>Event sourcing</dt><dd>Guardar los cambios como eventos ordenados y reconstruir el estado aplicándolos.</dd>
+        <dt>Similitud normalizada</dt><dd>Parecido entre dos textos tras quitar mayúsculas, puntuación y espacios; 1,0 es idéntico.</dd>
       </dl>
     </section>
 
@@ -591,6 +720,17 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
         <span class="big" id="score-num">0 / 8</span>
         <span class="msg" id="score-msg"></span>
         <button type="button" id="quiz-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="pensar2">
+      <h2>Autoevaluación 2</h2>
+      <p>Siete preguntas sobre el parser. Mismo formato: respuesta inmediata y explicación.</p>
+      <div class="quiz" id="quiz2"></div>
+      <div class="score" id="score2" hidden>
+        <span class="big" id="score2-num">0 / 7</span>
+        <span class="msg" id="score2-msg"></span>
+        <button type="button" id="quiz2-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -710,12 +850,98 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
       }
     ];
 
-    (function () {
-      const KEY = "cuaderno-legal-ai:quiz-l1";
-      const quiz = document.getElementById("quiz");
-      const scoreBox = document.getElementById("score");
-      const scoreNum = document.getElementById("score-num");
-      const scoreMsg = document.getElementById("score-msg");
+    const QUESTIONS_L2 = [
+      {
+        id: "l2q1",
+        text: "¿Por qué la versión “original” de los artículos de la LCT se toma del Decreto 390/76 y no del norma.htm de la Ley 20.744?",
+        options: [
+          { t: "Porque el decreto es jerárquicamente superior a la ley en este caso.", ok: false,
+            fb: "No: un decreto no está por encima de una ley. El motivo es documental, no jerárquico." },
+          { t: "Porque el norma.htm de la Ley 20.744 es la ley aprobatoria de 3 artículos, el cuerpo de 1974 no está en Infoleg, y el texto ordenado de 1976 que sí está tiene la numeración que se usa hasta hoy.", ok: true,
+            fb: "Exacto. Infoleg tiene el original del acto aprobatorio, no del régimen. El t.o. 1976 es la primera expresión completa disponible con la numeración vigente, y cada versión guarda source_document_id = 229909 para no ocultarlo." },
+          { t: "Porque el decreto es más reciente y por eso más confiable.", ok: false,
+            fb: "La antigüedad no define confiabilidad. Y de hecho queremos la versión más antigua disponible como punto de partida." },
+          { t: "Porque el parser no puede leer el norma.htm de la LCT.", ok: false,
+            fb: "Lo lee perfectamente: son 3 artículos. Simplemente no contienen el régimen." }
+        ]
+      },
+      {
+        id: "l2q2",
+        text: "En el modelo FRBR aplicado a la LCT, ¿qué es el HTML texact.htm que bajamos de Infoleg?",
+        options: [
+          { t: "La obra.", ok: false, fb: "La obra es la Ley 20.744 como acto jurídico, independiente de cualquier texto concreto." },
+          { t: "Una expresión.", ok: false, fb: "Casi: la expresión es el texto vigente en una fecha. El archivo HTML que lo contiene es un nivel más abajo." },
+          { t: "Una manifestación.", ok: true, fb: "Sí: el archivo concreto, con su URL y su sha256, es la manifestación de la expresión “texto vigente al 2026-09-12”. Si Infoleg corrigiera un acento, cambiaría la manifestación sin cambiar la expresión." },
+          { t: "Un ítem de catálogo.", ok: false, fb: "El catálogo (CSV) describe la norma; no es el texto." }
+        ]
+      },
+      {
+        id: "l2q3",
+        text: "Un artículo current no tiene nota fechada y su similitud con el original es 0,95. ¿Qué registra el parser?",
+        options: [
+          { t: "Cambiado sin fecha conocida; effective_from = fecha del documento actual; advertencia.", ok: false,
+            fb: "Eso pasa por debajo de 0,9. A 0,95 la diferencia se atribuye a transcripción." },
+          { t: "Sin cambios: unchanged_from_original = true y effective_from = la fecha del original (1976-05-21 para la LCT).", ok: true,
+            fb: "Correcto. La regla de autoridad es que si Infoleg no puso nota, no hubo cambio; la similitud alta confirma que la diferencia es de tipeo. La similitud queda guardada para poder revisar el umbral." },
+          { t: "Dos versiones distintas con la misma fecha.", ok: false, fb: "Serían dos expresiones para el mismo instante: contradictorio." },
+          { t: "Descarta el original y se queda con el actual.", ok: false, fb: "Nunca se descarta: el original tiene su propia versión con su fecha." }
+        ]
+      },
+      {
+        id: "l2q4",
+        text: "El art. 89 (Capítulo VII) trae la nota “(Capítulo VIII derogado por art. 26 de la Ley 27.802)”. ¿Qué hace el parser?",
+        options: [
+          { t: "Marca el art. 89 y todo el Capítulo VII como derogados.", ok: false,
+            fb: "Eso hizo la primera versión y dio 44 derogados en vez de 16. El Capítulo VIII es otro capítulo." },
+          { t: "Deja el art. 89 vigente, no propaga nada, y registra una advertencia “capitulo VIII derogation noted at article 89, which is not inside it”.", ok: true,
+            fb: "Sí. El número de la nota no coincide con el capítulo del artículo que la porta, así que el parser no puede saber qué artículos afecta (el Capítulo VIII tenía artículos sin número). La advertencia queda en el golden file como resultado esperado." },
+          { t: "Marca sólo el art. 89 como derogado.", ok: false, fb: "El art. 89 no está en el Capítulo VIII; derogarlo sería inventar." },
+          { t: "Ignora la nota.", ok: false, fb: "No se ignora: se registra como advertencia y sigue en text_with_notes." }
+        ]
+      },
+      {
+        id: "l2q5",
+        text: "¿Cuál de estas señales usa el parser para reconocer que “Artículo 245. — ...” dentro de la Ley 25.877 es una cita y no un artículo de esa ley?",
+        options: [
+          { t: "Que el texto citado aparece entre comillas.", ok: false,
+            fb: "A veces sí, a veces no. Las comillas no son confiables en el HTML de Infoleg." },
+          { t: "Que la línea anterior termina en “:” o que el encabezado usa un estilo distinto (“Artículo” vs “ARTICULO”) al del resto del documento, y además el número no es el esperado.", ok: true,
+            fb: "Las dos señales combinadas con la secuencia esperada. Una sola no alcanza: la Ley 25.877 tiene un caso sin dos puntos, donde sólo el estilo delata la cita." },
+          { t: "Que el número 245 es mayor que 300.", ok: false, fb: "El tamaño del número no dice nada." },
+          { t: "Que Infoleg marca las citas con una etiqueta HTML especial.", ok: false, fb: "Ojalá. No hay ninguna marca." }
+        ]
+      },
+      {
+        id: "l2q6",
+        text: "¿Por qué las 893 advertencias van a parse_report.json en vez de a un log?",
+        options: [
+          { t: "Porque los logs son lentos.", ok: false, fb: "No es un tema de performance." },
+          { t: "Porque son parte del resultado: describen qué no se pudo interpretar de cada norma, y la Fase 3 tiene que poder decidir con eso qué indexar y cómo etiquetar la vigencia.", ok: true,
+            fb: "Correcto. Es el mismo principio que las pruebas de calidad de datos en un pipeline: lo dudoso se marca y se cuenta, no se descarta en silencio. Un log se pierde; el reporte viaja con los datos." },
+          { t: "Porque los golden files las necesitan.", ok: false, fb: "El golden de la LCT sí registra su advertencia, pero eso es consecuencia, no causa." },
+          { t: "Porque el CLI no tiene logging configurado.", ok: false, fb: "Es una decisión de diseño, no una limitación." }
+        ]
+      },
+      {
+        id: "l2q7",
+        text: "La sección “Antecedentes Normativos” dice “Artículo 245 sustituido por art. 81 del Decreto 70/2023 B.O. 21/12/2023”. ¿Qué permite y qué no?",
+        options: [
+          { t: "Permite reconstruir el texto del art. 245 vigente en 2023 directamente.", ok: false,
+            fb: "No trae el texto anterior. Sólo dice que hubo un cambio, quién lo hizo y cuándo." },
+          { t: "Permite saber que hubo un cambio, quién y cuándo; el texto nuevo de ese momento hay que ir a buscarlo al Decreto 70/2023, que lo cita.", ok: true,
+            fb: "Es un log de eventos sin payload. history.jsonl guarda esos 321 eventos como índice; la Fase 9 los sigue hasta la norma modificatoria, cuyo texto citado (complicación 8) es la versión de esa fecha." },
+          { t: "No permite nada porque el Decreto 70/2023 fue después declarado inconstitucional.", ok: false,
+            fb: "La validez de un evento es otra discusión; el evento existió y Infoleg lo registra." },
+          { t: "Permite saber el texto pero no la fecha.", ok: false, fb: "Al revés: la fecha (B.O. 21/12/2023) está; el texto no." }
+        ]
+      }
+    ];
+
+    function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
+      const quiz = document.getElementById(quizId);
+      const scoreBox = document.getElementById(scoreId);
+      const scoreNum = document.getElementById(scoreId + "-num");
+      const scoreMsg = document.getElementById(scoreId + "-msg");
       let saved = {};
       try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
 
@@ -781,7 +1007,7 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
           scoreMsg.textContent = "Respondiste " + answered.length + " de " + QUESTIONS.length + ".";
         } else if (correct === QUESTIONS.length) {
           scoreMsg.textContent = "Todas. La lección quedó.";
-        } else if (correct >= 6) {
+        } else if (correct >= QUESTIONS.length - 2) {
           scoreMsg.textContent = "Bien. Releé las explicaciones de las que fallaste antes de la Fase 2.";
         } else {
           scoreMsg.textContent = "Vale la pena volver a las secciones 2 y 3 antes de seguir.";
@@ -789,17 +1015,19 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
         scoreBox.hidden = false;
       }
 
-      document.getElementById("quiz-reset").addEventListener("click", () => {
+      document.getElementById(resetId).addEventListener("click", () => {
         saved = {}; persist(); render();
-        document.getElementById("pensar").scrollIntoView({ block: "start" });
+        quiz.closest("section").scrollIntoView({ block: "start" });
       });
 
       render();
-    })();
+    }
+    mountQuiz("quiz", "score", "cuaderno-legal-ai:quiz-l1", QUESTIONS, "quiz-reset");
+    mountQuiz("quiz2", "score2", "cuaderno-legal-ai:quiz-l2", QUESTIONS_L2, "quiz2-reset");
     </script>
 
     <footer>
-      Lección 1 de una serie. Se actualiza en esta misma página con cada fase. Código: repo <code>legal-ai</code>, rama <code>phase-1-ingestion</code>.
+      Lecciones 1 y 2 de una serie. Se actualiza en esta misma página con cada fase. Código: repo <code>legal-ai</code>, rama <code>main</code>.
     </footer>
   </main>
 </div>
