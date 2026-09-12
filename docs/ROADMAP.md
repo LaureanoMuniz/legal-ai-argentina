@@ -9,8 +9,8 @@ sin medir la actual.
 | 0 | Arquitectura, docs, repo | README, ARCHITECTURE, ROADMAP, DECISIONS | hecha |
 | 1 | Ingestion reproducible desde Infoleg | `data/raw` completo para el corpus laboral, manifest, tests del fetcher | hecha |
 | 2 | Parser con estructura jurídica | `documents/articles/relations.jsonl`, versiones original/current, tests con fixtures reales | hecha |
-| 3 | RAG baseline: vector → top-k → Claude → respuesta con fuentes | Postgres + pgvector, FastAPI, OTel → Langfuse, latencia baseline | siguiente |
-| 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | |
+| 3 | RAG baseline: vector → top-k → Claude → respuesta con fuentes | Postgres + pgvector, FastAPI, OTel a JSONL, benchmark de humo con latencias | hecha |
+| 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | siguiente |
 | 5 | BM25 (`pg_search`) e híbrido con RRF | vector vs BM25 vs híbrido, mismo benchmark | |
 | 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | |
 | 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | |
@@ -61,6 +61,58 @@ Seguimientos:
   "complementarias.") y números con espacio ("ARTICULO 3 1"): casos aislados.
 - 194 relaciones de notas sin resolver a un `id_norma` (la norma
   modificatoria no está en el corpus).
+
+## Fase 3 en detalle
+
+Corrida del 2026-09-12 sobre el corpus laboral (catálogo 2026-09-12), en
+Postgres 17 (ParadeDB) dentro de Colima, Apple Silicon.
+
+- Carga: 933 documentos, 11.322 artículos, 15.327 versiones, 13.136
+  relaciones, 321 eventos de historial.
+- Chunks: 9.055 sobre 8.764 artículos; 2.558 artículos sin chunk (anexos,
+  derogados, sin texto).
+- Embeddings: hashing, 9.055 chunks en 1 min 20 s (`time`); bge-m3, 9.055
+  chunks en unos 11 minutos incluyendo la descarga del modelo (2,4 GB). En una
+  muestra de 60 s bge-m3 embebió 960 chunks.
+
+Benchmark de humo (`bench smoke --no-generate`, 20 preguntas, k = 8). Sin
+generación las 2 preguntas `not_in_corpus` fallan por definición, y la
+pregunta sobre el art. 28 derogado no puede acertar porque el baseline no
+indexa derogados: el techo es 17/20.
+
+| Embedder | hit@8 | retrieval p50 / p95 | experimento |
+|---|---|---|---|
+| hashing-1024 | 0,35 (7/20) | 6 / 14 ms | `experiments/2026-09-12-phase3-hashing-retrieval-only.json` |
+| bge-m3 | 0,65 (13/20) | 49 / 125 ms | `experiments/2026-09-12-phase3-bgem3-retrieval-only.json` |
+
+La latencia de bge-m3 incluye embeber la pregunta con el modelo en CPU; la
+consulta SQL es la misma en ambos casos.
+
+Fallas de bge-m3 que valen la pena mirar en la Fase 4:
+
+- s11 "jornada máxima": trae los arts. 190, 198, 199 y 200 de la LCT (todos de
+  jornada) pero no el 196, que remite a la Ley 11.544. El artículo esperado
+  está mal elegido o hace falta la Ley 11.544 en el corpus.
+- s14 "falta de registración": ninguno de los esperados (Ley 24.013 art. 8,
+  Ley 25.323 art. 1); trae artículos de otras normas de empleo. Caso típico de
+  confusión entre normas parecidas.
+- s17 "renunciar a derechos" (art. 12, irrenunciabilidad): trae artículos del
+  Título IV de la LCT. Vocabulario jurídico ("irrenunciabilidad") que la
+  pregunta no usa: candidato a query expansion (Fase 7) o BM25 (Fase 5).
+- s18 "casos sin indemnización": trae el 245 dos veces (dos chunks del mismo
+  artículo) y no el 242/247. Deduplicar por artículo al armar el contexto es
+  una mejora pendiente.
+
+No se corrió con generación: `.env` no tenía `ANTHROPIC_API_KEY` en esta
+sesión. Queda para el arranque de la Fase 4: `legal-ai ask` y `bench smoke
+--name phase3-baseline`, y mirar qué hace el modelo con s15 y s16.
+
+Pendientes técnicos de esta fase:
+
+- `index embed` actualiza fila por fila; medir cuánto del tiempo es base de
+  datos y pasar a un `UPDATE ... FROM unnest(...)` por lote.
+- Artículos partidos en varios chunks aparecen repetidos en el top-k.
+- Las 14 normas sin artículos numerados siguen sin chunk.
 
 ## Problemas que esperamos encontrar (y medir)
 

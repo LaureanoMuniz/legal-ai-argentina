@@ -69,42 +69,63 @@ legal-ai/
 ├── data/
 │   ├── raw/             descargas inmutables (CSV de Infoleg, HTML de normas)
 │   └── processed/       salida reproducible de los scripts de parsing
-├── docs/                ARCHITECTURE, ROADMAP, DECISIONS (ADRs)
+├── cuaderno/            páginas HTML de aprendizaje por fase (con cuestionarios)
+├── docs/                ARCHITECTURE, ROADMAP, DECISIONS (ADRs), planes por fase
 ├── eval/                benchmark de preguntas y resultados de evaluación humana
 ├── experiments/         un JSON por experimento: config, métricas, fecha
 ├── migrations/          Alembic
 ├── src/legal_ai/
 │   ├── ingest/          catálogo Infoleg, manifest, descarga con caché
 │   ├── parse/           HTML → documentos y artículos con metadata jurídica
-│   ├── index/           embeddings, carga en Postgres
-│   ├── retrieval/       vector, BM25, híbrido, reranking, expansión
-│   ├── generation/      prompts, structured outputs, citas
-│   ├── eval/            métricas, runner de benchmark
-│   ├── observability/   instrumentación OTel
-│   └── api/             FastAPI
+│   ├── db/              esquema SQLAlchemy, engine, migraciones
+│   ├── index/           carga en Postgres, chunks, embeddings
+│   ├── retrieval/       vector (BM25, híbrido y reranking en fases 5–6)
+│   ├── generation/      prompt, structured output, validación de fuentes
+│   ├── observability/   OpenTelemetry → JSONL / OTLP
+│   ├── api/             FastAPI
+│   ├── pipeline.py      pregunta → retrieval → contexto → Claude, con spans
+│   └── bench.py         benchmark de humo → experiments/
 └── tests/
 ```
 
 ## Cómo ejecutar
 
-Requisitos: Docker Desktop, `uv`.
+Requisitos: `uv`, y un runtime de contenedores con Docker Compose (en macOS,
+Colima: `brew install colima docker docker-compose && colima start`).
 
 ```bash
-uv sync                      # instala dependencias en .venv
-docker compose up -d         # Postgres (pgvector + pg_search), Langfuse
-cp .env.example .env         # completar claves cuando haga falta
+uv sync                      # dependencias; agregar --extra embeddings para bge-m3 (torch)
+docker compose up -d         # Postgres 17 con pgvector + pg_search, en el puerto 5433
+cp .env.example .env         # ANTHROPIC_API_KEY sólo si querés generación con Claude
+
 uv run legal-ai ingest catalog        # descarga la base de Infoleg a data/raw
 uv run legal-ai ingest fetch laboral  # descarga las normas del manifest
 uv run legal-ai parse laboral         # HTML → documents/articles/versions/relations/history .jsonl
-uv run pytest
+
+uv run legal-ai db upgrade            # crea la base y aplica migraciones
+uv run legal-ai index load laboral    # JSONL → Postgres
+uv run legal-ai index chunk laboral   # una versión vigente por artículo, con prefijo de contexto
+uv run legal-ai index embed laboral   # bge-m3 (o --model hashing, sin descarga)
+
+uv run legal-ai search "¿Cuánto dura el período de prueba?"   # sólo retrieval
+uv run legal-ai ask "¿Cuánto dura el período de prueba?"      # retrieval + Claude con citas
+uv run legal-ai serve                                          # GET /health, POST /ask
+uv run legal-ai bench smoke --no-generate                      # 20 preguntas → experiments/
+
+uv run pytest                # los tests de base saltan si Postgres no está levantado
 ```
 
-Los comandos que todavía no existen están marcados en el roadmap.
+Cada `ask` deja sus spans en `data/traces/spans.jsonl`; la respuesta trae el
+`trace_id` para buscarlos.
 
 ## Estado
 
-Fases 0 a 2 completas (arquitectura, ingestion, parser). Fase 3 (índice en Postgres + RAG baseline) es la siguiente.
+Fases 0 a 3 completas: arquitectura, ingestion, parser, e índice en Postgres
+con RAG baseline (vector → Claude con citas → trazas). Números de la corrida
+real en `docs/ROADMAP.md`. Fase 4 (benchmark de preguntas) es la siguiente.
 
-Hay un cuaderno de aprendizaje por fase en `docs/cuaderno/` (se publica como
-página HTML): qué se construyó, qué problema real apareció y qué hace la
-industria con ese problema.
+## Cuaderno
+
+`cuaderno/` tiene páginas HTML de aprendizaje, una por etapa: qué se
+construyó, qué problema real apareció, qué hace la industria con ese problema
+y un cuestionario para autoevaluarse. Se abren directo en el navegador.

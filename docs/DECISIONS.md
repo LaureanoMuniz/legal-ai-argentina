@@ -254,3 +254,46 @@ del documento actual.
 notas compuestas o de capítulo). En anexos de resoluciones que Infoleg
 reescribe entero sin nota por artículo quedan cientos, y son honestas: no
 sabemos la fecha de ese cambio.
+
+## ADR-018: Baseline de chunks: una versión vigente por artículo, con prefijo de contexto
+
+**Decisión.** El chunk baseline es la versión `current` (o la `original` si no
+hay actualizada), sólo `vigente`, con texto, fuera de anexos. Se embebe
+`context_prefix + "\n" + text`. Artículos de más de 2.500 caracteres se
+parten por incisos. Anexos, derogados y preámbulos quedan para experimentos
+de la Fase 5.
+
+**Alternativas.** Chunks de N tokens con solapamiento: pierde la identidad
+jurídica (ADR-005). Indexar todas las versiones: mezcla vigente e histórico
+antes de tener el filtro temporal de la Fase 9.
+
+**Consecuencias.** En el corpus laboral: 9.055 chunks sobre 8.764 artículos;
+2.558 artículos quedan afuera (anexos, derogados, sin texto). Una pregunta
+sobre un artículo derogado no puede encontrar evidencia hasta la Fase 9.
+
+## ADR-019: Embedder intercambiable con un fallback determinista
+
+**Decisión.** `Embedder` es un protocolo; `bge-m3` es el modelo del baseline y
+`HashingEmbedder` (feature hashing de unigramas y bigramas, 1024 dimensiones)
+es el fallback sin descarga que usan los tests y sirve como control: si un
+modelo de 2 GB no supera al hashing en el benchmark, algo está mal.
+
+**Consecuencias.** Los embeddings se cachean en disco por `(modelo, sha256 del
+texto)`, así rehacer chunks no recalcula lo que no cambió. La columna
+`chunks.embedding_model` dice con qué modelo está cada vector; mezclar modelos
+en una misma búsqueda es un error de datos, no de código.
+
+## ADR-020: Trazas OTel siempre a disco, OTLP opcional
+
+**Decisión.** Cada request escribe sus spans (GenAI semantic conventions) en
+`data/traces/spans.jsonl` con un exportador propio de unas 40 líneas, y además
+a un endpoint OTLP si está configurado. Langfuse se levanta en la Fase 13; la
+instrumentación no cambia.
+
+**Alternativas.** Levantar Langfuse ya: tres contenedores más (Postgres,
+ClickHouse, web) antes de tener una sola pregunta respondida. Loguear a mano:
+sin `trace_id` que una la respuesta con sus spans.
+
+**Consecuencias.** `AskResponse.trace_id` permite abrir el JSONL y ver los
+candidatos, el tamaño del contexto y los tokens de esa pregunta exacta.
+

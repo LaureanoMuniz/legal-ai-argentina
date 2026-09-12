@@ -198,12 +198,29 @@ modificación con la fecha. Eso es la semilla del retrieval temporal.
 | `embedding` | `vector(1024)` con índice HNSW |
 | índice BM25 | `pg_search` sobre `context_prefix || text` |
 
+Regla del baseline (ADR-018): por artículo se indexa una sola versión, la
+`current` si existe y si no la `original`, sólo si está `vigente`, tiene texto
+y no pertenece a un anexo. El texto embebido es `context_prefix + "\n" + text`;
+artículos de más de 2.500 caracteres se parten por inciso. El embedder es
+intercambiable (ADR-019): `bge-m3` es el baseline y `HashingEmbedder` (feature
+hashing, 1024 dimensiones, sin descarga) es el fallback de tests y el control
+del benchmark.
+
 ## Retrieval
 
 Todas las variantes devuelven la misma estructura: lista de
 `(chunk_id, score, rank, retriever)` para poder fusionar y trazar.
 
-- **vector**: `ORDER BY embedding <=> $q LIMIT k` con HNSW.
+- **vector** (Fase 3, `retrieval/vector.py`): coseno sobre el índice HNSW.
+
+  ```sql
+  SELECT id, version_id, article_id, document_id, context_prefix, text,
+         1 - (embedding <=> CAST(:q AS vector)) AS score
+  FROM chunks
+  WHERE embedding IS NOT NULL
+  ORDER BY embedding <=> CAST(:q AS vector)
+  LIMIT :k
+  ```
 - **bm25**: `pg_search` con analizador en castellano.
 - **híbrido**: las dos listas fusionadas con Reciprocal Rank Fusion en Python
   (explícito, con `k` configurable).
@@ -231,9 +248,13 @@ contexto es un fallo medible (Fase 8).
 Instrumentación con OpenTelemetry usando las GenAI semantic conventions
 (`gen_ai.*`). Un span por etapa: `query_rewrite`, `retrieval.vector`,
 `retrieval.bm25`, `fusion`, `rerank`, `context`, `llm`, `parse_output`. Los
-candidatos y scores van como atributos/eventos del span. Exportación a
-Langfuse self-hosted (Docker Compose), que además guarda datasets, scores y
-las etiquetas de los evaluadores humanos.
+candidatos y scores van como atributos del span.
+
+Desde la Fase 3 cada request escribe sus spans en `data/traces/spans.jsonl`
+(un exportador propio, una línea JSON por span) y además a un endpoint OTLP
+HTTP si `LEGAL_AI_OTLP_ENDPOINT` está definido (ADR-020). El stack de Langfuse
+self-hosted, que guarda datasets, scores y etiquetas de evaluadores humanos,
+es tarea de la Fase 13; la instrumentación no cambia.
 
 ## Evaluación
 
@@ -252,5 +273,6 @@ completa y las métricas.
 ## Infra local
 
 `docker-compose.yml`: `postgres` (imagen ParadeDB, incluye pgvector y
-`pg_search`), `langfuse` con su propia Postgres y ClickHouse según su compose
-oficial. Modelos open-weight corren en el host con `sentence-transformers`.
+`pg_search`) en el puerto 5433 del host para no chocar con una Postgres local.
+Langfuse se agrega en la Fase 13. En macOS el runtime de contenedores es
+Colima (Docker Engine + Compose sin Docker Desktop). Modelos open-weight corren en el host con `sentence-transformers`.

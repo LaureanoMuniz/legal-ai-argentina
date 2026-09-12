@@ -235,8 +235,8 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lecciones <b>1 y 2</b> · Fases 0 a 2</span>
-      <span>Corpus <b>laboral · 931 normas</b></span>
+      <span>Lecciones <b>1 a 3</b> · Fases 0 a 3</span>
+      <span>Corpus <b>laboral · 933 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>main</b></span>
     </div>
@@ -263,8 +263,18 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l2-hallazgos">9. Siete complicaciones</a></li>
       <li><a href="#l2-numeros">10. Los números de la Fase 2</a></li>
       <li><a href="#l2-proximo">11. Lo que viene: Postgres</a></li>
-      <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar2">Autoevaluación 2</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 3 · Fase 3</span></li>
+      <li><a href="#l3-mapa">12. El primer RAG, de punta a punta</a></li>
+      <li><a href="#l3-indice">13. El índice en Postgres</a></li>
+      <li><a href="#l3-chunks">14. Chunks con prefijo de contexto</a></li>
+      <li><a href="#l3-embeddings">15. Embeddings y un control barato</a></li>
+      <li><a href="#l3-generacion">16. Respuesta con citas verificadas</a></li>
+      <li><a href="#l3-trazas">17. Trazas por pregunta</a></li>
+      <li><a href="#l3-numeros">18. Los números de la Fase 3</a></li>
+      <li><a href="#l3-proximo">19. Lo que viene: el benchmark</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar3">Autoevaluación 3</a></li>
     </ol>
   </nav>
 
@@ -688,8 +698,140 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
 
     <section id="l2-proximo">
       <h2>11. Lo que viene: Postgres</h2>
-      <p>La Fase 3 lleva los JSONL a PostgreSQL con pgvector y pg_search, genera los chunks con prefijo de contexto ("Ley 20.744, Título XII, Art. 245, Indemnización por antigüedad, vigente desde 2026-03-06"), calcula embeddings con bge-m3 y arma el primer RAG: pregunta → vector → top-k → Claude → respuesta con citas <code>artículo@versión</code>. Necesita Docker Desktop prendido.</p>
+      <p>La Fase 3 lleva los JSONL a PostgreSQL con pgvector y pg_search, genera los chunks con prefijo de contexto ("Ley 20.744, Título XII, Art. 245, Indemnización por antigüedad, vigente desde 2026-03-06"), calcula embeddings con bge-m3 y arma el primer RAG: pregunta → vector → top-k → Claude → respuesta con citas <code>artículo@versión</code>. Necesita un Docker prendido (en esta máquina, Colima).</p>
       <p>Tres decisiones que la Fase 3 hereda de esta: qué hacer con los 2.377 artículos de anexos (indexar, deduplicar o filtrar), cómo indexar las 14 normas sin artículos, y si el preámbulo (VISTO / CONSIDERANDO) de las 630 resoluciones entra como chunk propio. Las tres se deciden con el benchmark de la Fase 4, no antes.</p>
+    </section>
+
+    <section id="pensar">
+      <h2>Autoevaluación</h2>
+      <p>Ocho preguntas sobre lo que leíste. Elegí una opción y vas a ver enseguida por qué está bien o por qué no. Las respuestas quedan guardadas en este navegador.</p>
+      <div class="quiz" id="quiz"></div>
+      <div class="score" id="score" hidden>
+        <span class="big" id="score-num">0 / 8</span>
+        <span class="msg" id="score-msg"></span>
+        <button type="button" id="quiz-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="pensar2">
+      <h2>Autoevaluación 2</h2>
+      <p>Siete preguntas sobre el parser. Mismo formato: respuesta inmediata y explicación.</p>
+      <div class="quiz" id="quiz2"></div>
+      <div class="score" id="score2" hidden>
+        <span class="big" id="score2-num">0 / 7</span>
+        <span class="msg" id="score2-msg"></span>
+        <button type="button" id="quiz2-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="l3-mapa">
+      <div class="eyebrow">Lección 3 · Fase 3</div>
+      <h2>12. El primer RAG, de punta a punta</h2>
+      <p class="lead">La Fase 3 cierra el circuito: los JSONL del parser entran a PostgreSQL, cada artículo vigente se vuelve un chunk con su contexto jurídico adelante, se calcula un vector por chunk, y una pregunta recorre vector → top-k → Claude → respuesta con citas <code>artículo@versión</code>. Cada request deja sus spans en un archivo.</p>
+      <pre><code>legal-ai db upgrade            crea la base y aplica migraciones (Alembic)
+legal-ai index load laboral    JSONL → documents / articles / article_versions / relations / history
+legal-ai index chunk laboral   una versión vigente por artículo → chunks (context_prefix + text)
+legal-ai index embed laboral   bge-m3 (o --model hashing) → chunks.embedding, con caché en disco
+legal-ai ask "¿...?"           retrieval.vector → context.build → gen_ai.chat → AskResponse
+legal-ai serve                 GET /health · POST /ask
+legal-ai bench smoke           20 preguntas → experiments/&lt;fecha&gt;-&lt;nombre&gt;.json</code></pre>
+      <p>Nada de esto es novedoso y eso es a propósito: el baseline tiene que ser aburrido para que lo que venga después (BM25, híbrido, reranking, filtro temporal) se pueda medir contra algo estable.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>El patrón "primero un baseline simple, después mejorar midiendo" es la única forma de saber si una técnica sirve <em>para tu corpus</em>. Los papers de RAG reportan ganancias sobre datasets en inglés de preguntas cortas; legislación argentina con artículos de 2.000 caracteres es otro problema. Por eso el proyecto escribe un JSON por experimento en <code>experiments/</code> con la configuración completa y la fecha del catálogo.</p>
+      </div>
+    </section>
+
+    <section id="l3-indice">
+      <h2>13. El índice en Postgres</h2>
+      <p>Usamos una sola base para todo: tablas relacionales (documentos, artículos, versiones, relaciones, historial), vectores (pgvector, índice HNSW con distancia coseno) y, en la Fase 5, búsqueda por palabras (pg_search, BM25). La imagen es ParadeDB, que trae las dos extensiones sobre PostgreSQL 17. El esquema vive en SQLAlchemy Core y las migraciones en Alembic; la primera migración crea las extensiones, las tablas y el índice HNSW.</p>
+      <p>La carga es idempotente: borrar el corpus y volver a insertar, en una transacción. Correr <code>index load</code> dos veces da la misma base. Con 933 documentos y 15.327 versiones eso alcanza; a otra escala se haría un upsert por hash, pero ese problema todavía no existe.</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 10 · "El rol legal_ai no existe"</div>
+        <p>El contenedor arrancó sano, la migración falló: <code>role "legal_ai" does not exist</code>. El contenedor exponía el 5432, pero en esa máquina ya había una PostgreSQL de Homebrew escuchando en el mismo puerto, y era ella la que contestaba. El error no decía "puerto ocupado": decía que el usuario no existía, porque estábamos hablando con la base equivocada. El contenedor pasó al 5433 y la URL de conexión lo dice explícito.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Postgres como base vectorial es la elección por defecto cuando el volumen entra en una máquina (millones de vectores) y ya hay datos relacionales que importan. Las bases vectoriales dedicadas (Pinecone, Qdrant, Weaviate) ganan cuando el índice es lo único que hay o cuando hay que escalar horizontalmente. Acá cada chunk apunta a una versión con fechas de vigencia y a un documento con relaciones: el filtro temporal de la Fase 9 va a ser un <code>WHERE</code>, no una sincronización entre dos sistemas.</p>
+      </div>
+    </section>
+
+    <section id="l3-chunks">
+      <h2>14. Chunks con prefijo de contexto</h2>
+      <p>La regla del baseline (ADR-018): por artículo, una sola versión, la <code>current</code> si existe y si no la <code>original</code>, sólo si está vigente, tiene texto y no pertenece a un anexo. Artículos de más de 2.500 caracteres se parten por inciso. El texto que se embebe no es el artículo solo: adelante va un prefijo con la norma, la jerarquía, el número, el epígrafe y desde cuándo rige.</p>
+      <pre><code>Ley 20744 — Ley De Contrato De Trabajo · TITULO XII De la extinción del contrato de trabajo ·
+CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido. Vigente desde 2024-07-08.
+[texto del artículo]</code></pre>
+      <p>Resultado sobre el corpus laboral: 9.055 chunks para 8.764 artículos; 2.558 artículos quedan afuera (anexos, derogados, sin texto). Casi todo artículo es un solo chunk.</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 11 · Lo que dejaste afuera no aparece</div>
+        <p>La pregunta de humo "¿Está derogado el artículo 28 de la LCT?" no puede acertar en esta fase: el art. 28 está derogado y el baseline no indexa versiones derogadas. No es un bug del retrieval, es la consecuencia directa de la regla de chunks. Está anotada como falla esperada hasta la Fase 9, cuando el índice incluya versiones históricas con filtro por fecha.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Poner contexto adelante del chunk antes de embeberlo se conoce como <strong>contextual retrieval</strong>: un fragmento que dice "el plazo será de seis meses" no significa nada solo; con "Ley 20744 · Art. 92 bis — Período de prueba" adelante, el vector cae donde tiene que caer. Nosotros lo hacemos con metadata estructural, que ya tenemos gratis del parser; la variante cara es pedirle a un LLM que escriba ese contexto por chunk.</p>
+      </div>
+    </section>
+
+    <section id="l3-embeddings">
+      <h2>15. Embeddings y un control barato</h2>
+      <p>El embedder es una interfaz con dos implementaciones. <strong>bge-m3</strong> es el modelo del baseline: multilingüe, 1.024 dimensiones, corre local con sentence-transformers (baja 2,4 GB la primera vez). <strong>Hashing</strong> es el control: cuenta unigramas y bigramas de palabras y los proyecta con un hash a 1.024 posiciones. No sabe nada de significado, no baja nada y corre en los tests. Si un modelo de 2 GB no le gana claramente al hashing en el benchmark, algo está mal en la cadena, no en el modelo.</p>
+      <p>Los vectores se cachean en disco por <code>(modelo, sha256 del texto)</code>: rehacer chunks no recalcula lo que no cambió. La columna <code>chunks.embedding_model</code> dice con qué modelo está cada fila; el índice mezcla modelos sólo si alguien se equivoca, y eso es un error de datos visible.</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 12 · 80 segundos para no calcular nada</div>
+        <p>Embeber los 9.055 chunks con hashing tardó 1 minuto 20 (medido con <code>time</code>). El hashing en sí es sumar contadores; ese tiempo es sospechoso y la hipótesis más probable son los 9.055 <code>UPDATE</code> de a uno por fila. No lo profilamos todavía: queda como tarea medible para cuando el volumen importe, con una sola sentencia por lote (<code>UPDATE ... FROM unnest(...)</code>) como candidata.</p>
+      </div>
+    </section>
+
+    <section id="l3-generacion">
+      <h2>16. Respuesta con citas verificadas</h2>
+      <p>La búsqueda es una consulta SQL: distancia coseno contra el índice HNSW, <code>1 - distancia</code> como score, los k más cercanos. Los candidatos se concatenan en un contexto donde cada fragmento va precedido por su id, por ejemplo <code>[25552:92bis@current]</code>. Claude recibe ese contexto y un esquema de salida fijo: <code>answer</code>, una lista de <code>claims</code> con sus <code>sources</code>, <code>confidence</code> e <code>insufficient_evidence</code>.</p>
+      <p>Después de la respuesta hay una verificación que no depende del modelo: cada fuente citada tiene que ser un id que estaba en el contexto. Las que no, se devuelven aparte como <code>unsupported_sources</code>. Si el modelo se niega a responder, eso se traduce a <code>insufficient_evidence: true</code>. Y si no hay clave de API, el pipeline corre igual y devuelve sólo los candidatos.</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 13 · El vector siempre encuentra algo</div>
+        <p>Dos preguntas de humo no tienen respuesta en el corpus (el tope indemnizatorio de comercio, el art. 14 bis de la Constitución). La búsqueda vectorial devuelve ocho candidatos igual, porque siempre hay ocho vectores más cercanos que el resto. Abstenerse no es tarea del retrieval: es tarea de la generación, y por eso esas dos preguntas sólo cuentan como acierto cuando el modelo marca <code>insufficient_evidence</code>. Sin generación, fallan por definición.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p><strong>Structured outputs</strong> (el modelo devuelve JSON que cumple un esquema) convierten "citá tus fuentes" de una instrucción en un contrato verificable. La verificación de ids es la versión mínima de <em>grounding check</em>; la Fase 8 la extiende a "¿el fragmento citado realmente sostiene la afirmación?", que ya no se puede chequear con un <code>set</code>.</p>
+      </div>
+    </section>
+
+    <section id="l3-trazas">
+      <h2>17. Trazas por pregunta</h2>
+      <p>Cada <code>ask</code> abre un span raíz y uno por etapa: <code>retrieval.vector</code> (con los ids y scores de los candidatos), <code>context.build</code> (caracteres del contexto) y <code>gen_ai.chat</code> (modelo, tokens de entrada y salida, motivo de fin), siguiendo las convenciones GenAI de OpenTelemetry. Los spans van siempre a <code>data/traces/spans.jsonl</code>, una línea por span, y a un endpoint OTLP si está configurado. La respuesta trae el <code>trace_id</code>.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Langfuse, Phoenix, LangSmith: todos consumen OpenTelemetry. Instrumentar con el estándar y exportar a un archivo primero deja el sistema observable sin levantar tres contenedores más; cuando Langfuse entre (Fase 13) la instrumentación no cambia, cambia el exportador. La convención <code>gen_ai.*</code> hace que cualquier herramienta entienda los tokens y el modelo sin configuración.</p>
+      </div>
+    </section>
+
+    <section id="l3-numeros">
+      <h2>18. Los números de la Fase 3</h2>
+      <p>Corpus laboral, catálogo 2026-09-12, 20 preguntas de humo con k = 8, sin generación. Las 20 incluyen 2 preguntas sin respuesta en el corpus, que sin generación fallan por definición, y 1 sobre un artículo derogado, que el baseline no indexa: el techo alcanzable en retrieval solo es 17 de 20.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Qué</th><th class="num">hashing</th><th class="num">bge-m3</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>hit@8 (20 preguntas)</td><td class="num">0,35 · 7/20</td><td class="num">0,65 · 13/20</td><td>Techo alcanzable sin generación: 17/20</td></tr>
+          <tr><td>Retrieval p50 / p95</td><td class="num">6 / 14 ms</td><td class="num">49 / 125 ms</td><td>bge-m3 incluye embeber la pregunta en CPU; el SQL es el mismo</td></tr>
+          <tr><td>Embeber 9.055 chunks</td><td class="num">1 min 20 s</td><td class="num">~11 min</td><td>bge-m3 incluye bajar 2,4 GB; 960 chunks en una muestra de 60 s</td></tr>
+          <tr><td>Chunks</td><td class="num" colspan="2">9.055</td><td>8.764 artículos; 2.558 sin chunk (anexos, derogados, sin texto)</td></tr>
+          <tr><td>Carga</td><td class="num" colspan="2">933 doc.</td><td>11.322 artículos, 15.327 versiones, 13.136 relaciones, 321 eventos</td></tr>
+        </tbody>
+        <caption>Las cuatro fallas de bge-m3 que sí eran alcanzables: "jornada máxima" trae cuatro artículos de jornada pero no el esperado (que remite a la Ley 11.544); "falta de registración" confunde normas de empleo parecidas; "renunciar a derechos" no llega al art. 12 porque la ley dice "irrenunciabilidad"; "casos sin indemnización" trae el art. 245 dos veces, dos chunks del mismo artículo. Cada una apunta a una fase: benchmark, BM25/híbrido, query expansion, deduplicación.</caption>
+      </table>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Veinte preguntas de humo no son un benchmark: sirven para detectar que algo está roto y para tener latencias de referencia. El benchmark real (Fase 4) necesita más preguntas por categoría, artículos esperados revisados por abogados y métricas de ranking (recall@k, MRR, nDCG), no un sí/no por pregunta.</p>
+      </div>
+    </section>
+
+    <section id="l3-proximo">
+      <h2>19. Lo que viene: el benchmark</h2>
+      <p>La Fase 4 construye <code>eval/benchmark.jsonl</code>: unas 50 preguntas en 8 categorías (directa, multi-artículo, negación, confundible, derogado, temporal, sin respuesta en el corpus, referencia cruzada), con los artículos esperados y la versión esperada. Recién con eso se pueden comparar vector, BM25 e híbrido (Fase 5) sin engañarse.</p>
+      <p>Tres cosas quedan anotadas para medir: si el hashing pierde contra bge-m3 en cada categoría o sólo en algunas; qué hace Claude con las dos preguntas sin respuesta cuando la clave de API esté cargada; y cuánto del tiempo de <code>index embed</code> es base de datos y cuánto es modelo.</p>
     </section>
 
     <section id="glosario">
@@ -712,25 +854,15 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
       </dl>
     </section>
 
-    <section id="pensar">
-      <h2>Autoevaluación</h2>
-      <p>Ocho preguntas sobre lo que leíste. Elegí una opción y vas a ver enseguida por qué está bien o por qué no. Las respuestas quedan guardadas en este navegador.</p>
-      <div class="quiz" id="quiz"></div>
-      <div class="score" id="score" hidden>
-        <span class="big" id="score-num">0 / 8</span>
-        <span class="msg" id="score-msg"></span>
-        <button type="button" id="quiz-reset">Volver a empezar</button>
-      </div>
-    </section>
 
-    <section id="pensar2">
-      <h2>Autoevaluación 2</h2>
-      <p>Siete preguntas sobre el parser. Mismo formato: respuesta inmediata y explicación.</p>
-      <div class="quiz" id="quiz2"></div>
-      <div class="score" id="score2" hidden>
-        <span class="big" id="score2-num">0 / 7</span>
-        <span class="msg" id="score2-msg"></span>
-        <button type="button" id="quiz2-reset">Volver a empezar</button>
+    <section id="pensar3">
+      <h2>Autoevaluación 3</h2>
+      <p>Ocho preguntas sobre el índice y el primer RAG. Mismo formato.</p>
+      <div class="quiz" id="quiz3"></div>
+      <div class="score" id="score3" hidden>
+        <span class="big" id="score3-num">0 / 8</span>
+        <span class="msg" id="score3-msg"></span>
+        <button type="button" id="quiz3-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -937,6 +1069,122 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
       }
     ];
 
+
+    const QUESTIONS_L3 = [
+      {
+        id: "l3q1",
+        text: "La consulta vectorial calcula el score como 1 - (embedding <=> consulta). ¿Qué es <=> y por qué el 1 menos?",
+        options: [
+          { t: "Es la distancia coseno de pgvector (0 = idénticos, 2 = opuestos); restarla de 1 la convierte en similitud, donde más alto es mejor.", ok: true,
+            fb: "El operador ordena por distancia (menor primero) y usa el índice HNSW; el score que mostramos es la similitud coseno derivada, para que 1,0 sea 'igual'." },
+          { t: "Es la distancia euclídea; el 1 menos normaliza a porcentaje.", ok: false,
+            fb: "La euclídea es <->, no <=>, y no está acotada a [0, 2], así que 1 menos no daría nada interpretable." },
+          { t: "Es un producto interno; el 1 menos invierte el signo porque pgvector devuelve negativos.", ok: false,
+            fb: "El producto interno negativo es <#>. No es lo que usamos: con vectores normalizados equivale al coseno, pero el operador es otro." },
+          { t: "Es una comparación de texto completo; el 1 menos descuenta la penalización por longitud.", ok: false,
+            fb: "No hay texto en esa consulta, sólo vectores. El BM25 llega en la Fase 5 y es otra tabla de operadores." }
+        ]
+      },
+      {
+        id: "l3q2",
+        text: "¿Para qué sirve tener un embedder de hashing que no entiende significado, además de bge-m3?",
+        options: [
+          { t: "Para producción cuando no hay GPU.", ok: false,
+            fb: "No: en producción va bge-m3 o algo mejor. El hashing no captura sinónimos ni paráfrasis." },
+          { t: "Como control: si el modelo grande no le gana claramente en el benchmark, la falla está en la cadena (chunks, SQL, prefijo), no en el modelo. Además corre en los tests sin bajar nada.", ok: true,
+            fb: "Un baseline trivial es la forma más barata de detectar un bug de plomería. Y hace que 60 tests corran en segundos en cualquier máquina." },
+          { t: "Para acelerar la búsqueda: los vectores de hashing son más chicos.", ok: false,
+            fb: "Tienen las mismas 1.024 dimensiones por diseño, justamente para que la columna y el índice sean los mismos." },
+          { t: "Para reemplazar al BM25 de la Fase 5.", ok: false,
+            fb: "Se parecen en que ambos miran palabras, pero BM25 pondera por rareza del término y largo del documento; el hashing sólo cuenta." }
+        ]
+      },
+      {
+        id: "l3q3",
+        text: "Sin generación, las dos preguntas 'sin respuesta en el corpus' fallan siempre en el benchmark de humo. ¿Por qué?",
+        options: [
+          { t: "Porque el índice está incompleto y falta cargar esas normas.", ok: false,
+            fb: "Las normas no están en el corpus a propósito (la Constitución no modifica a la LCT; los topes de comercio quedaron afuera). El punto es qué hace el sistema cuando la respuesta no existe." },
+          { t: "Porque la búsqueda vectorial siempre devuelve k candidatos, haya o no respuesta; abstenerse es tarea de la generación, y sin ella nadie puede marcar insufficient_evidence.", ok: true,
+            fb: "Los ocho vectores más cercanos existen siempre. La abstención correcta se mide sobre la salida del modelo, no sobre el retrieval." },
+          { t: "Porque el score de esos candidatos es negativo y se filtran.", ok: false,
+            fb: "No hay umbral de score en el baseline. Ponerlo sería una decisión a medir en la Fase 4, no algo que pasa solo." },
+          { t: "Porque el benchmark compara con expected_articles vacío y una lista vacía nunca coincide.", ok: false,
+            fb: "Casi: para esa categoría el benchmark no mira expected_articles, mira insufficient_evidence. Sin generación ese campo es null y cuenta como falla." }
+        ]
+      },
+      {
+        id: "l3q4",
+        text: "'¿Está derogado el artículo 28 de la LCT?' no acierta en la Fase 3. ¿Cuál es la causa?",
+        options: [
+          { t: "Un bug del parser: el art. 28 quedó sin texto.", ok: false,
+            fb: "El parser lo tiene, con estado derogado y la nota de la Ley 27.802. El problema está después." },
+          { t: "El baseline sólo indexa versiones vigentes (ADR-018); el art. 28 está derogado, así que no tiene chunk. Es una falla esperada hasta la Fase 9.", ok: true,
+            fb: "Es la consecuencia directa de una regla explícita. Anotarla como falla esperada, en vez de esconderla del benchmark, es lo que permite ver la mejora cuando llegue el índice temporal." },
+          { t: "bge-m3 no entiende la palabra 'derogado'.", ok: false,
+            fb: "Aunque la entendiera, no hay vector del art. 28 contra el cual comparar." },
+          { t: "La pregunta menciona 'LCT' y el prefijo dice 'Ley 20744'.", ok: false,
+            fb: "Eso podría bajar el score, pero el prefijo también dice 'Ley De Contrato De Trabajo'. La causa es que el chunk no existe." }
+        ]
+      },
+      {
+        id: "l3q5",
+        text: "La migración falló con 'role legal_ai does not exist' aunque el contenedor estaba sano. ¿Qué pasó?",
+        options: [
+          { t: "El contenedor no había terminado de crear el usuario.", ok: false,
+            fb: "El healthcheck ya daba verde y el usuario se crea en el primer arranque. El error venía de otro lado." },
+          { t: "Otra PostgreSQL (Homebrew) escuchaba en el 5432 del host y era la que contestaba; para ella el rol no existía. Se movió el contenedor al 5433.", ok: true,
+            fb: "El mensaje de error era correcto y engañoso a la vez: describía la base equivocada. Cuando un error no cuadra con lo que hiciste, preguntate con quién estás hablando." },
+          { t: "Alembic corrió antes de crear la extensión pgvector.", ok: false,
+            fb: "Eso daría 'type vector does not exist', no un error de rol." },
+          { t: "La contraseña en .env.example estaba mal.", ok: false,
+            fb: "Una contraseña mal da 'password authentication failed'. 'Role does not exist' es que el usuario no está en esa base." }
+        ]
+      },
+      {
+        id: "l3q6",
+        text: "El texto que se embebe es prefijo + artículo, y el prefijo dice norma, jerarquía, número, epígrafe y vigencia. ¿Qué gana el retrieval con eso?",
+        options: [
+          { t: "Nada: el modelo de embeddings ignora los metadatos.", ok: false,
+            fb: "El modelo embebe todo el texto que recibe. 'Período de prueba' en el prefijo acerca el chunk a preguntas sobre el período de prueba aunque el artículo no repita la frase." },
+          { t: "Que un fragmento como 'el plazo será de seis meses' cargue con su contexto jurídico: sin él, el vector cae en cualquier lado. Es contextual retrieval con metadata que el parser ya produce.", ok: true,
+            fb: "La versión cara de esta idea es pedirle a un LLM que escriba el contexto por chunk. La estructura jurídica nos lo da gratis y de forma determinista." },
+          { t: "Que el chunk sea más largo y por eso tenga más chances de coincidir.", ok: false,
+            fb: "Más largo no es mejor: diluye. Lo que sirve es que las palabras agregadas sean las que un usuario usaría al preguntar." },
+          { t: "Permite filtrar por fecha en SQL.", ok: false,
+            fb: "El filtro por fecha va a usar las columnas effective_from / effective_until, no el texto del prefijo. El prefijo la menciona para que el modelo pueda citarla." }
+        ]
+      },
+      {
+        id: "l3q7",
+        text: "Claude cita una fuente '25552:999@current' que no estaba en el contexto. ¿Qué hace el sistema?",
+        options: [
+          { t: "La descarta en silencio y muestra el resto.", ok: false,
+            fb: "Descartar en silencio esconde el fallo. La idea es medirlo." },
+          { t: "La reporta aparte en unsupported_sources y la excluye de sources; la respuesta se devuelve igual con esa marca visible.", ok: true,
+            fb: "Es la verificación mínima que no depende del modelo: un conjunto de ids conocidos. En la Fase 8 se mide además si el fragmento citado realmente sostiene la afirmación." },
+          { t: "Vuelve a llamar al modelo hasta que cite bien.", ok: false,
+            fb: "Reintentar tapa el problema y multiplica el costo. Primero hay que saber cuán seguido pasa." },
+          { t: "Falla con error 500 en la API.", ok: false,
+            fb: "Una cita mala es un dato sobre la calidad de la respuesta, no una excepción." }
+        ]
+      },
+      {
+        id: "l3q8",
+        text: "Cada respuesta trae un trace_id de 32 caracteres. ¿Para qué sirve?",
+        options: [
+          { t: "Es la clave primaria de la respuesta en Postgres.", ok: false,
+            fb: "Las respuestas no se guardan en la base en esta fase. El id viene de OpenTelemetry." },
+          { t: "Para buscar en data/traces/spans.jsonl los spans exactos de esa pregunta: candidatos con score, tamaño del contexto, tokens y modelo.", ok: true,
+            fb: "Un trace_id une la respuesta con su explicación. Cuando una respuesta salga mal, la pregunta 'qué vio el modelo' tiene respuesta sin volver a correr nada." },
+          { t: "Para deduplicar preguntas repetidas.", ok: false,
+            fb: "Dos preguntas iguales tienen trace_id distintos: identifica la ejecución, no el texto." },
+          { t: "Para el caché de embeddings.", ok: false,
+            fb: "El caché de embeddings se indexa por (modelo, sha256 del texto). No tiene que ver con las trazas." }
+        ]
+      }
+    ];
+
     function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
       const quiz = document.getElementById(quizId);
       const scoreBox = document.getElementById(scoreId);
@@ -1024,6 +1272,7 @@ uv run legal-ai ingest fetch laboral    # 4 HTML por norma → data/raw/infoleg/
     }
     mountQuiz("quiz", "score", "cuaderno-legal-ai:quiz-l1", QUESTIONS, "quiz-reset");
     mountQuiz("quiz2", "score2", "cuaderno-legal-ai:quiz-l2", QUESTIONS_L2, "quiz2-reset");
+    mountQuiz("quiz3", "score3", "cuaderno-legal-ai:quiz-l3", QUESTIONS_L3, "quiz3-reset");
     </script>
 
     <footer>
