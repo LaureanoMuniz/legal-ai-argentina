@@ -10,4 +10,4 @@ seeds:
 expand:
   modificatorias_de_seeds: true
   max_depth: 1
-  tipos: [Ley, Decreto]
+  tipos: null

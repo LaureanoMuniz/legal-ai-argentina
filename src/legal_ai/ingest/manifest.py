@@ -17,7 +17,7 @@ class Seed(BaseModel):
 class Expand(BaseModel):
     modificatorias_de_seeds: bool = True
     max_depth: int = 1
-    tipos: list[str] = Field(default_factory=lambda: ["Ley", "Decreto"])
+    tipos: list[str] | None = None
 
 
 class CorpusManifest(BaseModel):
@@ -109,7 +109,7 @@ def _expand_once(
     frontier: set[int],
     known: dict[int, ResolvedNorm],
     catalog: Catalog,
-    tipos: list[str],
+    tipos: list[str] | None,
     depth: int,
 ) -> dict[int, ResolvedNorm]:
     parent_of: dict[int, int] = {}
@@ -121,7 +121,7 @@ def _expand_once(
     added: dict[int, ResolvedNorm] = {}
     for row in catalog.norms():
         parent = parent_of.get(row.id_norma)
-        if parent is not None and row.tipo_norma in tipos:
+        if parent is not None and (tipos is None or row.tipo_norma in tipos):
             added[row.id_norma] = _to_resolved(row, f"modifies:{parent}", depth)
     return added
 

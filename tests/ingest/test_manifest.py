@@ -29,12 +29,26 @@ def test_load_manifest_from_repo_yaml():
     manifest = load_manifest(Path("corpus/laboral.yaml"))
     assert manifest.name == "laboral"
     assert [s.numero for s in manifest.seeds] == [20744, 24013, 25323, 25877, 27742, 27802]
-    assert manifest.expand.tipos == ["Ley", "Decreto"]
+    assert manifest.expand.tipos is None
+
+
+def test_resolve_seeds_and_expand_depth_1_includes_every_tipo_by_default():
+    manifest = CorpusManifest(
+        name="t", description="", seeds=[Seed(tipo="Ley", numero=20744, why="x")]
+    )
+    corpus = resolve_corpus(manifest, make_catalog(), date(2026, 9, 12))
+    by_id = {n.id_norma: n for n in corpus.norms}
+    assert by_id[999001].tipo_norma == "Resolución"
+    assert by_id[999001].reason == "modifies:25552"
+    assert corpus.ids() == [25552, 229909, 401266, 999001]
 
 
 def test_resolve_seeds_and_expand_depth_1_filtered_by_tipo():
     manifest = CorpusManifest(
-        name="t", description="", seeds=[Seed(tipo="Ley", numero=20744, why="x")]
+        name="t",
+        description="",
+        seeds=[Seed(tipo="Ley", numero=20744, why="x")],
+        expand=Expand(tipos=["Ley", "Decreto"]),
     )
     corpus = resolve_corpus(manifest, make_catalog(), date(2026, 9, 12))
 
