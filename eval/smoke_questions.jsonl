@@ -1,0 +1,20 @@
+{"id":"s01","question":"¿Cuánto dura el período de prueba en un contrato por tiempo indeterminado?","expected_articles":["25552:92bis"],"category":"direct"}
+{"id":"s02","question":"¿Qué plazo de preaviso debe dar el empleador a un trabajador con más de cinco años de antigüedad?","expected_articles":["25552:231"],"category":"direct"}
+{"id":"s03","question":"¿Cómo se calcula la indemnización por antigüedad en caso de despido sin causa?","expected_articles":["25552:245"],"category":"direct"}
+{"id":"s04","question":"¿Qué es el despido indirecto?","expected_articles":["25552:246"],"category":"direct"}
+{"id":"s05","question":"¿Cuáles son las fuentes de regulación del contrato de trabajo?","expected_articles":["25552:1"],"category":"direct"}
+{"id":"s06","question":"¿Qué se entiende por contrato de trabajo?","expected_articles":["25552:21"],"category":"direct"}
+{"id":"s07","question":"¿Qué obligación tiene el empleador de entregar certificados al terminar la relación laboral?","expected_articles":["25552:80"],"category":"direct"}
+{"id":"s08","question":"¿Cuántos días de vacaciones corresponden según la antigüedad?","expected_articles":["25552:150"],"category":"direct"}
+{"id":"s09","question":"¿Qué licencias especiales tiene el trabajador, por ejemplo por nacimiento de hijo o matrimonio?","expected_articles":["25552:158"],"category":"direct"}
+{"id":"s10","question":"¿Qué pasa si el empleador despide a una trabajadora embarazada?","expected_articles":["25552:178","25552:182"],"category":"multi"}
+{"id":"s11","question":"¿Cuál es la jornada máxima de trabajo?","expected_articles":["25552:196"],"category":"context"}
+{"id":"s12","question":"¿Cómo se paga el sueldo anual complementario?","expected_articles":["25552:121","25552:122"],"category":"multi"}
+{"id":"s13","question":"¿Qué es la justa causa de despido?","expected_articles":["25552:242"],"category":"direct"}
+{"id":"s14","question":"¿Qué indemnización corresponde por falta de registración del trabajador?","expected_articles":["412:8","64555:1"],"category":"multi"}
+{"id":"s15","question":"¿Cuál es el tope indemnizatorio vigente para el convenio de comercio?","expected_articles":[],"category":"not_in_corpus"}
+{"id":"s16","question":"¿Qué dice el artículo 14 bis de la Constitución Nacional?","expected_articles":[],"category":"not_in_corpus"}
+{"id":"s17","question":"¿Puede el trabajador renunciar a derechos que le da la ley?","expected_articles":["25552:12"],"category":"direct"}
+{"id":"s18","question":"¿En qué casos no hay derecho a indemnización por despido?","expected_articles":["25552:242","25552:247"],"category":"negation"}
+{"id":"s19","question":"¿Qué diferencia hay entre suspensión por falta de trabajo y despido por fuerza mayor?","expected_articles":["25552:219","25552:247"],"category":"confusable"}
+{"id":"s20","question":"¿Está derogado el artículo 28 de la Ley de Contrato de Trabajo?","expected_articles":["25552:28"],"category":"derogated"}
