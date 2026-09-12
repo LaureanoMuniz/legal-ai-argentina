@@ -16,7 +16,8 @@ _NOTE_RE = re.compile(
 _BY_RE = re.compile(
     r"^(?:art(?:[íi]culo|\.)?\s*(?P<art>\d{1,4})\s*[°ºª]?\s*(?P<artsuf>(?i:bis|ter))?\s+"
     r"(?:de\s+la|de\s+el|del|de)\s+)?"
-    r"(?P<tipo>Ley|Decreto|Resoluci[óo]n(?:\s+Conjunta)?|Decisi[óo]n\s+Administrativa|"
+    r"(?P<tipo>Ley|Decreto(?:\s+Nacional)?|Resoluci[óo]n(?:\s+Conjunta)?|"
+    r"Decisi[óo]n\s+Administrativa|"
     r"Disposici[óo]n)\s*"
     r"(?:N(?:ro|°|º|\.)?\.?\s*)?(?P<num>\d[\d.]*(?:/\d{2,4})?)\s*"
     r"(?:B\.?\s*O\.?\s*(?P<bo>\d{1,2}/\d{1,2}/\d{4}))?\.?\s*"
@@ -26,6 +27,7 @@ _BY_RE = re.compile(
 _TIPO_CANON = {
     "ley": "Ley",
     "decreto": "Decreto",
+    "decreto nacional": "Decreto",
     "resolucion": "Resolución",
     "resolución": "Resolución",
     "resolucion conjunta": "Resolución Conjunta",

@@ -36,3 +36,6 @@ class ProcessedLayout:
 
     def resolved_path(self, name: str) -> Path:
         return self.corpus_dir(name) / "resolved.json"
+
+    def file(self, name: str, filename: str) -> Path:
+        return self.corpus_dir(name) / filename

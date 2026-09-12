@@ -10,6 +10,7 @@ from legal_ai.ingest.manifest import (
     Expand,
     Seed,
     SeedNotFoundError,
+    SeedRef,
     load_manifest,
     read_resolved,
     resolve_corpus,
@@ -116,3 +117,34 @@ def test_write_and_read_resolved_roundtrip(tmp_path: Path):
     path = tmp_path / "processed" / "t" / "resolved.json"
     write_resolved(corpus, path)
     assert read_resolved(path) == corpus
+
+
+def test_original_from_is_resolved_and_recorded():
+    manifest = CorpusManifest(
+        name="t",
+        description="",
+        seeds=[
+            Seed(
+                tipo="Ley",
+                numero=20744,
+                why="x",
+                original_from=SeedRef(tipo="Decreto", numero=390, sancion_year=1976),
+            )
+        ],
+        expand=Expand(modificatorias_de_seeds=False),
+    )
+    corpus = resolve_corpus(manifest, make_catalog(), date(2026, 9, 12))
+    assert corpus.original_sources == {25552: 229909}
+    source = next(n for n in corpus.norms if n.id_norma == 229909)
+    assert source.reason == "original_source_for:25552" and source.depth == 0
+
+
+def test_load_manifest_reads_original_from():
+    manifest = load_manifest(Path("corpus/laboral.yaml"))
+    lct = next(s for s in manifest.seeds if s.numero == 20744)
+    assert lct.original_from is not None
+    assert (lct.original_from.tipo, lct.original_from.numero, lct.original_from.sancion_year) == (
+        "Decreto",
+        390,
+        1976,
+    )
