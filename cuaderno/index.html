@@ -747,7 +747,7 @@ legal-ai bench smoke           20 preguntas → experiments/&lt;fecha&gt;-&lt;no
       <p>Usamos una sola base para todo: tablas relacionales (documentos, artículos, versiones, relaciones, historial), vectores (pgvector, índice HNSW con distancia coseno) y, en la Fase 5, búsqueda por palabras (pg_search, BM25). La imagen es ParadeDB, que trae las dos extensiones sobre PostgreSQL 17. El esquema vive en SQLAlchemy Core y las migraciones en Alembic; la primera migración crea las extensiones, las tablas y el índice HNSW.</p>
       <p>La carga es idempotente: borrar el corpus y volver a insertar, en una transacción. Correr <code>index load</code> dos veces da la misma base. Con 933 documentos y 15.327 versiones eso alcanza; a otra escala se haría un upsert por hash, pero ese problema todavía no existe.</p>
       <div class="callout complicacion">
-        <div class="eyebrow">Complicación 10 · "El rol legal_ai no existe"</div>
+        <div class="eyebrow">Complicación 14 · "El rol legal_ai no existe"</div>
         <p>El contenedor arrancó sano, la migración falló: <code>role "legal_ai" does not exist</code>. El contenedor exponía el 5432, pero en esa máquina ya había una PostgreSQL de Homebrew escuchando en el mismo puerto, y era ella la que contestaba. El error no decía "puerto ocupado": decía que el usuario no existía, porque estábamos hablando con la base equivocada. El contenedor pasó al 5433 y la URL de conexión lo dice explícito.</p>
       </div>
       <div class="callout industria">
@@ -764,7 +764,7 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
 [texto del artículo]</code></pre>
       <p>Resultado sobre el corpus laboral: 9.055 chunks para 8.764 artículos; 2.558 artículos quedan afuera (anexos, derogados, sin texto). Casi todo artículo es un solo chunk.</p>
       <div class="callout complicacion">
-        <div class="eyebrow">Complicación 11 · Lo que dejaste afuera no aparece</div>
+        <div class="eyebrow">Complicación 15 · Lo que dejaste afuera no aparece</div>
         <p>La pregunta de humo "¿Está derogado el artículo 28 de la LCT?" no puede acertar en esta fase: el art. 28 está derogado y el baseline no indexa versiones derogadas. No es un bug del retrieval, es la consecuencia directa de la regla de chunks. Está anotada como falla esperada hasta la Fase 9, cuando el índice incluya versiones históricas con filtro por fecha.</p>
       </div>
       <div class="callout industria">
@@ -778,7 +778,7 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
       <p>El embedder es una interfaz con dos implementaciones. <strong>bge-m3</strong> es el modelo del baseline: multilingüe, 1.024 dimensiones, corre local con sentence-transformers (baja 2,4 GB la primera vez). <strong>Hashing</strong> es el control: cuenta unigramas y bigramas de palabras y los proyecta con un hash a 1.024 posiciones. No sabe nada de significado, no baja nada y corre en los tests. Si un modelo de 2 GB no le gana claramente al hashing en el benchmark, algo está mal en la cadena, no en el modelo.</p>
       <p>Los vectores se cachean en disco por <code>(modelo, sha256 del texto)</code>: rehacer chunks no recalcula lo que no cambió. La columna <code>chunks.embedding_model</code> dice con qué modelo está cada fila; el índice mezcla modelos sólo si alguien se equivoca, y eso es un error de datos visible.</p>
       <div class="callout complicacion">
-        <div class="eyebrow">Complicación 12 · 80 segundos para no calcular nada</div>
+        <div class="eyebrow">Complicación 16 · 80 segundos para no calcular nada</div>
         <p>Embeber los 9.055 chunks con hashing tardó 1 minuto 20 (medido con <code>time</code>). El hashing en sí es sumar contadores; ese tiempo es sospechoso y la hipótesis más probable son los 9.055 <code>UPDATE</code> de a uno por fila. No lo profilamos todavía: queda como tarea medible para cuando el volumen importe, con una sola sentencia por lote (<code>UPDATE ... FROM unnest(...)</code>) como candidata.</p>
       </div>
     </section>
@@ -788,7 +788,7 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
       <p>La búsqueda es una consulta SQL: distancia coseno contra el índice HNSW, <code>1 - distancia</code> como score, los k más cercanos. Los candidatos se concatenan en un contexto donde cada fragmento va precedido por su id, por ejemplo <code>[25552:92bis@current]</code>. Claude recibe ese contexto y un esquema de salida fijo: <code>answer</code>, una lista de <code>claims</code> con sus <code>sources</code>, <code>confidence</code> e <code>insufficient_evidence</code>.</p>
       <p>Después de la respuesta hay una verificación que no depende del modelo: cada fuente citada tiene que ser un id que estaba en el contexto. Las que no, se devuelven aparte como <code>unsupported_sources</code>. Si el modelo se niega a responder, eso se traduce a <code>insufficient_evidence: true</code>. Y si no hay clave de API, el pipeline corre igual y devuelve sólo los candidatos.</p>
       <div class="callout complicacion">
-        <div class="eyebrow">Complicación 13 · El vector siempre encuentra algo</div>
+        <div class="eyebrow">Complicación 17 · El vector siempre encuentra algo</div>
         <p>Dos preguntas de humo no tienen respuesta en el corpus (el tope indemnizatorio de comercio, el art. 14 bis de la Constitución). La búsqueda vectorial devuelve ocho candidatos igual, porque siempre hay ocho vectores más cercanos que el resto. Abstenerse no es tarea del retrieval: es tarea de la generación, y por eso esas dos preguntas sólo cuentan como acierto cuando el modelo marca <code>insufficient_evidence</code>. Sin generación, fallan por definición.</p>
       </div>
       <div class="callout industria">
