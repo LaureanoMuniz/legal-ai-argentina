@@ -1,0 +1,181 @@
+# Decisiones de arquitectura
+
+Formato ADR: contexto, decisión, alternativas descartadas, consecuencias.
+Una decisión no se borra: si cambia, se agrega una nueva que la reemplaza.
+
+## ADR-001: Python
+
+**Contexto.** Hay que elegir lenguaje para retrieval, embeddings, evaluación y API.
+
+**Decisión.** Python 3.12 con `uv`, `ruff`, `pyright`, `pytest`.
+
+**Alternativas.** TypeScript: creció para agentes y front, pero embeddings
+open-weight, rerankers, Ragas/DeepEval y el grueso del ecosistema salen
+primero en Python.
+
+**Consecuencias.** Acceso directo a `sentence-transformers` y a todo el
+tooling de evaluación. La API puede exponerse a cualquier front.
+
+## ADR-002: Postgres + pgvector + pg_search como único motor
+
+**Contexto.** Necesitamos búsqueda vectorial, BM25, filtros por fecha y
+metadata relacional (versiones, relaciones entre normas).
+
+**Decisión.** PostgreSQL 17 con `pgvector` (HNSW) y ParadeDB `pg_search`
+(BM25 sobre Tantivy), en Docker Compose. Acceso con SQLAlchemy 2.0 Core +
+Alembic + psycopg 3.
+
+**Alternativas.**
+- SQLite + numpy: suficiente para el corpus inicial, pero no es lo que se usa
+  en producción y no enseña nada transferible. Descartado por pedido explícito.
+- Qdrant / Weaviate: híbrido incluido y mejores latencias en benchmarks
+  sintéticos, pero es una segunda base que sincronizar con la metadata legal,
+  que sí o sí vive en Postgres.
+- Postgres FTS (`tsvector` + `ts_rank`): no es BM25 real. Se medirá contra
+  `pg_search` como experimento.
+
+**Consecuencias.** Una sola fuente de verdad; el SQL de retrieval queda
+visible; si el volumen crece, `pgvectorscale` es el siguiente paso sin cambiar
+de motor.
+
+## ADR-003: Infoleg vía datos.jus.gob.ar como fuente
+
+**Contexto.** Se necesita legislación argentina oficial, con metadata,
+fechas y relaciones de modificación.
+
+**Decisión.** Base Infoleg del Ministerio de Justicia (CC BY 4.0, mensual):
+CSV de normas + dos CSV de relaciones, y descarga de los HTML de texto
+original y actualizado desde `servicios.infoleg.gob.ar`.
+
+**Alternativas.** argentina.gob.ar/normativa es un buscador sobre la misma
+base, sin API ni descarga masiva. datos.gob.ar espeja el mismo dataset. SAIJ
+tiene jurisprudencia, fuera de alcance por ahora.
+
+**Consecuencias.** El fetcher necesita User-Agent de navegador (403 sin él),
+caché y respeto de rate limit. No hay estado de vigencia ni versiones
+históricas: se infieren y reconstruyen (ADR-006).
+
+## ADR-004: Corpus inicial de derecho laboral
+
+**Contexto.** El corpus debe ser chico, real, con reformas y con referencias
+cruzadas, y evaluable por los dos abogados disponibles.
+
+**Decisión.** Ley 20.744 (LCT) más las leyes que la modifican y complementan,
+declaradas en `corpus/laboral.yaml` por número de norma y expandidas con las
+modificatorias a profundidad 1.
+
+**Alternativas.** Código Civil y Comercial: enorme y poco modificado, flojo
+para temporal. Defensa del consumidor: chico, pero menos denso en relaciones.
+
+**Consecuencias.** Preguntas cotidianas (despido, preaviso, indemnización),
+muchas versiones por artículo (reformas 2024 y 2026), grafo natural de
+relaciones.
+
+## ADR-005: El artículo es la unidad; el chunk apunta a una versión
+
+**Contexto.** Chunking por tokens rompe la estructura jurídica y hace
+imposible citar.
+
+**Decisión.** Parser que produce `documents → articles → article_versions →
+chunks`. Un artículo normalmente es un chunk. Cada chunk lleva un prefijo de
+contexto (norma, título, capítulo, artículo, epígrafe, vigencia) para
+contextual retrieval. Las citas son `article_id@version`.
+
+**Alternativas.** Chunks de N tokens con overlap: baseline conocido, pero sin
+identidad jurídica. Se puede medir como control si hace falta.
+
+**Consecuencias.** Citas exactas, filtros temporales posibles, y un parser
+que requiere tests contra HTML real.
+
+## ADR-006: Dos versiones por artículo desde el inicio
+
+**Contexto.** Infoleg entrega texto original y texto actualizado, y notas
+inline con la norma y fecha de cada modificación.
+
+**Decisión.** Parsear ambos textos y emitir versiones `original` y `current`
+con `effective_from` / `effective_until` derivados de las notas. Las versiones
+intermedias (`reconstructed`) se abordan en la Fase 9 a partir de las normas
+modificatorias.
+
+**Consecuencias.** El problema de Temporal Misgrounding se puede medir desde
+la Fase 3, no recién en la 9.
+
+## ADR-007: Embeddings y reranker open-weight como baseline, API como comparación
+
+**Contexto.** Hay que elegir modelos de embedding y reranking para castellano
+jurídico, y no hay claves de API en el entorno.
+
+**Decisión.** `bge-m3` (embeddings) y `bge-reranker-v2-m3` (reranking)
+corriendo localmente como baseline reproducible. Voyage (embeddings) y Cohere
+Rerank (reranking) vía API como segundo brazo del experimento cuando haya
+claves.
+
+**Alternativas.** OpenAI text-embedding-3, Gemini Embedding, Qwen3-Embedding,
+multilingual-e5. Se pueden agregar al mismo harness de comparación.
+
+**Consecuencias.** Se puede correr todo sin pagar. Cuál gana en este corpus
+se decide con el benchmark, no por leaderboard.
+
+## ADR-008: Claude Opus 5 con structured outputs nativos
+
+**Contexto.** El generador debe devolver respuesta, claims con fuentes y
+señal de evidencia insuficiente, de forma verificable.
+
+**Decisión.** `claude-opus-5` vía SDK oficial de Anthropic, adaptive thinking,
+`output_config.format` con esquema Pydantic. Sonnet 5 / Haiku 4.5 para
+reescritura de queries y como juez, si el costo lo justifica y se mide.
+
+**Alternativas.** Instructor u otros wrappers de JSON: innecesarios con
+structured outputs nativos. Modelos locales vía Ollama: un modelo chico falla
+de formas que no se distinguen de fallas del RAG.
+
+**Consecuencias.** Requiere `ANTHROPIC_API_KEY`. Prompt caching sobre el
+system prompt y el contexto para latencia y costo.
+
+## ADR-009: OpenTelemetry + Langfuse
+
+**Contexto.** Hay que poder explicar por qué una respuesta salió mal:
+candidatos, scores, contexto, prompt, salida.
+
+**Decisión.** Instrumentar con OpenTelemetry usando las GenAI semantic
+conventions y exportar a Langfuse self-hosted. Langfuse también guarda
+datasets, scores y etiquetas humanas.
+
+**Alternativas.** Arize Phoenix: OTel-nativo y muy bueno para debug de RAG;
+queda como alternativa de exportador sin cambiar la instrumentación. JSON a
+disco: no es lo que se usa en producción.
+
+**Consecuencias.** Compose suma Langfuse (con su Postgres y ClickHouse). La
+instrumentación es vendor-neutral.
+
+## ADR-010: Sin framework de orquestación hasta la Fase 12
+
+**Contexto.** LangChain/LlamaIndex/LangGraph esconden retrieval y prompts
+detrás de abstracciones.
+
+**Decisión.** Pipeline explícito en funciones propias hasta que exista un
+agente. Para la Fase 12, Pydantic AI (type-safe, instrumentación OTel nativa).
+
+**Alternativas.** LangGraph: mayor adopción, más pesado; queda documentado
+como alternativa si el agente necesita grafos de estado complejos.
+
+## ADR-011: Código en inglés, documentación y prompts en castellano
+
+**Decisión.** Identificadores, schema y archivos en inglés. Docs, benchmark,
+prompts e interfaz de evaluación en castellano, idioma del corpus y de los
+evaluadores.
+
+## ADR-012: `data/raw` inmutable, `data/processed` regenerable
+
+**Decisión.** Nada en `raw` se edita a mano ni se reescribe sin `--force`.
+Cada archivo lleva `fetched_at` y sha256. `processed` se borra y regenera con
+cada corrida del parser. Los experimentos referencian la fecha del catálogo
+que usaron.
+
+## ADR-013: Métricas propias primero, frameworks de evaluación como contraste
+
+**Decisión.** recall@k, MRR, nDCG y el juez LLM se implementan a mano con
+tests. Ragas y DeepEval se agregan después para comparar sus scores con los
+propios, no para reemplazarlos.
+
+**Consecuencias.** Se entiende qué mide cada número antes de confiar en él.
