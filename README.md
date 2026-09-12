@@ -95,7 +95,7 @@ docker compose up -d         # Postgres (pgvector + pg_search), Langfuse
 cp .env.example .env         # completar claves cuando haga falta
 uv run legal-ai ingest catalog        # descarga la base de Infoleg a data/raw
 uv run legal-ai ingest fetch laboral  # descarga las normas del manifest
-uv run legal-ai parse laboral         # genera data/processed
+uv run legal-ai parse laboral         # HTML → documents/articles/versions/relations/history .jsonl
 uv run pytest
 ```
 
@@ -103,7 +103,7 @@ Los comandos que todavía no existen están marcados en el roadmap.
 
 ## Estado
 
-Fases 0 (arquitectura) y 1 (ingestion) completas. Fase 2 (parser) es la siguiente.
+Fases 0 a 2 completas (arquitectura, ingestion, parser). Fase 3 (índice en Postgres + RAG baseline) es la siguiente.
 
 Hay un cuaderno de aprendizaje por fase en `docs/cuaderno/` (se publica como
 página HTML): qué se construyó, qué problema real apareció y qué hace la

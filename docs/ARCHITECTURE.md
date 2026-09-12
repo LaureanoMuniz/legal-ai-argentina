@@ -48,6 +48,28 @@ Limitaciones que condicionan el diseño:
 - La página de vínculos (`verVinculos.do?modo=2&id=`) lista las
   modificatorias con fecha y descripción; es la fuente para las aristas con
   contexto que el CSV no tiene.
+- El "texto original" de la LCT (`norma.htm` de 25552) es la ley aprobatoria
+  de 1974 (3 artículos). El cuerpo vigente es el texto ordenado por Decreto
+  390/76, cuyo `norma.htm` sí trae los 277 artículos como anexo. El manifest lo
+  declara con `original_from` y el parser usa ese anexo como versión
+  `original` (ADR-015).
+- Al final de `texact.htm` hay una sección "Antecedentes Normativos" con el
+  historial de sustituciones por artículo (norma, artículo, fecha B.O.), sin
+  los textos anteriores. Se guarda en `history.jsonl` como índice para la
+  Fase 9.
+- Las leyes modificatorias citan adentro el texto de los artículos que
+  reemplazan ("Sustitúyese el artículo 245 por el siguiente: 'Artículo 245.
+  — ...'"). El parser detecta la cita por la línea introductoria con ":" o por
+  el cambio de estilo del encabezado ("ARTICULO" anfitrión vs "Artículo"
+  citado) y la deja en el cuerpo del artículo anfitrión.
+- Las dos copias de un mismo texto (anexo del Decreto 390/76 y `texact.htm`
+  de la LCT) difieren en transcripción ("rigen"/"rige", puntuación). La
+  igualdad exacta no sirve para detectar cambios: se usa similitud
+  normalizada con umbral 0,9 y las notas de Infoleg como autoridad.
+- Una nota puede derogar un capítulo entero ("Capítulo VIII derogado por...")
+  y estar colgada del último artículo numerado anterior, porque el capítulo
+  derogado tenía artículos sin número (Ley 24.576). Solo se propaga si el
+  número de capítulo coincide con el del artículo que la porta.
 
 ## Layout de datos
 
@@ -61,10 +83,13 @@ data/raw/infoleg/
     vinculos_modificada_por.htm    modo=2
     meta.json                      url, fetched_at, http status, sha256
 data/processed/<corpus>/
-  resolved.json                  manifest resuelto a id_norma (fecha de catálogo, motivo de inclusión)
-  documents.jsonl
-  articles.jsonl
-  relations.jsonl
+  resolved.json            manifest resuelto a id_norma (fecha de catálogo, motivo)
+  documents.jsonl          una norma por línea, con lista de (organismo, número)
+  articles.jsonl           identidad de cada artículo y su jerarquía
+  article_versions.jsonl   texto por versión (original | current) con vigencia
+  relations.jsonl          aristas con evidencia (infoleg_vinculos | texact_note)
+  history.jsonl            eventos de "Antecedentes Normativos" por artículo
+  parse_report.json        conteos y advertencias por norma
 ```
 
 Reglas: `raw` nunca se reescribe salvo `--force`; `processed` se regenera
@@ -112,8 +137,10 @@ chunks               unidad indexada: texto + prefijo de contexto + embedding + 
 | `fecha_sancion`, `fecha_boletin`, `numero_boletin`, `pagina_boletin` | CSV |
 | `titulo_resumido`, `titulo_sumario`, `texto_resumido` | CSV |
 | `url_original`, `url_actualizado` | CSV |
-| `has_current_text` | derivado |
-| `fetched_at`, `raw_sha256` | descarga |
+| `numeros`, `organismos` | listas: las resoluciones conjuntas tienen una fila por firmante |
+| `has_original_text`, `has_current_text` | derivado |
+| `original_source_document_id` | id de la norma de la que se toma el `original` (229909 para la LCT) |
+| `front_matter` | encabezado y preámbulo (VISTO / CONSIDERANDO) antes del primer artículo |
 
 ### document_relations
 
@@ -147,8 +174,10 @@ chunks               unidad indexada: texto + prefijo de contexto + embedding + 
 | `effective_from` | fecha B.O. de la norma que introdujo este texto; para `original`, fecha B.O. de la norma |
 | `effective_until` | `null` si vigente; fecha B.O. de la sustitución/derogación si no |
 | `modified_by_document_id`, `modified_by_article` | de la nota inline |
-| `modification_note` | texto crudo de la nota |
-| `source_url` | |
+| `text_with_notes` | texto tal como está en Infoleg, con las notas |
+| `source_document_id`, `source_url` | de dónde se leyó el texto |
+| `similarity_to_original` | similitud normalizada entre `current` y `original` |
+| `unchanged_from_original` | `true` si no hay nota fechada y la similitud es ≥ 0,9 |
 | `text_sha256` | |
 
 Parsear `norma.htm` y `texact.htm` por separado da dos versiones de cada
