@@ -1,0 +1,54 @@
+[
+  {"group": "Despido e indemnización", "questions": [
+    "¿Cómo se calcula la indemnización por antigüedad si me despiden sin causa?",
+    "¿Qué plazo de preaviso tiene que darme el empleador según mi antigüedad?",
+    "¿Qué es el despido indirecto y cuándo puedo considerarme despedido?",
+    "¿En qué casos el despido no genera derecho a indemnización?",
+    "¿Qué pasa si me despiden mientras estoy con licencia por enfermedad?",
+    "¿Qué recargo corresponde si el empleador no paga la indemnización y tengo que ir a juicio?"
+  ]},
+  {"group": "Vacaciones y licencias", "questions": [
+    "¿Cuántos días de vacaciones me corresponden según la antigüedad?",
+    "¿Cuántos días de licencia corresponden por nacimiento de un hijo o por casamiento?",
+    "¿Puede el empleador decidir cuándo tomo las vacaciones?",
+    "¿Qué pasa con las vacaciones no gozadas cuando termina el contrato?"
+  ]},
+  {"group": "Sueldo y aguinaldo", "questions": [
+    "¿Qué es el sueldo anual complementario y cuándo se paga?",
+    "¿Qué descuentos puede hacer el empleador sobre mi sueldo?",
+    "¿Cuánto tiempo tiene el empleador para pagar el sueldo?",
+    "¿Qué tiene que decir un recibo de sueldo?"
+  ]},
+  {"group": "Embarazo, maternidad y familia", "questions": [
+    "¿Qué pasa si el empleador despide a una trabajadora embarazada?",
+    "¿Cuánto dura la licencia por maternidad?",
+    "¿Puedo pedir excedencia después de la licencia por maternidad?"
+  ]},
+  {"group": "Contrato y período de prueba", "questions": [
+    "¿Cuánto dura el período de prueba en un contrato por tiempo indeterminado?",
+    "¿Qué presume la ley cuando alguien presta servicios para otro en relación de dependencia?",
+    "¿Puede el trabajador renunciar a los derechos que le da la ley?",
+    "¿Qué obligación de registro tiene el empleador y qué pasa si no me registra?"
+  ]},
+  {"group": "Casas particulares y trabajo agrario", "questions": [
+    "¿Cuánto dura el período de prueba para el personal de casas particulares?",
+    "¿Cuántos días de vacaciones tiene una empleada de casas particulares?",
+    "¿Cuál es la jornada máxima del trabajador agrario?"
+  ]},
+  {"group": "Enfermedad y suspensiones", "questions": [
+    "Si me enfermo, ¿por cuánto tiempo cobro el sueldo y por cuánto me conservan el empleo?",
+    "¿Qué requisitos debe cumplir una suspensión por falta de trabajo y cuál es su plazo máximo?",
+    "¿Qué diferencia hay entre suspensión por falta de trabajo y despido por fuerza mayor?"
+  ]},
+  {"group": "Preguntas con fecha (versiones históricas)", "questions": [
+    "¿Cuánto duraba el período de prueba en 2023?",
+    "¿Cómo se calculaba la indemnización por antigüedad en 2020?",
+    "¿Qué plazo de preaviso regía en el año 2000 para un trabajador con más de cinco años de antigüedad?",
+    "¿Qué establecía el artículo 28 de la Ley de Contrato de Trabajo antes de su derogación?"
+  ]},
+  {"group": "Preguntas que el sistema debería no responder", "questions": [
+    "¿Cuál es el tope indemnizatorio vigente para el convenio colectivo de comercio?",
+    "¿Qué dice el artículo 14 bis de la Constitución Nacional?",
+    "¿Cuál es la jornada máxima diaria y semanal según la Ley 11.544?"
+  ]}
+]

@@ -309,6 +309,53 @@ def bench_generate(
     typer.echo(f"escrito: {path}")
 
 
+@bench_app.command("agent")
+def bench_agent(
+    name: Annotated[str, typer.Option("--name")] = "phase12-agent",
+    questions: Annotated[str, typer.Option("--questions")] = "eval/benchmark.jsonl",
+    model: Annotated[str, typer.Option("--model")] = "claude-sonnet-5",
+    judge_model: Annotated[str, typer.Option("--judge-model")] = "claude-sonnet-5",
+    limit: Annotated[int | None, typer.Option("--limit")] = None,
+) -> None:
+    """Benchmark del agente con herramientas: mismas preguntas y juez que bench generate."""
+    from pathlib import Path
+
+    from legal_ai.agent import anthropic_model, build_agent
+    from legal_ai.db.engine import make_engine
+    from legal_ai.eval.agent_bench import run_agent_benchmark, write_report
+    from legal_ai.eval.judge import ClaudeJudge
+    from legal_ai.generation.claude import make_client
+    from legal_ai.index.embeddings import get_embedder
+    from legal_ai.retrieval.retriever import Retriever
+    from legal_ai.settings import Settings
+    from legal_ai.tools import Toolbox
+
+    settings = Settings()
+    if not settings.anthropic_api_key:
+        raise typer.BadParameter("bench agent necesita ANTHROPIC_API_KEY en .env")
+    retriever = Retriever(
+        make_engine(settings.database_url),
+        get_embedder(settings.embedding_model),
+        mode=settings.retrieval_mode,
+        rewriter=_rewriter(settings, None),
+        multi_query=settings.rewrite_multi_query,
+    )
+    toolbox = Toolbox(retriever.engine, retriever)
+    agent = build_agent(anthropic_model(model, settings.anthropic_api_key))
+    judge = ClaudeJudge(make_client(settings.anthropic_api_key), judge_model)
+    report = run_agent_benchmark(agent, toolbox, judge, Path(questions), name, model, limit=limit)
+    path = write_report(report, Path("experiments"))
+    o = report.overall
+    typer.echo(
+        f"n={report.n} abstuvo={o.abstained} respondió={o.answered} · claims={o.claims} "
+        f"sostenidas={o.claim_support_rate} · cita esperado={o.cited_expected_rate} · "
+        f"llamadas a tools={report.tool_calls_total} (p50 {report.tool_calls_p50:.0f}/pregunta) · "
+        f"tokens {report.total_input_tokens}/{report.total_output_tokens} · costo ${report.estimated_cost_usd:.2f} · "
+        f"p50 {o.p50_total_ms / 1000:.1f} s"
+    )
+    typer.echo(f"escrito: {path}")
+
+
 @app.command("mcp")
 def mcp_serve() -> None:
     """Levanta el servidor MCP por stdio (search_laws, get_article, get_law_version, ...)."""

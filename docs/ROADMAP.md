@@ -14,7 +14,7 @@ sin medir la actual.
 | 5 | BM25 (`pg_search`) e híbrido | vector vs BM25 vs RRF vs fusión por scores, mismo benchmark | hecha |
 | 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | hecha (local; Cohere pendiente) |
 | 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | hecha (reescritura + multi-query) |
-| 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | siguiente (primer smoke medido) |
+| 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | hecha |
 | 9 | Retrieval temporal: reconstrucción de versiones, filtro por fecha | tests explícitos de Temporal Misgrounding (versión vigente vs histórica) | |
 | 10 | Knowledge graph legal (Postgres → Neo4j si hace falta) | casos donde el vector falla por depender de relaciones | |
 | 11 | GraphRAG como segundo camino | vector vs híbrido vs grafo vs híbrido+grafo en preguntas multi-hop | |
@@ -451,6 +451,47 @@ contexto en 20 respuestas**; 67,771 tokens de entrada y
 15.5 s por pregunta (la generación domina). Reporte:
 `experiments/2026-09-13-phase3-baseline-generation.json`. La Fase 8 mide
 claims soportados con un juez y la abstención sobre el benchmark grande.
+
+## Fase 8 en detalle: generación fundamentada medida
+
+`legal-ai bench generate`: las 50 preguntas del benchmark pasan por el
+pipeline completo (híbrido + reescritura Sonnet + multi-query, k = 8, Opus 5
+generando) y un juez (Sonnet 5) lee cada afirmación con los fragmentos que
+cita y dicta `supported`, `partial` o `unsupported`. Corrida del 2026-09-13,
+índice previo a la Fase 9 (sólo versiones vigentes).
+
+- Respondió 36 y se abstuvo en 14. Abstención en `not_in_corpus`: 6/6.
+  Abstención "falsa" (se abstuvo con el artículo esperado en el contexto):
+  0,08, todas en temporal y derogadas (b16 (negation); b28 (derogated); b29 (derogated); b30 (derogated); b34 (temporal); b35 (temporal); b36 (temporal); b37 (temporal)): el modelo
+  tenía el texto vigente y la pregunta pedía otro; abstenerse era lo correcto
+  con ese índice.
+- 218 afirmaciones: 0,98 sostenidas, 0,00 parciales según el
+  juez; 0 citas a ids fuera del contexto. Citó el artículo esperado
+  en 0,97 de las respuestas; el juez consideró que la respuesta responde la
+  pregunta en 1,00.
+- Tokens: generación 164,336 / 56,789; juez
+  187,601 / 20,088. Costo a precio de lista
+  $3.11. Latencia total p50 / p95: 14.0 / 22.8 s.
+
+| Categoría | n | abstuvo | sostenidas | parciales | cita esperado | responde |
+|---|---|---|---|---|---|---|
+| confusable | 6 | 0 | 1,00 | 0,00 | 1,00 | 1,00 |
+| cross_reference | 6 | 0 | 1,00 | 0,00 | 1,00 | 1,00 |
+| derogated | 5 | 3 | 1,00 | 0,00 | 0,50 | 1,00 |
+| direct | 8 | 0 | 0,98 | 0,00 | 1,00 | 1,00 |
+| multi_article | 7 | 0 | 0,94 | 0,02 | 1,00 | 1,00 |
+| negation | 6 | 1 | 1,00 | 0,00 | 1,00 | 1,00 |
+| not_in_corpus | 6 | 6 | – | – | – | – |
+| temporal | 6 | 4 | 1,00 | 0,00 | 1,00 | 1,00 |
+
+Afirmaciones no sostenidas: [('b06', 1), ('b12', 2)].
+
+Lectura: con el contexto correcto, el modelo casi no inventa; el riesgo real
+está en el retrieval y en la versión. La abstención funciona como red: cuando
+el índice no tiene el texto que la pregunta pide (2020, derogados), dice que
+no tiene evidencia en vez de contestar con el vigente. Reporte:
+`experiments/2026-09-13-phase8-opus5-generation.json`. Pendiente: comparar
+Sonnet 5 como generador (costo y latencia) y repetir sobre el índice temporal.
 
 ## Problemas que esperamos encontrar (y medir)
 

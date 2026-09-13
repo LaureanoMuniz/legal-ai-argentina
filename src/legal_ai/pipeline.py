@@ -1,6 +1,7 @@
 """Question → vector retrieval → context → Claude → grounded answer, with spans per step."""
 
 import time
+from collections.abc import Callable
 from datetime import date
 from typing import Protocol
 
@@ -44,6 +45,9 @@ def _ms(start: float) -> float:
     return (time.perf_counter() - start) * 1000
 
 
+StageCallback = Callable[[str, dict[str, object]], None]
+
+
 class Generator(Protocol):
     model: str
 
@@ -63,7 +67,12 @@ class Pipeline:
         generate: bool = True,
         as_of: date | None = None,
         historical: bool | None = None,
+        on_stage: StageCallback | None = None,
     ) -> AskResponse:
+        def emit(stage: str, payload: dict[str, object]) -> None:
+            if on_stage is not None:
+                on_stage(stage, payload)
+
         total_start = time.perf_counter()
         with self._tracer.start_as_current_span("ask") as root:
             root.set_attribute("legal_ai.question", question)
@@ -74,6 +83,7 @@ class Pipeline:
                 span.set_attribute("legal_ai.rewritten", plan.rewritten or "")
                 span.set_attribute("legal_ai.as_of", plan.as_of.isoformat() if plan.as_of else "")
                 span.set_attribute("legal_ai.historical", plan.historical)
+            emit("plan", plan.model_dump(mode="json"))
             start = time.perf_counter()
             with self._tracer.start_as_current_span(f"retrieval.{self.retriever.mode}") as span:
                 candidates = self.retriever.search(question, k, plan=plan)
@@ -81,11 +91,16 @@ class Pipeline:
                     "legal_ai.candidates", [f"{c.version_id}:{c.score:.3f}" for c in candidates]
                 )
             retrieval_ms = _ms(start)
+            emit(
+                "retrieval",
+                {"ms": retrieval_ms, "candidates": [c.model_dump(mode="json") for c in candidates]},
+            )
             start = time.perf_counter()
             with self._tracer.start_as_current_span("context.build") as span:
                 context = build_context(candidates)
                 span.set_attribute("legal_ai.context_chars", len(context))
             context_ms = _ms(start)
+            emit("context", {"ms": context_ms, "chars": len(context)})
 
             answer: GroundedAnswer | None = None
             usage: Usage | None = None
@@ -104,6 +119,14 @@ class Pipeline:
                         "gen_ai.response.finish_reasons", [generation.stop_reason or ""]
                     )
                 llm_ms = _ms(start)
+                emit(
+                    "generation",
+                    {
+                        "ms": llm_ms,
+                        "model": generation.model,
+                        "usage": generation.usage.model_dump(),
+                    },
+                )
                 answer = generation.answer
                 usage = generation.usage
                 model = generation.model

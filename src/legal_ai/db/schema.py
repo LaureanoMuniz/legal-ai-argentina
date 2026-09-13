@@ -169,6 +169,20 @@ article_references = Table(
     UniqueConstraint("source_article_id", "target_article_id", name="uq_article_reference"),
 )
 
+feedback = Table(
+    "feedback",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("created_at", DateTime(timezone=True), nullable=False),
+    Column("trace_id", String(32), nullable=False, index=True),
+    Column("question", Text, nullable=False),
+    Column("answer", Text),
+    Column("label", String(32), nullable=False),
+    Column("comment", Text),
+    Column("reviewer", String(64)),
+    Column("sources", JSONB),
+)
+
 chunks = Table(
     "chunks",
     metadata,

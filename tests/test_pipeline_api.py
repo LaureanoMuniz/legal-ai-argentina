@@ -75,3 +75,51 @@ def test_api_health_and_ask(db, tmp_path: Path):
     ).json()
     assert body["answer"]["answer"].startswith("Seis meses") and len(body["candidates"]) == 4
     assert client.post("/ask", json={"question": ""}).status_code == 422
+
+
+def test_api_stream_trace_feedback_and_article(db, tmp_path: Path, monkeypatch):
+    indexed(db, tmp_path)
+    traces = tmp_path / "s.jsonl"
+    tracer = setup_tracing("legal-ai-test", None, traces)
+    pipeline = Pipeline(Retriever(db, HashingEmbedder()), fake_generator(), tracer)
+    client = TestClient(create_app(lambda: pipeline))
+    stages = []
+    with client.stream(
+        "POST", "/ask/stream", json={"question": "¿Cuánto dura el período de prueba?", "k": 3}
+    ) as r:
+        body = "".join(r.iter_text())
+    for block in body.split("\n\n"):
+        if block.startswith("event: "):
+            stages.append(block.split("\n")[0].removeprefix("event: "))
+    assert stages == ["plan", "retrieval", "context", "generation", "done"]
+    done = json.loads(
+        [b for b in body.split("\n\n") if b.startswith("event: done")][0].split("\ndata: ", 1)[1]
+    )
+    assert done["answer"]["answer"].startswith("Seis meses") and len(done["candidates"]) == 3
+    flush()
+    monkeypatch.setattr(
+        "legal_ai.api.app.Settings", lambda: type("S", (), {"traces_path": traces})()
+    )
+    spans = client.get(f"/trace/{done['trace_id']}").json()
+    assert {s["name"] for s in spans} >= {"ask", "retrieval.vector", "gen_ai.chat"}
+    fb = client.post(
+        "/feedback",
+        json={
+            "trace_id": done["trace_id"],
+            "question": "q",
+            "answer": "a",
+            "label": "correct",
+            "sources": ["25552:92bis@current"],
+            "reviewer": "test",
+        },
+    ).json()
+    assert fb["label"] == "correct" and client.get("/feedback").json()[0]["reviewer"] == "test"
+    assert (
+        client.post(
+            "/feedback", json={"trace_id": done["trace_id"], "question": "q", "label": "nope"}
+        ).status_code
+        == 422
+    )
+    art = client.get("/article/25552:92bis").json()
+    assert art["label"] == "92 bis" and client.get("/article/x:1").status_code == 404
+    assert client.get("/").status_code == 200 and isinstance(client.get("/questions").json(), list)

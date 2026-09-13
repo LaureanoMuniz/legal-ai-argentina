@@ -396,3 +396,25 @@ transitorios de la API: se reintenta 5 veces) y una fuente de sesgo: si el
 modelo "adivina" la respuesta al reformular, la búsqueda se sesga hacia ella;
 el prompt le prohíbe responder y el benchmark lo vigila.
 
+## ADR-025: Un juez LLM mide el sostén de cada afirmación; la abstención se mide aparte
+
+**Decisión.** La calidad de la generación se mide con tres números
+independientes: (1) abstención correcta en preguntas sin respuesta y
+abstención falsa en preguntas con el artículo esperado en el contexto, que
+salen de `insufficient_evidence` sin ningún modelo; (2) citas fuera del
+contexto, que es un chequeo de conjuntos; (3) sostén de cada afirmación por
+los fragmentos que cita, dictado por Sonnet 5 como juez con salida
+estructurada (`supported | partial | unsupported`), más un booleano de si el
+conjunto responde la pregunta.
+
+**Por qué un juez y no Ragas/DeepEval.** El juez propio ve exactamente los
+fragmentos citados por id, en castellano, con instrucciones estrictas sobre
+números y plazos; el prompt y el modelo están fijos y versionados, así que
+dos corridas son comparables. Ragas queda como contraste en la Fase 14 si
+hace falta.
+
+**Límites.** El juez no sabe derecho: sólo compara afirmación con fragmento.
+Una afirmación sostenida por un fragmento equivocado (versión histórica, otra
+norma) sale "supported". Por eso `cited_expected` y la revisión humana (Fase
+14) existen. Costo del juez: unos 4.000 tokens por respuesta.
+
