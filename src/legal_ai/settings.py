@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     llm_model: str = "claude-opus-5"
     retrieval_mode: Literal["vector", "bm25", "rrf", "hybrid"] = "hybrid"
     hybrid_alpha: float = 0.8
+    reranker_model: str | None = None
+    rerank_pool: int = 30
     retrieval_dedupe: bool = False
     otlp_endpoint: str | None = None
     traces_path: Path = Path("data/traces/spans.jsonl")

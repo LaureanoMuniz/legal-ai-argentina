@@ -100,3 +100,23 @@ def test_build_chunks_long_article_yields_indexed_chunks():
     assert [c.chunk_index for c in chunks] == list(range(len(chunks))) and len(chunks) >= 3
     assert all(c.context_prefix == chunks[0].context_prefix for c in chunks)
     assert chunks[1].id == "25552:245@current#1"
+
+
+def test_split_quoted_separates_pointer_from_quoted_article():
+    from legal_ai.index.chunking import article_pieces, split_quoted
+
+    text = (
+        "Sustitúyese el artículo 92 bis de la ley 20.744 (t.o. 1976) y sus modificatorias por el siguiente: "
+        "Artículo 92 bis: Período de prueba. El contrato de trabajo por tiempo indeterminado se entenderá celebrado a prueba durante los primeros seis (6) meses."
+    )
+    parts = split_quoted(text)
+    assert parts is not None
+    intro, quoted = parts
+    assert intro.endswith("por el siguiente:") and quoted.startswith("Artículo 92 bis")
+    assert article_pieces(text) == [intro, quoted]
+    assert article_pieces(text, split_quotes=False) == [text]
+    assert split_quoted("Comuníquese al Poder Ejecutivo nacional.") is None
+    assert (
+        split_quoted("Apruébase el reglamento que como Anexo I forma parte de la presente: ok.")
+        is None
+    )

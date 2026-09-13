@@ -11,6 +11,7 @@ from legal_ai.generation.prompt import build_context
 from legal_ai.generation.schema import GroundedAnswer
 from legal_ai.index.embeddings import get_embedder
 from legal_ai.observability.tracing import setup_tracing
+from legal_ai.retrieval.rerank import get_reranker
 from legal_ai.retrieval.retriever import Mode, Retriever
 from legal_ai.retrieval.types import Candidate
 from legal_ai.settings import Settings
@@ -121,6 +122,8 @@ def build_pipeline(
         mode=mode or settings.retrieval_mode,
         dedupe=settings.retrieval_dedupe if dedupe is None else dedupe,
         alpha=settings.hybrid_alpha,
+        reranker=get_reranker(settings.reranker_model) if settings.reranker_model else None,
+        pool=settings.rerank_pool,
     )
     generator = (
         ClaudeGenerator(make_client(settings.anthropic_api_key), settings.llm_model)

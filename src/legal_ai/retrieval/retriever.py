@@ -7,6 +7,7 @@ from sqlalchemy.engine import Engine
 from legal_ai.index.embeddings import Embedder
 from legal_ai.retrieval.bm25 import bm25_index_exists, retrieve_bm25
 from legal_ai.retrieval.fusion import convex, dedupe_by_article, rrf
+from legal_ai.retrieval.rerank import Reranker, rerank
 from legal_ai.retrieval.types import Candidate
 from legal_ai.retrieval.vector import count_embedded, retrieve_vector
 
@@ -15,6 +16,7 @@ MODES: tuple[Mode, ...] = ("vector", "bm25", "rrf", "hybrid")
 POOL_FACTOR = 3
 FUSION_POOL = 24
 HYBRID_ALPHA = 0.8
+RERANK_POOL = 30
 
 
 def parse_mode(value: str) -> Mode:
@@ -31,19 +33,27 @@ class Retriever:
         mode: Mode = "vector",
         dedupe: bool = False,
         alpha: float = HYBRID_ALPHA,
+        reranker: Reranker | None = None,
+        pool: int = RERANK_POOL,
     ) -> None:
         self.engine = engine
         self.embedder = embedder
         self.mode: Mode = mode
         self.dedupe = dedupe
         self.alpha = alpha
+        self.reranker = reranker
+        self.pool = pool
 
     @property
     def name(self) -> str:
         label = self.mode if self.mode == "bm25" else f"{self.mode}({self.embedder.name})"
         if self.mode == "hybrid":
             label = f"hybrid(a={self.alpha:g},{self.embedder.name})"
-        return f"{label}+dedupe" if self.dedupe else label
+        if self.dedupe:
+            label += "+dedupe"
+        if self.reranker is not None:
+            label += f"+rerank({self.reranker.name},pool={self.pool})"
+        return label
 
     def embed_query(self, query: str) -> list[float]:
         return self.embedder.embed([query])[0].tolist()
@@ -79,7 +89,12 @@ class Retriever:
             return rrf([dense, sparse], k)
         return convex(dense, sparse, k, self.alpha)
 
-    def search(self, query: str, k: int = 8) -> list[Candidate]:
+    def _ranked(self, query: str, k: int) -> list[Candidate]:
         if not self.dedupe:
             return self._search(query, k)
         return dedupe_by_article(self._search(query, k * POOL_FACTOR), k)
+
+    def search(self, query: str, k: int = 8) -> list[Candidate]:
+        if self.reranker is None:
+            return self._ranked(query, k)
+        return rerank(self.reranker, query, self._ranked(query, max(k, self.pool)), k)

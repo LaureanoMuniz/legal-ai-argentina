@@ -5,8 +5,14 @@ from typing import Any
 from pydantic import BaseModel
 
 MAX_CHUNK_CHARS = 2500
+SPLIT_QUOTES = True
 _INCISO_RE = re.compile(r"^(?:[a-z]\)|\d{1,2}[.)])\s")
 _SENTENCE_RE = re.compile(r"(?<=[.;:])\s+")
+_QUOTE_INTRO_RE = re.compile(
+    r"^(?P<intro>.{0,400}?(?:por (?:el|la|los|las) siguientes?(?: textos?)?|"
+    r"el siguiente texto|los siguientes|como sigue)\s*:)\s*(?P<quoted>\S.*)$",
+    re.DOTALL,
+)
 
 
 class ChunkRecord(BaseModel):
@@ -65,6 +71,16 @@ def _pack(units: list[str], max_chars: int, joiner: str) -> list[str]:
     return pieces
 
 
+def split_quoted(text: str) -> tuple[str, str] | None:
+    match = _QUOTE_INTRO_RE.match(text.strip())
+    if match is None:
+        return None
+    intro, quoted = match.group("intro").strip(), match.group("quoted").strip()
+    if len(quoted) < 40:
+        return None
+    return intro, quoted
+
+
 def split_text(text: str, max_chars: int = MAX_CHUNK_CHARS) -> list[str]:
     if len(text) <= max_chars:
         return [text]
@@ -81,6 +97,14 @@ def split_text(text: str, max_chars: int = MAX_CHUNK_CHARS) -> list[str]:
         else:
             expanded.extend(_pack(_SENTENCE_RE.split(block), max_chars, " "))
     return _pack(expanded, max_chars, "\n")
+
+
+def article_pieces(text: str, split_quotes: bool = SPLIT_QUOTES) -> list[str]:
+    parts = split_quoted(text) if split_quotes else None
+    if parts is None:
+        return split_text(text)
+    intro, quoted = parts
+    return [intro, *split_text(quoted)]
 
 
 def choose_version(versions: Sequence[Mapping[str, Any]]) -> Mapping[str, Any] | None:
@@ -105,7 +129,7 @@ def build_chunks(
         return []
     prefix = context_prefix(doc, article, version)
     records: list[ChunkRecord] = []
-    for index, piece in enumerate(split_text(version["text"])):
+    for index, piece in enumerate(article_pieces(version["text"])):
         embed_text = f"{prefix}\n{piece}"
         records.append(
             ChunkRecord(

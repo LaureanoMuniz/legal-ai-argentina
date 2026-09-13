@@ -1,10 +1,14 @@
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated
 
 import typer
 
 from legal_ai.index.cli import db_app, index_app
 from legal_ai.ingest.cli import app as ingest_app
 from legal_ai.parse.cli import run as parse_run
+
+if TYPE_CHECKING:
+    from legal_ai.retrieval.rerank import Reranker
+    from legal_ai.settings import Settings
 
 app = typer.Typer(help="Legal AI Argentina: herramientas de ingestion, indexado y evaluación.")
 app.add_typer(ingest_app, name="ingest")
@@ -24,6 +28,8 @@ def search(
         str | None, typer.Option("--retriever", help="vector | bm25 | rrf | hybrid")
     ] = None,
     dedupe: Annotated[bool, typer.Option("--dedupe/--no-dedupe")] = False,
+    rerank: Annotated[bool | None, typer.Option("--rerank/--no-rerank")] = None,
+    pool: Annotated[int | None, typer.Option("--pool")] = None,
 ) -> None:
     """Búsqueda: muestra los k chunks mejor rankeados con su score."""
     from legal_ai.db.engine import make_engine
@@ -37,6 +43,8 @@ def search(
         get_embedder(model or settings.embedding_model),
         mode=parse_mode(retriever) if retriever else settings.retrieval_mode,
         dedupe=dedupe,
+        reranker=_reranker(settings, rerank),
+        pool=pool or settings.rerank_pool,
     )
     searcher.require_index()
     for c in searcher.search(query, k):
@@ -140,6 +148,8 @@ def bench_run(
         str | None, typer.Option("--retriever", help="vector | bm25 | rrf | hybrid")
     ] = None,
     dedupe: Annotated[bool, typer.Option("--dedupe/--no-dedupe")] = False,
+    rerank: Annotated[bool | None, typer.Option("--rerank/--no-rerank")] = None,
+    pool: Annotated[int | None, typer.Option("--pool")] = None,
 ) -> None:
     """Benchmark de retrieval: recall@k, MRR, nDCG y hit@k por categoría (eval/benchmark.jsonl)."""
     from pathlib import Path
@@ -159,6 +169,8 @@ def bench_run(
         embedder,
         mode=parse_mode(retriever) if retriever else settings.retrieval_mode,
         dedupe=dedupe,
+        reranker=_reranker(settings, rerank),
+        pool=pool or settings.rerank_pool,
     )
     searcher.require_index()
     resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))
@@ -187,6 +199,14 @@ def bench_run(
                 f"✗ {r.id} {r.category:<15} {r.question[:60]}  esperado {r.expected_articles}"
             )
     typer.echo(f"escrito: {path}")
+
+
+def _reranker(settings: "Settings", flag: bool | None) -> "Reranker | None":
+    from legal_ai.retrieval.rerank import BgeReranker, get_reranker
+
+    if flag is False or (flag is None and not settings.reranker_model):
+        return None
+    return get_reranker(settings.reranker_model or BgeReranker.name)
 
 
 @app.callback()
