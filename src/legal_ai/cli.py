@@ -31,6 +31,7 @@ def search(
     retriever = Retriever(
         make_engine(settings.database_url), get_embedder(model or settings.embedding_model)
     )
+    retriever.require_index()
     for c in retriever.search(query, k):
         typer.echo(f"{c.rank:2d} {c.score:.3f} {c.article_id:>16} {c.context_prefix[:90]}")
 
@@ -93,6 +94,7 @@ def bench_smoke(
 
     settings = Settings()
     pipeline = build_pipeline(settings, embedder_name=model)
+    pipeline.retriever.require_index()
     resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))
     report = run_smoke(
         pipeline,
@@ -115,6 +117,56 @@ def bench_smoke(
     for r in report.results:
         mark = "✓" if r.hit_at_k else "✗"
         typer.echo(f"{mark} {r.id} {r.category:<14} {r.total_ms:6.0f} ms  {r.question[:70]}")
+    typer.echo(f"escrito: {path}")
+
+
+@bench_app.command("run")
+def bench_run(
+    k: Annotated[int, typer.Option("--k")] = 8,
+    model: Annotated[str | None, typer.Option("--model")] = None,
+    name: Annotated[str, typer.Option("--name")] = "phase4-baseline",
+    questions: Annotated[str, typer.Option("--questions")] = "eval/benchmark.jsonl",
+) -> None:
+    """Benchmark de retrieval: recall@k, MRR, nDCG y hit@k por categoría (eval/benchmark.jsonl)."""
+    from pathlib import Path
+
+    from legal_ai.db.engine import make_engine
+    from legal_ai.eval.benchmark import run_benchmark, write_report
+    from legal_ai.index.embeddings import get_embedder
+    from legal_ai.ingest.layout import ProcessedLayout
+    from legal_ai.ingest.manifest import read_resolved
+    from legal_ai.retrieval.retriever import Retriever
+    from legal_ai.settings import Settings
+
+    settings = Settings()
+    embedder = get_embedder(model or settings.embedding_model)
+    retriever = Retriever(make_engine(settings.database_url), embedder)
+    retriever.require_index()
+    resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))
+    report = run_benchmark(
+        retriever, Path(questions), k, name, embedder.name, resolved.catalog_date.isoformat()
+    )
+    path = write_report(report, Path("experiments"))
+
+    def fmt(v: float | None) -> str:
+        return "  -  " if v is None else f"{v:5.2f}"
+
+    typer.echo(f"{'categoría':<16}{'n':>3} {'hit@k':>6} {'recall':>7} {'mrr':>6} {'ndcg':>6}")
+    rows = [("overall", report.overall)] + list(report.by_category.items())
+    for label, agg in rows:
+        typer.echo(
+            f"{label:<16}{agg.n_scored:>3} {fmt(agg.hit_at_k):>6} {fmt(agg.recall_at_k):>7} "
+            f"{fmt(agg.mrr):>6} {fmt(agg.ndcg_at_k):>6}"
+        )
+    typer.echo(
+        f"retrieval p50/p95 {report.overall.p50_retrieval_ms:.0f}/"
+        f"{report.overall.p95_retrieval_ms:.0f} ms · k={k} · {embedder.name}"
+    )
+    for r in report.results:
+        if r.scored and not r.hit_at_k:
+            typer.echo(
+                f"✗ {r.id} {r.category:<15} {r.question[:60]}  esperado {r.expected_articles}"
+            )
     typer.echo(f"escrito: {path}")
 
 

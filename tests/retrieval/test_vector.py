@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from legal_ai.index.embed import build_corpus_chunks, embed_chunks
 from legal_ai.index.embeddings import EmbeddingCache, HashingEmbedder
 from legal_ai.index.load import load_corpus
@@ -21,3 +23,17 @@ def test_vector_search_returns_ranked_candidates(db, tmp_path: Path):
     assert all(c.retriever == "vector" for c in results)
     assert any(c.article_id == "25552:92bis" for c in results)
     assert results[0].text and results[0].context_prefix
+
+
+def test_search_only_matches_chunks_embedded_with_the_same_model(db, tmp_path: Path):
+    from tests.test_pipeline_api import indexed
+
+    indexed(db, tmp_path)
+    same = Retriever(db, HashingEmbedder())
+    assert same.embedded_chunks() > 0 and len(same.search("período de prueba", 3)) == 3
+    other = HashingEmbedder()
+    other.name = "otro-modelo"
+    foreign = Retriever(db, other)
+    assert foreign.embedded_chunks() == 0 and foreign.search("período de prueba", 3) == []
+    with pytest.raises(RuntimeError, match="otro-modelo"):
+        foreign.require_index()
