@@ -293,7 +293,8 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l6-metodo">31. Cómo se debuggea un retriever</a></li>
       <li><a href="#l6-bug">32. El bug que sí estaba en el parser</a></li>
       <li><a href="#l6-resultado">33. Lo que cambió y lo que no</a></li>
-      <li><a href="#l6-proximo">34. Lo que viene, con más datos</a></li>
+      <li><a href="#l6-segunda">34. Segunda pasada: cuatro sospechosos</a></li>
+      <li><a href="#l6-proximo">35. Lo que viene, con más datos</a></li>
       <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar6">Autoevaluación 6</a></li>
     </ol>
@@ -1139,8 +1140,33 @@ LIMIT :k</code></pre>
       </div>
     </section>
 
+    <section id="l6-segunda">
+      <h2>34. Segunda pasada: cuatro sospechosos</h2>
+      <p>La primera pasada dijo "no es el parser". La segunda fue a buscar qué sí es, con un experimento por sospechoso, todos sobre las mismas 44 preguntas.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sospechoso</th><th>Experimento</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>El índice HNSW aproximado pierde candidatos</td><td>Misma consulta con el índice apagado (búsqueda exacta) y con <code>ef_search</code> 200</td><td>Top-8 idéntico en las 44 preguntas. Descartado.</td></tr>
+          <tr><td>El prefijo de contexto diluye el texto</td><td>Coseno pregunta–chunk con y sin prefijo para el esperado y sus competidores</td><td>El prefijo sube el coseno en todos los casos (art. 12: 0,51 → 0,57). Lo que compite es el nombre de la norma en el prefijo cuando la pregunta la menciona. Descartado como causa.</td></tr>
+          <tr><td>La pregunta y la ley no comparten vocabulario</td><td>Reescribir a mano la pregunta con las palabras de la ley</td><td>Art. 12: de la posición 45 a la 1. Arts. 242/244: de fuera de los 200 a la 1 y la 8. Confirmado. Automatizarlo necesita un LLM (Fase 7).</td></tr>
+          <tr><td>El orden dentro de los primeros 50 está mal</td><td>Cross-encoder <code>bge-reranker-v2-m3</code> sobre el pool de 50 del vector</td><td>hit@8 0,77 → 0,84, recall 0,70 → 0,81, nDCG 0,60 → 0,67. Art. 12 de la 45 a la 1. Confirmado y medido; cuesta 3,6 s por pregunta en esta máquina.</td></tr>
+        </tbody>
+        <caption>El reranker por categoría (nDCG@8): negación 0,56 → 0,70, referencia cruzada 0,76 → 0,94, temporal 0,39 → 0,53, directa 0,77 → 0,83. Confundible baja 0,81 → 0,73: los artículos de casas particulares pierden frente a los de la LCT con el mismo tema. Ninguna técnica mejora todo.</caption>
+      </table>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 27 · Un artículo citado que se hizo pasar por artículo</div>
+        <p>De paso apareció otro bug del parser: en la Ley 27.742, "Artículo 92 bis: Período de prueba…" citado después de "Sustitúyese el artículo 92 bis… por el siguiente:" quedó como artículo propio de la ley, y su chunk salía segundo en la pregunta del período de prueba. La heurística de la Fase 2 sólo detectaba citas cuando la numeración no era la esperada, y 92 bis después del 91 parece esperado. Regla nueva: si la línea anterior termina en ":" y nombra ese mismo artículo, es una cita.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Retrieve-then-rerank es el patrón estándar cuando el retriever denso trae al correcto pero no lo pone arriba: un modelo barato recupera 50, un modelo caro que lee pregunta y texto juntos reordena. El costo es latencia y cómputo; la decisión de pool (20, 30, 50) y de modelo (local o API) se toma midiendo, que es la Fase 6. La brecha de vocabulario se ataca del otro lado, reescribiendo la pregunta antes de buscar; medido a mano acá, automatizado en la Fase 7.</p>
+      </div>
+    </section>
+
     <section id="l6-proximo">
-      <h2>34. Lo que viene, con más datos</h2>
+      <h2>35. Lo que viene, con más datos</h2>
       <p>El análisis de errores ordena las fases siguientes por lo que cada una puede arreglar. El reranker (Fase 6) apunta al cubo "orden": b09, b13, b20, b21 están entre las posiciones 15 y 47, dentro de un pool de 50. La reescritura de la pregunta (Fase 7) apunta al cubo "vocabulario": b16 y b21 necesitan que "renunciar a derechos" se convierta en algo cercano a "irrenunciabilidad" y "no genera indemnización" en "justa causa, abandono". El índice temporal (Fase 9) apunta a b36, b37 y a los cinco derogados. Y un inspector visual de estas tablas, por pregunta, con el chunk al lado, para no volver a hacer esto con SQL a mano.</p>
       <p>Sobre modelos de embeddings mejores: hay candidatos (Voyage, Cohere multilingüe, OpenAI, e5), y ahora sí tiene sentido compararlos, porque todos van a recibir el mismo prefijo correcto. Antes del arreglo, la comparación habría medido el bug.</p>
     </section>

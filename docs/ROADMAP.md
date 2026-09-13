@@ -292,6 +292,82 @@ El default sigue en `hybrid` (ADR-022); con el índice nuevo empata al vector
 en nDCG (0,59 contra 0,60) y sigue sin empeorar hit ni recall en ninguna
 categoría, pero la ventaja que se midió en la Fase 5 desapareció: es ruido.
 
+## Segunda pasada de debug del retrieval (2026-09-13)
+
+Cuatro sospechosos que la primera pasada no había revisado, medidos sobre las
+44 preguntas puntuables con el índice re-parseado:
+
+1. **Índice HNSW aproximado vs búsqueda exacta.** Con `enable_indexscan =
+   off` el top-8 es idéntico en las 44 preguntas (hit 0,77, nDCG 0,60 en
+   ambos; `ef_search` 40, `iterative_scan` off). El índice no pierde nada.
+2. **¿El prefijo de contexto diluye el texto?** Coseno pregunta–chunk con y
+   sin prefijo para los esperados y sus competidores: el prefijo sube el
+   coseno en todos los casos (art. 12: 0,511 → 0,572). En b32 el prefijo
+   favorece más a los competidores (artículos de la propia Ley 25.250, cuyo
+   prefijo dice "Ley 25250") que al esperado ("Derógase la Ley 25.250",
+   0,602 → 0,604). El prefijo no es el problema; el nombre de la norma en el
+   prefijo compite con la mención de la norma en la pregunta.
+3. **Reformular la pregunta con el vocabulario de la ley.** Con la misma
+   búsqueda exacta: b21 "Irrenunciabilidad de los derechos del trabajador…"
+   pone al art. 12 en la posición 1 (desde la 45); b16 "Despido con justa
+   causa por injuria… abandono de trabajo" pone al 242 en la 1 y al 244 en
+   la 8 (desde fuera de los 200); b09 sube el 182 de la 36 a la 7; b13 sube
+   el 55 de la 29 a la 3. Es la confirmación del cubo "vocabulario": la
+   pregunta lega y el texto legal no comparten palabras y bge-m3 no cierra la
+   brecha. La reescritura automática necesita un LLM (Fase 7) o un glosario.
+4. **Reranker sobre los 50 primeros** (`BAAI/bge-reranker-v2-m3`, cross-
+   encoder, local en MPS, sondeo sin versionar): hit@8 0,77 → 0,84, recall
+   0,70 → 0,81, MRR 0,61 → 0,65, nDCG 0,60 → 0,67. Por categoría (nDCG):
+   negación 0,56 → 0,70 (art. 12 de la 45 a la 1), referencia cruzada 0,76 →
+   0,94, temporal 0,39 → 0,53, directa 0,77 → 0,83; confundible baja 0,81 →
+   0,73 (los artículos de la Ley 26.844 pierden frente a los de la LCT con el
+   mismo tema). Latencia 3,6 s por pregunta (p50) con pool 50 en esta
+   máquina: hay que medir pools de 20 y 30, y Cohere por API.
+
+Hallazgos laterales:
+
+- **Un artículo citado se filtró como artículo propio**: en la Ley 27.742 el
+  "Artículo 92 bis: Período de prueba…" citado tras "Sustitúyese el artículo
+  92 bis… por el siguiente:" quedó como `401266:92bis`, porque 92 sigue a 91 y
+  la heurística de cita sólo actuaba cuando la numeración no era la esperada.
+  Ese chunk salía segundo en la pregunta del período de prueba. Regla nueva:
+  si la línea anterior termina en ":" y nombra ese mismo artículo, es cita.
+  Test agregado.
+- **Duplicados exactos** entre normas (986 pares de versiones con el mismo
+  texto, más de 120 caracteres) casi no entran al top-8: 2 de 347 candidatos.
+  Los cuasi-duplicados sí compiten (la Ley 26.088 art. 1, que transcribe el
+  art. 66 LCT, es el primer resultado de b21), pero no son la causa
+  principal.
+- **Etiquetas**: el art. 182 (indemnización especial) está en el capítulo de
+  despido por matrimonio; el 178 (embarazo) remite a él. b09 es en realidad
+  una pregunta de referencia cruzada: sin seguir la remisión, el 182 no
+  aparece por semántica.
+
+Efecto del arreglo del artículo citado, re-parseado y re-embebido (vector:
+hit 0,75, recall 0,68, MRR 0,59, nDCG 0,58; híbrido: hit 0,77, recall
+0,70, MRR 0,56, nDCG 0,57): b01 y b33 suben una posición porque el chunk
+duplicado ya no compite, y b45 ("¿qué ley sustituyó el 92 bis y con qué
+artículo?") cae de la posición 1 a fuera del top-8: el chunk del art. 91 de
+la Ley 27.742 era antes una sola oración ("Sustitúyese el artículo 92 bis…
+por el siguiente:"), que calzaba exacto con la pregunta, y ahora incluye el
+texto citado completo, que la diluye. Un artículo que consiste en "puntero +
+texto citado" mezcla dos cosas; separarlos en dos chunks es un experimento de
+chunking para la Fase 7. Reportes:
+`experiments/2026-09-13-phase5c-quotefix-{vector,hybrid}.json`.
+
+Otro hallazgo de método: la caché de embeddings vivía en
+`data/processed/<corpus>/embeddings/`, y `legal-ai parse` borra ese
+directorio entero. Cada re-parseo obligó a re-embeber los 9.100 chunks
+(unos 10 minutos) aunque casi ningún texto hubiera cambiado. La caché pasa a
+`data/cache/embeddings/`.
+
+Conclusión de las dos pasadas: el índice, el prefijo y el parser están bien
+(el parser tenía bugs y se arreglaron, sin efecto en las métricas). Los
+fallos que quedan son de orden dentro de los primeros 50 (reranker, ganancia
+medida) y de vocabulario entre pregunta y ley (reescritura, ganancia medida
+a mano, pendiente de automatizar). La Fase 6 implementa el reranker con pool
+y latencia medidos; la Fase 7, la reescritura.
+
 ## Problemas que esperamos encontrar (y medir)
 
 - **Temporal Misgrounding**: preguntar por 2021 y recibir el texto de 2026.

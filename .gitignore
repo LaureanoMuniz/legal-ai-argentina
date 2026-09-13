@@ -13,3 +13,4 @@ data/processed/*
 !data/processed/.gitkeep
 .DS_Store
 data/traces/
+data/cache/

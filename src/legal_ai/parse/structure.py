@@ -137,9 +137,24 @@ class _Builder:
             header.number == self.prev_number and header.suffix is not None
         )
 
+    def _intro_quotes(self, header: ArticleHeader) -> bool:
+        if self.header is None or not self.body:
+            return False
+        intro = self.body[-1].rstrip()
+        if not intro.endswith(":"):
+            return False
+        suffix = rf"\s*{header.suffix}" if header.suffix else r"(?!\s*(?:bis|ter|qu[aá]ter))"
+        return (
+            re.search(rf"art[íi]culo\s+{header.number}\s*[°º]?{suffix}\b", intro, re.IGNORECASE)
+            is not None
+        )
+
     def accept_article(self, header: ArticleHeader) -> bool:
         if self.prev_number is None:
             return True
+        if self._intro_quotes(header):
+            self.quoting = True
+            return False
         expected = self._expected(header)
         if self.quoting:
             if expected and (not self.styles or header.prefix in self.styles):

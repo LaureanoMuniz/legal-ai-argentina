@@ -73,6 +73,10 @@ Limitaciones que condicionan el diseño:
 
 ## Layout de datos
 
+`data/cache/` guarda lo que es caro de recalcular y no es salida de
+ningún paso: los embeddings por `(modelo, sha256 del texto)`. Vive fuera de
+`data/processed/`, que el parser borra y regenera entero en cada corrida.
+
 ```
 data/raw/infoleg/
   catalog/<YYYY-MM-DD>/            los 3 ZIP tal cual se bajaron + manifest.json (sha256, url, fetched_at)

@@ -54,9 +54,7 @@ def index_embed(
     settings = Settings()
     name = model or settings.embedding_model
     embedder = get_embedder(name)
-    cache_path = (
-        settings.data_dir / "processed" / corpus / "embeddings" / f"{name.replace('/', '_')}.npz"
-    )
+    cache_path = settings.data_dir / "cache" / "embeddings" / f"{name.replace('/', '_')}.npz"
     report = embed_chunks(
         make_engine(settings.database_url), embedder, EmbeddingCache(cache_path), corpus, limit
     )

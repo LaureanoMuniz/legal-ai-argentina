@@ -283,3 +283,21 @@ def test_quoted_articles_without_colon_are_detected_by_style():
     )
     assert [a.key for a in parsed.articles] == ["18", "19"]
     assert parsed.warnings == []
+
+
+def test_quoted_article_named_in_intro_stays_inside_host_article():
+    from legal_ai.parse.structure import parse_text
+
+    lines = [
+        "Artículo 91.- Sustitúyese el artículo 92 bis de la ley 20.744 (t.o. 1976) por el siguiente:",
+        "Artículo 92 bis: Período de prueba. El contrato de trabajo por tiempo indeterminado se entenderá celebrado a prueba durante los primeros seis (6) meses.",
+        "Artículo 92.- Sustitúyese el artículo 136 de la ley 20.744 (t.o. 1976) por el siguiente:",
+        "Artículo 136: Contratistas e intermediarios. Sin perjuicio de lo dispuesto en los artículos 30 y 31.",
+        "Artículo 93.- Sustitúyese el artículo 177 de la ley 20.744 por el siguiente:",
+        "Artículo 177: Prohibición de trabajar. Queda prohibido el trabajo del personal femenino.",
+        "Artículo 94.- Comuníquese al Poder Ejecutivo nacional.",
+    ]
+    parsed = parse_text(lines)
+    assert [a.key for a in parsed.articles] == ["91", "92", "93", "94"]
+    assert "Período de prueba" in parsed.articles[0].text
+    assert "Contratistas e intermediarios" in parsed.articles[1].text
