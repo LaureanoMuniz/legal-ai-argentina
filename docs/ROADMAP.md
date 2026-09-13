@@ -486,6 +486,21 @@ cita y dicta `supported`, `partial` o `unsupported`. Corrida del 2026-09-13,
 
 Afirmaciones no sostenidas: [('b06', 1), ('b12', 2)].
 
+Comparación de generadores (mismo juez Sonnet 5, mismo retriever):
+
+| Generador (índice) | respondió / abstuvo | afirmaciones | sostenidas | parciales | citó esperado | abstención falsa | citas fuera | p50 | costo (50 preg.) |
+|---|---|---|---|---|---|---|---|---|---|
+| Opus 5 (sólo vigentes) | 36 / 14 | 218 | 0,98 | 0,00 | 0,97 | 0,08 | 0 | 14.0 s | $3.11 |
+| Sonnet 5 (índice temporal) | 40 / 10 | 170 | 0,92 | 0,04 | 0,97 | 0,03 | 0 | 7.7 s | $1.80 |
+
+Sonnet 5 responde en la mitad del tiempo y a poco más de la mitad del costo,
+con 92% de afirmaciones sostenidas contra 98% de Opus; sobre el índice
+temporal ya responde las preguntas con fecha (abstención falsa 0,03). Las
+afirmaciones parciales de Sonnet se concentran en `direct` (0,80 sostenidas):
+detalles numéricos que el fragmento no dice textual. Para la interfaz de uso
+diario, Sonnet es el default razonable; para el benchmark final se corre
+Opus. Reporte: `experiments/2026-09-13-phase8-sonnet5-generation-temporal.json`.
+
 Lectura: con el contexto correcto, el modelo casi no inventa; el riesgo real
 está en el retrieval y en la versión. La abstención funciona como red: cuando
 el índice no tiene el texto que la pregunta pide (2020, derogados), dice que
@@ -539,6 +554,13 @@ Por categoría (hit@8 / nDCG@8):
 - Latencia p50 3,0 s porque las reescrituras se hicieron en la misma corrida
   (caché vacía); con caché, 150 ms.
 
+Corrección posterior (originales duplicados, bitácora 42): al dejar de
+indexar los 337 originales nunca reemplazados (11.314 → 11.066 chunks), el
+benchmark quedó en hit 0,91, recall 0,86, MRR 0,73, nDCG 0,72 (retrieval p50
+122 ms con reescrituras cacheadas). Los mismos 4 fallos. La diferencia de
+MRR con la corrida anterior es del tamaño del ruido entre corridas. Reporte:
+`experiments/2026-09-13-phase9b-final-hybrid.json`.
+
 ## Fase 10 y 11 en detalle: grafo de referencias y expansión
 
 El parser extrae 5.184 aristas "artículo cita artículo" (1.070 entre normas
@@ -551,6 +573,32 @@ candidatos (`--graph N`), respetando el filtro temporal.
   182) gana el 182 por la arista.
 - Decisión: disponible, apagado por default (ADR-027). Vale más para el
   agente (que puede pedir "qué cita este artículo") que para el pipeline fijo.
+
+## Fases 13, 14 y 15 en detalle: observabilidad, interfaz con feedback, MCP
+
+- **Observabilidad.** Cada request escribe spans (GenAI semconv) a
+  `data/traces/spans.jsonl`; `legal-ai traces` los resume. Sobre las trazas
+  de esta sesión: 116 requests, generación p50 14,2 s / p95 21,4 s,
+  retrieval híbrido p50 242 ms, vector p50 47 ms, $3,42 de generación a precio
+  de lista. `LEGAL_AI_OTLP_ENDPOINT` manda los mismos spans a un backend;
+  `docker-compose.observability.yml` levanta Phoenix (no se pudo validar en
+  esta máquina: Colima falló al extraer la imagen; ver bitácora).
+- **Interfaz** (`legal-ai serve`, http://127.0.0.1:8000): catálogo de 34
+  preguntas en 9 grupos (`eval/questions_catalog.json`), etapas en vivo por
+  SSE (`/ask/stream`), respuesta con afirmaciones y fuentes clicables
+  (`/article/{id}` muestra todas las versiones), panel "por debajo del capó"
+  (plan, candidatos con origen y período, latencias, tokens, costo, spans),
+  y feedback con siete etiquetas (`/feedback`, tabla `feedback`). Verificado
+  de punta a punta con "¿Cuánto duraba el período de prueba en 2023?":
+  fecha interpretada 2023-06-30, respuesta "tres meses" citando la versión
+  2004–2023 del art. 92 bis, 13,7 s.
+- **MCP** (`legal-ai mcp`, stdio): `search_laws`, `get_article`,
+  `get_law_version`, `find_related_legislation` sobre el mismo `Toolbox` que
+  usa el agente. Test de listado y llamada sobre el mini corpus.
+- **Lo que falta y no se puede hacer solo**: etiquetas de abogados. La tabla
+  `feedback` y `GET /feedback` están; el paso siguiente es exportarlas a
+  `eval/human_labels.jsonl` y convertir cada `wrong_version` /
+  `wrong_source` en un caso del benchmark.
 
 ## Problemas que esperamos encontrar (y medir)
 

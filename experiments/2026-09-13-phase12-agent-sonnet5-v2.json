@@ -1,0 +1,1337 @@
+{
+  "name": "phase12-agent-sonnet5-v2",
+  "ran_at": "2026-09-13T22:30:18.408387Z",
+  "llm_model": "claude-sonnet-5",
+  "judge_model": "claude-sonnet-5",
+  "n": 20,
+  "overall": {
+    "n": 20,
+    "abstained": 1,
+    "answered": 19,
+    "abstention_rate": 0.05,
+    "claims": 87,
+    "claim_support_rate": 0.9080459770114943,
+    "claim_partial_rate": 0.08045977011494253,
+    "cited_expected_rate": 1.0,
+    "answers_question_rate": 1.0,
+    "p50_total_ms": 12185.226958012208,
+    "p95_total_ms": 20560.708708013408
+  },
+  "by_category": {
+    "direct": {
+      "n": 8,
+      "abstained": 0,
+      "answered": 8,
+      "abstention_rate": 0.0,
+      "claims": 42,
+      "claim_support_rate": 0.8809523809523809,
+      "claim_partial_rate": 0.09523809523809523,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 9806.44391599344,
+      "p95_total_ms": 18455.749957996886
+    },
+    "multi_article": {
+      "n": 7,
+      "abstained": 1,
+      "answered": 6,
+      "abstention_rate": 0.14285714285714285,
+      "claims": 20,
+      "claim_support_rate": 0.95,
+      "claim_partial_rate": 0.05,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 12765.488125034608,
+      "p95_total_ms": 83101.64170799544
+    },
+    "negation": {
+      "n": 5,
+      "abstained": 0,
+      "answered": 5,
+      "abstention_rate": 0.0,
+      "claims": 25,
+      "claim_support_rate": 0.92,
+      "claim_partial_rate": 0.08,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 12888.275792007335,
+      "p95_total_ms": 20560.708708013408
+    }
+  },
+  "not_in_corpus_abstention": null,
+  "unsupported_source_citations": 0,
+  "tool_calls_total": 30,
+  "agent_errors": 1,
+  "tool_calls_p50": 1.0,
+  "total_input_tokens": 207645,
+  "total_output_tokens": 19547,
+  "estimated_cost_usd": 1.223304,
+  "results": [
+    {
+      "id": "b01",
+      "category": "direct",
+      "question": "¿Cuánto dura el período de prueba en un contrato por tiempo indeterminado?",
+      "expected_articles": [
+        "25552:92bis"
+      ],
+      "retrieved_articles": [
+        "210489:7",
+        "53159:3",
+        "395521:71",
+        "93595:2",
+        "63208:1",
+        "25552:92bis"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según el artículo 92 bis de la Ley de Contrato de Trabajo (Ley 20.744), vigente desde el 8/7/2024 (modificado por la Ley 27.742), el período de prueba en un contrato por tiempo indeterminado dura los primeros seis (6) meses. Los convenios colectivos pueden ampliarlo hasta 8 meses (empresas de 6 a 100 trabajadores) o hasta 1 año (empresas de hasta 5 trabajadores). Cabe notar que este plazo cambió varias veces en las últimas décadas: 3 meses (Ley 25.877, 2004), 8 meses (Decreto 70/2023) y ahora 6 meses (texto actual).",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 3,
+      "partial": 2,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:92bis@2004-03-19",
+        "25552:92bis@2023-12-21",
+        "25552:92bis@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 18057,
+      "output_tokens": 881,
+      "llm_ms": 9735.4499999783,
+      "total_ms": 9735.4499999783,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente los seis (6) meses de vigencia.",
+        "2:supported: El fragmento reproduce exactamente los plazos de 8 meses y 1 año según el tamaño de la empresa.",
+        "3:supported: El fragmento confirma la posibilidad de extinguir sin causa ni indemnización durante el período de prueba.",
+        "4:partial: El fragmento confirma los 3 meses desde 2004, pero no menciona que rigiera hasta 2023 ni que provenga de la Ley 25.877.",
+        "5:partial: El fragmento confirma los 8 meses desde diciembre de 2023, pero no menciona que fuera por el Decreto 70/2023 ni que terminara en julio de 2024."
+      ]
+    },
+    {
+      "id": "b02",
+      "category": "direct",
+      "question": "¿Qué plazo de preaviso debe dar el empleador según la antigüedad del trabajador?",
+      "expected_articles": [
+        "25552:231"
+      ],
+      "retrieved_articles": [
+        "25552:231",
+        "210489:42",
+        "93595:3",
+        "25552:236",
+        "423680:48",
+        "210489:43"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según el art. 231 de la LCT (Ley 20.744), el empleador debe otorgar preaviso de 1 mes si el trabajador tiene una antigüedad de hasta 5 años, y de 2 meses si la antigüedad es superior a 5 años. Si el trabajador está en período de prueba no se requiere preaviso [25552:231@current]. Este mismo régimen fue reproducido por la Ley 25.877 [93595:3@current] y se mantiene en la reforma introducida por la Ley 27.802, vigente desde el 6/3/2026 [423680:48@original]. Para el servicio doméstico (Ley 26.844) los plazos son distintos: 10 días si la antigüedad es inferior a 1 año y 30 días si es superior [210489:42@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 4,
+      "partial": 1,
+      "unsupported": 1,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:42@current",
+        "25552:231@current",
+        "423680:48@original",
+        "93595:3@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5484,
+      "output_tokens": 921,
+      "llm_ms": 9670.869208988734,
+      "total_ms": 9670.869208988734,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente 1 mes cuando la antigüedad no exceda de 5 años.",
+        "2:supported: El fragmento indica textualmente 2 meses cuando la antigüedad es superior a 5 años.",
+        "3:supported: El fragmento establece que en período de prueba no se requiere preaviso.",
+        "4:partial: El fragmento confirma los plazos de 1 y 2 meses y agrega 15 días para período de prueba, pero la afirmación dice que este agregado se hizo 'explícitamente' respecto al esquema anterior, lo cual es correcto solo parcialmente ya que el texto original no distinguía ese supuesto de la misma forma.",
+        "5:unsupported: El fragmento no menciona la fecha de vigencia 2026-03-06, por lo que ese dato específico no está sostenido.",
+        "6:supported: El fragmento establece textualmente 10 días si la antigüedad es inferior a 1 año y 30 días si es superior."
+      ]
+    },
+    {
+      "id": "b03",
+      "category": "direct",
+      "question": "¿Cómo se calcula la indemnización por antigüedad en caso de despido sin causa?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "210489:48",
+        "412:153",
+        "395521:81",
+        "25552:245",
+        "423680:51"
+      ],
+      "retrieval_hit": true,
+      "answer": "La indemnización por antigüedad ante un despido sin justa causa (art. 245 LCT) equivale a un mes de la mejor remuneración mensual, normal y habitual del último año (o del período trabajado si es menor) por cada año de servicio o fracción mayor a tres meses. Esa base salarial tiene un tope: no puede exceder tres veces el promedio de remuneraciones del convenio colectivo aplicable, pero el resultado de aplicar el tope no puede ser inferior al 67% de la remuneración normal y habitual del trabajador. En ningún caso la indemnización total puede ser menor a un mes de sueldo. Actualmente (versión vigente desde 2026-03-06) se aclara además qué conceptos integran la \"remuneración\" (excluye SAC, vacaciones y premios no mensuales) y se establece que esta indemnización es la única reparación procedente por el despido sin causa, salvo ilícitos penales.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 6,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:245@current",
+        "412:153@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 8149,
+      "output_tokens": 1135,
+      "llm_ms": 11910.087832948193,
+      "total_ms": 11910.087832948193,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la regla de un mes por año o fracción mayor a tres meses y la base de mejor remuneración mensual normal y habitual del último año o tiempo trabajado.",
+        "2:supported: El fragmento establece exactamente el tope de tres veces el promedio convencional excluida la antigüedad y el piso del 67% de la remuneración normal y habitual.",
+        "3:supported: El fragmento indica textualmente que la indemnización en ningún caso podrá ser inferior a un mes de sueldo calculado según el sistema del artículo.",
+        "4:supported: El fragmento define remuneración devengada y pagada mensualmente excluyendo SAC, vacaciones y premios no mensuales, y establece el promedio de 6 meses o último año para conceptos variables.",
+        "5:supported: El fragmento permite sustituir el régimen por convenio colectivo mediante fondo de cese laboral y declara la indemnización como única reparación salvo ilícitos penales.",
+        "6:supported: El fragmento de la Ley 24013 muestra un piso de dos meses de sueldo y carece de las definiciones de habitual y normal presentes en la versión actual."
+      ]
+    },
+    {
+      "id": "b04",
+      "category": "direct",
+      "question": "¿Qué es el despido indirecto y qué indemnización corresponde?",
+      "expected_articles": [
+        "25552:246"
+      ],
+      "retrieved_articles": [
+        "210489:49",
+        "25552:246",
+        "25552:245",
+        "412:153",
+        "25552:243",
+        "210489:48"
+      ],
+      "retrieval_hit": true,
+      "answer": "El despido indirecto es la extinción del contrato de trabajo decidida por el propio trabajador (denuncia del contrato) cuando existe una justa causa que hace imposible la continuación de la relación laboral (por ejemplo, incumplimientos graves del empleador). Ante esta situación, la ley equipara sus consecuencias a las de un despido sin justa causa dispuesto por el empleador: el trabajador tiene derecho a las mismas indemnizaciones que en un despido directo injustificado, es decir, la indemnización por antigüedad (art. 245 LCT), la indemnización sustitutiva de preaviso (art. 232) y la integración del mes de despido (art. 233). Además, la causa invocada debe comunicarse por escrito y de manera clara, y no puede modificarse luego en juicio.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:232@current",
+        "25552:233@current",
+        "25552:243@current",
+        "25552:246@current",
+        "412:153@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 11065,
+      "output_tokens": 1110,
+      "llm_ms": 12185.226958012208,
+      "total_ms": 12185.226958012208,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 246 dice textualmente lo afirmado sobre la denuncia fundada en justa causa y el derecho a las indemnizaciones de los arts. 232, 233 y 245.",
+        "2:supported: El art. 232 citado establece exactamente la indemnización sustitutiva de preaviso por omisión o insuficiencia, remitiendo a los plazos del art. 231.",
+        "3:supported: El art. 233 citado reproduce la integración del mes de despido y la excepción durante el período de prueba tal como se afirma.",
+        "4:supported: El texto del art. 245 sustituido coincide con lo afirmado: un mes por año o fracción mayor a tres meses, base en mejor remuneración del último año, tope por convenio colectivo y piso de dos meses.",
+        "5:supported: El art. 243 citado establece exactamente la comunicación por escrito con motivos claros y la prohibición de modificar la causal en juicio."
+      ]
+    },
+    {
+      "id": "b05",
+      "category": "direct",
+      "question": "¿En qué plazo debe el empleador entregar los certificados de trabajo al terminar la relación?",
+      "expected_articles": [
+        "25552:80"
+      ],
+      "retrieved_articles": [
+        "25552:80",
+        "423680:25",
+        "7968:18",
+        "7968:22",
+        "192152:75",
+        "348166:13"
+      ],
+      "retrieval_hit": true,
+      "answer": "Actualmente (versión vigente desde el 6/3/2026), el empleador debe entregar los certificados de trabajo dentro de los 45 días hábiles desde la extinción del contrato de trabajo, pudiendo cumplir la obligación en formato físico o digital, o mediante la información disponible en el sitio web del organismo de seguridad social o de ARCA [25552:80@current]. Este plazo expreso de 45 días es una novedad introducida por la Ley 27802 (Ley de Modernización Laboral); las versiones anteriores del art. 80 LCT no fijaban un plazo específico en días, sino que exigían la entrega \"cuando el contrato se extinguiere por cualquier causa\" [25552:80@original] o remitían a un mecanismo de plataforma virtual opcional sin plazo expreso [25552:80@2023-12-21].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:80@2023-12-21",
+        "25552:80@current",
+        "25552:80@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 20146,
+      "output_tokens": 1708,
+      "llm_ms": 18455.749957996886,
+      "total_ms": 18455.749957996886,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento cita textualmente el plazo de 45 días hábiles desde la extinción del contrato.",
+        "2:supported: El fragmento reproduce exactamente las tres formas de cumplimiento mencionadas (físico, digital fehaciente, o disponibilidad en sitios de seguridad social/ARCA).",
+        "3:supported: El texto original no menciona un plazo en días y solo exige entrega del certificado al extinguirse el contrato por cualquier causa.",
+        "4:supported: La versión 2023-12-21 describe un mecanismo opcional de plataforma virtual sin especificar plazo en días."
+      ]
+    },
+    {
+      "id": "b06",
+      "category": "direct",
+      "question": "¿Cuántos días de vacaciones corresponden según la antigüedad del trabajador?",
+      "expected_articles": [
+        "25552:150"
+      ],
+      "retrieved_articles": [
+        "210489:29",
+        "25552:150",
+        "210489:31",
+        "25552:18",
+        "210489:30",
+        "423680:9"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según el régimen general de la Ley de Contrato de Trabajo (art. 150), la extensión de las vacaciones anuales depende de la antigüedad del trabajador al 31 de diciembre del año correspondiente: 14 días corridos hasta 5 años de antigüedad, 21 días de 5 a 10 años, 28 días de 10 a 20 años, y 35 días si supera los 20 años. Existe un régimen específico similar (con los mismos plazos) para el personal de casas particulares (Ley 26844, art. 29).",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 5,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:29@current",
+        "25552:150@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5822,
+      "output_tokens": 749,
+      "llm_ms": 7951.038459024858,
+      "total_ms": 7951.038459024858,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento establece textualmente 14 días corridos cuando la antigüedad no excede de 5 años.",
+        "2:supported: El fragmento establece textualmente 21 días corridos cuando la antigüedad es mayor de 5 y no excede de 10 años.",
+        "3:supported: El fragmento establece textualmente 28 días corridos cuando la antigüedad es mayor de 10 y no excede de 20 años.",
+        "4:supported: El fragmento establece textualmente 35 días corridos cuando la antigüedad excede de 20 años.",
+        "5:supported: El fragmento indica textualmente que se computa la antigüedad al 31 de diciembre del año correspondiente.",
+        "6:partial: Aunque los días (14,21,28,35) coinciden, el fragmento de la Ley 26844 exige además una antigüedad mínima de 6 meses para el primer tramo, condición que no figura en el régimen general citado, por lo que no es un esquema idéntico."
+      ]
+    },
+    {
+      "id": "b07",
+      "category": "direct",
+      "question": "¿Cuántos días de licencia corresponden por nacimiento de hijo, matrimonio o fallecimiento de un familiar?",
+      "expected_articles": [
+        "25552:158"
+      ],
+      "retrieved_articles": [
+        "25552:158",
+        "210489:38",
+        "192152:52",
+        "39995:3",
+        "25552:159",
+        "25552:161"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según la Ley de Contrato de Trabajo (art. 158), corresponden: 2 días corridos por nacimiento de hijo, 10 días corridos por matrimonio, 3 días corridos por fallecimiento del cónyuge/conviviente, hijo o padres, y 1 día por fallecimiento de hermano. Estas licencias son pagas [25552:158@current][25552:159@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:158@current",
+        "25552:159@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5433,
+      "output_tokens": 577,
+      "llm_ms": 8803.286165988538,
+      "total_ms": 8803.286165988538,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente 2 días corridos por nacimiento de hijo.",
+        "2:supported: El fragmento indica textualmente 10 días corridos por matrimonio.",
+        "3:supported: El fragmento indica textualmente 3 días corridos por fallecimiento de cónyuge, hijo o padres.",
+        "4:supported: El fragmento indica textualmente 1 día por fallecimiento de hermano.",
+        "5:supported: El artículo 159 confirma que estas licencias son pagas y remite al art. 155 para el cálculo del salario."
+      ]
+    },
+    {
+      "id": "b08",
+      "category": "direct",
+      "question": "¿En cuánto tiempo prescriben los créditos laborales?",
+      "expected_articles": [
+        "25552:256"
+      ],
+      "retrieved_articles": [
+        "210489:69",
+        "25552:256",
+        "27971:44",
+        "25552:257",
+        "25552:267",
+        "25552:258"
+      ],
+      "retrieval_hit": true,
+      "answer": "Los créditos provenientes de las relaciones individuales de trabajo prescriben a los dos (2) años, plazo de orden público que no puede modificarse por acuerdo de partes [25552:256@current]. Este mismo plazo rige para el servicio doméstico [210489:69@current], para las acciones derivadas de la Ley de Riesgos del Trabajo [27971:44@current] y específicamente para accidentes y enfermedades profesionales, contado desde la determinación de la incapacidad o el fallecimiento [25552:258@current]. Los reclamos ante la autoridad administrativa del trabajo interrumpen el curso de la prescripción, aunque en el régimen general (LCT) esa interrupción no puede exceder los seis meses [25552:257@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:69@current",
+        "25552:256@current",
+        "25552:257@current",
+        "25552:258@current",
+        "27971:44@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5283,
+      "output_tokens": 936,
+      "llm_ms": 9806.44391599344,
+      "total_ms": 9806.44391599344,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente el plazo de dos años y el carácter de orden público.",
+        "2:supported: El fragmento confirma el plazo de dos años y el carácter de orden público para créditos del régimen doméstico.",
+        "3:supported: El fragmento coincide exactamente con los dos supuestos de inicio del cómputo del plazo de dos años.",
+        "4:supported: El fragmento reproduce el plazo de dos años y el inicio del cómputo desde determinación de incapacidad o fallecimiento.",
+        "5:supported: El fragmento confirma la interrupción durante el trámite administrativo con el tope de seis meses."
+      ]
+    },
+    {
+      "id": "b09",
+      "category": "multi_article",
+      "question": "¿Qué pasa si el empleador despide a una trabajadora embarazada?",
+      "expected_articles": [
+        "25552:178",
+        "25552:182"
+      ],
+      "retrieved_articles": [
+        "210489:40",
+        "25552:178",
+        "210489:41",
+        "25552:245bis",
+        "401266:95",
+        "25552:181"
+      ],
+      "retrieval_hit": true,
+      "answer": "Si el despido se produce dentro de los 7 meses y medio anteriores o posteriores a la fecha de parto (habiendo la trabajadora notificado fehacientemente el embarazo), la ley presume que obedece a razones de maternidad/embarazo, salvo que el empleador pruebe lo contrario. En ese caso, además de la indemnización común por despido sin justa causa (art. 245 LCT), corresponde una indemnización agravada especial equivalente a un año de remuneraciones (remisión al régimen del art. 182 LCT, aplicable por matrimonio, que se usa como parámetro para el art. 178). Si se trata de trabajo doméstico (Ley 26.844), rige un régimen análogo con la misma presunción y una indemnización especial de un año de remuneraciones acumulable a la de despido sin causa.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 2,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:40@current",
+        "210489:41@current",
+        "25552:178@current",
+        "25552:182@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 11240,
+      "output_tokens": 815,
+      "llm_ms": 12765.488125034608,
+      "total_ms": 12765.488125034608,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 178 reproduce textualmente la presunción, el plazo de 7 meses y medio y el requisito de notificación y acreditación del embarazo.",
+        "2:partial: El fragmento confirma la indemnización de un año de remuneraciones acumulable al art. 245, pero no se cita ningún texto que aclare que es 'un año de remuneraciones' en el propio art. 178 salvo por remisión, y la afirmación combina ambos artículos correctamente aunque la mención específica de 'un año' surge solo del art. 182 citado.",
+        "3:supported: Los arts. 40 y 41 de la Ley 26844 confirman la misma presunción de 7 meses y medio y la indemnización de un año de remuneraciones acumulable a la de despido sin justa causa."
+      ]
+    },
+    {
+      "id": "b10",
+      "category": "multi_article",
+      "question": "¿Qué es el sueldo anual complementario y cuándo se paga?",
+      "expected_articles": [
+        "25552:121",
+        "25552:122"
+      ],
+      "retrieved_articles": [
+        "28165:1",
+        "25552:121",
+        "25552:122",
+        "210489:26",
+        "241014:1",
+        "25552:123"
+      ],
+      "retrieval_hit": true,
+      "answer": "El sueldo anual complementario (SAC) es la doceava parte del total de las remuneraciones percibidas por el trabajador en el año calendario [25552:121@current]. Se paga en dos cuotas anuales: la primera vence el 30 de junio y la segunda el 18 de diciembre, calculándose cada cuota como el 50% de la mayor remuneración mensual devengada por todo concepto dentro del semestre respectivo [25552:122@current]. Si al extinguirse el contrato de trabajo el trabajador no completó el semestre, tiene derecho a la parte proporcional del SAC devengada hasta ese momento [25552:123@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:121@current",
+        "25552:122@current",
+        "25552:123@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 11989,
+      "output_tokens": 1490,
+      "llm_ms": 13231.873458018526,
+      "total_ms": 13231.873458018526,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento define textualmente el SAC como la doceava parte de las remuneraciones del art. 103 percibidas en el año calendario.",
+        "2:supported: El fragmento confirma las dos cuotas, fechas de vencimiento y el cálculo del 50% de la mayor remuneración mensual del semestre.",
+        "3:supported: El fragmento detalla exactamente la estimación de diciembre, el recálculo y la integración de la diferencia al salario de diciembre.",
+        "4:supported: El fragmento del art. 123 confirma el derecho proporcional calculado como doceava parte de la fracción trabajada del semestre."
+      ]
+    },
+    {
+      "id": "b11",
+      "category": "multi_article",
+      "question": "Si un trabajador se enferma, ¿por cuánto tiempo cobra el sueldo y por cuánto se le conserva el empleo?",
+      "expected_articles": [
+        "25552:208",
+        "25552:211"
+      ],
+      "retrieved_articles": [
+        "25552:211",
+        "25552:212",
+        "25552:208",
+        "192152:53",
+        "77209:1",
+        "25552:210"
+      ],
+      "retrieval_hit": true,
+      "answer": "En caso de enfermedad o accidente inculpable, el trabajador tiene derecho a cobrar su remuneración durante 3 meses (si tiene menos de 5 años de antigüedad) o 6 meses (si tiene más de 5 años); esos plazos se duplican a 6 y 12 meses respectivamente si el trabajador tiene cargas de familia [25552:208@current]. Además, vencido el período pago, si el trabajador aún no puede volver a trabajar, el empleador debe conservarle el puesto (sin pagarle sueldo) durante 1 año adicional contado desde el vencimiento de los plazos de pago [25552:211@current]. Pasado ese año de conservación, la relación subsiste hasta que alguna de las partes decida rescindirla, sin generar indemnización por esa causa [25552:211@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:208@current",
+        "25552:211@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 7021,
+      "output_tokens": 849,
+      "llm_ms": 11955.860083980951,
+      "total_ms": 11955.860083980951,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 208 establece exactamente los plazos de 3 y 6 meses según la antigüedad menor o mayor a 5 años.",
+        "2:supported: El fragmento indica textualmente que con carga de familia los plazos se extienden a 6 y 12 meses según la antigüedad.",
+        "3:supported: El art. 211 establece textualmente que vencidos los plazos de interrupción, el empleador debe conservar el empleo por 1 año, sin mencionar pago, lo que coincide con la afirmación.",
+        "4:supported: El fragmento reproduce textualmente que vencido el año la relación subsiste hasta que una parte notifique su voluntad de rescindir, sin responsabilidad indemnizatoria."
+      ]
+    },
+    {
+      "id": "b12",
+      "category": "multi_article",
+      "question": "¿Qué cobra un trabajador despedido mientras está de licencia por enfermedad inculpable?",
+      "expected_articles": [
+        "25552:213",
+        "25552:208"
+      ],
+      "retrieved_articles": [
+        "25552:213",
+        "192152:53",
+        "25552:212",
+        "25552:254",
+        "25552:208",
+        "25552:211"
+      ],
+      "retrieval_hit": true,
+      "answer": "Si el empleador despide al trabajador mientras corre el plazo de licencia paga por accidente o enfermedad inculpable (art. 208 LCT), debe pagarle, además de las indemnizaciones propias del despido injustificado (preaviso, integración del mes de despido y art. 245), los salarios correspondientes a todo el tiempo que faltare para el vencimiento de ese plazo de licencia o hasta la fecha del alta médica, según lo que el trabajador demuestre [25552:213@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:208@current",
+        "25552:213@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 13456,
+      "output_tokens": 1182,
+      "llm_ms": 11566.020458005369,
+      "total_ms": 11566.020458005369,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 213 reproduce textualmente la afirmación.",
+        "2:supported: El art. 208 establece exactamente los plazos de 3/6 meses y 6/12 meses según antigüedad y cargas de familia como se afirma."
+      ]
+    },
+    {
+      "id": "b13",
+      "category": "multi_article",
+      "question": "¿Qué obligación de registro tiene el empleador y qué pasa si omite registrar al trabajador?",
+      "expected_articles": [
+        "25552:52",
+        "25552:55"
+      ],
+      "retrieved_articles": [],
+      "retrieval_hit": false,
+      "answer": "(error del agente: Exceeded maximum output retries (3))",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 0,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [],
+      "cited_expected": false,
+      "unsupported_sources": [],
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "llm_ms": 83101.64170799544,
+      "total_ms": 83101.64170799544,
+      "trace_id": "",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b14",
+      "category": "multi_article",
+      "question": "¿Qué formalidades exige la ley para la renuncia y para la extinción por mutuo acuerdo?",
+      "expected_articles": [
+        "25552:240",
+        "25552:241"
+      ],
+      "retrieved_articles": [
+        "25552:241",
+        "423680:50",
+        "25552:240",
+        "423680:49",
+        "210489:46",
+        "25552:249",
+        "348166:30",
+        "348166:25"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según la Ley de Contrato de Trabajo (arts. 240 y 241, vigentes desde el 6/3/2026, texto conforme Ley 27.802), la renuncia del trabajador debe formalizarse mediante despacho telegráfico (físico o digital) dirigido al empleador, o ante la autoridad administrativa del trabajo, siendo gratuito y con validación de identidad, como requisito de validez. La extinción por mutuo acuerdo debe formalizarse mediante escritura pública o ante autoridad judicial o administrativa del trabajo, con presencia personal del trabajador, bajo pena de nulidad; también puede configurarse por comportamiento concluyente y recíproco de las partes que traduzca abandono inequívoco de la relación (dos meses sin manifestación de continuidad en contratos de prestación continua).",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:240@current",
+        "25552:241@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 9075,
+      "output_tokens": 906,
+      "llm_ms": 12848.655667039566,
+      "total_ms": 12848.655667039566,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente todos los elementos de la afirmación.",
+        "2:supported: El fragmento sostiene exactamente lo afirmado sobre formalidades y nulidad.",
+        "3:supported: El fragmento contiene textualmente la regla sobre voluntad concurrente y el plazo de dos meses."
+      ]
+    },
+    {
+      "id": "b15",
+      "category": "multi_article",
+      "question": "¿Qué requisitos debe cumplir una suspensión por falta de trabajo y cuál es su plazo máximo?",
+      "expected_articles": [
+        "25552:218",
+        "25552:220"
+      ],
+      "retrieved_articles": [
+        "25552:220",
+        "25552:221",
+        "25552:219",
+        "246009:2",
+        "246009:5",
+        "25552:218"
+      ],
+      "retrieval_hit": true,
+      "answer": "La suspensión por falta o disminución de trabajo, para ser válida, debe fundarse en justa causa, tener plazo fijo y ser notificada por escrito al trabajador [25552:218@current]. Se considera justa causa cuando la falta o disminución de trabajo no es imputable al empleador [25552:219@current]. Su plazo máximo es de 30 días en el término de un año, contados desde la primera suspensión [25552:220@current], y además debe respetarse el orden de antigüedad: comenzar por el personal menos antiguo de cada especialidad, y entre quienes ingresaron en el mismo semestre, por quien tenga menos cargas de familia [25552:221@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:218@current",
+        "25552:219@current",
+        "25552:220@current",
+        "25552:221@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5511,
+      "output_tokens": 781,
+      "llm_ms": 8467.064875003416,
+      "total_ms": 8467.064875003416,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 218 sostiene textualmente los tres requisitos mencionados.",
+        "2:supported: El fragmento del art. 219 sostiene textualmente las causas justas de suspensión mencionadas.",
+        "3:supported: El fragmento del art. 220 confirma el plazo de 30 días en un año contados desde la primera suspensión para esas causas.",
+        "4:supported: El fragmento del art. 221 sostiene textualmente el criterio de antigüedad y cargas de familia para la suspensión por falta de trabajo."
+      ]
+    },
+    {
+      "id": "b16",
+      "category": "negation",
+      "question": "¿En qué casos el despido no genera derecho a indemnización por antigüedad?",
+      "expected_articles": [
+        "25552:242",
+        "25552:244"
+      ],
+      "retrieved_articles": [
+        "412:153",
+        "25552:245",
+        "395521:81",
+        "210489:48",
+        "423680:51",
+        "25552:233",
+        "395521:71",
+        "53159:3",
+        "25552:250",
+        "93595:4",
+        "25552:246",
+        "25552:242",
+        "412:154",
+        "93595:5"
+      ],
+      "retrieval_hit": true,
+      "answer": "Conforme a la LCT, el despido no genera derecho a la indemnización por antigüedad (art. 245) en tres supuestos principales: (1) cuando el empleador despide con justa causa, es decir, ante una injuria del trabajador de tal gravedad que no consiente la prosecución de la relación (art. 242); (2) cuando la extinción se produce durante el período de prueba (primeros 8 meses según el texto vigente actual), en cuyo caso cualquiera de las partes puede rescindir sin expresión de causa y sin derecho a indemnización (art. 92 bis); y (3) cuando el contrato se extingue por voluntad concurrente de las partes (mutuo acuerdo o abandono recíproco de la relación), conforme al art. 241, ya que no hay \"despido\" propiamente dicho. También corresponde señalar que la vigente redacción del art. 245 exige expresamente que haya transcurrido el período de prueba para que nazca el derecho indemnizatorio.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 4,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:241@current",
+        "25552:242@current",
+        "25552:245@current",
+        "395521:71@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 38104,
+      "output_tokens": 1250,
+      "llm_ms": 20560.708708013408,
+      "total_ms": 20560.708708013408,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El art. 245 exige despido 'sin justa causa' para la indemnización, y el art. 242 regula la extinción por injuria grave, sosteniendo la afirmación.",
+        "2:supported: El fragmento establece textualmente los 8 meses de período de prueba y que la extinción durante ese lapso no da derecho a indemnización.",
+        "3:supported: El texto citado del art. 245 contiene literalmente la frase 'luego de transcurrido el período de prueba' como condición para la indemnización.",
+        "4:partial: El art. 241 describe la extinción por mutuo acuerdo o abandono recíproco, pero el fragmento no afirma expresamente que esto excluya la indemnización del art. 245.",
+        "5:supported: El fragmento dice textualmente que la indemnización del art. 245 es la única reparación frente a la extinción sin justa causa, sosteniendo la inferencia a contrario sensu."
+      ]
+    },
+    {
+      "id": "b17",
+      "category": "negation",
+      "question": "¿A qué trabajadores no se les aplica la Ley de Contrato de Trabajo?",
+      "expected_articles": [
+        "25552:2"
+      ],
+      "retrieved_articles": [
+        "25552:38",
+        "192152:100",
+        "25552:2",
+        "379858:1",
+        "25552:27",
+        "423680:1"
+      ],
+      "retrieval_hit": true,
+      "answer": "El art. 2 de la LCT (versión vigente) excluye expresamente de su aplicación a varios colectivos: empleados públicos, personal de casas particulares, trabajadores agrarios, contrataciones civiles/comerciales de obra o servicios, trabajadores independientes, prestadores de plataformas, personal embarcado bajo la Ley de Navegación y personas privadas de libertad en contexto de encierro. Además, otras normas específicas (Ley 26.727 de Trabajo Agrario) confirman que sus disposiciones desplazan a la LCT en lo que regulan.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 8,
+      "supported": 8,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "192152:100@current",
+        "25552:2@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 6279,
+      "output_tokens": 926,
+      "llm_ms": 12888.275792007335,
+      "total_ms": 12888.275792007335,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento cita textualmente esta excepción para dependientes de la Administración Pública.",
+        "2:supported: El fragmento cita textualmente esta excepción para personal de casas particulares y la Ley 26.844.",
+        "3:supported: El fragmento del art. 2 de la LCT y el art. 100 de la Ley 26.727 sostienen la exclusión y la aplicación supletoria.",
+        "4:supported: El fragmento cita textualmente esta excepción para contrataciones reguladas por el Código Civil y Comercial.",
+        "5:supported: El fragmento cita textualmente esta excepción referida al art. 97 de la Ley 27.742.",
+        "6:supported: El fragmento cita textualmente esta excepción para prestadores de plataformas tecnológicas.",
+        "7:supported: El fragmento cita textualmente esta excepción para personal embarcado bajo la Ley de Navegación.",
+        "8:supported: El fragmento cita textualmente esta excepción para personas privadas de libertad."
+      ]
+    },
+    {
+      "id": "b18",
+      "category": "negation",
+      "question": "¿Qué descuentos no puede hacer el empleador sobre el salario?",
+      "expected_articles": [
+        "25552:131",
+        "25552:132"
+      ],
+      "retrieved_articles": [
+        "25552:131",
+        "192152:39",
+        "25552:133",
+        "25552:132",
+        "423680:37",
+        "25552:134"
+      ],
+      "retrieval_hit": true,
+      "answer": "La regla general es la prohibición absoluta de deducir, retener o compensar sumas que rebajen el salario, incluyendo por entrega de mercaderías, alimentos, vivienda o herramientas, y la prohibición de multas al trabajador [25552:131@current]. Esta prohibición cede solo ante excepciones tasadas (adelantos, aportes jubilatorios y fiscales, cuotas sindicales/mutuales con consentimiento, seguros, depósitos en cajas de ahorro, reintegros de vivienda o mercaderías propias del empleador, etc.) [25552:132@current], que además deben respetar un tope máximo del 20% de la remuneración en dinero y, en general, requieren consentimiento expreso del trabajador o autorización administrativa [25552:133@current]. Para algunas de esas excepciones (incisos d, g, h e i) se exigen recaudos adicionales, como que el precio no sea superior al de plaza y que no haya existido exigencia del empleador para la compra [25552:134@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:131@current",
+        "25552:132@current",
+        "25552:133@current",
+        "25552:134@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 7313,
+      "output_tokens": 1143,
+      "llm_ms": 15834.037917025853,
+      "total_ms": 15834.037917025853,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El art. 131 prohíbe expresamente deducir, retener o compensar remuneraciones por esos conceptos y prohíbe multas.",
+        "2:supported: El art. 132 enumera taxativamente esas excepciones a la prohibición del art. 131.",
+        "3:supported: El art. 133 fija el tope del 20% y exige consentimiento expreso o autorización del organismo competente salvo origen legal/estatutario/CCT.",
+        "4:supported: El art. 134 exige esos cuatro requisitos adicionales para los incisos d, g, h e i del art. 132."
+      ]
+    },
+    {
+      "id": "b19",
+      "category": "negation",
+      "question": "¿Cuándo el trabajador no cobra el salario del día feriado?",
+      "expected_articles": [
+        "25552:168"
+      ],
+      "retrieved_articles": [
+        "25552:166",
+        "25552:168",
+        "25552:169",
+        "25552:167",
+        "25552:170",
+        "25552:165"
+      ],
+      "retrieval_hit": true,
+      "answer": "El trabajador no cobra el salario del feriado cuando no cumple con la condición de asistencia previa que exige el art. 168 LCT: haber trabajado a las órdenes del mismo empleador al menos 48 horas o 6 jornadas dentro de los 10 días hábiles anteriores al feriado, o bien haber trabajado la víspera hábil del feriado y continuar trabajando en alguno de los 5 días hábiles subsiguientes. Si no reúne ninguna de esas dos condiciones, no tiene derecho a percibir la remuneración del feriado no trabajado.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 3,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:166@current",
+        "25552:168@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5061,
+      "output_tokens": 757,
+      "llm_ms": 11772.898916970007,
+      "total_ms": 11772.898916970007,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 168 establece textualmente esa condición de 48 horas o 6 jornadas dentro de los 10 días hábiles anteriores.",
+        "2:supported: El fragmento indica textualmente esa condición alternativa de trabajar la víspera y continuar en los 5 días hábiles subsiguientes.",
+        "3:partial: El artículo establece las condiciones para tener derecho al salario pero no dice explícitamente qué ocurre si no se cumplen, siendo una inferencia razonable pero no textual.",
+        "4:supported: El art. 166 citado describe exactamente esas reglas sobre feriados nacionales y remuneración, y el art. 168 se relaciona expresamente con el párrafo primero del art. 166."
+      ]
+    },
+    {
+      "id": "b20",
+      "category": "negation",
+      "question": "¿Qué servicios no pueden ser objeto de un contrato de trabajo?",
+      "expected_articles": [
+        "25552:38",
+        "25552:39",
+        "25552:40"
+      ],
+      "retrieved_articles": [
+        "25552:38",
+        "25552:40",
+        "25552:42",
+        "93595:24",
+        "122396:23",
+        "25552:39"
+      ],
+      "retrieval_hit": true,
+      "answer": "No pueden ser objeto del contrato de trabajo la prestación de servicios ilícitos ni la de servicios prohibidos. Es ilícito el objeto cuando es contrario a la moral y las buenas costumbres (salvo que esté tolerado o regulado por leyes, ordenanzas o reglamentos de policía). Es prohibido el objeto cuando normas legales o reglamentarias vedan el empleo de determinadas personas, o su empleo en determinadas tareas, épocas o condiciones; esta prohibición está siempre dirigida al empleador. En caso de contrato de objeto prohibido, el trabajador conserva su derecho a percibir remuneraciones o indemnizaciones derivadas de la extinción.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:38@current",
+        "25552:39@current",
+        "25552:40@current",
+        "25552:42@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 13157,
+      "output_tokens": 1431,
+      "llm_ms": 12794.02879200643,
+      "total_ms": 12794.02879200643,
+      "trace_id": "",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la afirmación.",
+        "2:supported: El fragmento sostiene el mismo contenido con redacción equivalente.",
+        "3:supported: El fragmento confirma ambas partes de la afirmación textualmente.",
+        "4:supported: El fragmento respalda directamente la afirmación."
+      ]
+    }
+  ],
+  "tool_traces": {
+    "b01": [
+      {
+        "tool": "search_laws",
+        "query": "período de prueba contrato por tiempo indeterminado",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "210489:7",
+          "53159:3",
+          "395521:71",
+          "93595:2",
+          "63208:1",
+          "25552:92bis"
+        ]
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:92bis",
+        "found": true
+      }
+    ],
+    "b02": [
+      {
+        "tool": "search_laws",
+        "query": "plazo de preaviso antigüedad del trabajador empleador",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:231",
+          "210489:42",
+          "93595:3",
+          "25552:236",
+          "423680:48",
+          "210489:43"
+        ]
+      }
+    ],
+    "b03": [
+      {
+        "tool": "search_laws",
+        "query": "indemnización por antigüedad despido sin causa",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "210489:48",
+          "412:153",
+          "395521:81",
+          "25552:245",
+          "423680:51",
+          "25552:245"
+        ]
+      }
+    ],
+    "b04": [
+      {
+        "tool": "search_laws",
+        "query": "despido indirecto indemnización",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "210489:49",
+          "25552:246",
+          "25552:245",
+          "412:153",
+          "25552:243",
+          "210489:48"
+        ]
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:232",
+        "found": true
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:233",
+        "found": true
+      }
+    ],
+    "b05": [
+      {
+        "tool": "search_laws",
+        "query": "plazo para entregar certificado de trabajo al terminar la relación laboral",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:80",
+          "423680:25",
+          "7968:18",
+          "7968:22",
+          "192152:75",
+          "348166:13"
+        ]
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:80",
+        "found": true
+      }
+    ],
+    "b06": [
+      {
+        "tool": "search_laws",
+        "query": "días de vacaciones según antigüedad del trabajador",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "210489:29",
+          "25552:150",
+          "210489:31",
+          "25552:18",
+          "210489:30",
+          "423680:9"
+        ]
+      }
+    ],
+    "b07": [
+      {
+        "tool": "search_laws",
+        "query": "licencia por nacimiento de hijo, matrimonio o fallecimiento de familiar",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:158",
+          "210489:38",
+          "192152:52",
+          "39995:3",
+          "25552:159",
+          "25552:161"
+        ]
+      }
+    ],
+    "b08": [
+      {
+        "tool": "search_laws",
+        "query": "prescripción de créditos laborales",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "210489:69",
+          "25552:256",
+          "27971:44",
+          "25552:257",
+          "25552:267",
+          "25552:258"
+        ]
+      }
+    ],
+    "b09": [
+      {
+        "tool": "search_laws",
+        "query": "despido trabajadora embarazada presunción indemnización agravada",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "210489:40",
+          "25552:178",
+          "210489:41",
+          "25552:245bis",
+          "401266:95",
+          "25552:181"
+        ]
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:182",
+        "found": true
+      }
+    ],
+    "b10": [
+      {
+        "tool": "search_laws",
+        "query": "sueldo anual complementario",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "28165:1",
+          "25552:121",
+          "25552:122",
+          "210489:26",
+          "241014:1",
+          "25552:123"
+        ]
+      }
+    ],
+    "b11": [
+      {
+        "tool": "search_laws",
+        "query": "licencia por enfermedad conservación del empleo sueldo trabajador",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:211",
+          "25552:212",
+          "25552:208",
+          "192152:53",
+          "77209:1",
+          "25552:210"
+        ]
+      }
+    ],
+    "b12": [
+      {
+        "tool": "search_laws",
+        "query": "despido durante licencia por enfermedad inculpable",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:213",
+          "192152:53",
+          "25552:212",
+          "25552:254",
+          "25552:208",
+          "25552:211"
+        ]
+      }
+    ],
+    "b13": [
+      {
+        "tool": "error",
+        "message": "Exceeded maximum output retries (3)"
+      }
+    ],
+    "b14": [
+      {
+        "tool": "search_laws",
+        "query": "extinción del contrato de trabajo por mutuo acuerdo de las partes escritura pública",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:241",
+          "423680:50",
+          "25552:240",
+          "423680:49",
+          "210489:46",
+          "25552:249"
+        ]
+      },
+      {
+        "tool": "search_laws",
+        "query": "formalidades de la renuncia al empleo telegrama despacho postal",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:240",
+          "423680:49",
+          "348166:30",
+          "423680:50",
+          "25552:241",
+          "348166:25"
+        ]
+      }
+    ],
+    "b15": [
+      {
+        "tool": "search_laws",
+        "query": "suspensión por falta de trabajo requisitos plazo máximo",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:220",
+          "25552:221",
+          "25552:219",
+          "246009:2",
+          "246009:5",
+          "25552:218"
+        ]
+      }
+    ],
+    "b16": [
+      {
+        "tool": "search_laws",
+        "query": "casos en que el despido no genera derecho a indemnización por antigüedad",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "412:153",
+          "25552:245",
+          "395521:81",
+          "210489:48",
+          "25552:245",
+          "423680:51"
+        ]
+      },
+      {
+        "tool": "search_laws",
+        "query": "despido durante el período de prueba sin indemnización",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:233",
+          "395521:71",
+          "53159:3",
+          "25552:250",
+          "93595:4",
+          "25552:245"
+        ]
+      },
+      {
+        "tool": "search_laws",
+        "query": "despido con justa causa no genera indemnización artículo 242",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:245",
+          "412:153",
+          "25552:246",
+          "25552:242",
+          "412:154",
+          "93595:5"
+        ]
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:241",
+        "found": true
+      },
+      {
+        "tool": "get_article",
+        "article_id": "25552:242",
+        "found": true
+      }
+    ],
+    "b17": [
+      {
+        "tool": "search_laws",
+        "query": "exclusiones ámbito de aplicación Ley de Contrato de Trabajo",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:38",
+          "192152:100",
+          "25552:2",
+          "379858:1",
+          "25552:27",
+          "423680:1"
+        ]
+      }
+    ],
+    "b18": [
+      {
+        "tool": "search_laws",
+        "query": "descuentos que no puede hacer el empleador sobre el salario",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:131",
+          "192152:39",
+          "25552:133",
+          "25552:132",
+          "423680:37",
+          "25552:134"
+        ]
+      }
+    ],
+    "b19": [
+      {
+        "tool": "search_laws",
+        "query": "trabajador no cobra salario del día feriado",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:166",
+          "25552:168",
+          "25552:169",
+          "25552:167",
+          "25552:170",
+          "25552:165"
+        ]
+      }
+    ],
+    "b20": [
+      {
+        "tool": "search_laws",
+        "query": "servicios que no pueden ser objeto del contrato de trabajo",
+        "k": 6,
+        "as_of": "None",
+        "hits": [
+          "25552:38",
+          "25552:40",
+          "25552:42",
+          "93595:24",
+          "122396:23",
+          "25552:39"
+        ]
+      }
+    ]
+  }
+}

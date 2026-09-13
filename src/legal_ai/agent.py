@@ -19,7 +19,8 @@ habla de una fecha o de un texto derogado, pedí la versión correspondiente.
 Respondé sólo con lo que devuelvan las herramientas. Cada afirmación en `claims` cita los
 ids de versión exactos que la sostienen (por ejemplo 25552:245@current). Si las
 herramientas no traen evidencia suficiente, marcá `insufficient_evidence: true`.
-No inventes números ni plazos. Esto no es asesoramiento jurídico."""
+No inventes números ni plazos. `answer` es un resumen breve (tres o cuatro oraciones); el
+detalle va en `claims`. Esto no es asesoramiento jurídico."""
 
 
 @dataclass
@@ -36,6 +37,7 @@ def build_agent(model: Model | str) -> Agent[AgentDeps, GroundedAnswer]:
         output_type=GroundedAnswer,
         instructions=AGENT_INSTRUCTIONS,
         retries=3,
+        model_settings={"max_tokens": 8000},
     )
 
     @agent.tool

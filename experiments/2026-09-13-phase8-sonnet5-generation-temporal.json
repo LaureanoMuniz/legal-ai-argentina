@@ -1,0 +1,2301 @@
+{
+  "name": "phase8-sonnet5-generation-temporal",
+  "ran_at": "2026-09-13T22:21:23.035514Z",
+  "catalog_date": "2026-09-12",
+  "k": 8,
+  "retriever": "hybrid(a=0.8,BAAI/bge-m3)+rewrite(claude-sonnet-5)+multi",
+  "llm_model": "claude-sonnet-5",
+  "judge_model": "claude-sonnet-5",
+  "n": 50,
+  "overall": {
+    "n": 50,
+    "abstained": 10,
+    "answered": 40,
+    "abstention_rate": 0.2,
+    "claims": 170,
+    "claim_support_rate": 0.9176470588235294,
+    "claim_partial_rate": 0.03529411764705882,
+    "cited_expected_rate": 0.975,
+    "answers_question_rate": 1.0,
+    "p50_total_ms": 7683.026625018101,
+    "p95_total_ms": 17890.360457997303
+  },
+  "by_category": {
+    "confusable": {
+      "n": 6,
+      "abstained": 0,
+      "answered": 6,
+      "abstention_rate": 0.0,
+      "claims": 22,
+      "claim_support_rate": 1.0,
+      "claim_partial_rate": 0.0,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 5873.2622909592465,
+      "p95_total_ms": 8214.223582996055
+    },
+    "cross_reference": {
+      "n": 6,
+      "abstained": 1,
+      "answered": 5,
+      "abstention_rate": 0.16666666666666666,
+      "claims": 16,
+      "claim_support_rate": 1.0,
+      "claim_partial_rate": 0.0,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 5769.128916959744,
+      "p95_total_ms": 10315.880624984857
+    },
+    "derogated": {
+      "n": 5,
+      "abstained": 1,
+      "answered": 4,
+      "abstention_rate": 0.2,
+      "claims": 14,
+      "claim_support_rate": 1.0,
+      "claim_partial_rate": 0.0,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 6188.316791958641,
+      "p95_total_ms": 11259.526250010822
+    },
+    "direct": {
+      "n": 8,
+      "abstained": 0,
+      "answered": 8,
+      "abstention_rate": 0.0,
+      "claims": 44,
+      "claim_support_rate": 0.7954545454545454,
+      "claim_partial_rate": 0.045454545454545456,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 9791.14170797402,
+      "p95_total_ms": 16397.33841700945
+    },
+    "multi_article": {
+      "n": 7,
+      "abstained": 0,
+      "answered": 7,
+      "abstention_rate": 0.0,
+      "claims": 33,
+      "claim_support_rate": 0.9393939393939394,
+      "claim_partial_rate": 0.030303030303030304,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 9550.859292037785,
+      "p95_total_ms": 12980.547333019786
+    },
+    "negation": {
+      "n": 6,
+      "abstained": 1,
+      "answered": 5,
+      "abstention_rate": 0.16666666666666666,
+      "claims": 23,
+      "claim_support_rate": 0.9130434782608695,
+      "claim_partial_rate": 0.08695652173913043,
+      "cited_expected_rate": 0.8,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 11300.738166028168,
+      "p95_total_ms": 17890.360457997303
+    },
+    "not_in_corpus": {
+      "n": 6,
+      "abstained": 6,
+      "answered": 0,
+      "abstention_rate": 1.0,
+      "claims": 0,
+      "claim_support_rate": null,
+      "claim_partial_rate": null,
+      "cited_expected_rate": null,
+      "answers_question_rate": null,
+      "p50_total_ms": 5437.864666979294,
+      "p95_total_ms": 32303.70408302406
+    },
+    "temporal": {
+      "n": 6,
+      "abstained": 1,
+      "answered": 5,
+      "abstention_rate": 0.16666666666666666,
+      "claims": 18,
+      "claim_support_rate": 0.9444444444444444,
+      "claim_partial_rate": 0.05555555555555555,
+      "cited_expected_rate": 1.0,
+      "answers_question_rate": 1.0,
+      "p50_total_ms": 8368.288999947254,
+      "p95_total_ms": 32937.75745801395
+    }
+  },
+  "not_in_corpus_abstention": 1.0,
+  "answerable_false_abstention": 0.025,
+  "unsupported_source_citations": 0,
+  "total_input_tokens": 165825,
+  "total_output_tokens": 37087,
+  "judge_input_tokens": 146502,
+  "judge_output_tokens": 20225,
+  "estimated_cost_usd": 1.796661,
+  "results": [
+    {
+      "id": "b01",
+      "category": "direct",
+      "question": "¿Cuánto dura el período de prueba en un contrato por tiempo indeterminado?",
+      "expected_articles": [
+        "25552:92bis"
+      ],
+      "retrieved_articles": [
+        "210489:7",
+        "53159:3",
+        "395521:71",
+        "25552:92bis",
+        "63208:1",
+        "93595:2",
+        "401266:91",
+        "25552:90"
+      ],
+      "retrieval_hit": true,
+      "answer": "En el régimen general de la Ley de Contrato de Trabajo, actualmente vigente desde el 8/7/2024, el contrato por tiempo indeterminado se considera a prueba durante los primeros seis (6) meses [25552:92bis@current]. Ese plazo puede ampliarse por convenio colectivo de trabajo: hasta ocho (8) meses en empresas de entre 6 y 100 trabajadores, o hasta un (1) año en empresas de hasta 5 trabajadores [25552:92bis@current]. Durante ese lapso cualquiera de las partes puede extinguir el contrato sin expresión de causa y sin derecho a indemnización [25552:92bis@current]. Cabe aclarar que existen regímenes específicos distintos, como el del servicio doméstico (Ley 26844), que también fija en 6 meses el período de prueba [210489:7@current], y que históricamente el plazo fue variando (30 días con la Ley 25013, 3 meses con la Ley 25877, 3 o 6 meses según tamaño de empresa con la Ley 25250) [53159:3@current] [93595:2@current] [63208:1@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:7@current",
+        "25552:92bis@current",
+        "53159:3@current",
+        "63208:1@original",
+        "93595:2@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5944,
+      "output_tokens": 1107,
+      "llm_ms": 12108.004792011343,
+      "total_ms": 12310.59904198628,
+      "trace_id": "90c5f11a4e31a3306faef55d6dd5db43",
+      "verdict_reasons": [
+        "1:supported: El fragmento confirma textualmente los 6 meses de período de prueba para contratos por tiempo indeterminado.",
+        "2:supported: El fragmento cita exactamente la ampliación a 8 meses (6 a 100 trabajadores) y 1 año (hasta 5 trabajadores) por convenio colectivo.",
+        "3:supported: El fragmento reproduce literalmente la facultad de extinguir sin causa y sin indemnización durante el período de prueba.",
+        "4:supported: El art. 7 de la Ley 26844 establece expresamente 6 meses de período de prueba para el servicio doméstico.",
+        "5:supported: Los fragmentos de las leyes 25013, 25877 y 25250 confirman respectivamente 30 días, 3 meses, y 3 o 6 meses según tamaño de empresa."
+      ]
+    },
+    {
+      "id": "b02",
+      "category": "direct",
+      "question": "¿Qué plazo de preaviso debe dar el empleador según la antigüedad del trabajador?",
+      "expected_articles": [
+        "25552:231"
+      ],
+      "retrieved_articles": [
+        "25552:231",
+        "210489:42",
+        "93595:3",
+        "25552:236",
+        "25552:95",
+        "210489:43",
+        "25552:233",
+        "423680:9"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según la LCT, el empleador debe dar preaviso de un (1) mes cuando el trabajador tenga una antigüedad que no exceda de 5 años, y de dos (2) meses cuando la antigüedad sea superior [25552:231@current]. Si el trabajador está en período de prueba, no se requiere preaviso según el art. 231 vigente [25552:231@current], aunque el art. 3 de la Ley 25877 (que modificó el art. 231) establece que en período de prueba el preaviso es de 15 días [93595:3@current]. Cabe notar que este es un régimen distinto al del servicio doméstico, donde los plazos son de 10 días (antigüedad menor a 1 año) o 30 días (antigüedad mayor) [210489:42@current].",
+      "insufficient_evidence": false,
+      "confidence": "medium",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:42@current",
+        "25552:231@current",
+        "93595:3@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2546,
+      "output_tokens": 637,
+      "llm_ms": 6505.126791947987,
+      "total_ms": 6687.577374977991,
+      "trace_id": "295748831fc1ada8c06fb05e899a8f14",
+      "verdict_reasons": [
+        "1:supported: El fragmento establece textualmente el plazo de un mes para antigüedad no mayor a 5 años.",
+        "2:supported: El fragmento establece textualmente el plazo de dos meses para antigüedad superior a 5 años.",
+        "3:supported: El fragmento indica que no se requiere preaviso durante el período de prueba.",
+        "4:supported: El fragmento del art. 3 de la Ley 25877 modifica el art. 231 e incluye expresamente el plazo de 15 días para el período de prueba.",
+        "5:supported: El fragmento del art. 42 de la Ley 26844 detalla los plazos de 10 y 30 días según la antigüedad."
+      ]
+    },
+    {
+      "id": "b03",
+      "category": "direct",
+      "question": "¿Cómo se calcula la indemnización por antigüedad en caso de despido sin causa?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "210489:48",
+        "395521:81",
+        "412:153",
+        "25552:245",
+        "423680:51",
+        "412:155"
+      ],
+      "retrieval_hit": true,
+      "answer": "La indemnización por antigüedad se calcula, según la LCT vigente actual (art. 245, texto vigente desde 2026-03-06), como un (1) mes de sueldo por cada año de servicio o fracción mayor de tres (3) meses, tomando como base la mejor remuneración mensual, normal y habitual devengada durante el último año o el tiempo de prestación de servicios si fuera menor [25552:245@current]. Se considera remuneración a estos fines la devengada y pagada en cada mes calendario, excluyendo conceptos no mensuales como el SAC, vacaciones o premios no mensuales [25552:245@current]. Para conceptos variables (premios, horas extra, comisiones) se toma el promedio de los últimos seis meses o del último año si es más favorable al trabajador [25552:245@current]. Esta base salarial tiene un tope: no puede exceder tres veces el salario mensual promedio de las remuneraciones del Convenio Colectivo aplicable, excluida la antigüedad; y en ningún caso el tope puede resultar inferior al 67% de la remuneración normal y habitual calculada [25552:245@current]. La indemnización nunca puede ser inferior a un mes de sueldo calculado según este sistema [25552:245@current]. Además, la ley aclara que esta indemnización constituye la única reparación procedente frente al despido sin causa, y su percepción extingue cualquier reclamo vinculado, salvo acciones por ilícitos penales [25552:245@current]. Cabe señalar que existen redacciones anteriores del art. 245 (texto histórico de la Ley 24013, vigente desde 1991) con un esquema similar pero con un tope mínimo de dos meses de sueldo en lugar del régimen actual [412:153@current]. También hay regímenes especiales: para el servicio doméstico (Ley 26844) se aplica un mes de sueldo por año o fracción mayor a tres meses, sin el sistema de topes por CCT, con mínimo de un mes [210489:48@current]; y para trabajadores agrarios (Ley 24013, art. 76) rige un esquema análogo con tope de tres veces el promedio de remuneraciones fijadas por la Comisión Nacional de Trabajo Agrario y mínimo de dos meses [412:155@current]. Por otro lado, el Decreto 70/2023 y la Ley 27802 contienen una redacción prácticamente idéntica al art. 245 vigente actual, por lo que reflejan la misma fórmula de cálculo [395521:81@original][423680:51@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 10,
+      "supported": 4,
+      "partial": 1,
+      "unsupported": 5,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:48@current",
+        "25552:245@current",
+        "395521:81@original",
+        "412:153@current",
+        "412:155@current",
+        "423680:51@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5423,
+      "output_tokens": 1676,
+      "llm_ms": 16195.91212499654,
+      "total_ms": 16397.33841700945,
+      "trace_id": "f45f88d6ab07691c65600e1d1d8262e7",
+      "verdict_reasons": [
+        "1:unsupported: El fragmento citado solo trata el fondo de cese y la única reparación, no contiene la fórmula de un mes por año ni la base de mejor remuneración.",
+        "2:unsupported: El fragmento citado no menciona nada sobre remuneración devengada, pagada mensualmente ni exclusión de SAC o vacaciones.",
+        "3:unsupported: El fragmento citado no hace referencia a promedios de conceptos variables ni a los seis meses o el último año.",
+        "4:unsupported: El fragmento citado no menciona ningún tope de tres veces el salario del CCT ni el piso del 67%.",
+        "5:unsupported: El fragmento citado no contiene la cláusula de mínimo de un mes calculado según el sistema del artículo.",
+        "6:supported: El fragmento afirma textualmente que esta indemnización es la única reparación y que su percepción extingue otros reclamos salvo por ilícitos penales.",
+        "7:partial: El fragmento confirma el mínimo histórico de dos meses de sueldo, pero no compara explícitamente con el mínimo actual de un mes.",
+        "8:supported: El fragmento de la Ley 26844 establece exactamente un mes por año o fracción mayor a tres meses con mínimo de un mes y no menciona tope alguno por CCT.",
+        "9:supported: El fragmento establece el tope de tres veces el promedio fijado por la Comisión Nacional de Trabajo Agrario y el mínimo de dos meses de sueldo.",
+        "10:supported: Ambos fragmentos citados reproducen fórmulas de cálculo prácticamente idénticas (mes por año, tope de tres veces CCT, piso del 67%, mínimo de un mes), equivalentes al art. 245 vigente."
+      ]
+    },
+    {
+      "id": "b04",
+      "category": "direct",
+      "question": "¿Qué es el despido indirecto y qué indemnización corresponde?",
+      "expected_articles": [
+        "25552:246"
+      ],
+      "retrieved_articles": [
+        "25552:246",
+        "210489:49",
+        "25552:245bis",
+        "25552:245",
+        "25552:242",
+        "412:153",
+        "25552:95"
+      ],
+      "retrieval_hit": true,
+      "answer": "El despido indirecto es la extinción del contrato de trabajo decidida por el propio trabajador (denuncia del contrato), fundada en una justa causa imputable al empleador [25552:246@current]. Para que exista justa causa se requiere un incumplimiento del empleador que configure una injuria de tal gravedad que no consienta la continuidad del vínculo, valorada prudencialmente por los jueces según las circunstancias del caso [25552:242@current]. Cuando el trabajador se considera despedido de este modo, tiene derecho a las mismas indemnizaciones que corresponden a un despido sin justa causa dispuesto por el empleador: las previstas en los artículos 232 (preaviso), 233 (integración del mes de despido) y 245 (indemnización por antigüedad) de la LCT [25552:246@current]. La indemnización por antigüedad del art. 245 equivale a un mes de sueldo por cada año de servicio o fracción mayor a tres meses, calculado sobre la mejor remuneración mensual, normal y habitual, con los topes y pisos allí establecidos [25552:245@current]. Además, el art. 245 vigente aclara que esta indemnización constituye la única reparación procedente frente a la extinción sin justa causa, salvo acciones basadas en ilícitos penales [25552:245@current]. Cabe señalar que existe un régimen análogo de despido indirecto para el personal de casas particulares, con remisión a los artículos 43, 44 y 48 de la ley 26.844 [210489:49@current], que es un régimen distinto al de la LCT.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 1,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:49@current",
+        "25552:242@current",
+        "25552:245@current",
+        "25552:246@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4026,
+      "output_tokens": 1001,
+      "llm_ms": 10602.134415996261,
+      "total_ms": 10814.298874989618,
+      "trace_id": "8d0feb5ac71bf626259b37ef81beec24",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 246 reproduce exactamente la definición y la remisión a los arts. 232, 233 y 245.",
+        "2:supported: El fragmento del art. 242 describe la injuria grave, la valoración judicial y las circunstancias, coincidiendo con la afirmación.",
+        "3:unsupported: El fragmento citado del art. 245 (versión vigente desde 2026-03-06) no contiene la fórmula de cálculo, la base remuneratoria ni los topes descriptos en la afirmación.",
+        "4:supported: El texto citado establece textualmente que la indemnización es la única reparación frente a la extinción sin justa causa, salvo ilícitos penales.",
+        "5:supported: El art. 49 de la ley 26.844 remite exactamente a los arts. 43, 44 y 48 para el despido indirecto del personal de casas particulares."
+      ]
+    },
+    {
+      "id": "b05",
+      "category": "direct",
+      "question": "¿En qué plazo debe el empleador entregar los certificados de trabajo al terminar la relación?",
+      "expected_articles": [
+        "25552:80"
+      ],
+      "retrieved_articles": [
+        "423680:25",
+        "25552:80",
+        "7968:18",
+        "192152:75",
+        "7968:22",
+        "369835:10",
+        "248688:12",
+        "729:6"
+      ],
+      "retrieval_hit": true,
+      "answer": "El empleador debe entregar los certificados de trabajo dentro del plazo de 45 días hábiles desde la extinción del contrato de trabajo [25552:80@current][423680:25@original]. La obligación se tiene por cumplida si los pone a disposición del trabajador en formato físico en la sede de la empresa, o en formato digital mediante un sistema que permita acreditar su entrega fehaciente, o si la información ya está disponible en el sitio web del organismo de seguridad social o del sistema de ARCA [25552:80@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:80@current",
+        "423680:25@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2449,
+      "output_tokens": 393,
+      "llm_ms": 4923.132625001017,
+      "total_ms": 5143.912750005256,
+      "trace_id": "01e27309c14dfefcaf0b8db2634a626d",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente el plazo de 45 días hábiles desde la extinción del contrato.",
+        "2:supported: El fragmento enumera exactamente esas tres formas de cumplimiento de la obligación."
+      ]
+    },
+    {
+      "id": "b06",
+      "category": "direct",
+      "question": "¿Cuántos días de vacaciones corresponden según la antigüedad del trabajador?",
+      "expected_articles": [
+        "25552:150"
+      ],
+      "retrieved_articles": [
+        "25552:150",
+        "210489:29",
+        "210489:31",
+        "210489:30",
+        "25552:155",
+        "25552:153"
+      ],
+      "retrieval_hit": true,
+      "answer": "Según la LCT, el trabajador tiene derecho a un descanso anual remunerado que varía según su antigüedad: 14 días corridos si la antigüedad no excede los 5 años; 21 días corridos si es mayor a 5 años y no excede los 10; 28 días corridos si es mayor a 10 años y no excede los 20; y 35 días corridos si la antigüedad excede los 20 años [25552:150@current]. La antigüedad se computa según la que tendría el trabajador al 31 de diciembre del año correspondiente [25552:150@current]. Cabe aclarar que si se trata de trabajo doméstico, rige un régimen específico con plazos similares pero con un requisito de antigüedad mínima de 6 meses en el servicio [210489:29@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 1,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:29@current",
+        "25552:150@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3651,
+      "output_tokens": 597,
+      "llm_ms": 6637.529791973066,
+      "total_ms": 6834.606833988801,
+      "trace_id": "4ab50dd7b4ce8d9598b2fdca24d71302",
+      "verdict_reasons": [
+        "1:supported: El fragmento cita textualmente 14 días corridos para antigüedad no mayor a 5 años.",
+        "2:supported: El fragmento cita textualmente 21 días corridos para antigüedad mayor a 5 y no mayor a 10 años.",
+        "3:supported: El fragmento cita textualmente 28 días corridos para antigüedad mayor a 10 y no mayor a 20 años.",
+        "4:supported: El fragmento cita textualmente 35 días corridos para antigüedad mayor a 20 años.",
+        "5:supported: El fragmento indica que la antigüedad se computa al 31 de diciembre del año que correspondan las vacaciones.",
+        "6:unsupported: El régimen de la Ley 26844 exige antigüedad mayor a 6 meses (no 'mínima de 6 meses') para acceder a los 14 días, dato que la afirmación tergiversa."
+      ]
+    },
+    {
+      "id": "b07",
+      "category": "direct",
+      "question": "¿Cuántos días de licencia corresponden por nacimiento de hijo, matrimonio o fallecimiento de un familiar?",
+      "expected_articles": [
+        "25552:158"
+      ],
+      "retrieved_articles": [
+        "25552:158",
+        "210489:38",
+        "192152:52",
+        "39995:3",
+        "25552:159",
+        "210489:30",
+        "25552:160"
+      ],
+      "retrieval_hit": true,
+      "answer": "Depende del régimen laboral aplicable. Bajo la LCT (Ley 20744, régimen general): por nacimiento de hijo, 2 días corridos; por matrimonio, 10 días corridos; por fallecimiento del cónyuge/conviviente, hijo o padres, 3 días corridos; por fallecimiento de hermano, 1 día [25552:158@current]. Estas licencias son pagas, calculándose el salario según el art. 155 [25552:159@current]. Además, cuando las licencias de los incisos a), c) y d) coinciden con domingo, feriado o día no laborable, corresponde computar un día hábil adicional [25552:160@current]. Para el personal de casas particulares (Ley 26844) rigen los mismos plazos: 2 días por nacimiento de hijo varón, 10 días por matrimonio, 3 días por fallecimiento de cónyuge/conviviente, hijos o padres, y 1 día por fallecimiento de hermano, aunque proporcional si trabaja menos de 16 horas semanales [210489:38@current]. En el régimen de trabajo agrario (Ley 26727) existe además una licencia parental especial de 30 días corridos por paternidad [192152:52@current], que no está prevista en la LCT ni en el servicio doméstico según el contexto disponible.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 4,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "192152:52@current",
+        "210489:38@current",
+        "25552:158@current",
+        "25552:159@current",
+        "25552:160@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2221,
+      "output_tokens": 912,
+      "llm_ms": 8937.991333019454,
+      "total_ms": 9137.29504199,
+      "trace_id": "46edcd044fc617225f887ddb51990079",
+      "verdict_reasons": [
+        "1:supported: Los días indicados coinciden exactamente con el texto del art. 158 LCT.",
+        "2:supported: El art. 159 confirma que las licencias son pagas y se calculan según el art. 155.",
+        "3:supported: El art. 160 establece el cómputo de un día hábil adicional para los incisos a), c) y d) del art. 158, que corresponden a nacimiento y fallecimiento de familiares.",
+        "4:supported: El art. 38 de la Ley 26844 reproduce los mismos plazos y la proporcionalidad según horas trabajadas.",
+        "5:partial: El fragmento confirma los 30 días de licencia parental por paternidad en trabajo agrario, pero esta afirmación no responde a la pregunta sobre nacimiento, matrimonio o fallecimiento."
+      ]
+    },
+    {
+      "id": "b08",
+      "category": "direct",
+      "question": "¿En cuánto tiempo prescriben los créditos laborales?",
+      "expected_articles": [
+        "25552:256"
+      ],
+      "retrieved_articles": [
+        "210489:69",
+        "25552:256",
+        "27971:44",
+        "25552:257",
+        "21976:9",
+        "25552:258",
+        "426270:13"
+      ],
+      "retrieval_hit": true,
+      "answer": "Los créditos derivados de las relaciones individuales de trabajo prescriben a los dos (2) años, según el régimen general de la Ley de Contrato de Trabajo [25552:256@current]. Esta norma es de orden público y el plazo no puede ser modificado por convenciones individuales o colectivas [25552:256@current]. Ese mismo plazo de dos años rige específicamente para accidentes de trabajo y enfermedades profesionales, contado desde la determinación de la incapacidad o el fallecimiento de la víctima [25552:258@current], para las acciones derivadas de la Ley de Riesgos del Trabajo, contado desde que la prestación debió abonarse o, en todo caso, desde el cese de la relación laboral [27971:44@current], y también para los trabajadores del servicio doméstico bajo la Ley 26844 [210489:69@current]. La reclamación ante la autoridad administrativa del trabajo interrumpe el curso de la prescripción durante el trámite, aunque en el régimen de la LCT ese efecto interruptivo no puede extenderse por más de seis (6) meses [25552:257@current], mientras que en el régimen del servicio doméstico el reclamo administrativo interrumpe por todo el tiempo que dure esa instancia, salvo en el proceso conciliatorio del art. 53 que suspende (no interrumpe) el plazo [210489:69@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 6,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:69@current",
+        "25552:256@current",
+        "25552:257@current",
+        "25552:258@current",
+        "27971:44@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 1832,
+      "output_tokens": 982,
+      "llm_ms": 9630.60500001302,
+      "total_ms": 9791.14170797402,
+      "trace_id": "712ee97385202566801fe7f82b5c90ae",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente el plazo de dos años y su carácter de orden público no modificable por convenciones.",
+        "2:supported: El fragmento establece exactamente el plazo de dos años desde la determinación de incapacidad o fallecimiento.",
+        "3:supported: El fragmento confirma los dos años desde que debió abonarse la prestación o desde el cese de la relación laboral.",
+        "4:supported: El fragmento indica el plazo de dos años y su carácter de orden público no modificable.",
+        "5:supported: El fragmento confirma la interrupción durante el trámite administrativo con tope de seis meses en la LCT.",
+        "6:supported: El fragmento reproduce exactamente la interrupción por todo el plazo de tramitación y la excepción de suspensión en el proceso conciliatorio del art. 53."
+      ]
+    },
+    {
+      "id": "b09",
+      "category": "multi_article",
+      "question": "¿Qué pasa si el empleador despide a una trabajadora embarazada?",
+      "expected_articles": [
+        "25552:178",
+        "25552:182"
+      ],
+      "retrieved_articles": [
+        "210489:40",
+        "25552:178",
+        "210489:41",
+        "25552:177",
+        "25552:245bis",
+        "210489:39",
+        "25552:181"
+      ],
+      "retrieval_hit": true,
+      "answer": "Si el despido de una trabajadora embarazada ocurre dentro de los siete meses y medio anteriores o posteriores a la fecha del parto, y ella cumplió con notificar en forma su embarazo (y el nacimiento, en su caso), se presume salvo prueba en contrario que el despido obedece a razones de embarazo o maternidad [25552:178@current]. En ese caso, según el régimen general de la LCT corresponde el pago de una indemnización igual a la prevista en el art. 182 (indemnización agravada por matrimonio/maternidad) [25552:178@current]. Para el servicio doméstico rige una presunción análoga [210489:40@current], y la indemnización especial equivale a un año de remuneraciones, que se acumula a la indemnización por despido sin justa causa [210489:41@current]. Además, si el despido tiene origen discriminatorio (por ejemplo por embarazo, encuadrable en 'sexo o género') y así lo corrobora una sentencia judicial, corresponde una indemnización agravada especial del 50% de la del art. 245 LCT, que los jueces pueden elevar hasta el 100% según la gravedad, sin que sea acumulable con otros regímenes especiales de agravamiento indemnizatorio [25552:245bis@current]. También cabe recordar que durante la gestación la trabajadora tiene garantizada la estabilidad en el empleo desde que notifica el embarazo, tanto en el régimen general [25552:177@current] como en el servicio doméstico [210489:39@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 6,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:39@current",
+        "210489:40@current",
+        "210489:41@current",
+        "25552:177@current",
+        "25552:178@current",
+        "25552:245bis@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3608,
+      "output_tokens": 1056,
+      "llm_ms": 11691.374208952766,
+      "total_ms": 12057.536292006262,
+      "trace_id": "3c5f60d488e68293a0144121a4d7332b",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce exactamente el plazo, la condición de notificación y la presunción.",
+        "2:supported: El artículo 40 de la Ley 26844 replica la misma presunción y plazo para el servicio doméstico.",
+        "3:supported: El texto establece expresamente la indemnización igual a la del artículo 182.",
+        "4:supported: El artículo 41 establece la indemnización de un año de remuneraciones acumulable a la de despido sin justa causa.",
+        "5:supported: El artículo 245 bis detalla el 50%, la posible elevación al 100% y la no acumulación con regímenes especiales.",
+        "6:supported: Ambos artículos garantizan la estabilidad en el empleo a partir de la notificación fehaciente del embarazo."
+      ]
+    },
+    {
+      "id": "b10",
+      "category": "multi_article",
+      "question": "¿Qué es el sueldo anual complementario y cuándo se paga?",
+      "expected_articles": [
+        "25552:121",
+        "25552:122"
+      ],
+      "retrieved_articles": [
+        "25552:122",
+        "28165:1",
+        "25552:121",
+        "210489:26",
+        "210489:27",
+        "25552:123",
+        "241014:1"
+      ],
+      "retrieval_hit": true,
+      "answer": "El sueldo anual complementario (SAC o aguinaldo) es la doceava parte del total de las remuneraciones percibidas por el trabajador en el año calendario [25552:121@current]. En la práctica se calcula como el 50% de la mayor remuneración mensual devengada por todo concepto dentro de cada semestre (el que culmina en junio y el que culmina en diciembre) [25552:122@current] [28165:1@original]. Se paga en dos cuotas: la primera vence el 30 de junio y la segunda el 18 de diciembre de cada año, según la LCT (vigente desde 2015-01-20 tras la modificación de la Ley 27073) [25552:122@current] [241014:1@original]. Si se extingue el contrato de trabajo antes de que se devengue una cuota completa, corresponde pagar la parte proporcional del SAC, calculada como la doceava parte de las remuneraciones devengadas en la fracción del semestre trabajado [25552:123@current]. Cabe aclarar que para el servicio doméstico rige un régimen específico (Ley 26844), donde el SAC también es el 50% de la mayor remuneración semestral, pero se abona la última jornada laboral de junio y de diciembre, no el 30/6 y 18/12 [210489:26@current] [210489:27@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:26@current",
+        "210489:27@current",
+        "241014:1@original",
+        "25552:121@current",
+        "25552:122@current",
+        "25552:123@current",
+        "28165:1@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 1947,
+      "output_tokens": 847,
+      "llm_ms": 8371.789584052749,
+      "total_ms": 8588.183292013127,
+      "trace_id": "b6a63fd29ae306d07a4e02d8d7829396",
+      "verdict_reasons": [
+        "1:supported: El fragmento del Art. 121 define textualmente el SAC como la doceava parte de las remuneraciones percibidas en el año calendario.",
+        "2:supported: Ambos fragmentos citados confirman el cálculo del 50% de la mayor remuneración mensual dentro de cada semestre (junio-diciembre).",
+        "3:supported: El Art. 122 vigente desde 2015-01-20 establece exactamente el pago en dos cuotas con vencimiento el 30 de junio y el 18 de diciembre.",
+        "4:supported: El Art. 123 establece que ante extinción del contrato corresponde la parte proporcional del SAC según la fracción del semestre trabajado.",
+        "5:supported: Los Arts. 26 y 27 de la Ley 26844 confirman el 50% de la mayor remuneración semestral y el pago en la última jornada laboral de junio y diciembre."
+      ]
+    },
+    {
+      "id": "b11",
+      "category": "multi_article",
+      "question": "Si un trabajador se enferma, ¿por cuánto tiempo cobra el sueldo y por cuánto se le conserva el empleo?",
+      "expected_articles": [
+        "25552:208",
+        "25552:211"
+      ],
+      "retrieved_articles": [
+        "25552:208",
+        "25552:211",
+        "25552:212",
+        "25552:213",
+        "192152:53"
+      ],
+      "retrieval_hit": true,
+      "answer": "Depende de la antigüedad y de si tiene cargas de familia. El trabajador cobra su remuneración durante 3 meses si tiene antigüedad menor a 5 años, o 6 meses si tiene antigüedad mayor a 5 años. Si tiene carga de familia, esos plazos se extienden a 6 y 12 meses respectivamente [25552:208@current]. Una vez vencidos esos plazos pagos, si el trabajador no está en condiciones de volver a trabajar, el empleador debe conservarle el puesto (sin pagarle sueldo) durante 1 año más, contado desde el vencimiento de los plazos de licencia paga [25552:211@current]. Vencido ese año de conservación de empleo, la relación subsiste hasta que alguna de las partes decida rescindirla, sin generar responsabilidad indemnizatoria por esa extinción [25552:211@current]. Si vencido el plazo de conservación resulta una incapacidad definitiva, o si el empleador no reasigna tareas compatibles pudiendo hacerlo, corresponden indemnizaciones especiales (arts. 245 o 247 LCT) [25552:212@current]. Y si el empleador despide al trabajador estando este enfermo, dentro del período de licencia paga, debe pagar la indemnización por despido más los salarios que faltaren hasta el vencimiento de esa licencia o el alta [25552:213@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 4,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:208@current",
+        "25552:211@current",
+        "25552:212@current",
+        "25552:213@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3974,
+      "output_tokens": 993,
+      "llm_ms": 10060.602042009123,
+      "total_ms": 10254.11229202291,
+      "trace_id": "983a634b47d5a29ecf54f123f5af4c92",
+      "verdict_reasons": [
+        "1:supported: El art. 208 reproduce textualmente los plazos de 3/6 meses y su extensión a 6/12 meses con carga de familia.",
+        "2:supported: El art. 211 establece la conservación del empleo por un año contado desde el vencimiento de los plazos de licencia paga.",
+        "3:supported: El art. 211 indica que vencido ese plazo la relación subsiste hasta que una parte decida rescindirla, sin responsabilidad indemnizatoria.",
+        "4:partial: El art. 212 prevé indemnizaciones según arts. 245 o 247 pero distingue entre disminución definitiva e incapacidad absoluta, matiz que la afirmación simplifica bajo 'incapacidad definitiva'.",
+        "5:supported: El art. 213 establece que el despido durante la licencia paga obliga a pagar la indemnización más los salarios hasta el vencimiento o el alta médica."
+      ]
+    },
+    {
+      "id": "b12",
+      "category": "multi_article",
+      "question": "¿Qué cobra un trabajador despedido mientras está de licencia por enfermedad inculpable?",
+      "expected_articles": [
+        "25552:213",
+        "25552:208"
+      ],
+      "retrieved_articles": [
+        "25552:213",
+        "25552:208",
+        "192152:53",
+        "412:153",
+        "25552:212",
+        "412:155"
+      ],
+      "retrieval_hit": true,
+      "answer": "Si el empleador despide al trabajador durante el plazo de las interrupciones pagas por accidente o enfermedad inculpable, debe abonarle, además de las indemnizaciones por despido injustificado, los salarios correspondientes a todo el tiempo que faltare para el vencimiento de ese plazo (o hasta la fecha del alta médica, según lo que el trabajador demuestre) [25552:213@current]. Ese plazo de interrupciones pagas es el previsto en el art. 208 LCT: 3 meses si la antigüedad es menor a 5 años, o 6 meses si es mayor, y esos plazos se duplican (6 y 12 meses respectivamente) si el trabajador tiene carga de familia [25552:208@current]. Es decir, se suman: la indemnización por despido sin causa (art. 245, ver fragmentos 412:153) más los salarios por enfermedad que restaban devengarse.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:208@current",
+        "25552:213@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4476,
+      "output_tokens": 593,
+      "llm_ms": 6897.307167004328,
+      "total_ms": 7093.3485419955105,
+      "trace_id": "161f3fde49dde42b1be1701c1ab49a08",
+      "verdict_reasons": [
+        "1:supported: El fragmento del Art. 213 coincide textualmente con la afirmación sobre indemnización por despido más salarios pendientes hasta el vencimiento del plazo o el alta.",
+        "2:supported: El Art. 208 establece exactamente los plazos de 3 y 6 meses según antigüedad, duplicados a 6 y 12 meses con carga de familia, tal como se afirma."
+      ]
+    },
+    {
+      "id": "b13",
+      "category": "multi_article",
+      "question": "¿Qué obligación de registro tiene el empleador y qué pasa si omite registrar al trabajador?",
+      "expected_articles": [
+        "25552:52",
+        "25552:55"
+      ],
+      "retrieved_articles": [
+        "8767:13",
+        "230592:9",
+        "230592:2",
+        "412:7",
+        "412:18",
+        "423680:22",
+        "25552:52",
+        "426580:2"
+      ],
+      "retrieval_hit": true,
+      "answer": "El empleador tiene la obligación de registrar a cada trabajador ante la Agencia de Recaudación y Control Aduanero (ARCA), conforme a la normativa que ese organismo dicte, siendo esa registración suficiente a todos los efectos sin que puedan exigirse requisitos adicionales por otra autoridad, y debe conservar los libros (incluso digitalizados) por diez años [25552:52@current]. Se considera que la relación está registrada cuando el trabajador está inscripto en las formas y condiciones que fije la reglamentación, mediante un mecanismo simple, inmediato y electrónico [412:7@current]. La Resolución 5862 define como 'no registrada' a la relación en que el trabajador no está inscripto en los términos de los arts. 7 de la Ley 24.013 y 52 de la LCT, y como 'deficientemente registrada' cuando se consignó una fecha de inicio posterior a la real o una remuneración inferior a la percibida [426580:2@original]. Si el empleador omite la registración, esa omisión genera una presunción a favor de las manifestaciones del trabajador (o sus causahabientes) respecto de los datos que debieron figurar en el registro [423680:22@original]. Además, el incumplimiento de las obligaciones de registro puede dar lugar a sanciones (multas) conforme al régimen del Decreto 739/92 [8767:13@original], y esas sanciones firmes por falta de registración del empleador o del trabajador se incorporan al Registro Público de Empleadores con Sanciones Laborales (REPSAL) [230592:2@current], del cual el empleador puede ser excluido si regulariza la inscripción y paga las multas y accesorios correspondientes [230592:9@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 7,
+      "supported": 7,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "230592:2@current",
+        "230592:9@current",
+        "25552:52@current",
+        "412:7@current",
+        "423680:22@original",
+        "426580:2@original",
+        "8767:13@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4162,
+      "output_tokens": 1282,
+      "llm_ms": 12800.605541968253,
+      "total_ms": 12980.547333019786,
+      "trace_id": "0b7aa454224ca0a1236be4fd03f1c621",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la obligación de registrar ante ARCA, la exclusividad frente a otras autoridades y el plazo de 10 años de conservación de libros.",
+        "2:supported: El fragmento confirma que la relación se considera registrada según la reglamentación y que debe ser simple, inmediata y por medios electrónicos.",
+        "3:supported: El fragmento define exactamente relación no registrada y deficientemente registrada según los artículos citados.",
+        "4:supported: El fragmento establece la presunción a favor del trabajador ante la omisión de registración, tal como se afirma.",
+        "5:supported: El decreto efectivamente prevé sanciones, incluyendo multas, ante el incumplimiento de las obligaciones de registro.",
+        "6:supported: El fragmento indica que las sanciones firmes por falta de registración se incluyen en el REPSAL.",
+        "7:supported: El fragmento detalla que el empleador puede ser excluido del REPSAL tras regularizar y pagar multas y accesorios, con un plazo adicional de 30 días."
+      ]
+    },
+    {
+      "id": "b14",
+      "category": "multi_article",
+      "question": "¿Qué formalidades exige la ley para la renuncia y para la extinción por mutuo acuerdo?",
+      "expected_articles": [
+        "25552:240",
+        "25552:241"
+      ],
+      "retrieved_articles": [
+        "25552:240",
+        "423680:49",
+        "423680:50",
+        "25552:241",
+        "210489:46",
+        "25552:244",
+        "395521:64"
+      ],
+      "retrieval_hit": true,
+      "answer": "Para la renuncia del trabajador (art. 240 LCT), la extinción debe formalizarse, medie o no preaviso, como requisito de validez, mediante despacho telegráfico en formato físico o digital cursado por el trabajador a su empleador, o ante la autoridad administrativa del trabajo según reglamente la autoridad; los despachos telegráficos son gratuitos y requieren validación de identidad [25552:240@current][423680:49@original]. Para la extinción por mutuo acuerdo (art. 241 LCT), las partes deben formalizar el acto mediante escritura pública o ante la autoridad judicial o administrativa del trabajo, siendo nulo el acto celebrado sin presencia personal del trabajador; también se considera extinguida la relación por comportamiento concluyente y recíproco de las partes que traduzca inequívocamente el abandono de la relación, configurándose este supuesto, en contratos de prestaciones continuas y permanentes, luego de dos meses calendarios sin manifestación de voluntad de continuidad [25552:241@current][423680:50@original]. Cabe señalar que para el servicio doméstico (Ley 26844) rigen reglas específicas: el mutuo acuerdo debe formalizarse sólo ante autoridad judicial o administrativa competente, y la renuncia mediante telegrama o carta documento cursado personalmente o manifestación personal ante autoridad administrativa o judicial [210489:46@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 1,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:46@current",
+        "25552:240@current",
+        "25552:241@current",
+        "423680:49@original",
+        "423680:50@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3191,
+      "output_tokens": 974,
+      "llm_ms": 9377.964542014524,
+      "total_ms": 9550.859292037785,
+      "trace_id": "f281d30d6a003be22d6cf02f2230da3a",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente los requisitos de forma, gratuidad y validación de identidad de la renuncia.",
+        "2:supported: El fragmento indica escritura pública o autoridad judicial/administrativa y nulidad sin presencia personal del trabajador tal como se afirma.",
+        "3:supported: El fragmento describe exactamente el supuesto de comportamiento concluyente recíproco y el plazo de dos meses calendarios en contratos continuos.",
+        "4:unsupported: El fragmento citado sobre servicio doméstico no menciona formalidades de mutuo acuerdo ni de renuncia, solo trata otras causales de extinción."
+      ]
+    },
+    {
+      "id": "b15",
+      "category": "multi_article",
+      "question": "¿Qué requisitos debe cumplir una suspensión por falta de trabajo y cuál es su plazo máximo?",
+      "expected_articles": [
+        "25552:218",
+        "25552:220"
+      ],
+      "retrieved_articles": [
+        "25552:220",
+        "25552:221",
+        "25552:153",
+        "25552:219",
+        "246009:2"
+      ],
+      "retrieval_hit": true,
+      "answer": "La suspensión por falta o disminución de trabajo no imputable al empleador debe fundarse en justa causa, es decir, comprobarse que la falta o disminución de trabajo no es imputable al empleador [25552:219@current]. Además, el plazo máximo de este tipo de suspensión (junto con las disciplinarias) no puede exceder los 30 días en un año, contados desde la primera suspensión [25552:220@current]. Por otro lado, cuando se trata de fuerza mayor debidamente comprobada, el plazo máximo se extiende a 75 días en el término de un año [25552:221@current]. En los casos de suspensión por falta o disminución de trabajo, o por fuerza mayor, debe respetarse un orden: comenzar por el personal menos antiguo de cada especialidad, y entre los ingresados en el mismo semestre, por quienes tengan menos cargas de familia, aunque esto altere el orden de antigüedad [25552:221@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:219@current",
+        "25552:220@current",
+        "25552:221@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2709,
+      "output_tokens": 654,
+      "llm_ms": 6648.711208021268,
+      "total_ms": 6823.734499979764,
+      "trace_id": "c6a291daef51fcb62c9cb3b7c64b8a44",
+      "verdict_reasons": [
+        "1:supported: El fragmento establece textualmente que la falta o disminución de trabajo no imputable al empleador es justa causa de suspensión.",
+        "2:supported: El fragmento indica que las suspensiones por falta o disminución de trabajo no imputable al empleador no pueden exceder 30 días en un año contados desde la primera suspensión.",
+        "3:supported: El fragmento confirma que las suspensiones por fuerza mayor pueden extenderse hasta 75 días en el término de un año.",
+        "4:supported: El fragmento establece que debe comenzarse por el personal menos antiguo de cada especialidad y, entre los del mismo semestre, por quienes tengan menos cargas de familia."
+      ]
+    },
+    {
+      "id": "b16",
+      "category": "negation",
+      "question": "¿En qué casos el despido no genera derecho a indemnización por antigüedad?",
+      "expected_articles": [
+        "25552:242",
+        "25552:244"
+      ],
+      "retrieved_articles": [
+        "412:153",
+        "25552:245",
+        "395521:81",
+        "210489:48",
+        "25552:246",
+        "423680:51"
+      ],
+      "retrieval_hit": false,
+      "answer": "El contexto no contiene un artículo que enumere expresamente los supuestos de exclusión, pero de los textos vigentes se pueden extraer dos situaciones en las que no corresponde la indemnización por antigüedad del art. 245: 1) cuando el despido se produce dentro del período de prueba, ya que las versiones más recientes del art. 245 aclaran que la obligación de indemnizar rige recién 'luego de transcurrido el período de prueba' [25552:245@current] [395521:81@original] [423680:51@original]; y 2) cuando el despido es dispuesto por el empleador CON justa causa, porque la norma establece la indemnización específicamente para los casos de despido 'sin justa causa' [25552:245@current] [412:153@current] [412:153@original] [210489:48@current]. Fuera de esos dos supuestos que surgen del propio texto, el contexto no aporta otras causales explícitas (por ejemplo, renuncia del trabajador, mutuo acuerdo, u otras extinciones) que digan expresamente que no generan indemnización por antigüedad, salvo la mención del art. 246 que remite a los arts. 232, 233 y 245 para el despido indirecto por causa imputable al empleador, lo que no es un caso de exclusión sino de inclusión [25552:246@current].",
+      "insufficient_evidence": false,
+      "confidence": "medium",
+      "n_claims": 3,
+      "supported": 2,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:48@current",
+        "25552:245@current",
+        "25552:246@current",
+        "395521:81@original",
+        "412:153@current",
+        "412:153@original",
+        "423680:51@original"
+      ],
+      "cited_expected": false,
+      "unsupported_sources": [],
+      "input_tokens": 5244,
+      "output_tokens": 1526,
+      "llm_ms": 17703.2768750214,
+      "total_ms": 17890.360457997303,
+      "trace_id": "f7d8e5137147e0c29cdf29bed33c65ac",
+      "verdict_reasons": [
+        "1:supported: El texto establece explícitamente que la indemnización se debe 'luego de transcurrido el período de prueba', lo que sostiene que antes de ese momento no corresponde.",
+        "2:supported: El artículo 245 se aplica textualmente a los casos de despido 'sin justa causa', lo que sostiene que el despido con justa causa queda fuera de este régimen.",
+        "3:partial: El fragmento confirma la remisión del art. 246 a los arts. 232, 233 y 245 para el despido indirecto fundado en justa causa, pero no menciona nada sobre otras causales de extinción no vinculadas a la justa causa del empleador, por lo que esa parte de la afirmación no está sostenida."
+      ]
+    },
+    {
+      "id": "b17",
+      "category": "negation",
+      "question": "¿A qué trabajadores no se les aplica la Ley de Contrato de Trabajo?",
+      "expected_articles": [
+        "25552:2"
+      ],
+      "retrieved_articles": [
+        "25552:2",
+        "379858:1",
+        "12367:2",
+        "192152:3",
+        "423680:1",
+        "412:112",
+        "329046:4",
+        "192152:100"
+      ],
+      "retrieval_hit": true,
+      "answer": "La LCT no se aplica a: a) los dependientes de la Administración Pública Nacional, provincial, de la CABA o municipal, salvo que se los incluya expresamente [25552:2@current]; b) el personal de casas particulares, salvo las normas que la Ley 26.844 declare expresamente aplicables [25552:2@current]; c) los trabajadores agrarios, aunque la LCT se aplica supletoriamente en lo compatible con el Régimen Nacional de Trabajo Agrario [25552:2@current]; d) las contrataciones de obra, servicios, agencia, transporte y flete reguladas en el Código Civil y Comercial [25552:2@current]; e) los trabajadores independientes y sus colaboradores en los términos del art. 97 de la Ley 27.742 [25552:2@current]; f) los prestadores independientes de plataformas tecnológicas [25552:2@current]; g) el personal embarcado bajo la Ley de Navegación 20.094, sin perjuicio de las CCT aplicables [25552:2@current]; y h) las personas privadas de libertad en contexto de encierro [25552:2@current]. Esta redacción del art. 2 de la LCT, vigente desde el 6/3/2026, coincide con la introducida por la Ley 27.802 [423680:1@original]. Además, respecto de los trabajadores agrarios, la Ley 26.727 dispone que sus normas excluyen a la LCT en los aspectos de la relación laboral que ella misma regula [192152:100@current], y excluye expresamente de su propio régimen (no de la LCT) a ciertos trabajadores como los de tareas ajenas a la actividad agraria, personal administrativo, dependientes estatales y otros supuestos [192152:3@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 10,
+      "supported": 10,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "192152:100@current",
+        "192152:3@current",
+        "25552:2@current",
+        "423680:1@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3678,
+      "output_tokens": 1394,
+      "llm_ms": 12774.775333993603,
+      "total_ms": 13176.165291981306,
+      "trace_id": "73ffdc8c3e8d6b1f743d0f8da440c54e",
+      "verdict_reasons": [
+        "1:supported: El fragmento cita textualmente esta exclusión con la excepción por acto expreso.",
+        "2:supported: El fragmento cita textualmente la exclusión del personal de casas particulares con la excepción de la Ley 26.844.",
+        "3:supported: El fragmento cita textualmente la exclusión de trabajadores agrarios y la aplicación supletoria.",
+        "4:supported: El fragmento cita textualmente esta exclusión referida al Código Civil y Comercial.",
+        "5:supported: El fragmento cita textualmente la exclusión de trabajadores independientes conforme el art. 97 de la Ley 27.742.",
+        "6:supported: El fragmento cita textualmente la exclusión de prestadores independientes de plataformas tecnológicas.",
+        "7:supported: El fragmento cita textualmente la exclusión del personal embarcado bajo la Ley 20.094 con la salvedad de convenciones colectivas.",
+        "8:supported: El fragmento cita textualmente la exclusión de personas privadas de libertad en contexto de encierro.",
+        "9:supported: El fragmento cita textualmente que la Ley 26.727 es de orden público y excluye la aplicación de la LCT en los aspectos que regula.",
+        "10:supported: El fragmento enumera textualmente las exclusiones del régimen agrario incluyendo personal administrativo, dependientes estatales y tareas ajenas a la actividad agraria."
+      ]
+    },
+    {
+      "id": "b18",
+      "category": "negation",
+      "question": "¿Qué descuentos no puede hacer el empleador sobre el salario?",
+      "expected_articles": [
+        "25552:131",
+        "25552:132"
+      ],
+      "retrieved_articles": [
+        "25552:131",
+        "25552:133",
+        "25552:132",
+        "192152:39",
+        "25552:134"
+      ],
+      "retrieval_hit": true,
+      "answer": "La regla general es que el empleador no puede deducir, retener ni compensar suma alguna que rebaje el monto de las remuneraciones, incluyendo descuentos por entrega de mercaderías, provisión de alimentos, vivienda o alojamiento, uso de herramientas u otra prestación en dinero o especie, y tampoco puede imponer multas al trabajador ni descontarlas de su sueldo [25552:131@current]. Sin embargo, esta prohibición tiene excepciones tasadas: adelantos de remuneración con las formalidades legales, aportes jubilatorios y obligaciones fiscales, cuotas o aportes sindicales/mutuales (que ahora requieren consentimiento explícito del empleado), reintegros por vivienda o mercadería de entidades sindicales o cooperativas, primas de seguros de vida colectivos, depósitos en cajas de ahorro autorizadas, reintegro de compra de acciones, reintegro de mercaderías del propio establecimiento, y reintegro de compra de vivienda al empleador [25552:132@current]. Fuera de estos supuestos, cualquier descuento está prohibido. Además, cuando corresponde deducir (por ejemplo por adelantos), el conjunto de deducciones no puede superar el 20% del monto total de la remuneración en dinero a percibir, y en general se exige consentimiento expreso del trabajador salvo que provengan de leyes, estatutos o CCT [25552:133@current] (esta redacción de la norma rige desde 2026-03-06). También hay requisitos adicionales de control para los casos de compra/reintegro de mercaderías o vivienda: que el precio no sea superior al de plaza, que haya bonificación razonable, que la venta sea real y no encubra una reducción salarial, y que no haya habido exigencia del empleador para comprar [25552:134@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:131@current",
+        "25552:132@current",
+        "25552:133@current",
+        "25552:134@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4406,
+      "output_tokens": 1114,
+      "llm_ms": 12033.583916956559,
+      "total_ms": 12656.091292039491,
+      "trace_id": "9630d5156bdd6ff3caf11268bf041e22",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la prohibición de deducir, retener o compensar remuneraciones, incluyendo mercaderías, alimentos, vivienda, herramientas y multas.",
+        "2:supported: El artículo 132 enumera exactamente las excepciones citadas: adelantos, aportes, cuotas sindicales con consentimiento, reintegros de vivienda/mercadería sindical, seguros de vida, depósitos en cajas de ahorro, reintegro de acciones, mercaderías del establecimiento y vivienda al empleador.",
+        "3:supported: El artículo 133 fija el tope del 20% del monto total de la remuneración en dinero y exige consentimiento expreso del trabajador salvo excepciones legales o convencionales, tal como se afirma.",
+        "4:supported: El artículo 134 exige exactamente esas condiciones adicionales (precio no superior al de plaza, bonificación razonable, venta real y ausencia de exigencia del empleador) para los incisos d), g), h) e i)."
+      ]
+    },
+    {
+      "id": "b19",
+      "category": "negation",
+      "question": "¿Cuándo el trabajador no cobra el salario del día feriado?",
+      "expected_articles": [
+        "25552:168"
+      ],
+      "retrieved_articles": [
+        "25552:166",
+        "25552:168",
+        "25552:169",
+        "25552:167",
+        "25552:170",
+        "242848:6"
+      ],
+      "retrieval_hit": true,
+      "answer": "El trabajador no percibe el salario del feriado cuando no cumple los requisitos del art. 168 LCT: no haber trabajado a las órdenes de un mismo empleador al menos 48 horas o 6 jornadas dentro de los 10 días hábiles anteriores al feriado, ni haber trabajado la víspera hábil del feriado y continuado trabajando en alguno de los 5 días hábiles subsiguientes [25552:168@current]. Cumpliendo cualquiera de esas dos condiciones sí tiene derecho a cobrarlo aunque no lo goce [25552:166@current].",
+      "insufficient_evidence": false,
+      "confidence": "medium",
+      "n_claims": 2,
+      "supported": 1,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:166@current",
+        "25552:168@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 1885,
+      "output_tokens": 600,
+      "llm_ms": 7002.836124971509,
+      "total_ms": 7212.603791966103,
+      "trace_id": "97aebdaf05eed382c606823c8d80d19f",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 168 reproduce textualmente las condiciones de horas, jornadas y días hábiles mencionadas.",
+        "2:partial: El art. 168 establece la condición positiva para percibir el salario, pero ningún fragmento afirma explícitamente que su incumplimiento excluya el derecho al salario del feriado no trabajado."
+      ]
+    },
+    {
+      "id": "b20",
+      "category": "negation",
+      "question": "¿Qué servicios no pueden ser objeto de un contrato de trabajo?",
+      "expected_articles": [
+        "25552:38",
+        "25552:39",
+        "25552:40"
+      ],
+      "retrieved_articles": [
+        "25552:38",
+        "25552:23",
+        "25552:39",
+        "122396:2",
+        "25552:40",
+        "25552:42",
+        "93595:24"
+      ],
+      "retrieval_hit": true,
+      "answer": "No pueden ser objeto de un contrato de trabajo los servicios ilícitos o prohibidos [25552:38@current]. Se considera ilícito el objeto cuando es contrario a la moral y las buenas costumbres, salvo que las leyes, ordenanzas municipales o reglamentos de policía lo consientan, toleren o regulen [25552:39@current]. Se considera prohibido cuando normas legales o reglamentarias vedan el empleo de determinadas personas o en determinadas tareas, épocas o condiciones, siendo esta prohibición siempre dirigida al empleador [25552:40@current]. Aun así, si el contrato tiene objeto prohibido, esto no afecta el derecho del trabajador a percibir las remuneraciones o indemnizaciones derivadas de su extinción por esa causa [25552:42@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:38@current",
+        "25552:39@current",
+        "25552:40@current",
+        "25552:42@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2652,
+      "output_tokens": 647,
+      "llm_ms": 6109.820041980129,
+      "total_ms": 6631.593625003006,
+      "trace_id": "376e888442b8df01706cada76ba7672a",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente que no puede ser objeto del contrato de trabajo la prestación de servicios ilícitos o prohibidos.",
+        "2:supported: El fragmento sostiene exactamente la definición de objeto ilícito y su excepción cuando leyes, ordenanzas o reglamentos lo consientan, toleren o regulen.",
+        "3:supported: El fragmento confirma tanto la definición de objeto prohibido como que la prohibición siempre está dirigida al empleador.",
+        "4:supported: El fragmento establece exactamente que el contrato de objeto prohibido no afecta el derecho del trabajador a percibir remuneraciones o indemnizaciones derivadas de su extinción."
+      ]
+    },
+    {
+      "id": "b21",
+      "category": "negation",
+      "question": "¿Puede el trabajador renunciar a los derechos que le da la ley?",
+      "expected_articles": [
+        "25552:12"
+      ],
+      "retrieved_articles": [
+        "25552:145",
+        "25552:75",
+        "25552:66",
+        "423680:50",
+        "115745:1",
+        "423680:23",
+        "423680:4"
+      ],
+      "retrieval_hit": false,
+      "answer": "El contexto disponible no contiene el artículo general sobre irrenunciabilidad de derechos laborales (típicamente el art. 12 de la LCT), por lo que no puedo responder de forma completa a esa pregunta con lo que tengo. Sí puedo decir que, en materia de recibos de sueldo, la ley establece que el recibo no puede contener renuncias de ningún tipo, ni usarse para instrumentar la extinción del contrato o la alteración de la calificación profesional en perjuicio del trabajador, y que cualquier cláusula en ese sentido es nula [25552:145@current]. Además, la extinción del contrato por mutuo acuerdo entre las partes exige formalidades específicas (escritura pública o ante autoridad judicial/administrativa) y es nula si se celebra sin la presencia personal del trabajador [423680:50@original], lo que indirectamente protege al trabajador de renuncias no formales. Pero no cuento con un artículo que establezca el principio general de irrenunciabilidad de los derechos laborales, así que la respuesta queda incompleta.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 2,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "25552:145@current",
+        "423680:50@original"
+      ],
+      "cited_expected": false,
+      "unsupported_sources": [],
+      "input_tokens": 2497,
+      "output_tokens": 974,
+      "llm_ms": 10893.096416955814,
+      "total_ms": 11300.738166028168,
+      "trace_id": "579109260c0b243d62cad52030b9ad08",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b22",
+      "category": "confusable",
+      "question": "¿Cuánto dura el período de prueba para el personal de casas particulares?",
+      "expected_articles": [
+        "210489:7"
+      ],
+      "retrieved_articles": [
+        "210489:7",
+        "25552:92bis",
+        "63208:1",
+        "401266:91",
+        "53159:3",
+        "210489:65",
+        "210489:6",
+        "210489:73"
+      ],
+      "retrieval_hit": true,
+      "answer": "Para el personal de casas particulares (servicio doméstico), el período de prueba dura los primeros seis (6) meses de vigencia del contrato de trabajo por tiempo indeterminado, según el art. 7 de la Ley 26844, vigente desde el 6/3/2026 [210489:7@current]. Durante ese lapso, cualquiera de las partes puede extinguir la relación sin expresión de causa y sin generar derecho a indemnización [210489:7@current]. Además, el empleador no puede contratar más de una vez a un mismo empleado utilizando el período de prueba [210489:7@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:7@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4492,
+      "output_tokens": 435,
+      "llm_ms": 4899.13350000279,
+      "total_ms": 5523.004500020761,
+      "trace_id": "4f2d6d0cc72c9ffcfb59c8513e59e7a3",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente que el contrato se entiende a prueba durante los primeros seis (6) meses de vigencia.",
+        "2:supported: El fragmento confirma que cualquiera de las partes puede extinguir la relación sin causa y sin derecho a indemnización durante ese lapso.",
+        "3:supported: El fragmento establece que el empleador no podrá contratar al mismo empleado más de una vez utilizando el período de prueba."
+      ]
+    },
+    {
+      "id": "b23",
+      "category": "confusable",
+      "question": "¿Cuántos días de vacaciones tiene una empleada de casas particulares?",
+      "expected_articles": [
+        "210489:29"
+      ],
+      "retrieved_articles": [
+        "210489:29",
+        "210489:31",
+        "210489:32",
+        "149525:1",
+        "25552:150",
+        "151043:1",
+        "149526:1"
+      ],
+      "retrieval_hit": true,
+      "answer": "Depende de la antigüedad: 14 días corridos si la antigüedad es mayor a 6 meses y no excede los 5 años; 21 días corridos si es superior a 5 años y no excede los 10; 28 días corridos si es superior a 10 años y no excede los 20; y 35 días corridos si supera los 20 años de antigüedad [210489:29@current]. La antigüedad se computa al 31 de diciembre del año correspondiente [210489:29@current]. Además, el empleador fija las fechas de vacaciones con 20 días de aviso previo, y deben otorgarse entre el 1° de noviembre y el 30 de marzo, salvo fraccionamiento a pedido de la empleada/o [210489:31@current]. La retribución debe pagarse antes de comenzar las vacaciones [210489:32@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 7,
+      "supported": 7,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:29@current",
+        "210489:31@current",
+        "210489:32@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3236,
+      "output_tokens": 750,
+      "llm_ms": 7776.642834011,
+      "total_ms": 8214.223582996055,
+      "trace_id": "1adbe2eaf7f1cb6e44ba354ff4f5a888",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente 14 días corridos para antigüedad mayor a 6 meses y no mayor a 5 años.",
+        "2:supported: El fragmento indica textualmente 21 días corridos para antigüedad superior a 5 años y no mayor a 10 años.",
+        "3:supported: El fragmento indica textualmente 28 días corridos para antigüedad superior a 10 años y no mayor a 20 años.",
+        "4:supported: El fragmento indica textualmente 35 días corridos para antigüedad superior a 20 años.",
+        "5:supported: El fragmento establece textualmente que la antigüedad se computa al 31 de diciembre del año correspondiente.",
+        "6:supported: El fragmento del art. 31 sostiene textualmente el aviso de 20 días, el período entre 1° de noviembre y 30 de marzo, y la posibilidad de fraccionamiento a pedido del trabajador.",
+        "7:supported: El fragmento del art. 32 indica textualmente que las retribuciones deben pagarse antes del comienzo de las vacaciones."
+      ]
+    },
+    {
+      "id": "b24",
+      "category": "confusable",
+      "question": "¿Cuál es la jornada máxima de trabajo del trabajador agrario?",
+      "expected_articles": [
+        "192152:40"
+      ],
+      "retrieved_articles": [
+        "192152:40",
+        "192152:42",
+        "192152:41",
+        "25552:198",
+        "192152:16",
+        "192152:45",
+        "25552:199"
+      ],
+      "retrieval_hit": true,
+      "answer": "La jornada de trabajo para el personal comprendido en el régimen de trabajo agrario no puede exceder de 8 horas diarias ni de 44 horas semanales, de lunes a sábado hasta las 13 horas [192152:40@current]. La distribución semanal desigual de las horas no puede llevar a una jornada ordinaria diurna superior a 9 horas [192152:40@current]. Para la jornada integralmente nocturna (entre las 20 y las 5 horas del día siguiente), el límite es de 7 horas diarias y 42 horas semanales [192152:41@current]. Si se alternan horas diurnas y nocturnas, corresponde reducir proporcionalmente la jornada en 8 minutos por cada hora nocturna trabajada, o pagar esos minutos como tiempo extraordinario [192152:41@current]. Además, se admiten horas extraordinarias hasta un máximo de 30 horas mensuales y 200 horas anuales, sin necesidad de autorización administrativa previa [192152:42@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "192152:40@current",
+        "192152:41@current",
+        "192152:42@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2691,
+      "output_tokens": 723,
+      "llm_ms": 7494.822500040755,
+      "total_ms": 7683.026625018101,
+      "trace_id": "4a793def3b289ea4850f72c922fbfb93",
+      "verdict_reasons": [
+        "1:supported: El fragmento cita textualmente los límites de 8 horas diarias y 44 semanales de lunes a sábado hasta las 13 horas.",
+        "2:supported: El fragmento indica textualmente que la distribución desigual no puede importar jornada diurna superior a 9 horas.",
+        "3:supported: El fragmento establece textualmente 7 horas diarias, 42 semanales y el rango horario de 20 a 5 horas para jornada nocturna.",
+        "4:supported: El fragmento confirma la reducción de 8 minutos por hora nocturna o su pago como extra en jornada mixta.",
+        "5:supported: El fragmento indica textualmente 30 horas mensuales, 200 anuales y sin necesidad de autorización administrativa previa."
+      ]
+    },
+    {
+      "id": "b25",
+      "category": "confusable",
+      "question": "¿Qué recargo corresponde si el empleador, intimado, no paga las indemnizaciones por despido y obliga al trabajador a iniciar juicio?",
+      "expected_articles": [
+        "64555:2"
+      ],
+      "retrieved_articles": [
+        "64555:2",
+        "412:153",
+        "210489:43",
+        "64555:1",
+        "210489:48",
+        "395521:81",
+        "210489:41"
+      ],
+      "retrieval_hit": true,
+      "answer": "Si el empleador, fehacientemente intimado por el trabajador, no abona las indemnizaciones de los arts. 232, 233 y 245 de la LCT (o las de los arts. 6° y 7° de la Ley 25.013), y por eso el trabajador debe iniciar acciones judiciales o una instancia previa obligatoria para cobrarlas, esas indemnizaciones se incrementan en un 50% [64555:2@original]. Los jueces, mediante resolución fundada, pueden reducir prudencialmente ese incremento, incluso eximir su pago, si existieron causas que justificaran la conducta del empleador [64555:2@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "64555:2@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3805,
+      "output_tokens": 484,
+      "llm_ms": 5659.429208026268,
+      "total_ms": 5873.2622909592465,
+      "trace_id": "55ae654ee5cfdf9daf9367c757b6b8ce",
+      "verdict_reasons": [
+        "1:supported: El fragmento establece textualmente el recargo del 50% sobre las indemnizaciones de los arts. 232, 233 y 245 LCT y arts. 6° y 7° de la Ley 25.013 en caso de intimación e inicio de acciones judiciales.",
+        "2:supported: El fragmento indica expresamente que los jueces pueden reducir prudencialmente el incremento hasta eximir su pago si existieron causas justificantes de la conducta del empleador."
+      ]
+    },
+    {
+      "id": "b26",
+      "category": "confusable",
+      "question": "¿Cómo se calcula y cuándo se paga el aguinaldo del personal de casas particulares?",
+      "expected_articles": [
+        "210489:26",
+        "210489:27"
+      ],
+      "retrieved_articles": [
+        "210489:27",
+        "25552:122",
+        "425989:1",
+        "389071:3",
+        "28165:1",
+        "376814:7",
+        "210489:26"
+      ],
+      "retrieval_hit": true,
+      "answer": "El SAC del personal de casas particulares consiste en el 50% de la mayor remuneración mensual devengada por todo concepto dentro de cada semestre (enero-junio y julio-diciembre) [210489:26@current]. Se abona en dos cuotas: la primera el último día laboral de junio y la segunda el último día laboral de diciembre de cada año [210489:27@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "210489:26@current",
+        "210489:27@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3100,
+      "output_tokens": 318,
+      "llm_ms": 3964.3510000314564,
+      "total_ms": 4242.431790975388,
+      "trace_id": "e3e4ad825f04465e84287538ab1c655f",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la definición del 50% de la mayor remuneración mensual dentro de los semestres que culminan en junio y diciembre.",
+        "2:supported: El fragmento indica textualmente el pago en dos cuotas en las fechas señaladas."
+      ]
+    },
+    {
+      "id": "b27",
+      "category": "confusable",
+      "question": "¿Qué presume la ley cuando alguien presta servicios para otro en relación de dependencia?",
+      "expected_articles": [
+        "25552:23"
+      ],
+      "retrieved_articles": [
+        "25552:23",
+        "423680:13",
+        "423680:12",
+        "25552:22",
+        "401266:89",
+        "395521:68",
+        "210489:1",
+        "423680:165"
+      ],
+      "retrieval_hit": true,
+      "answer": "La ley presume la existencia de un contrato de trabajo cuando hay prestación de servicios en situación de dependencia, salvo que se demuestre lo contrario por las circunstancias, relaciones o causas que lo motiven [25552:23@current][423680:13@original]. Esta presunción no se aplica cuando se trata de contrataciones de obras, servicios profesionales o de oficios, u otras modalidades sin relación de dependencia, siempre que se emitan los recibos o facturas correspondientes o el pago se realice por los sistemas bancarios u otros que determine la reglamentación; en esos casos la ausencia de presunción se extiende también a la seguridad social [25552:23@current][423680:13@original]. Cabe señalar que existe relación de trabajo cuando una persona humana presta servicios para otra, bajo su dependencia, en forma voluntaria y mediante el pago de una remuneración [25552:22@current][423680:12@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:22@current",
+        "25552:23@current",
+        "423680:12@original",
+        "423680:13@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2439,
+      "output_tokens": 742,
+      "llm_ms": 7411.204041971359,
+      "total_ms": 7704.546332999598,
+      "trace_id": "8cd226f7181fec57d03ebf1d39d4c95e",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente que la prestación de servicios en dependencia hace presumir el contrato de trabajo salvo prueba en contrario.",
+        "2:supported: El fragmento cita textualmente las excepciones por contrataciones de obras/servicios profesionales con recibos/facturas o pago bancario y la extensión a la seguridad social.",
+        "3:supported: El fragmento coincide casi textualmente con la afirmación sobre la relación de trabajo voluntaria y remunerada."
+      ]
+    },
+    {
+      "id": "b28",
+      "category": "derogated",
+      "question": "¿Qué establecía el artículo 28 de la LCT sobre los auxiliares del trabajador?",
+      "expected_articles": [
+        "25552:28"
+      ],
+      "retrieved_articles": [
+        "25552:28",
+        "25552:29",
+        "423680:14",
+        "25552:27",
+        "20421:1",
+        "25552:26",
+        "192152:104"
+      ],
+      "retrieval_hit": true,
+      "answer": "El artículo 28 de la LCT establece que si el trabajador está autorizado a servirse de auxiliares, estos se consideran en relación directa con el empleador de aquél, salvo que exista una excepción expresa prevista por la propia ley o por los regímenes legales o convencionales aplicables [25552:28@original]. Este texto está vigente desde el 21/05/1976 hasta el 06/03/2026 [25552:28@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:28@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 1950,
+      "output_tokens": 369,
+      "llm_ms": 5209.78895900771,
+      "total_ms": 5751.138375024311,
+      "trace_id": "4391343d085118388e21fb732835f29b",
+      "verdict_reasons": [
+        "1:supported: El fragmento establece textualmente que los auxiliares se consideran en relación directa con el empleador del trabajador que los emplea.",
+        "2:supported: El fragmento menciona expresamente la salvedad de excepción prevista por la ley o regímenes legales o convencionales aplicables.",
+        "3:supported: El encabezado del fragmento indica que el texto histórico está vigente de 1976-05-21 a 2026-03-06, coincidiendo con la afirmación."
+      ]
+    },
+    {
+      "id": "b29",
+      "category": "derogated",
+      "question": "¿Qué multa fijaba el artículo 8 de la Ley de Empleo 24.013 por no registrar la relación laboral?",
+      "expected_articles": [
+        "412:8"
+      ],
+      "retrieved_articles": [
+        "230592:9",
+        "412:8",
+        "412:12",
+        "412:13",
+        "8767:13",
+        "412:10",
+        "412:11"
+      ],
+      "retrieval_hit": true,
+      "answer": "El art. 8 de la Ley 24.013 no fija una 'multa' sino una indemnización a favor del trabajador: el empleador que no registró la relación laboral debe abonarle una indemnización equivalente a una cuarta parte de las remuneraciones devengadas desde el inicio del vínculo, computadas a valores reajustados según la normativa vigente [412:8@original]. Además, esa indemnización nunca puede ser inferior a tres veces el importe mensual del salario que resulte de aplicar el art. 245 de la LCT (t.o. 1976) [412:8@original]. Cabe aclarar que esta indemnización procedía cuando el trabajador (o el sindicato) intimaba fehacientemente al empleador para que regularizara la registración, y si el empleador cumplía dentro de los 30 días de la intimación quedaba eximido de pagarla; también solo se computaban remuneraciones devengadas hasta los dos años anteriores a la entrada en vigencia de la ley [412:11@original]. Este artículo estuvo vigente desde el 17/12/1991 hasta el 08/07/2024 [412:8@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "412:11@original",
+        "412:8@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4128,
+      "output_tokens": 776,
+      "llm_ms": 7740.474707970861,
+      "total_ms": 8036.732500011567,
+      "trace_id": "ea1bde1b1340aa1fd9658b218f430389",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la indemnización de una cuarta parte de las remuneraciones devengadas desde el inicio de la vinculación, reajustadas.",
+        "2:supported: El fragmento indica textualmente que la indemnización no puede ser inferior a tres veces el salario mensual conforme al art. 245 LCT.",
+        "3:supported: El art. 11 citado establece la intimación fehaciente, el plazo de 30 días para eximirse y el cómputo de remuneraciones de hasta 2 años antes de la vigencia, tal como se afirma.",
+        "4:supported: La vigencia citada (1991-12-17 a 2024-07-08) coincide exactamente con la que figura en el encabezado del fragmento."
+      ]
+    },
+    {
+      "id": "b30",
+      "category": "derogated",
+      "question": "¿Qué decía el artículo 54 de la LCT antes de su derogación?",
+      "expected_articles": [
+        "25552:54"
+      ],
+      "retrieved_articles": [
+        "25552:58",
+        "25552:23",
+        "269015:1",
+        "27971:34"
+      ],
+      "retrieval_hit": false,
+      "answer": "No tengo en el contexto el texto original del artículo 54 de la LCT anterior a la reforma, ni evidencia de que haya sido derogado. Solo cuento con la modificación introducida por la Ley 27321 (2016), que le dio al art. 54 la redacción vigente sobre 'Aplicación de los registros, planillas u otros elementos de contralor' [269015:1@original]. No hay fragmentos que muestren el texto previo ni una derogación del artículo.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 1,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "269015:1@original"
+      ],
+      "cited_expected": false,
+      "unsupported_sources": [],
+      "input_tokens": 2534,
+      "output_tokens": 452,
+      "llm_ms": 5920.01750000054,
+      "total_ms": 6188.316791958641,
+      "trace_id": "9e1d1e0f898708ff71867f6f11ccf506",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b31",
+      "category": "derogated",
+      "question": "¿Qué disponía la LCT sobre el ahorro obligatorio de los trabajadores menores de edad?",
+      "expected_articles": [
+        "25552:192",
+        "25552:193"
+      ],
+      "retrieved_articles": [
+        "25552:192",
+        "77208:1",
+        "25552:193",
+        "21976:11",
+        "25552:124",
+        "25552:187",
+        "423680:36",
+        "141792:5"
+      ],
+      "retrieval_hit": true,
+      "answer": "La LCT (texto original) preveía en su art. 192 que el empleador, dentro de los 30 días de ocupar a un menor de entre 14 y 18 años, debía gestionar la obtención de una libreta de ahorro en una institución de ahorro oficial, que quedaba en poder del empleador y se devolvía al menor (o a sus padres/tutores) al extinguirse el contrato o al cumplir los 18 años [25552:192@original]. El art. 193 complementaba esto exigiendo que el empleador depositara en esa cuenta el 10% de la remuneración del menor dentro de los 3 días posteriores al pago, monto que se deducía del sueldo, y debía acreditar ese cumplimiento ante la autoridad administrativa [25552:193@original]. Posteriormente, la Ley 22276 (vigente desde 1980-08-28) modificó este régimen, reduciendo el rango etario a menores de 14 a 16 años y estableciendo que la cuenta se abriera en la Caja Nacional de Ahorro y Seguro, con tratamiento de cuenta de ahorro especial, devolviéndose la documentación al cumplir los 16 años [77208:1@original]. Cabe aclarar que este régimen de ahorro obligatorio para menores (arts. 192 y 193) corresponde al texto histórico de la LCT, vigente entre 1976-05-21 y 2008-06-25, por lo que ya no está en vigor [25552:192@original][25552:193@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:192@original",
+        "25552:193@original",
+        "77208:1@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2288,
+      "output_tokens": 1068,
+      "llm_ms": 11068.494750012178,
+      "total_ms": 11259.526250010822,
+      "trace_id": "86d375972e1757ce6de89bb839ecea89",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la obligación del empleador de gestionar la libreta de ahorro para menores de 14 a 18 años dentro de los 30 días de la ocupación.",
+        "2:supported: El fragmento confirma el depósito del 10% de la remuneración en la cuenta del menor y la obligación de acreditar el cumplimiento ante la autoridad administrativa.",
+        "3:supported: El fragmento de la Ley 22276 muestra la modificación del art. 192 reduciendo el rango a 14-16 años y estableciendo la apertura de cuenta en la Caja Nacional de Ahorro y Seguro.",
+        "4:supported: Los fragmentos citados indican explícitamente que el texto histórico de los arts. 192 y 193 estuvo vigente entre 1976-05-21 y 2008-06-25."
+      ]
+    },
+    {
+      "id": "b32",
+      "category": "derogated",
+      "question": "¿Está vigente la Ley 25.250 de reforma laboral?",
+      "expected_articles": [
+        "93595:1"
+      ],
+      "retrieved_articles": [
+        "53159:22",
+        "63208:34",
+        "63208:5",
+        "93595:1",
+        "63208:35",
+        "93595:42",
+        "63208:1",
+        "93595:41"
+      ],
+      "retrieval_hit": true,
+      "answer": "No, la Ley 25.250 fue derogada por el artículo 1 de la Ley 25.877 [93595:1@current], vigente desde el 19/03/2004. Además, la Ley 25.877 ratificó la derogación de varios artículos específicos de la Ley 25.013 y de otras normas que ya habían sido derogadas por la propia Ley 25.250 [93595:42@current][93595:41@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "93595:1@current",
+        "93595:41@current",
+        "93595:42@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 1770,
+      "output_tokens": 502,
+      "llm_ms": 5004.376124998089,
+      "total_ms": 5736.066874989774,
+      "trace_id": "2664705e896a5b43107f849614e14651",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente que la Ley 25.877 deroga la Ley 25.250 y sus normas reglamentarias.",
+        "2:supported: El fragmento reproduce exactamente la ratificación de derogación de esas leyes, artículos y decretos.",
+        "3:supported: El fragmento reproduce exactamente la derogación de esa ley, artículos y decreto mencionados."
+      ]
+    },
+    {
+      "id": "b33",
+      "category": "temporal",
+      "question": "¿Cuánto duraba el período de prueba en 2023?",
+      "expected_articles": [
+        "25552:92bis"
+      ],
+      "retrieved_articles": [
+        "25552:92bis",
+        "53159:3",
+        "63208:1",
+        "93595:2",
+        "25552:235",
+        "210489:7",
+        "25552:92"
+      ],
+      "retrieval_hit": true,
+      "answer": "En 2023 el período de prueba del contrato de trabajo por tiempo indeterminado era de tres (3) meses, conforme al art. 92 bis de la LCT (texto según leyes 25877), vigente desde el 19/03/2004 [25552:92bis@2004-03-19][93595:2@current]. Ese plazo regía para todo el año 2023, ya que el texto citado estuvo vigente hasta el 21/12/2023.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:92bis@2004-03-19",
+        "93595:2@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 5257,
+      "output_tokens": 562,
+      "llm_ms": 6792.42895898642,
+      "total_ms": 7488.884250051342,
+      "trace_id": "12e262542944552fa281d0909644f530",
+      "verdict_reasons": [
+        "1:supported: El fragmento establece textualmente que el período de prueba es de tres meses.",
+        "2:supported: El fragmento indica que el texto histórico estuvo vigente de 2004-03-19 a 2023-12-21, cubriendo todo el año 2023."
+      ]
+    },
+    {
+      "id": "b34",
+      "category": "temporal",
+      "question": "¿Cómo se calculaba la indemnización por antigüedad en 2020?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "25552:245",
+        "210489:48",
+        "412:153",
+        "25552:255",
+        "192152:22",
+        "412:155"
+      ],
+      "retrieval_hit": true,
+      "answer": "En 2020 estaba vigente el texto del art. 245 de la LCT según ley 25877, vigente entre 2004-03-19 y 2023-12-21 [25552:245@2004-03-19]. En caso de despido sin justa causa, el empleador debía pagar una indemnización equivalente a 1 mes de sueldo por cada año de servicio o fracción mayor de 3 meses, tomando como base la mejor remuneración mensual, normal y habitual devengada en el último año o en el tiempo de prestación de servicios si fuera menor [25552:245@2004-03-19]. Esa base tenía un tope: no podía exceder el equivalente a 3 veces el promedio de todas las remuneraciones del convenio colectivo aplicable, excluida la antigüedad, y el Ministerio de Trabajo debía fijar y publicar ese promedio junto con las escalas salariales [25552:245@2004-03-19]. Para trabajadores no convencionados, el tope era el del convenio del establecimiento o el más favorable si había más de uno, y para los remunerados a comisión o con remuneraciones variables se aplicaba el convenio de la actividad o el de la empresa si era más favorable [25552:245@2004-03-19]. Además, el monto de la indemnización nunca podía ser inferior a 1 mes de sueldo calculado según el sistema del primer párrafo [25552:245@2004-03-19]. Si hubo reingreso a las órdenes del mismo empleador, correspondía deducir lo percibido por despidos anteriores, actualizado según el índice salarial del peón industrial de Capital Federal, sin que el resultado fuera inferior a lo que hubiese correspondido tomando solo el último período [25552:255@original]. Cabe aclarar que existen regímenes especiales (por ejemplo, servicio doméstico o trabajo agrario) con reglas propias, pero no se pregunta por esos casos específicos.",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 6,
+      "supported": 6,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:245@2004-03-19",
+        "25552:255@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3782,
+      "output_tokens": 1204,
+      "llm_ms": 12254.960749996826,
+      "total_ms": 12471.054583031218,
+      "trace_id": "ecb77d34704989c46b8fb470e33eb30b",
+      "verdict_reasons": [
+        "1:supported: El fragmento confirma la vigencia del art. 245 en su texto de la ley 25877 desde 2004-03-19 hasta 2023-12-21, período que incluye 2020.",
+        "2:supported: El fragmento reproduce textualmente esta fórmula de cálculo.",
+        "3:supported: El fragmento confirma el tope de tres veces el promedio convencional, excluida antigüedad, fijado y publicado por el Ministerio de Trabajo.",
+        "4:supported: El fragmento detalla las reglas específicas para trabajadores excluidos del convenio y para los remunerados a comisión o variable.",
+        "5:supported: El fragmento reproduce textualmente esta cláusula de piso mínimo.",
+        "6:supported: El fragmento del art. 255 sostiene textualmente la deducción, actualización por índice del peón industrial y el piso mínimo referido al último período."
+      ]
+    },
+    {
+      "id": "b35",
+      "category": "temporal",
+      "question": "¿Qué plazo de preaviso regía en el año 2000 para un trabajador con más de cinco años de antigüedad?",
+      "expected_articles": [
+        "25552:231"
+      ],
+      "retrieved_articles": [
+        "25552:231",
+        "53159:6",
+        "25552:236",
+        "25552:94",
+        "15932:95",
+        "25552:233",
+        "25552:19"
+      ],
+      "retrieval_hit": true,
+      "answer": "En el año 2000 estaba vigente la reforma introducida por la Ley 25.013 (vigente desde 1998-09-24 hasta 2004-03-19), que estableció el régimen general de preaviso reemplazando al texto original del art. 231 de la LCT [53159:6@original]. Según ese texto, para el trabajador con antigüedad superior a cinco (5) años, el empleador debía otorgar un preaviso de dos (2) meses [53159:6@original]. Cabe aclarar que si el trabajador estaba comprendido en el régimen de pequeña empresa (Ley 24.467), el preaviso era de un (1) mes cualquiera fuera la antigüedad, para los contratados a partir de la vigencia de esa ley [15932:95@current].",
+      "insufficient_evidence": false,
+      "confidence": "medium",
+      "n_claims": 3,
+      "supported": 2,
+      "partial": 1,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "15932:95@current",
+        "25552:231@original",
+        "53159:6@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2481,
+      "output_tokens": 1042,
+      "llm_ms": 32736.44599999534,
+      "total_ms": 32937.75745801395,
+      "trace_id": "4888ae09101966cfa9896db27e7da313",
+      "verdict_reasons": [
+        "1:supported: El fragmento del art. 6 de la Ley 25.013 establece exactamente dos meses de preaviso para antigüedad superior a cinco años, vigente 1998-2004.",
+        "2:partial: El fragmento confirma que el texto original del art. 231 LCT (con dos meses para más de 5 años) estuvo vigente hasta 2004-03-19, pero eso contradice la conclusión de que en 2000 regía el texto de la Ley 25.013 en lugar del original.",
+        "3:supported: El fragmento del art. 95 de la Ley 24.467 confirma un mes de preaviso cualquiera fuere la antigüedad para trabajadores contratados desde la vigencia de la ley (28/03/1995)."
+      ]
+    },
+    {
+      "id": "b36",
+      "category": "temporal",
+      "question": "¿Cuál era la edad mínima para trabajar antes de la Ley 26.390?",
+      "expected_articles": [
+        "25552:32",
+        "25552:187"
+      ],
+      "retrieved_articles": [
+        "25552:187",
+        "25552:189",
+        "25552:190",
+        "25552:188",
+        "25552:32",
+        "412:83",
+        "412:86",
+        "64161:1"
+      ],
+      "retrieval_hit": true,
+      "answer": "Antes de la reforma introducida por la Ley 26.390, el régimen de la LCT (texto histórico vigente entre el 21/05/1976 y el 25/06/2008) fijaba en 14 años la edad mínima para trabajar. El art. 189 prohibía a los empleadores ocupar a menores de 14 años en cualquier actividad, con fines de lucro o no [25552:189@original]. Coherentemente, el art. 187 habilitaba a los menores mayores de 14 y menores de 18 años a celebrar contratos de trabajo [25552:187@original], y el art. 32 reconocía capacidad laboral a los mayores de 14 años que vivieran de forma independiente con conocimiento de sus padres o tutores [25552:32@original]. También la jornada reducida (6 horas diarias o 36 semanales) se aplicaba a los trabajadores de 14 a 18 años [25552:190@original]. Esto no es asesoramiento legal.",
+      "insufficient_evidence": false,
+      "confidence": "medium",
+      "n_claims": 4,
+      "supported": 4,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:187@original",
+        "25552:189@original",
+        "25552:190@original",
+        "25552:32@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2604,
+      "output_tokens": 799,
+      "llm_ms": 9095.497542002704,
+      "total_ms": 9524.30429100059,
+      "trace_id": "73d73b742d954ab5819d8a26b0fb22bb",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente la prohibición de ocupar menores de 14 años salvo excepciones familiares autorizadas.",
+        "2:supported: El art. 187 histórico establece exactamente que los mayores de 14 y menores de 18 años podían celebrar toda clase de contratos de trabajo.",
+        "3:supported: El art. 32 histórico confirma que los mayores de 14 y menores de 18 que vivieran independientemente con conocimiento de sus padres o tutores gozaban de esa capacidad.",
+        "4:supported: El art. 190 histórico fija la jornada de 6 horas diarias o 36 semanales para menores de 14 a 18 años."
+      ]
+    },
+    {
+      "id": "b37",
+      "category": "temporal",
+      "question": "¿Qué tope indemnizatorio fijaba el artículo 245 de la LCT en 2010?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "25552:245",
+        "95487:1",
+        "412:153",
+        "47238:1",
+        "94005:1",
+        "412:155",
+        "99777:1"
+      ],
+      "retrieval_hit": true,
+      "answer": "El contexto no tiene una resolución específica que fije el tope indemnizatorio del art. 245 LCT para 2010. Lo que sí surge es que, según el texto del art. 245 vigente desde 2004-03-19 hasta 2023-12-21, el tope se calcula como el equivalente a TRES (3) veces el promedio de todas las remuneraciones del convenio colectivo aplicable al trabajador, promedio que debía fijar y publicar el Ministerio de Trabajo junto con las escalas salariales de cada convenio [25552:245@2004-03-19]. Las resoluciones que aparecen en el contexto (Res. 764/1997, Res. 86/2004, Res. 184/2004, Res. 384/2004) fijan montos concretos de tope solo hasta 2004, no hay ninguna que corresponda a 2010, por lo que no puedo indicar la cifra exacta vigente en ese año.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 2,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "25552:245@2004-03-19",
+        "47238:1@original",
+        "94005:1@original",
+        "95487:1@original",
+        "99777:1@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 4389,
+      "output_tokens": 711,
+      "llm_ms": 8172.29558294639,
+      "total_ms": 8368.288999947254,
+      "trace_id": "9573cb72bc5498d428ca4e686146651d",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b38",
+      "category": "temporal",
+      "question": "¿Qué decía el artículo 198 de la LCT sobre jornada reducida antes de 2026?",
+      "expected_articles": [
+        "25552:198"
+      ],
+      "retrieved_articles": [
+        "25552:198",
+        "412:25",
+        "25552:197bis",
+        "77254:1",
+        "25552:200",
+        "25552:197"
+      ],
+      "retrieval_hit": true,
+      "answer": "El artículo 198 de la LCT, en su texto vigente desde 1991-12-17 hasta 2026-03-06, establecía que la reducción de la jornada máxima legal solo procedía cuando lo dispusieran las normas nacionales reglamentarias de la materia, la estipulación particular de los contratos individuales o los convenios colectivos de trabajo [25552:198@1991-12-17]. Además, permitía que los convenios colectivos establecieran métodos de cálculo de la jornada máxima en base a promedio, según las características de la actividad [25552:198@1991-12-17]. Este texto fue introducido por el artículo 25 de la Ley 24013, que sustituyó el artículo 198 de la LCT (t.o. 1976) [412:25@original][412:25@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:198@1991-12-17",
+        "412:25@current",
+        "412:25@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3519,
+      "output_tokens": 568,
+      "llm_ms": 6107.737667043693,
+      "total_ms": 6292.711374990176,
+      "trace_id": "bbce144344bca15fd0bca9cec780d47a",
+      "verdict_reasons": [
+        "1:supported: El fragmento reproduce textualmente que la reducción de la jornada máxima legal solo procede por disposiciones nacionales reglamentarias, estipulación particular o convenios colectivos.",
+        "2:supported: El fragmento confirma que los convenios colectivos podían establecer métodos de cálculo en base a promedio según las características de la actividad.",
+        "3:supported: El fragmento del art. 25 de la Ley 24013 muestra que sustituyó el art. 198 de la LCT con ese texto idéntico."
+      ]
+    },
+    {
+      "id": "b39",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es el tope indemnizatorio vigente para el convenio colectivo de comercio?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "99777:6",
+        "231501:3",
+        "272031:1",
+        "25552:245",
+        "94005:1",
+        "93595:5",
+        "423680:51"
+      ],
+      "retrieval_hit": null,
+      "answer": "No encuentro en el contexto ningún fragmento que fije el tope indemnizatorio específico para el Convenio Colectivo de Comercio. El artículo 245 de la LCT establece la regla general de cálculo del tope (tres veces el promedio de remuneraciones del convenio aplicable) [25552:245@current], pero los topes concretos por convenio se fijan mediante resoluciones específicas del Ministerio de Trabajo para cada CCT, y las que aparecen en el contexto corresponden a otros convenios (Profertil/SIQUIPA Bahía Blanca [99777:6@original], CCT 640/11 [231501:3@original], institutos de enseñanza [272031:1@original], y un cálculo general de 2003-2004 sin identificar el convenio [94005:1@original]).",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 2,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "231501:3@original",
+        "25552:245@current",
+        "272031:1@original",
+        "94005:1@original",
+        "99777:6@original"
+      ],
+      "cited_expected": null,
+      "unsupported_sources": [],
+      "input_tokens": 6126,
+      "output_tokens": 474,
+      "llm_ms": 6170.821458043065,
+      "total_ms": 6365.915458998643,
+      "trace_id": "4a681f1dc113a19d10a02e13c3655a1c",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b40",
+      "category": "not_in_corpus",
+      "question": "¿Qué dice el artículo 14 bis de la Constitución Nacional?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "69724:18",
+        "425373:2",
+        "412:111",
+        "230592:35",
+        "412995:14",
+        "401266:108",
+        "69724:1",
+        "423680:4"
+      ],
+      "retrieval_hit": null,
+      "answer": "El contexto proporcionado no contiene el texto del artículo 14 bis de la Constitución Nacional. Los fragmentos disponibles corresponden a decretos y leyes de seguridad social, empleo y otras materias, pero ninguno cita ni transcribe el artículo constitucional en cuestión.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 0,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [],
+      "cited_expected": null,
+      "unsupported_sources": [],
+      "input_tokens": 1868,
+      "output_tokens": 136,
+      "llm_ms": 2801.934291026555,
+      "total_ms": 3069.7836250183173,
+      "trace_id": "c784085db8c1f290421e8e526157d7f6",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b41",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es la jornada máxima diaria y semanal según la Ley 11.544?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "25552:198",
+        "25552:196",
+        "423680:43",
+        "25552:197",
+        "412:25",
+        "210489:11",
+        "25552:199"
+      ],
+      "retrieval_hit": null,
+      "answer": "El contexto que tengo no incluye el texto de la Ley 11.544 con los límites horarios (las 8 horas diarias u 48 semanales que suele mencionarse). Solo puedo confirmar que la Ley de Contrato de Trabajo remite a la Ley 11.544 para fijar la extensión de la jornada [25552:196@current], pero no cuento con el articulado de esa norma para precisar los topes exactos.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 1,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "25552:196@current"
+      ],
+      "cited_expected": null,
+      "unsupported_sources": [],
+      "input_tokens": 2363,
+      "output_tokens": 375,
+      "llm_ms": 5610.86045904085,
+      "total_ms": 5810.456709004939,
+      "trace_id": "a5fe9a9086c6df3aa1ed632a084a1f10",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b42",
+      "category": "not_in_corpus",
+      "question": "¿Cuántos días de licencia por paternidad establece el convenio colectivo 130/75 de empleados de comercio?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "192152:52",
+        "210489:38",
+        "25552:158",
+        "25552:179",
+        "192152:51",
+        "395521:78"
+      ],
+      "retrieval_hit": null,
+      "answer": "El contexto no contiene información sobre el Convenio Colectivo 130/75 de empleados de comercio. Solo tengo datos de la LCT, que establece 2 días corridos por nacimiento de hijo para el trabajador varón [25552:158@current], y de otros regímenes especiales (agrario, servicio doméstico), pero nada sobre el CCT 130/75.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 1,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [],
+      "cited_expected": null,
+      "unsupported_sources": [],
+      "input_tokens": 3220,
+      "output_tokens": 236,
+      "llm_ms": 3591.9866249896586,
+      "total_ms": 3869.751874997746,
+      "trace_id": "3bc6503bb22675c96815faca4da6ea4d",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b43",
+      "category": "not_in_corpus",
+      "question": "¿Qué dice el Código Civil y Comercial sobre el contrato de servicios?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "25552:21",
+        "423680:11",
+        "25552:23",
+        "25552:30",
+        "25552:22",
+        "25552:38",
+        "25552:1",
+        "395521:252"
+      ],
+      "retrieval_hit": null,
+      "answer": "El contexto no contiene disposiciones específicas del Código Civil y Comercial sobre el 'contrato de servicios' (como la locación de servicios). Solo hay un fragmento del Decreto 70 que cita el art. 958 del CCC sobre libertad de contratación en general [395521:252@original], pero no es una norma que regule específicamente el contrato de servicios.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 1,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "395521:252@original"
+      ],
+      "cited_expected": null,
+      "unsupported_sources": [],
+      "input_tokens": 2263,
+      "output_tokens": 411,
+      "llm_ms": 5208.870125003159,
+      "total_ms": 5437.864666979294,
+      "trace_id": "6493aa457be5df96706c6a47c192facf",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b44",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es el porcentaje de aporte jubilatorio que se descuenta al trabajador según la Ley 24.241?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "729:1",
+        "136063:4",
+        "412:145",
+        "37881:6",
+        "412:87",
+        "192152:81",
+        "305749:2"
+      ],
+      "retrieval_hit": null,
+      "answer": "El contexto no contiene el texto del artículo 11 de la Ley 24.241 que establece los porcentajes de aportes personales de los trabajadores en relación de dependencia, por lo que no puedo indicar el porcentaje exacto que se descuenta al trabajador. Los fragmentos disponibles solo hacen referencia a ese artículo 11 sin transcribir su contenido [729:1@original].",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 2,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "729:1@original"
+      ],
+      "cited_expected": null,
+      "unsupported_sources": [],
+      "input_tokens": 5081,
+      "output_tokens": 385,
+      "llm_ms": 32086.43041702453,
+      "total_ms": 32303.70408302406,
+      "trace_id": "f89a94a7df966c5da83ffc4aa80ab30f",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b45",
+      "category": "cross_reference",
+      "question": "¿Qué ley sustituyó el artículo 92 bis de la LCT en 2024 y qué artículo de esa ley lo hizo?",
+      "expected_articles": [
+        "401266:91"
+      ],
+      "retrieved_articles": [
+        "53159:3",
+        "149688:1",
+        "93595:2",
+        "379858:3",
+        "21976:11",
+        "25552:92bis",
+        "25552:92",
+        "210489:72"
+      ],
+      "retrieval_hit": false,
+      "answer": "El contexto no menciona ninguna ley del año 2024 que haya sustituido el artículo 92 bis de la LCT. Solo figuran sustituciones anteriores: la Ley 25013 (art. 3, vigente desde 1998-09-24) [53159:3@current] y la Ley 25877 (art. 2, vigente desde 2004-03-19) [93595:2@current]. También hay un texto histórico del art. 92 bis vigente entre 2023-12-21 y 2024-07-08 [25552:92bis@2023-12-21], pero no se indica qué norma produjo ese cambio ni cuál lo sucedió después de esa fecha.",
+      "insufficient_evidence": true,
+      "confidence": "low",
+      "n_claims": 3,
+      "supported": 0,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": null,
+      "cited_sources": [
+        "25552:92bis@2023-12-21",
+        "53159:3@current",
+        "93595:2@current"
+      ],
+      "cited_expected": false,
+      "unsupported_sources": [],
+      "input_tokens": 2529,
+      "output_tokens": 601,
+      "llm_ms": 7007.502750027925,
+      "total_ms": 7257.65375001356,
+      "trace_id": "06f49a0405234a93cd178f496ce12a51",
+      "verdict_reasons": []
+    },
+    {
+      "id": "b46",
+      "category": "cross_reference",
+      "question": "¿Qué artículo de la Ley 27.802 modificó la entrega de certificados de trabajo del artículo 80 de la LCT?",
+      "expected_articles": [
+        "423680:25"
+      ],
+      "retrieved_articles": [
+        "423680:25",
+        "248688:12",
+        "25552:80",
+        "423680:45",
+        "192152:75",
+        "369835:10",
+        "248688:10"
+      ],
+      "retrieval_hit": true,
+      "answer": "El artículo 25 de la Ley 27.802 (Ley de Modernización Laboral) sustituyó el artículo 80 de la LCT referido a la entrega de certificados de trabajo [423680:25@original]. Ese artículo 25 estableció el nuevo texto que fija el plazo de 45 días hábiles desde la extinción del contrato para la entrega de los certificados y las modalidades de cumplimiento de esa obligación [423680:25@original][25552:80@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 2,
+      "supported": 2,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:80@current",
+        "423680:25@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 2732,
+      "output_tokens": 383,
+      "llm_ms": 4621.436457964592,
+      "total_ms": 4849.523750017397,
+      "trace_id": "137c01f594c52a612732a1c67c5816e6",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente que el artículo 25 sustituyó el artículo 80 de la LCT.",
+        "2:supported: El fragmento del artículo 80 vigente confirma el plazo de 45 días hábiles y detalla las modalidades de cumplimiento (física y digital)."
+      ]
+    },
+    {
+      "id": "b47",
+      "category": "cross_reference",
+      "question": "¿A qué ley remite la LCT para la extensión de la jornada de trabajo?",
+      "expected_articles": [
+        "25552:196"
+      ],
+      "retrieved_articles": [
+        "25552:196",
+        "25552:198",
+        "25552:197",
+        "27971:40",
+        "25552:200",
+        "25552:199"
+      ],
+      "retrieval_hit": true,
+      "answer": "La Ley de Contrato de Trabajo remite a la Ley 11.544 para la extensión de la jornada de trabajo, estableciendo que dicha extensión es uniforme para toda la Nación, con exclusión de disposiciones provinciales contrarias, salvo aspectos que el propio título modifique o aclare [25552:196@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 1,
+      "supported": 1,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:196@current",
+        "25552:196@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3913,
+      "output_tokens": 256,
+      "llm_ms": 3846.5808749897406,
+      "total_ms": 4055.5903330096044,
+      "trace_id": "1222f387f39f3c5ded07f26a178f8594",
+      "verdict_reasons": [
+        "1:supported: El fragmento afirma textualmente que la jornada se rige por la ley 11.544, es uniforme para toda la Nación y excluye disposiciones provinciales salvo modificaciones del título."
+      ]
+    },
+    {
+      "id": "b48",
+      "category": "cross_reference",
+      "question": "¿Qué indemnización cobran los familiares por muerte del trabajador y a qué artículo remite?",
+      "expected_articles": [
+        "25552:248",
+        "25552:247"
+      ],
+      "retrieved_articles": [
+        "25552:248",
+        "423680:52",
+        "25552:156",
+        "25552:249",
+        "25552:255",
+        "203798:3"
+      ],
+      "retrieval_hit": true,
+      "answer": "Ante la muerte del trabajador, la ley reconoce dos indemnizaciones distintas: 1) Una indemnización por antigüedad igual a la prevista en el artículo 247 de la LCT, que perciben el cónyuge o conviviente, los hijos menores de edad, o los hijos mayores con Certificado Único de Discapacidad (CUD); si concurren dos o más de estos supuestos se distribuye en partes iguales, y a falta de esos beneficiarios cobran los hijos mayores de edad, y en su defecto los padres del causante que estuvieran a cargo al momento del fallecimiento [25552:248@current]. El empleador queda liberado si paga dentro de los 30 días del deceso con la documentación disponible [25552:248@current]. 2) Además, se debe la indemnización por vacaciones no gozadas, equivalente al salario correspondiente al período de descanso proporcional a la fracción del año trabajada, que perciben los causahabientes del trabajador [25552:156@current]. Ambas indemnizaciones son independientes entre sí y también independientes de lo que corresponda por el Sistema de Riesgos del Trabajo u otros beneficios de leyes, convenios colectivos, seguros o contratos de previsión [25552:248@current].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:156@current",
+        "25552:248@current",
+        "423680:52@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3792,
+      "output_tokens": 876,
+      "llm_ms": 9950.561290956102,
+      "total_ms": 10159.510208002757,
+      "trace_id": "aa4cc69930e6cca71caa04dc01be6b72",
+      "verdict_reasons": [
+        "1:supported: El fragmento indica textualmente los mismos beneficiarios y la remisión al art. 247.",
+        "2:supported: El fragmento reproduce exactamente el orden de reparto y subsidiariedad descripto.",
+        "3:supported: El fragmento establece textualmente la liberación del empleador con esos requisitos y plazo.",
+        "4:supported: El fragmento afirma literalmente la independencia respecto de RT y otros beneficios.",
+        "5:supported: El art. 156 citado confirma que los causahabientes tienen derecho a la indemnización por vacaciones no gozadas proporcional."
+      ]
+    },
+    {
+      "id": "b49",
+      "category": "cross_reference",
+      "question": "¿Qué agravamiento indemnizatorio por despido discriminatorio incorporó la Ley 27.742 a la LCT?",
+      "expected_articles": [
+        "25552:245bis",
+        "401266:95"
+      ],
+      "retrieved_articles": [
+        "401266:95",
+        "25552:245bis",
+        "395521:82",
+        "64555:1",
+        "25552:182",
+        "27971:14",
+        "412:153",
+        "401266:96"
+      ],
+      "retrieval_hit": true,
+      "answer": "La Ley 27.742 incorporó el artículo 245 bis a la LCT (ley 20.744), que establece un agravamiento indemnizatorio para el despido motivado por un acto discriminatorio [401266:95@original][25552:245bis@current]. Se considera despido discriminatorio el originado por motivos de raza o etnia, religión, nacionalidad, ideología, opinión política o gremial, sexo o género, orientación sexual, posición económica, caracteres físicos o discapacidad [401266:95@original][25552:245bis@current]. La prueba del carácter discriminatorio está a cargo de quien invoca la causal, y si una sentencia judicial lo corrobora, corresponde una indemnización agravada especial equivalente al 50% de la indemnización del art. 245 de la LCT (o de la indemnización por antigüedad del régimen especial aplicable), pudiendo los jueces incrementarla hasta el 100% según la gravedad de los hechos [401266:95@original][25552:245bis@current]. Esta indemnización no es acumulable con ningún otro régimen especial de agravamiento indemnizatorio, y el despido produce en todos los casos la extinción definitiva del vínculo laboral [401266:95@original][25552:245bis@current]. La norma está vigente desde el 8/7/2024 [401266:95@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 5,
+      "supported": 5,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "25552:245bis@current",
+        "401266:95@original"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 3423,
+      "output_tokens": 1022,
+      "llm_ms": 10116.058250016067,
+      "total_ms": 10315.880624984857,
+      "trace_id": "f4548d3b595c275000ba32748c9d5f5c",
+      "verdict_reasons": [
+        "1:supported: El fragmento confirma que la Ley 27.742 incorporó el artículo 245 bis a la LCT sobre agravamiento indemnizatorio por despido discriminatorio.",
+        "2:supported: El listado de motivos de discriminación coincide textualmente con el fragmento citado.",
+        "3:supported: El fragmento indica textualmente que la prueba estará a cargo de quien invoque la causal.",
+        "4:supported: El fragmento confirma el 50% sobre el art. 245 o indemnización especial y la posibilidad de elevarlo hasta el 100% según gravedad.",
+        "5:supported: El fragmento confirma textualmente la no acumulabilidad y la extinción definitiva del vínculo laboral."
+      ]
+    },
+    {
+      "id": "b50",
+      "category": "cross_reference",
+      "question": "¿Qué norma derogó la Ley 25.250 y sus reglamentaciones?",
+      "expected_articles": [
+        "93595:1"
+      ],
+      "retrieved_articles": [
+        "63208:34",
+        "93595:1",
+        "93595:42",
+        "93595:41",
+        "75926:5",
+        "401266:100",
+        "53159:21"
+      ],
+      "retrieval_hit": true,
+      "answer": "La Ley 25.877 derogó la Ley 25.250 y sus normas reglamentarias, según su artículo 1 del Título Preliminar [93595:1@current]. Además, esa misma ley ratificó en su artículo 42 la derogación de varias normas que ya habían sido derogadas por la propia Ley 25.250 en su art. 34, como las Leyes 16.936, 18.608, 18.692, 20.638, ciertos artículos de la Ley 14.250 y de la Ley 25.013, entre otras [93595:42@current][63208:34@original].",
+      "insufficient_evidence": false,
+      "confidence": "high",
+      "n_claims": 3,
+      "supported": 3,
+      "partial": 0,
+      "unsupported": 0,
+      "answers_question": true,
+      "cited_sources": [
+        "63208:34@original",
+        "93595:1@current",
+        "93595:42@current"
+      ],
+      "cited_expected": true,
+      "unsupported_sources": [],
+      "input_tokens": 1529,
+      "output_tokens": 468,
+      "llm_ms": 5556.9854999776,
+      "total_ms": 5769.128916959744,
+      "trace_id": "c45e178624a3adb28ce074754be614a5",
+      "verdict_reasons": [
+        "1:supported: El fragmento citado establece textualmente que la Ley 25.877 deroga la Ley 25.250 y sus normas reglamentarias, vigente desde 2004-03-19.",
+        "2:supported: El artículo 42 citado ratifica exactamente la derogación de las mismas leyes, artículos y decretos mencionados en la afirmación.",
+        "3:supported: El artículo 34 de la Ley 25.250 citado deroga las mismas normas listadas en la afirmación."
+      ]
+    }
+  ]
+}
