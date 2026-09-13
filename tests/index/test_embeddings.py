@@ -38,3 +38,10 @@ def test_cache_roundtrip_and_hits(tmp_path: Path):
 def test_get_embedder_names():
     assert get_embedder("hashing").name == "hashing-1024"
     assert BgeM3Embedder.name == "BAAI/bge-m3"
+
+
+def test_e5_embedder_is_registered_and_asymmetric():
+    from legal_ai.index.embeddings import E5Embedder
+
+    assert E5Embedder.dim == 1024 and E5Embedder.name.startswith("intfloat/")
+    assert hasattr(E5Embedder, "embed_queries")

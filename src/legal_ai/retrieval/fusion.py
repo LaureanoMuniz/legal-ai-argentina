@@ -62,3 +62,42 @@ def convex(
         first[chunk_id].model_copy(update={"score": score, "rank": i + 1, "retriever": "hybrid"})
         for i, (chunk_id, score) in enumerate(ordered)
     ]
+
+
+def quota_merge(
+    main: Sequence[Candidate],
+    subs: Sequence[Sequence[Candidate]],
+    k: int,
+    per: int = 2,
+    rrf_k: int = RRF_K,
+) -> list[Candidate]:
+    """Reserve `per` slots for each sub-query, fill the rest with the main ranking."""
+    if not subs:
+        return list(main[:k])
+    reserved = min(per * len(subs), max(0, k - 1))
+    out: list[Candidate] = []
+    seen: set[str] = set()
+
+    def take(candidate: Candidate) -> None:
+        seen.add(candidate.article_id)
+        out.append(candidate)
+
+    for candidate in main:
+        if len(out) >= k - reserved:
+            break
+        if candidate.article_id not in seen:
+            take(candidate)
+    for sub in subs:
+        taken = 0
+        for candidate in sub:
+            if taken >= per or len(out) >= k:
+                break
+            if candidate.article_id not in seen:
+                take(candidate)
+                taken += 1
+    for candidate in rrf([main, *subs], k * 2, rrf_k):
+        if len(out) >= k:
+            break
+        if candidate.article_id not in seen:
+            take(candidate)
+    return [c.model_copy(update={"rank": i + 1}) for i, c in enumerate(out[:k])]

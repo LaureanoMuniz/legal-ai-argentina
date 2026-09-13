@@ -29,6 +29,26 @@ _NOTE_RE = re.compile(
 )
 
 
+_DEROGA_ARTICLES_RE = re.compile(
+    r"^Der[óo]g(?:a|an)se\s+(?:el|los)\s+art[íi]culos?\s+"
+    r"(?P<arts>\d[\d\s,°ºy]*(?:\s*(?:bis|ter|qu[áa]ter))?)\s+de\s+la\s+(?P<law>[^.;]{0,140})",
+    re.IGNORECASE,
+)
+_DEROGA_LAW_RE = re.compile(
+    r"^Der[óo]g(?:a|an)se\s+la\s+[Ll]ey\s*(?:N[°º]?\s*)?(?P<num>\d{1,2}\.?\d{3})",
+    re.IGNORECASE,
+)
+
+
+class Derogation(BaseModel):
+    target_document_id: int
+    article_key: str | None
+    effective_from: date
+    source_document_id: int
+    source_article_id: str
+    scope: str
+
+
 class Reconstructed(BaseModel):
     target_document_id: int
     article_key: str
@@ -140,6 +160,94 @@ def reconstruct(
         seen.add(sig)
         unique.append(r)
     return unique
+
+
+def find_derogations(
+    documents: Iterable[Mapping[str, Any]],
+    versions: Iterable[Mapping[str, Any]],
+) -> list[Derogation]:
+    docs = {d["id_norma"]: d for d in documents}
+    by_numero: dict[str, int] = {}
+    for d in docs.values():
+        if d["tipo_norma"] == "Ley":
+            for n in d.get("numeros") or []:
+                by_numero.setdefault(str(n).replace(".", ""), d["id_norma"])
+    out: list[Derogation] = []
+    for v in versions:
+        if v["version_kind"] not in ("original", "current"):
+            continue
+        text = (v.get("text") or "").strip()
+        if not text.lower().startswith("der"):
+            continue
+        src = docs.get(v["document_id"])
+        if src is None:
+            continue
+        effective = src.get("fecha_boletin")
+        if isinstance(effective, str):
+            effective = date.fromisoformat(effective)
+        if effective is None:
+            continue
+        whole = _DEROGA_LAW_RE.match(text)
+        if whole:
+            target = by_numero.get(whole.group("num").replace(".", ""))
+            if target is not None and target != v["document_id"]:
+                out.append(
+                    Derogation(
+                        target_document_id=target,
+                        article_key=None,
+                        effective_from=effective,
+                        source_document_id=src["id_norma"],
+                        source_article_id=v["article_id"],
+                        scope="norma",
+                    )
+                )
+            continue
+        partial_match = _DEROGA_ARTICLES_RE.match(text)
+        if partial_match is None:
+            continue
+        target = resolve_target(partial_match.group("law"), by_numero)
+        if target is None:
+            continue
+        for key in _split_article_keys(partial_match.group("arts")):
+            out.append(
+                Derogation(
+                    target_document_id=target,
+                    article_key=key,
+                    effective_from=effective,
+                    source_document_id=src["id_norma"],
+                    source_article_id=v["article_id"],
+                    scope="articulo",
+                )
+            )
+    return out
+
+
+def apply_derogations(versions: list[dict[str, Any]], derogations: Iterable[Derogation]) -> int:
+    by_article: dict[str, list[dict[str, Any]]] = {}
+    by_document: dict[int, list[dict[str, Any]]] = {}
+    for v in versions:
+        by_article.setdefault(v["article_id"], []).append(v)
+        by_document.setdefault(v["document_id"], []).append(v)
+    changed = 0
+    for d in sorted(derogations, key=lambda x: x.effective_from):
+        if d.article_key is None:
+            group = by_document.get(d.target_document_id, [])
+        else:
+            group = by_article.get(f"{d.target_document_id}:{d.article_key}", [])
+        for v in group:
+            if v["version_kind"] == "current" or (
+                v["version_kind"] == "original"
+                and not any(x["version_kind"] == "current" for x in by_article[v["article_id"]])
+            ):
+                if v["status"] != "vigente":
+                    continue
+                if v.get("effective_from") and v["effective_from"] > d.effective_from:
+                    continue
+                v["status"] = "derogado"
+                v["effective_until"] = d.effective_from
+                v["modification_kind"] = "derogado"
+                changed += 1
+    return changed
 
 
 def text_sha(text: str) -> str:

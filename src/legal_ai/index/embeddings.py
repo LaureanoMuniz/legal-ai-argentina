@@ -54,6 +54,34 @@ class BgeM3Embedder:
         return np.asarray(vectors, dtype=np.float32)
 
 
+class E5Embedder:
+    """multilingual-e5-large: asymmetric, needs 'query: ' and 'passage: ' prefixes."""
+
+    name = "intfloat/multilingual-e5-large"
+    dim = 1024
+
+    def __init__(self, batch_size: int = 16) -> None:
+        from sentence_transformers import SentenceTransformer
+
+        self._model = SentenceTransformer(self.name)
+        self._batch_size = batch_size
+
+    def _encode(self, texts: list[str], prefix: str) -> np.ndarray:
+        vectors = self._model.encode(
+            [f"{prefix}{t}" for t in texts],
+            batch_size=self._batch_size,
+            normalize_embeddings=True,
+            convert_to_numpy=True,
+        )
+        return np.asarray(vectors, dtype=np.float32)
+
+    def embed(self, texts: list[str]) -> np.ndarray:
+        return self._encode(texts, "passage: ")
+
+    def embed_queries(self, texts: list[str]) -> np.ndarray:
+        return self._encode(texts, "query: ")
+
+
 class EmbeddingCache:
     def __init__(self, path: Path) -> None:
         self.path = path
@@ -82,6 +110,8 @@ class EmbeddingCache:
 def get_embedder(name: str) -> Embedder:
     if name == "hashing":
         return HashingEmbedder()
+    if name in ("e5", E5Embedder.name):
+        return E5Embedder()
     if name == BgeM3Embedder.name:
         return BgeM3Embedder()
     raise ValueError(f"embedder desconocido: {name}")

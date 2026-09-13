@@ -98,3 +98,108 @@ def test_split_quoted_articles_handles_several():
         "Artículo 16. — Texto dieciséis.\nArtículo 69. — Texto sesenta y nueve."
     )
     assert pieces == [("16", "Texto dieciséis."), ("69", "Texto sesenta y nueve.")]
+
+
+def derogation_versions():
+    return [
+        {
+            "id": "25552:173@current",
+            "article_id": "25552:173",
+            "document_id": 25552,
+            "version_kind": "current",
+            "text": "Texto viejo.",
+            "effective_from": date(1976, 5, 21),
+            "effective_until": None,
+            "status": "vigente",
+        },
+        {
+            "id": "63208:1@original",
+            "article_id": "63208:1",
+            "document_id": 63208,
+            "version_kind": "original",
+            "text": "Período de prueba de la 25.250.",
+            "effective_from": date(2000, 6, 2),
+            "effective_until": None,
+            "status": "vigente",
+        },
+        {
+            "id": "412:26@original",
+            "article_id": "412:26",
+            "document_id": 412,
+            "version_kind": "original",
+            "text": "Derógase el artículo 173 de la Ley de Contrato de Trabajo (t.o. 1976). En consecuencia, denúncianse convenios.",
+            "effective_from": date(1991, 12, 17),
+            "effective_until": None,
+            "status": "vigente",
+        },
+        {
+            "id": "93595:1@original",
+            "article_id": "93595:1",
+            "document_id": 93595,
+            "version_kind": "original",
+            "text": "Derógase la Ley Nº 25.250 y sus normas reglamentarias.",
+            "effective_from": date(2004, 3, 19),
+            "effective_until": None,
+            "status": "vigente",
+        },
+        {
+            "id": "412:159@original",
+            "article_id": "412:159",
+            "document_id": 412,
+            "version_kind": "original",
+            "text": "Derógase toda disposición que se oponga a la presente ley.",
+            "effective_from": date(1991, 12, 17),
+            "effective_until": None,
+            "status": "vigente",
+        },
+        {
+            "id": "412:75@original",
+            "article_id": "412:75",
+            "document_id": 412,
+            "version_kind": "original",
+            "text": "Derógase el último párrafo del artículo 29 de la Ley de Contrato de Trabajo (t.o. 1976).",
+            "effective_from": date(1991, 12, 17),
+            "effective_until": None,
+            "status": "vigente",
+        },
+    ]
+
+
+def derogation_docs():
+    return docs() + [
+        {
+            "id_norma": 412,
+            "tipo_norma": "Ley",
+            "numeros": ["24013"],
+            "fecha_boletin": date(1991, 12, 17),
+        },
+        {
+            "id_norma": 63208,
+            "tipo_norma": "Ley",
+            "numeros": ["25250"],
+            "fecha_boletin": date(2000, 6, 2),
+        },
+    ]
+
+
+def test_find_derogations_covers_articles_and_whole_norms():
+    from legal_ai.parse.reconstruct import find_derogations
+
+    found = find_derogations(derogation_docs(), derogation_versions())
+    assert [(d.target_document_id, d.article_key, d.scope) for d in found] == [
+        (25552, "173", "articulo"),
+        (63208, None, "norma"),
+    ]
+
+
+def test_apply_derogations_closes_the_version_range():
+    from legal_ai.parse.reconstruct import apply_derogations, find_derogations
+
+    vs = derogation_versions()
+    changed = apply_derogations(vs, find_derogations(derogation_docs(), vs))
+    assert changed == 2
+    art = next(v for v in vs if v["id"] == "25552:173@current")
+    assert art["status"] == "derogado" and art["effective_until"] == date(1991, 12, 17)
+    ley = next(v for v in vs if v["id"] == "63208:1@original")
+    assert ley["status"] == "derogado" and ley["effective_until"] == date(2004, 3, 19)
+    assert next(v for v in vs if v["id"] == "412:26@original")["status"] == "vigente"

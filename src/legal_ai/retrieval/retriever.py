@@ -9,7 +9,7 @@ from sqlalchemy.engine import Engine
 
 from legal_ai.index.embeddings import Embedder
 from legal_ai.retrieval.bm25 import bm25_index_exists, retrieve_bm25
-from legal_ai.retrieval.fusion import convex, dedupe_by_article, rrf
+from legal_ai.retrieval.fusion import convex, dedupe_by_article, quota_merge, rrf
 from legal_ai.retrieval.graph import expand_with_references
 from legal_ai.retrieval.rerank import Reranker, rerank
 from legal_ai.retrieval.rewrite import Rewriter
@@ -53,6 +53,7 @@ class Retriever:
         multi_query: bool = True,
         graph_extra: int = 0,
         decompose: bool = False,
+        quota_per_subquery: int = 2,
     ) -> None:
         self.engine = engine
         self.embedder = embedder
@@ -65,6 +66,7 @@ class Retriever:
         self.multi_query = multi_query
         self.graph_extra = graph_extra
         self.decompose = decompose
+        self.quota_per_subquery = quota_per_subquery
 
     @property
     def name(self) -> str:
@@ -86,7 +88,8 @@ class Retriever:
         return label
 
     def embed_query(self, query: str) -> list[float]:
-        return self.embedder.embed([query])[0].tolist()
+        encode = getattr(self.embedder, "embed_queries", self.embedder.embed)
+        return encode([query])[0].tolist()
 
     def embedded_chunks(self) -> int:
         with self.engine.connect() as conn:
@@ -156,8 +159,11 @@ class Retriever:
             lists = [run(plan.rewritten)]
         else:
             lists = [run(plan.rewritten), run(plan.query)]
-        lists.extend(run(sub) for sub in plan.subqueries)
-        return lists[0] if len(lists) == 1 else rrf(lists, k)
+        main = lists[0] if len(lists) == 1 else rrf(lists, k)
+        if not plan.subqueries:
+            return main
+        subs = [run(sub) for sub in plan.subqueries]
+        return quota_merge(main, subs, k, self.quota_per_subquery)
 
     def search(
         self,

@@ -10,7 +10,12 @@ from legal_ai.ingest.layout import ProcessedLayout, RawLayout
 from legal_ai.ingest.manifest import ResolvedCorpus, ResolvedNorm
 from legal_ai.parse.antecedentes import HistoryEvent, parse_antecedentes
 from legal_ai.parse.html_text import decode_html, html_to_lines
-from legal_ai.parse.reconstruct import chain_versions, reconstruct
+from legal_ai.parse.reconstruct import (
+    apply_derogations,
+    chain_versions,
+    find_derogations,
+    reconstruct,
+)
 from legal_ai.parse.references import extract_references
 from legal_ai.parse.structure import ParsedText, parse_text
 from legal_ai.parse.versions import (
@@ -317,6 +322,8 @@ def parse_corpus(
     reconstructed = reconstruct([d.model_dump() for d in documents], version_dicts)
     added = chain_versions(version_dicts, reconstructed, {a.id for a in articles})
     version_dicts.extend(added)
+    derogations = find_derogations([d.model_dump() for d in documents], version_dicts)
+    n_derogated = apply_derogations(version_dicts, derogations)
     versions = [ArticleVersionRecord.model_validate(v) for v in version_dicts]
     n_reconstructed = len(added)
 
@@ -346,6 +353,7 @@ def parse_corpus(
             "articles": len(articles),
             "versions": len(versions),
             "reconstructed_versions": n_reconstructed,
+            "derogated_by_other_norms": n_derogated,
             "references": len(references),
             "relations": len(relations),
             "history": len(history),

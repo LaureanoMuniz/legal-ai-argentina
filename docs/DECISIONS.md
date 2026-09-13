@@ -474,3 +474,41 @@ los spans crudos. Langfuse queda como opción documentada, no como
 dependencia: su stack self-hosted (Postgres, ClickHouse, Redis, MinIO) no se
 justifica para un usuario.
 
+## ADR-030: Descomposición de la pregunta con fusión por cuota
+
+**Decisión.** El reescritor devuelve `subqueries` (0 a 3) cuando la pregunta
+abarca varios institutos o está en negativo y la ley trata cada excepción en
+un artículo distinto. Se busca con cada una y el top-k se arma reservando dos
+lugares por sub-búsqueda y llenando el resto con el ranking principal
+(`quota_merge`), en vez de fusionar todo por RRF. Activado por default.
+
+**Por qué cuota y no RRF.** RRF promedia posiciones: con cinco listas, el
+primer resultado de una sub-búsqueda queda detrás de los primeros de las
+listas principales, que ya estaban. La cuota garantiza que cada instituto
+esté representado en el contexto que ve el modelo. Medido sobre las 7
+preguntas que se descomponen: nDCG 0,63 (RRF) contra 0,76 (cuota), con el
+mismo hit. En el agregado, negación pasó de 0,67/0,57 a 1,00/0,82.
+
+**Costo.** Una sub-búsqueda es una consulta más a Postgres (unos 30 ms cada
+una); el reescritor ya devolvía el campo, así que no hay llamadas extra al
+LLM.
+
+## ADR-031: Las derogaciones de otras normas cierran la vigencia
+
+**Decisión.** El parser extrae "Derógase el artículo N de la Ley X" y
+"Derógase la Ley X" de los textos del corpus y marca las versiones afectadas
+como `derogado` con `effective_until` en la fecha del Boletín de la norma que
+deroga. Antes sólo se sabía de una derogación si Infoleg la anotaba dentro del
+artículo derogado.
+
+**Consecuencias.** 90 versiones cambiaron de estado, entre ellas todas las de
+la Ley 25.250 (deuda abierta desde la Fase 4) y nueve artículos de la LCT
+derogados por la Ley 27.802. El índice por defecto deja de ofrecerlas y
+siguen disponibles con `as_of` o `historical`. Una pregunta del benchmark
+(b25) quedó expuesta como mal etiquetada: pedía como derecho vigente un
+recargo de una ley derogada en 2023.
+
+**Límite.** Sólo se reconocen las formas directas. "Derógase el último párrafo
+del artículo 29" (derogación parcial) y "Derógase toda disposición que se
+oponga" quedan afuera a propósito: no se puede saber qué texto sobrevive.
+

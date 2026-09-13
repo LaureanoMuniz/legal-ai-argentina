@@ -654,6 +654,60 @@ herramientas. `bench agent --limit 20`, mismo juez que `bench generate`.
   `eval/human_labels.jsonl` y convertir cada `wrong_version` /
   `wrong_source` en un caso del benchmark.
 
+## Fase 16: negación, derogaciones y descomposición (2026-09-13)
+
+Tres cambios medidos sobre el mismo benchmark, k = 8, retriever híbrido con
+reescritura Sonnet 5.
+
+| Configuración | hit@8 | recall@8 | MRR | nDCG@8 |
+|---|---|---|---|---|
+| antes (Fase 9) | 0,91 | 0,86 | 0,73 | 0,72 |
+| prompt v2 | 0,91 | 0,89 | 0,73 | 0,74 |
+| + decompose (RRF) | 0,93 | 0,90 | 0,72 | 0,73 |
+| + derogaciones | 0,91 | 0,88 | 0,71 | 0,72 |
+| + quota (default) | 0,91 | 0,89 | 0,73 | 0,74 |
+
+Por categoría, hit@8 / nDCG@8:
+
+| Configuración | negación | temporal | derogadas |
+|---|---|---|---|
+| antes (Fase 9) | 0,67 / 0,57 | 1,00 / 0,88 | 0,80 / 0,60 |
+| prompt v2 | 0,83 / 0,72 | 1,00 / 0,76 | 0,80 / 0,60 |
+| + decompose (RRF) | 0,83 / 0,63 | 1,00 / 0,76 | 0,80 / 0,60 |
+| + derogaciones | 0,83 / 0,63 | 1,00 / 0,82 | 0,80 / 0,60 |
+| + quota (default) | 1,00 / 0,82 | 1,00 / 0,82 | 0,67 / 0,50 |
+
+**Descomposición de la pregunta.** El reescritor devuelve entre 2 y 3
+sub-búsquedas cuando la pregunta abarca varios institutos (b16: "despido con
+justa causa por injuria", "abandono de trabajo", "fuerza mayor o falta de
+trabajo"). Fusionar todas las listas por RRF sube el recall y baja el orden
+(nDCG de la categoría con sub-búsquedas: 0,67 → 0,63). La fusión por **cuota**
+(reservar 2 lugares del top-8 por sub-búsqueda y llenar el resto con el
+ranking principal) sube las dos cosas: en esas 7 preguntas, nDCG 0,63 → 0,76.
+Se probaron además RRF con peso 2:1 y cuota de 1 (script de barrido, sin costo
+de API porque las reescrituras estaban cacheadas). Negación pasó de 0,67/0,57
+a **1,00/0,82**: b16, que en el debug de la Lección 6 no aparecía ni entre los
+200 primeros, ahora entra en el top-8.
+
+**Derogaciones por otras normas.** El parser ahora lee "Derógase el artículo N
+de la Ley X" y "Derógase la Ley X" en los textos del corpus y cierra la
+vigencia de las versiones afectadas: 90 versiones marcadas como derogadas con
+su fecha, incluidas las de la Ley 25.250 (deuda registrada desde la Fase 4) y
+los arts. 28, 54, 61, 113, 174, 175, 176, 216 y 275 de la LCT derogados por la
+Ley 27.802. Efecto medido: temporal mejora en orden (nDCG 0,76 → 0,82) y el
+agregado baja 0,01 porque una pregunta del benchmark quedó expuesta como mal
+etiquetada (abajo). Las sustituciones de inciso (104 en el corpus) siguen sin
+reconstruirse: cambian una parte del artículo, no el texto completo.
+
+**Una etiqueta del benchmark que estaba mal.** b25 preguntaba por el recargo
+de la Ley 25.323 art. 2 como derecho vigente. Al marcar las derogaciones, el
+sistema dejó de traerlo y el fallo llevó a revisar: esa ley fue derogada por
+el Decreto 70/2023 y por la Ley 27.742. La etiqueta se corrigió y la pregunta
+quedó como caso abierto: una consulta en presente sobre una norma derogada
+debería recuperar el artículo derogado con su marca o el que la deroga, y el
+índice por defecto excluye los derogados. Es exactamente el tipo de error que
+sólo aparece cuando alguien mira los fallos uno por uno.
+
 ## Problemas que esperamos encontrar (y medir)
 
 - **Temporal Misgrounding**: preguntar por 2021 y recibir el texto de 2026.

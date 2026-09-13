@@ -88,3 +88,17 @@ def test_bm25_and_hybrid_search_on_mini_corpus(db, tmp_path: Path):
 def test_bm25_returns_empty_when_no_term_matches(db, tmp_path: Path):
     indexed(db, tmp_path)
     assert Retriever(db, HashingEmbedder(), mode="bm25").search("zzzzqqqq", 3) == []
+
+
+def test_quota_merge_reserves_slots_for_each_subquery():
+    from legal_ai.retrieval.fusion import quota_merge
+
+    main = [cand(f"m{i}#0", f"m{i}", i + 1) for i in range(8)]
+    subs = [[cand("s1#0", "s1", 1), cand("m0#0", "m0", 2)], [cand("s2#0", "s2", 1)]]
+    out = quota_merge(main, subs, k=8, per=2)
+    ids = [c.article_id for c in out]
+    assert ids[:4] == ["m0", "m1", "m2", "m3"]
+    assert ids[4:6] == ["s1", "s2"]
+    assert "s1" in ids and "s2" in ids and len(ids) == 8 and len(set(ids)) == 8
+    assert [c.rank for c in out] == list(range(1, 9))
+    assert quota_merge(main, [], k=3, per=2) == list(main[:3])
