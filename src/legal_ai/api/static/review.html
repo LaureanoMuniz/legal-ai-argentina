@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisión de respuestas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --paper: #F5F7F4; --paper-2: #EDF0EB; --ink: #1B2430; --ink-2: #4A5561; --muted: #7A838D;
+  --rule: #D5DAD3; --accent: #0F6E56; --accent-soft: #DCEDE6; --brass: #9A6F1E; --brass-soft: #F3E9D2;
+  --warn: #A63D2F; --warn-soft: #F6E1DC; --code-bg: #E9EDE7;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131A1F; --paper-2: #1A2329; --ink: #E4E8EA; --ink-2: #B4BDC4; --muted: #7F8B94;
+    --rule: #2B363E; --accent: #5CC7A4; --accent-soft: #163229; --brass: #D9B15A; --brass-soft: #2E2612;
+    --warn: #E3846F; --warn-soft: #3A1F1A; --code-bg: #0E1418;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.55; padding-block: 0 3rem; padding-inline: clamp(16px, 3vw, 32px); }
+a { color: var(--accent); }
+.wrap { max-width: 1100px; margin: 0 auto; }
+header { padding-block: 1.5rem 1rem; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: .5rem 2rem; align-items: baseline; }
+h1 { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.7rem; margin: 0; }
+.eyebrow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+header .links { margin-left: auto; display: flex; gap: 1rem; font-size: .9rem; }
+.stats { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.25rem 0; }
+.stat { border: 1px solid var(--rule); border-radius: 8px; padding: .6rem .9rem; background: var(--paper-2); min-width: 120px; }
+.stat b { display: block; font-family: "Newsreader", Georgia, serif; font-size: 1.6rem; line-height: 1.1; }
+.stat span { font-size: .8rem; color: var(--ink-2); }
+.stat.good b { color: var(--accent); }
+.stat.bad b { color: var(--warn); }
+.filters { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-bottom: 1rem; }
+.filters button { font: inherit; font-size: .82rem; padding: .3rem .7rem; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper-2); color: var(--ink-2); cursor: pointer; }
+.filters button.sel { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.item { border: 1px solid var(--rule); border-radius: 10px; padding: .9rem 1.1rem; background: var(--paper-2); margin-bottom: .7rem; }
+.item .top { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline; }
+.item .q { font-weight: 600; flex: 1 1 320px; }
+.label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; padding: .15rem .55rem; border-radius: 999px; border: 1px solid var(--rule); }
+.label.correct, .label.partially_correct { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.label.incorrect, .label.unsupported, .label.wrong_source, .label.wrong_version, .label.incomplete { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
+.meta { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .74rem; color: var(--muted); }
+.item p.answer { margin: .5rem 0 0; color: var(--ink-2); font-size: .92rem; }
+.item .comment { margin: .5rem 0 0; padding: .45rem .7rem; border-left: 3px solid var(--brass); background: var(--brass-soft); border-radius: 0 6px 6px 0; font-size: .9rem; }
+.tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .5rem; }
+.tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; padding: .1rem .45rem; border-radius: 4px; background: var(--code-bg); color: var(--ink-2); }
+.tag.exp { background: var(--accent-soft); color: var(--accent); }
+.empty { border: 1px dashed var(--rule); border-radius: 10px; padding: 2rem; text-align: center; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Revisión de respuestas</h1>
+    <span class="eyebrow">Lo que marcaron los revisores</span>
+    <span class="links"><a href="/">← Preguntar</a> <a href="/feedback/export.jsonl">Descargar JSONL</a></span>
+  </header>
+
+  <div class="stats" id="stats"></div>
+  <div class="filters" id="filters"></div>
+  <div id="list"></div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const LABELS = ["correct", "partially_correct", "incorrect", "unsupported", "wrong_source", "wrong_version", "incomplete"];
+const NAMES = { correct: "Correcta", partially_correct: "Parcial", incorrect: "Incorrecta", unsupported: "No la sostiene la fuente", wrong_source: "Fuente equivocada", wrong_version: "Versión equivocada", incomplete: "Incompleta" };
+let current = null;
+
+async function load() {
+  const stats = await (await fetch("/feedback/stats")).json();
+  const box = $("#stats"); box.replaceChildren();
+  const stat = (value, caption, cls) => { const d = document.createElement("div"); d.className = "stat " + (cls || ""); const b = document.createElement("b"); b.textContent = value; const s = document.createElement("span"); s.textContent = caption; d.append(b, s); box.append(d); };
+  stat(String(stats.total), "respuestas calificadas");
+  stat(stats.satisfaction == null ? "–" : Math.round(stats.satisfaction * 100) + "%", "correctas o parciales", stats.satisfaction >= 0.7 ? "good" : "bad");
+  const worst = Object.entries(stats.by_label).filter(([l]) => !["correct", "partially_correct"].includes(l)).sort((a, b) => b[1] - a[1])[0];
+  stat(worst ? String(worst[1]) : "0", worst ? "peor: " + (NAMES[worst[0]] || worst[0]) : "sin problemas marcados", worst ? "bad" : "");
+  stat(String(Object.keys(stats.by_reviewer).length), "revisores");
+
+  const filters = $("#filters"); filters.replaceChildren();
+  const mk = (label, text) => { const b = document.createElement("button"); b.textContent = text; if (current === label) b.classList.add("sel"); b.addEventListener("click", () => { current = label; load(); }); filters.append(b); };
+  mk(null, "Todas");
+  LABELS.forEach((l) => { if (stats.by_label[l]) mk(l, `${NAMES[l]} (${stats.by_label[l]})`); });
+
+  const rows = await (await fetch("/feedback?limit=200" + (current ? "&label=" + current : ""))).json();
+  const list = $("#list"); list.replaceChildren();
+  if (!rows.length) {
+    const d = document.createElement("div"); d.className = "empty";
+    d.textContent = "Todavía no hay respuestas calificadas. Andá a Preguntar, hacé una pregunta y usá los botones de abajo de la respuesta.";
+    list.append(d); return;
+  }
+  rows.forEach((r) => {
+    const item = document.createElement("div"); item.className = "item";
+    const top = document.createElement("div"); top.className = "top";
+    const q = document.createElement("span"); q.className = "q"; q.textContent = r.question;
+    const lab = document.createElement("span"); lab.className = "label " + r.label; lab.textContent = NAMES[r.label] || r.label;
+    const meta = document.createElement("span"); meta.className = "meta";
+    meta.textContent = `${(r.reviewer || "anónimo")} · ${new Date(r.created_at).toLocaleString("es-AR")}${r.as_of ? " · al " + r.as_of : ""}`;
+    top.append(q, lab, meta); item.append(top);
+    if (r.answer) { const p = document.createElement("p"); p.className = "answer"; p.textContent = r.answer.slice(0, 320) + (r.answer.length > 320 ? "…" : ""); item.append(p); }
+    if (r.comment) { const c = document.createElement("div"); c.className = "comment"; c.textContent = r.comment; item.append(c); }
+    const tags = document.createElement("div"); tags.className = "tags";
+    (r.expected_articles || []).forEach((a) => { const t = document.createElement("span"); t.className = "tag exp"; t.textContent = "debería citar " + a; tags.append(t); });
+    (r.sources || []).forEach((a) => { const t = document.createElement("span"); t.className = "tag"; t.textContent = a; tags.append(t); });
+    if (tags.children.length) item.append(tags);
+    list.append(item);
+  });
+}
+load();
+</script>
+</body>
+</html>

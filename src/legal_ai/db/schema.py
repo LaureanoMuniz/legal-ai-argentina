@@ -181,6 +181,11 @@ feedback = Table(
     Column("comment", Text),
     Column("reviewer", String(64)),
     Column("sources", JSONB),
+    Column("expected_articles", JSONB),
+    Column("retrieved_articles", JSONB),
+    Column("as_of", Date),
+    Column("historical", Boolean),
+    Column("conversation_id", String(36), index=True),
 )
 
 chunks = Table(

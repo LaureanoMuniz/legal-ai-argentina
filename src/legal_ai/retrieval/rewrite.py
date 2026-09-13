@@ -8,6 +8,7 @@ from typing import Any, Protocol
 
 from pydantic import BaseModel, Field
 
+REWRITE_VERSION = 2
 REWRITE_SYSTEM = """Sos un asistente de búsqueda sobre legislación laboral argentina.
 Recibís una pregunta escrita por una persona común y devolvés una consulta de búsqueda
 reformulada con el vocabulario que usan las leyes: nombrá el instituto jurídico y los
@@ -81,7 +82,8 @@ class ClaudeRewriter:
 
     def _key(self, question: str, history: History | None) -> str:
         tail = "\n".join(f"{q}\n{a[:300]}" for q, a in (history or [])[-3:])
-        return hashlib.sha256(f"{self.model}\n{question}\n{tail}".encode()).hexdigest()
+        raw = f"v{REWRITE_VERSION}\n{self.model}\n{question}\n{tail}"
+        return hashlib.sha256(raw.encode()).hexdigest()
 
     def rewrite(self, question: str, history: History | None = None) -> Rewrite:
         key = self._key(question, history)

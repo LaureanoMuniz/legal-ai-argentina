@@ -121,6 +121,7 @@ dialog h3 { font-family: "Newsreader", Georgia, serif; margin: 0 0 .5rem; }
 <header class="masthead">
   <h1>Legal AI Argentina</h1>
   <span class="sub">Preguntas sobre derecho laboral, respondidas con el texto de la ley y sus fuentes.</span>
+  <a href="/review" class="disclaimer" style="text-decoration:none">Revisión de respuestas →</a>
   <span class="disclaimer">No es asesoramiento jurídico</span>
 </header>
 
@@ -161,9 +162,10 @@ dialog h3 { font-family: "Newsreader", Georgia, serif; margin: 0 0 .5rem; }
         <button class="fb" data-label="wrong_source">Fuente equivocada</button>
         <button class="fb" data-label="wrong_version">Versión equivocada</button>
         <button class="fb" data-label="incomplete">Incompleta</button>
-        <input type="text" id="fbcomment" placeholder="Comentario (opcional)">
+        <input type="text" id="fbcomment" placeholder="¿Qué estuvo mal o qué faltó? (opcional)">
         <input type="text" id="fbwho" class="who" placeholder="Tu nombre">
         <span class="thanks" id="fbthanks"></span>
+        <span class="small" id="fbexpected" style="width:100%">Si el sistema no trajo el artículo correcto, marcalo con ✓ en la tabla de abajo y queda guardado con tu calificación.</span>
       </div>
     </section>
 
@@ -174,7 +176,7 @@ dialog h3 { font-family: "Newsreader", Georgia, serif; margin: 0 0 .5rem; }
       <div class="timeline" id="timeline"></div>
       <div class="kv" id="plan"></div>
       <div class="eyebrow">Candidatos que vio el modelo (clic para leer el fragmento)</div>
-      <div class="table-wrap"><table id="cands"><thead><tr><th>#</th><th>Cómo llegó</th><th>Score</th><th>Artículo</th><th>Vigencia</th><th>Contexto</th></tr></thead><tbody></tbody></table></div>
+      <div class="table-wrap"><table id="cands"><thead><tr><th title="Marcá el artículo que debería haber respondido">✓</th><th>#</th><th>Cómo llegó</th><th>Score</th><th>Artículo</th><th>Vigencia</th><th>Contexto</th></tr></thead><tbody></tbody></table></div>
       <div class="kv" id="usage" style="margin-top:1rem"></div>
       <details><summary class="small">Spans crudos (OpenTelemetry)</summary><pre class="raw" id="rawspans"></pre></details>
     </details>
@@ -190,7 +192,7 @@ dialog h3 { font-family: "Newsreader", Georgia, serif; margin: 0 0 .5rem; }
 
 <script>
 const $ = (s) => document.querySelector(s);
-const state = { response: null, label: null };
+const state = { response: null, label: null, expected: new Set(), conversation: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())) };
 const LABELS = { plan: "1 · Entender la pregunta", retrieval: "2 · Buscar en la ley", context: "3 · Armar el contexto", generation: "4 · Redactar con citas" };
 const RETRIEVER_LABEL = (r) => ({ vector: "vector", bm25: "palabras", hybrid: "híbrido", rrf: "fusión", graph: "referencia cruzada" })[r.split("+")[0]] || r;
 
@@ -220,7 +222,7 @@ function setStage(name, cls, ms) {
 async function ask() {
   const question = $("#question").value.trim();
   if (question.length < 3) return;
-  state.response = null; state.label = null;
+  state.response = null; state.label = null; state.expected = new Set();
   $("#answercard").hidden = true; $("#hood").hidden = true; $("#error").hidden = true; $("#fbthanks").textContent = "";
   document.querySelectorAll(".fb").forEach((b) => b.classList.remove("sel"));
   $("#stages").hidden = false; Object.keys(LABELS).forEach((s) => setStage(s, null, null)); setStage("plan", "active");
@@ -320,10 +322,12 @@ function renderHood(r) {
     const tr = document.createElement("tr"); tr.className = "chunk";
     const period = c.status === "derogado" ? `derogado ${c.effective_until || ""}` : c.effective_until ? `${c.effective_from} → ${c.effective_until}` : `desde ${c.effective_from || "?"}`;
     const how = document.createElement("span"); how.className = "tag" + (c.retriever.startsWith("graph") ? " graph" : ""); how.textContent = RETRIEVER_LABEL(c.retriever);
-    const cells = [String(c.rank), how, c.score.toFixed(3), c.article_id + (cited.has(c.version_id) ? " ✓ citado" : ""), period, c.context_prefix.replace(/^.*?· /, "").slice(0, 110)];
-    cells.forEach((v, i) => { const td = document.createElement("td"); if (i === 2 || i === 0) td.className = "num"; if (v instanceof HTMLElement) td.append(v); else td.textContent = v; tr.append(td); });
-    if (c.status === "historico" || c.status === "derogado") tr.children[4].prepend(Object.assign(document.createElement("span"), { className: "tag hist", textContent: c.status + " " }));
-    const tr2 = document.createElement("tr"); tr2.className = "chunktext"; tr2.hidden = true; const td2 = document.createElement("td"); td2.colSpan = 6; td2.textContent = c.context_prefix + "\n\n" + c.text; tr2.append(td2);
+    const mark = document.createElement("input"); mark.type = "checkbox"; mark.title = "Este era el artículo correcto";
+    mark.addEventListener("click", (e) => { e.stopPropagation(); mark.checked ? state.expected.add(c.article_id) : state.expected.delete(c.article_id); updateExpected(); });
+    const cells = [mark, String(c.rank), how, c.score.toFixed(3), c.article_id + (cited.has(c.version_id) ? " ✓ citado" : ""), period, c.context_prefix.replace(/^.*?· /, "").slice(0, 110)];
+    cells.forEach((v, i) => { const td = document.createElement("td"); if (i === 1 || i === 3) td.className = "num"; if (v instanceof HTMLElement) td.append(v); else td.textContent = v; tr.append(td); });
+    if (c.status === "historico" || c.status === "derogado") tr.children[5].prepend(Object.assign(document.createElement("span"), { className: "tag hist", textContent: c.status + " " }));
+    const tr2 = document.createElement("tr"); tr2.className = "chunktext"; tr2.hidden = true; const td2 = document.createElement("td"); td2.colSpan = 7; td2.textContent = c.context_prefix + "\n\n" + c.text; tr2.append(td2);
     tr.addEventListener("click", () => { tr2.hidden = !tr2.hidden; });
     tb.append(tr, tr2);
   });
@@ -339,6 +343,13 @@ function renderHood(r) {
   fetch(`/trace/${r.trace_id}`).then((x) => x.json()).then((spans) => {
     $("#rawspans").textContent = JSON.stringify(spans.map((s) => ({ name: s.name, ms: Math.round(s.duration_ms), attributes: s.attributes })), null, 1);
   }).catch(() => { $("#rawspans").textContent = "(sin spans todavía)"; });
+}
+
+function updateExpected() {
+  const n = state.expected.size;
+  $("#fbexpected").textContent = n
+    ? `Marcaste ${n} artículo${n > 1 ? "s" : ""} como correcto${n > 1 ? "s" : ""}: ${[...state.expected].join(", ")}. Se guarda con tu calificación.`
+    : "Si el sistema no trajo el artículo correcto, marcalo con ✓ en la tabla de abajo y queda guardado con tu calificación.";
 }
 
 async function openArticle(id) {
@@ -366,7 +377,8 @@ document.querySelectorAll(".fb").forEach((b) => b.addEventListener("click", asyn
   document.querySelectorAll(".fb").forEach((x) => x.classList.remove("sel")); b.classList.add("sel");
   const who = $("#fbwho").value.trim(); try { localStorage.setItem("legal-ai:who", who); } catch (_) {}
   const r = state.response;
-  const payload = { trace_id: r.trace_id, question: r.question, answer: r.answer ? r.answer.answer : null, label: b.dataset.label, comment: $("#fbcomment").value || null, reviewer: who || null, sources: r.sources };
+  const payload = { trace_id: r.trace_id, question: r.question, answer: r.answer ? r.answer.answer : null, label: b.dataset.label, comment: $("#fbcomment").value || null, reviewer: who || null, sources: r.sources,
+    expected_articles: [...state.expected], retrieved_articles: [...new Set(r.candidates.map((c) => c.article_id))], as_of: r.plan.as_of, historical: r.plan.historical, conversation_id: state.conversation };
   const res = await fetch("/feedback", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
   $("#fbthanks").textContent = res.ok ? "Gracias, quedó guardado." : "No se pudo guardar.";
 }));

@@ -10,11 +10,12 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, StreamingResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import insert, text
 
 from legal_ai.db.schema import feedback
+from legal_ai.feedback import feedback_summary, feedback_to_labels, read_feedback
 from legal_ai.pipeline import AskResponse, Pipeline, build_pipeline
 from legal_ai.settings import Settings
 from legal_ai.tools import ArticleInfo, Toolbox
@@ -36,6 +37,7 @@ class AskRequest(BaseModel):
     k: int = Field(default=8, ge=1, le=50)
     as_of: date | None = None
     historical: bool | None = None
+    history: list[tuple[str, str]] = Field(default_factory=list)
 
 
 class FeedbackRequest(BaseModel):
@@ -46,6 +48,11 @@ class FeedbackRequest(BaseModel):
     comment: str | None = Field(default=None, max_length=2000)
     reviewer: str | None = Field(default=None, max_length=64)
     sources: list[str] = Field(default_factory=list)
+    expected_articles: list[str] = Field(default_factory=list)
+    retrieved_articles: list[str] = Field(default_factory=list)
+    as_of: date | None = None
+    historical: bool | None = None
+    conversation_id: str | None = Field(default=None, max_length=36)
 
 
 def load_catalog(path: Path = Path("eval/questions_catalog.json")) -> list[dict[str, object]]:
@@ -94,7 +101,11 @@ def create_app(pipeline_factory: Callable[[], Pipeline] = build_pipeline) -> Fas
     @app.post("/ask", response_model=AskResponse)
     def ask(request: AskRequest) -> AskResponse:
         return get_pipeline().ask(
-            request.question, request.k, as_of=request.as_of, historical=request.historical
+            request.question,
+            request.k,
+            as_of=request.as_of,
+            historical=request.historical,
+            history=request.history,
         )
 
     @app.post("/ask/stream")
@@ -113,6 +124,7 @@ def create_app(pipeline_factory: Callable[[], Pipeline] = build_pipeline) -> Fas
                     as_of=request.as_of,
                     historical=request.historical,
                     on_stage=on_stage,
+                    history=request.history,
                 )
                 events.put(("done", response.model_dump(mode="json")))
             except Exception as exc:  # noqa: BLE001
@@ -160,23 +172,33 @@ def create_app(pipeline_factory: Callable[[], Pipeline] = build_pipeline) -> Fas
                     comment=request.comment,
                     reviewer=request.reviewer,
                     sources=request.sources,
+                    expected_articles=request.expected_articles,
+                    retrieved_articles=request.retrieved_articles,
+                    as_of=request.as_of,
+                    historical=request.historical,
+                    conversation_id=request.conversation_id,
                 )
                 .returning(feedback.c.id)
             ).scalar_one()
         return {"id": row, "label": request.label}
 
     @app.get("/feedback")
-    def list_feedback(limit: int = 100) -> list[dict[str, object]]:
-        pipeline = get_pipeline()
-        with pipeline.retriever.engine.connect() as conn:
-            rows = conn.execute(
-                text(
-                    "SELECT id, created_at, trace_id, question, label, comment, reviewer, sources "
-                    "FROM feedback ORDER BY id DESC LIMIT :limit"
-                ),
-                {"limit": limit},
-            ).mappings()
-            return [dict(r) for r in rows]
+    def list_feedback(limit: int = 200, label: str | None = None) -> list[dict[str, object]]:
+        return read_feedback(get_pipeline().retriever.engine, limit, label)
+
+    @app.get("/feedback/stats")
+    def feedback_stats() -> dict[str, object]:
+        return feedback_summary(get_pipeline().retriever.engine)
+
+    @app.get("/feedback/export.jsonl")
+    def export_feedback() -> PlainTextResponse:
+        rows = feedback_to_labels(get_pipeline().retriever.engine)
+        body = "\n".join(json.dumps(r, ensure_ascii=False, default=str) for r in rows)
+        return PlainTextResponse(body + ("\n" if body else ""), media_type="application/x-ndjson")
+
+    @app.get("/review", response_class=HTMLResponse)
+    def review() -> str:
+        return (STATIC / "review.html").read_text(encoding="utf-8")
 
     return app
 

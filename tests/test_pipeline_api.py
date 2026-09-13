@@ -111,6 +111,9 @@ def test_api_stream_trace_feedback_and_article(db, tmp_path: Path, monkeypatch):
             "label": "correct",
             "sources": ["25552:92bis@current"],
             "reviewer": "test",
+            "expected_articles": ["25552:92bis"],
+            "retrieved_articles": ["25552:92bis"],
+            "conversation_id": "c1",
         },
     ).json()
     assert fb["label"] == "correct" and client.get("/feedback").json()[0]["reviewer"] == "test"
@@ -120,6 +123,13 @@ def test_api_stream_trace_feedback_and_article(db, tmp_path: Path, monkeypatch):
         ).status_code
         == 422
     )
+    stats = client.get("/feedback/stats").json()
+    assert stats["total"] == 1 and stats["satisfaction"] == 1.0
+    assert client.get("/review").status_code == 200
+    export = client.get("/feedback/export.jsonl")
+    assert export.headers["content-type"].startswith("application/x-ndjson")
+    first = json.loads(export.text.splitlines()[0])
+    assert first["category"] == "human" and first["expected_articles"] == ["25552:92bis"]
     art = client.get("/article/25552:92bis").json()
     assert art["label"] == "92 bis" and client.get("/article/x:1").status_code == 404
     assert client.get("/").status_code == 200 and isinstance(client.get("/questions").json(), list)

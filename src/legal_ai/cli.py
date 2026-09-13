@@ -383,6 +383,51 @@ def traces_summary() -> None:
         )
 
 
+feedback_app = typer.Typer(help="Etiquetas humanas: resumen y exportación.")
+app.add_typer(feedback_app, name="feedback")
+
+
+@feedback_app.command("report")
+def feedback_report() -> None:
+    """Resumen de las etiquetas cargadas desde la interfaz."""
+    from legal_ai.db.engine import make_engine
+    from legal_ai.feedback import feedback_summary
+    from legal_ai.settings import Settings
+
+    summary = feedback_summary(make_engine(Settings().database_url))
+    if not summary["total"]:
+        typer.echo("todavía no hay etiquetas; abrí la interfaz con `legal-ai serve` y calificá")
+        raise typer.Exit()
+    sat = summary["satisfaction"]
+    typer.echo(f"etiquetas={summary['total']} · correctas o parciales={sat:.0%}")
+    for label, n in summary["by_label"].items():
+        typer.echo(f"  {label:<20} {n:>4}")
+    typer.echo(f"revisores: {summary['by_reviewer']}")
+
+
+@feedback_app.command("export")
+def feedback_export(
+    out: Annotated[str, typer.Option("--out")] = "eval/human_labels.jsonl",
+) -> None:
+    """Exporta las etiquetas a JSONL con la forma del benchmark."""
+    import json
+    from pathlib import Path
+
+    from legal_ai.db.engine import make_engine
+    from legal_ai.feedback import feedback_to_labels
+    from legal_ai.settings import Settings
+
+    rows = feedback_to_labels(make_engine(Settings().database_url))
+    path = Path(out)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(json.dumps(r, ensure_ascii=False, default=str) + "\n" for r in rows),
+        encoding="utf-8",
+    )
+    with_expected = sum(1 for r in rows if r["expected_articles"])
+    typer.echo(f"{len(rows)} etiquetas escritas en {path} ({with_expected} con artículo marcado)")
+
+
 @app.command("mcp")
 def mcp_serve() -> None:
     """Levanta el servidor MCP por stdio (search_laws, get_article, get_law_version, ...)."""
