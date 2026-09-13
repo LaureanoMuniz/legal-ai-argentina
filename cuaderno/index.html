@@ -235,7 +235,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lecciones <b>1 a 3</b> · Fases 0 a 3</span>
+      <span>Lecciones <b>1 a 4</b> · Fases 0 a 4</span>
       <span>Corpus <b>laboral · 933 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>main</b></span>
@@ -273,8 +273,16 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l3-trazas">17. Trazas por pregunta</a></li>
       <li><a href="#l3-numeros">18. Los números de la Fase 3</a></li>
       <li><a href="#l3-proximo">19. Lo que viene: el benchmark</a></li>
-      <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar3">Autoevaluación 3</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 4 · Fase 4</span></li>
+      <li><a href="#l4-porque">20. Medir antes de mejorar</a></li>
+      <li><a href="#l4-diseno">21. Cincuenta preguntas, ocho categorías</a></li>
+      <li><a href="#l4-metricas">22. Las métricas de ranking</a></li>
+      <li><a href="#l4-hallazgos">23. Tres cosas que el benchmark encontró</a></li>
+      <li><a href="#l4-numeros">24. Los números de la Fase 4</a></li>
+      <li><a href="#l4-proximo">25. Lo que viene: BM25 e híbrido</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar4">Autoevaluación 4</a></li>
     </ol>
   </nav>
 
@@ -834,6 +842,121 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
       <p>Tres cosas quedan anotadas para medir: si el hashing pierde contra bge-m3 en cada categoría o sólo en algunas; qué hace Claude con las dos preguntas sin respuesta cuando la clave de API esté cargada; y cuánto del tiempo de <code>index embed</code> es base de datos y cuánto es modelo.</p>
     </section>
 
+    <section id="pensar3">
+      <h2>Autoevaluación 3</h2>
+      <p>Ocho preguntas sobre el índice y el primer RAG. Mismo formato.</p>
+      <div class="quiz" id="quiz3"></div>
+      <div class="score" id="score3" hidden>
+        <span class="big" id="score3-num">0 / 8</span>
+        <span class="msg" id="score3-msg"></span>
+        <button type="button" id="quiz3-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="l4-porque">
+      <div class="eyebrow">Lección 4 · Fase 4</div>
+      <h2>20. Medir antes de mejorar</h2>
+      <p class="lead">La Fase 4 no agrega nada al sistema que responde. Agrega la vara con la que se van a juzgar todas las fases siguientes: 50 preguntas fijas, con los artículos que deberían aparecer, y métricas de ranking por categoría.</p>
+      <p>El orden importa. BM25, híbrido, reranking y expansión de consultas (Fases 5 a 7) son técnicas que en algunos corpus mejoran mucho y en otros empeoran. Sin un benchmark propio, la decisión de adoptar cada una se toma por fe en un paper escrito sobre otro idioma y otro tipo de texto. Con benchmark, cada técnica entra o sale por un número medido acá.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los equipos que sostienen RAG en producción tienen un conjunto de evaluación versionado junto al código, lo corren en cada cambio y guardan el resultado con la configuración completa. Es lo mismo que una suite de tests, con la diferencia de que el resultado es un número que se compara, no un verde/rojo. Nuestro <code>experiments/</code> es ese registro: un JSON por corrida, con fecha del catálogo, modelo, <code>k</code> y cada pregunta con su lista recuperada.</p>
+      </div>
+    </section>
+
+    <section id="l4-diseno">
+      <h2>21. Cincuenta preguntas, ocho categorías</h2>
+      <p>Cada categoría representa una forma de fallar que anticipamos en el roadmap. Las preguntas no salieron de memoria: se listaron los 293 artículos de la LCT con su epígrafe, estado y ley modificatoria desde la base, y se leyó el texto de cada artículo esperado antes de anotarlo. Una consulta final verificó que los 60 ids esperados existan en <code>articles</code>.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">n</th><th>Qué prueba</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>direct</td><td class="num">8</td><td>Una pregunta, un artículo</td><td>¿Cuánto dura el período de prueba? → 92 bis</td></tr>
+          <tr><td>multi_article</td><td class="num">7</td><td>La respuesta junta dos o tres artículos</td><td>Embarazo: presunción (178) + indemnización especial (182)</td></tr>
+          <tr><td>negation</td><td class="num">6</td><td>Preguntas en negativo, que el vector suele leer en positivo</td><td>¿Cuándo el despido <em>no</em> genera indemnización? → 242, 244</td></tr>
+          <tr><td>confusable</td><td class="num">6</td><td>Regímenes parecidos: LCT vs casas particulares vs agrario</td><td>Período de prueba en casas particulares → Ley 26.844 art. 7, no 92 bis</td></tr>
+          <tr><td>derogated</td><td class="num">5</td><td>Artículos que ya no rigen</td><td>¿Qué establecía el art. 28? Falla esperada hasta la Fase 9</td></tr>
+          <tr><td>temporal</td><td class="num">6</td><td>Preguntas con fecha (<code>as_of</code>) que el baseline ignora</td><td>¿Cuánto duraba el período de prueba en 2023?</td></tr>
+          <tr><td>not_in_corpus</td><td class="num">6</td><td>La respuesta no está; se mide abstención, no retrieval</td><td>Tope indemnizatorio de comercio, art. 14 bis CN</td></tr>
+          <tr><td>cross_reference</td><td class="num">6</td><td>Hay que seguir una remisión entre normas</td><td>¿Qué ley sustituyó el 92 bis en 2024? → Ley 27.742 art. 91</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Tres reglas de puntuación (ADR-021). La unidad es el <strong>artículo</strong>: los chunks recuperados se deduplican por artículo conservando el orden, y sobre esa lista se calculan las métricas. Las preguntas <code>not_in_corpus</code> se corren y se cronometran, pero no se puntúan: que el modelo diga "no tengo evidencia" es una métrica de generación, no de retrieval. Y las categorías que el baseline no puede ganar, derogado y temporal, se puntúan igual: la tabla por categoría muestra la deuda en vez de esconderla.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los artículos esperados los eligió el ingeniero, leyendo los textos. Eso alcanza para comparar retrievers entre sí, pero no para afirmar "el sistema acierta el 80% de las preguntas de un abogado": para eso hace falta la revisión de expertos de la Fase 14. Un benchmark serio dice quién etiquetó y con qué criterio; el nuestro lo dice en cada pregunta (<code>notes</code>) y en el ADR.</p>
+      </div>
+    </section>
+
+    <section id="l4-metricas">
+      <h2>22. Las métricas de ranking</h2>
+      <p>Un retriever devuelve una lista ordenada. "Acertó o no" tira la mitad de la información: no es lo mismo que el artículo correcto salga primero que octavo, y no es lo mismo traer uno de los tres artículos esperados que los tres.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Métrica</th><th>Qué mide</th><th>Cuándo mirarla</th></tr></thead>
+        <tbody>
+          <tr><td>hit@k</td><td>¿Apareció al menos un artículo esperado en el top-k?</td><td>La más gruesa. Para saber si el retrieval "encuentra" o no.</td></tr>
+          <tr><td>recall@k</td><td>Fracción de los artículos esperados que están en el top-k</td><td>Preguntas multi-artículo: traer uno de tres es 0,33, no un acierto.</td></tr>
+          <tr><td>precision@k</td><td>Fracción del top-k que es relevante</td><td>Cuánto ruido lee el modelo. Con k=8 y un artículo esperado, el máximo es 0,125.</td></tr>
+          <tr><td>MRR</td><td>Promedio de 1 / posición del primer acierto</td><td>Si el correcto sale primero vale 1; si sale octavo, 0,125. Sensible al orden.</td></tr>
+          <tr><td>nDCG@k</td><td>Ganancia acumulada con descuento logarítmico por posición, normalizada por el ideal</td><td>Combina cuántos aciertos y en qué posición. La métrica de comparación por defecto.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Las funciones están en un módulo sin dependencias, con tests de caso perfecto, parcial y vacío. Son diez líneas cada una y conviene entenderlas antes de leer un paper que las use.</p>
+    </section>
+
+    <section id="l4-hallazgos">
+      <h2>23. Tres cosas que el benchmark encontró</h2>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 18 · Cero en todo, sin ningún error</div>
+        <p>La primera corrida con hashing dio 0,00 en las 44 preguntas puntuables. En la Fase 3 el mismo embedder acertaba 7 de 20. La causa: la columna <code>embedding</code> tenía los vectores de bge-m3 (fue el último <code>index embed</code>), y la consulta comparó un vector de hashing contra vectores de otro modelo. Postgres calculó cosenos entre peras y manzanas y devolvió ocho candidatos con toda naturalidad. Fue el benchmark el que lo detectó, no el código.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>El modelo de embeddings es parte del esquema, no un detalle. La búsqueda ahora filtra <code>embedding_model = :model</code>, y <code>search</code>, <code>ask</code> y <code>bench</code> se niegan a correr si no hay chunks embebidos con el modelo de la consulta. Guardar un vector sin decir con qué modelo se hizo es guardar un número sin unidad.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 19 · Una ley derogada entera sigue vigente en el índice</div>
+        <p>"¿Está vigente la Ley 25.250?" trae artículos de la propia Ley 25.250 como vigentes. La Ley 25.877 la derogó completa en su art. 1, pero Infoleg no pone una nota por artículo cuando la derogación es de toda la norma, así que el parser marcó cada artículo como vigente. La derogación a nivel norma existe en las relaciones (<code>deroga</code>), no en las versiones. Es un seguimiento para el parser antes de la Fase 9.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 20 · Una columna, un modelo a la vez</div>
+        <p>Comparar hashing con bge-m3 obligó a re-embeber el corpus dos veces, porque la columna guarda un vector por chunk. La caché en disco hizo que volver a bge-m3 no recalculara nada, pero el diseño de una columna vuelve caro comparar tres modelos. Si la Fase 5 compara más embedders, va a hacer falta una tabla de vectores por modelo.</p>
+      </div>
+    </section>
+
+    <section id="l4-numeros">
+      <h2>24. Los números de la Fase 4</h2>
+      <p>Corpus laboral, catálogo 2026-09-12, 50 preguntas, k = 8 chunks, métricas a nivel artículo sobre las 44 puntuables. Los reportes completos están en <code>experiments/</code>.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">n</th><th class="num">hit@8</th><th class="num">recall@8</th><th class="num">MRR</th><th class="num">nDCG@8</th></tr></thead>
+        <tbody>
+          <tr><td><strong>overall</strong></td><td class="num">44</td><td class="num">0,41 / 0,80</td><td class="num">0,36 / 0,72</td><td class="num">0,19 / 0,60</td><td class="num">0,21 / 0,60</td></tr>
+          <tr><td>direct</td><td class="num">8</td><td class="num">0,62 / 1,00</td><td class="num">0,62 / 1,00</td><td class="num">0,23 / 0,71</td><td class="num">0,32 / 0,78</td></tr>
+          <tr><td>multi_article</td><td class="num">7</td><td class="num">0,43 / 1,00</td><td class="num">0,29 / 0,79</td><td class="num">0,23 / 0,74</td><td class="num">0,21 / 0,69</td></tr>
+          <tr><td>negation</td><td class="num">6</td><td class="num">0,17 / 0,67</td><td class="num">0,06 / 0,56</td><td class="num">0,17 / 0,67</td><td class="num">0,08 / 0,56</td></tr>
+          <tr><td>confusable</td><td class="num">6</td><td class="num">0,33 / 1,00</td><td class="num">0,33 / 0,92</td><td class="num">0,08 / 0,75</td><td class="num">0,14 / 0,78</td></tr>
+          <tr><td>derogated</td><td class="num">5</td><td class="num">0,00 / 0,00</td><td class="num">0,00 / 0,00</td><td class="num">0,00 / 0,00</td><td class="num">0,00 / 0,00</td></tr>
+          <tr><td>temporal</td><td class="num">6</td><td class="num">0,50 / 0,67</td><td class="num">0,50 / 0,67</td><td class="num">0,11 / 0,31</td><td class="num">0,20 / 0,40</td></tr>
+          <tr><td>cross_reference</td><td class="num">6</td><td class="num">0,67 / 1,00</td><td class="num">0,58 / 0,92</td><td class="num">0,42 / 0,89</td><td class="num">0,42 / 0,84</td></tr>
+        </tbody>
+        <caption>Cada celda es hashing / bge-m3. Retrieval p50: 26 ms con hashing, 46 ms con bge-m3 (incluye embeber la pregunta en CPU). Las seis preguntas not_in_corpus corren pero no se puntúan. bge-m3 le gana al control en todas las categorías puntuables, que es la condición mínima para creerle al modelo; negation y temporal son las más flojas, y derogated es cero por diseño del baseline.</caption>
+      </table>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Leer la tabla por categoría vale más que el promedio. Un retriever puede subir el total y empeorar justo la categoría que le importa al usuario. Las decisiones de las fases 5 a 7 se van a tomar mirando qué categoría mejora y cuál empeora, no sólo la fila "overall".</p>
+      </div>
+    </section>
+
+    <section id="l4-proximo">
+      <h2>25. Lo que viene: BM25 e híbrido</h2>
+      <p>La Fase 5 agrega la búsqueda por palabras con pg_search (BM25, dentro de la misma Postgres) y la fusión con el vector por Reciprocal Rank Fusion, escrita a mano. La hipótesis a probar: BM25 debería ayudar donde la pregunta usa la palabra exacta de la ley ("irrenunciabilidad", "artículo 92 bis") y el vector debería ayudar donde no la usa. El benchmark de esta fase dice si es así en este corpus.</p>
+    </section>
+
     <section id="glosario">
       <h2>Glosario</h2>
       <dl class="gloss">
@@ -855,14 +978,15 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
     </section>
 
 
-    <section id="pensar3">
-      <h2>Autoevaluación 3</h2>
-      <p>Ocho preguntas sobre el índice y el primer RAG. Mismo formato.</p>
-      <div class="quiz" id="quiz3"></div>
-      <div class="score" id="score3" hidden>
-        <span class="big" id="score3-num">0 / 8</span>
-        <span class="msg" id="score3-msg"></span>
-        <button type="button" id="quiz3-reset">Volver a empezar</button>
+
+    <section id="pensar4">
+      <h2>Autoevaluación 4</h2>
+      <p>Ocho preguntas sobre el benchmark y las métricas. Mismo formato.</p>
+      <div class="quiz" id="quiz4"></div>
+      <div class="score" id="score4" hidden>
+        <span class="big" id="score4-num">0 / 8</span>
+        <span class="msg" id="score4-msg"></span>
+        <button type="button" id="quiz4-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -1185,6 +1309,122 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
       }
     ];
 
+
+    const QUESTIONS_L4 = [
+      {
+        id: "l4q1",
+        text: "Una pregunta espera tres artículos y el top-8 trae uno de ellos en la posición 2. ¿Qué valen hit@8, recall@8 y MRR?",
+        options: [
+          { t: "hit 1, recall 0,33, MRR 0,5.", ok: true,
+            fb: "Apareció al menos uno (hit), uno de tres (recall 1/3) y el primer acierto está segundo (1/2). Tres números, tres lecturas distintas de la misma lista." },
+          { t: "hit 1, recall 1, MRR 1.", ok: false,
+            fb: "Eso sería si los tres estuvieran y el primero fuera el correcto. Confundir hit con recall es lo que esconde las preguntas multi-artículo." },
+          { t: "hit 0,33, recall 0,33, MRR 0,33.", ok: false,
+            fb: "hit es binario y MRR depende de la posición, no de cuántos esperados hay." },
+          { t: "No se puede saber sin conocer k.", ok: false,
+            fb: "k es 8 en el enunciado y el acierto está en la posición 2, adentro del corte." }
+        ]
+      },
+      {
+        id: "l4q2",
+        text: "¿Por qué las seis preguntas 'not_in_corpus' no se puntúan en el benchmark de retrieval?",
+        options: [
+          { t: "Porque no tienen artículos esperados y cualquier métrica de ranking daría cero por definición, sin decir nada del retriever. Lo que se mide ahí es si el modelo se abstiene, y eso es generación (Fase 8).", ok: true,
+            fb: "Se corren igual para tener latencias y para ver qué candidatos trae el vector cuando no hay respuesta, pero no entran en recall ni en MRR." },
+          { t: "Porque el retriever no devuelve nada para ellas.", ok: false,
+            fb: "Devuelve ocho candidatos siempre. Justamente por eso no se pueden puntuar con métricas de ranking." },
+          { t: "Porque son preguntas de prueba mal escritas.", ok: false,
+            fb: "Son deliberadas: un sistema que responde cuando no debería es el fallo más peligroso en derecho." },
+          { t: "Porque bajarían el promedio injustamente.", ok: false,
+            fb: "El motivo no es el promedio sino que la métrica no aplica. Las derogadas también bajan el promedio y sí se puntúan." }
+        ]
+      },
+      {
+        id: "l4q3",
+        text: "Las cinco preguntas sobre artículos derogados dan cero con cualquier embedder. ¿Por qué se dejan en el benchmark?",
+        options: [
+          { t: "Por descuido; deberían sacarse hasta la Fase 9.", ok: false,
+            fb: "Sacarlas haría que el número total mejore sin que el sistema mejore. Es exactamente lo que no queremos." },
+          { t: "Para que la tabla por categoría muestre la deuda del baseline y para que la mejora de la Fase 9 sea medible contra un cero conocido.", ok: true,
+            fb: "Un benchmark que sólo incluye lo que el sistema ya hace bien no sirve para dirigir el trabajo." },
+          { t: "Porque en realidad el vector podría encontrarlos si el embedder fuera mejor.", ok: false,
+            fb: "No hay chunk de esos artículos: el baseline no indexa versiones derogadas. Ningún embedder puede encontrar lo que no está." },
+          { t: "Porque el reporte necesita al menos cinco preguntas por categoría.", ok: false,
+            fb: "No hay tal regla. La cantidad por categoría se eligió por cobertura, no por un mínimo técnico." }
+        ]
+      },
+      {
+        id: "l4q4",
+        text: "La primera corrida con hashing dio 0,00 en todas las categorías sin ningún error. ¿Qué había pasado?",
+        options: [
+          { t: "El benchmark tenía los ids esperados mal escritos.", ok: false,
+            fb: "Los ids se verificaron contra la tabla articles antes de correr. Y bge-m3 acertaba con el mismo archivo." },
+          { t: "La columna embedding tenía vectores de bge-m3 y la consulta comparó contra ellos un vector de hashing; Postgres calculó cosenos entre modelos distintos y devolvió candidatos al azar.", ok: true,
+            fb: "El arreglo fue filtrar por embedding_model en la consulta y negarse a buscar si no hay chunks de ese modelo. El benchmark encontró un bug de datos que ningún test unitario veía." },
+          { t: "El índice HNSW estaba corrupto.", ok: false,
+            fb: "El índice estaba bien: bge-m3 daba 0,80 de hit@8 en la misma corrida." },
+          { t: "Hashing no funciona con preguntas largas.", ok: false,
+            fb: "En la Fase 3 hashing acertó 7 de 20 con preguntas iguales. El problema no era el embedder sino contra qué se comparaba." }
+        ]
+      },
+      {
+        id: "l4q5",
+        text: "Los chunks recuperados se deduplican por artículo antes de puntuar, y k cuenta chunks. Si un artículo largo ocupa dos lugares del top-8, ¿qué pasa?",
+        options: [
+          { t: "Nada: la deduplicación lo arregla y el recall no cambia.", ok: false,
+            fb: "La deduplicación quita el repetido de la lista, pero el lugar que ocupó en el top-8 no lo recupera otro artículo. Quedan siete artículos distintos, no ocho." },
+          { t: "El top-8 tiene siete artículos distintos; si el esperado era el octavo, el recall lo paga. Es deliberado: es lo que ve el modelo en el contexto.", ok: true,
+            fb: "Deduplicar antes de la búsqueda, o traer más chunks y cortar en k artículos, son mejoras a medir en la Fase 5, no un ajuste de la métrica." },
+          { t: "El benchmark cuenta el artículo dos veces y sube el recall.", ok: false,
+            fb: "Al revés: la deduplicación existe justamente para no contar dos veces." },
+          { t: "Se descarta la pregunta.", ok: false,
+            fb: "Ninguna pregunta se descarta por lo que devuelva el retriever." }
+        ]
+      },
+      {
+        id: "l4q6",
+        text: "¿Qué diferencia hay entre MRR y nDCG para comparar dos retrievers?",
+        options: [
+          { t: "Son equivalentes; nDCG es MRR normalizado.", ok: false,
+            fb: "MRR sólo mira el primer acierto. nDCG suma todos los aciertos con descuento por posición y normaliza por el ideal." },
+          { t: "MRR mira dónde cae el primer artículo correcto; nDCG mira cuántos correctos hay y en qué posiciones, normalizado por el mejor orden posible. Para preguntas multi-artículo, nDCG distingue lo que MRR no ve.", ok: true,
+            fb: "Por eso la métrica de comparación por defecto es nDCG@k, y MRR se mira aparte para saber si 'el primero' es el correcto." },
+          { t: "MRR sirve para vector y nDCG para BM25.", ok: false,
+            fb: "Las métricas no dependen del retriever. Se calculan sobre la lista de ids que devuelve cualquiera." },
+          { t: "nDCG necesita relevancia graduada y por eso no aplica acá.", ok: false,
+            fb: "Con relevancia binaria (esperado / no esperado) nDCG funciona igual: la ganancia es 1 o 0." }
+        ]
+      },
+      {
+        id: "l4q7",
+        text: "'¿Está vigente la Ley 25.250?' trae artículos de la propia Ley 25.250 marcados como vigentes, aunque la Ley 25.877 la derogó entera. ¿Dónde está el problema?",
+        options: [
+          { t: "En el embedder, que no entiende 'derogada'.", ok: false,
+            fb: "El embedder trajo la ley correcta. El problema es el estado que el índice le asigna a esos artículos." },
+          { t: "En el parser: Infoleg no pone nota por artículo cuando deroga una norma entera, así que cada artículo quedó como vigente. La derogación existe como relación entre normas, no como estado de las versiones.", ok: true,
+            fb: "Es un seguimiento para antes de la Fase 9: propagar una relación 'deroga' a nivel norma al estado de sus artículos." },
+          { t: "En el benchmark, que espera el artículo equivocado.", ok: false,
+            fb: "El esperado es el art. 1 de la Ley 25.877, que dice 'Derógase la Ley 25.250'. Ese es el texto que responde la pregunta." },
+          { t: "En Postgres, que no filtra por status.", ok: false,
+            fb: "El filtro por status se aplica al armar chunks, y esos artículos tienen status 'vigente' porque el parser no supo que no lo eran." }
+        ]
+      },
+      {
+        id: "l4q8",
+        text: "Los artículos esperados los eligió el ingeniero leyendo los textos en la base. ¿Qué se puede afirmar con este benchmark y qué no?",
+        options: [
+          { t: "Se puede afirmar qué porcentaje de preguntas de abogados responde bien el sistema.", ok: false,
+            fb: "No: ni las preguntas ni las etiquetas vienen de abogados. Eso es la Fase 14." },
+          { t: "Se puede comparar retrievers entre sí sobre el mismo conjunto, y ver qué categorías mejoran o empeoran. No se puede afirmar exactitud jurídica; las etiquetas son provisorias hasta la revisión de expertos.", ok: true,
+            fb: "El benchmark es una regla para medir cambios, no un certificado. Decir quién etiquetó y con qué criterio es parte del resultado." },
+          { t: "No se puede afirmar nada hasta tener abogados.", ok: false,
+            fb: "Comparar A contra B sobre el mismo conjunto es válido aunque las etiquetas tengan errores, siempre que los errores sean los mismos para ambos." },
+          { t: "Se puede afirmar que las preguntas mal puntuadas son culpa del embedder.", ok: false,
+            fb: "Una falla puede ser del embedder, del chunking, del parser o del artículo esperado. El campo notes de cada pregunta existe para registrar esa duda." }
+        ]
+      }
+    ];
+
     function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
       const quiz = document.getElementById(quizId);
       const scoreBox = document.getElementById(scoreId);
@@ -1273,6 +1513,7 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
     mountQuiz("quiz", "score", "cuaderno-legal-ai:quiz-l1", QUESTIONS, "quiz-reset");
     mountQuiz("quiz2", "score2", "cuaderno-legal-ai:quiz-l2", QUESTIONS_L2, "quiz2-reset");
     mountQuiz("quiz3", "score3", "cuaderno-legal-ai:quiz-l3", QUESTIONS_L3, "quiz3-reset");
+    mountQuiz("quiz4", "score4", "cuaderno-legal-ai:quiz-l4", QUESTIONS_L4, "quiz4-reset");
     </script>
 
     <footer>

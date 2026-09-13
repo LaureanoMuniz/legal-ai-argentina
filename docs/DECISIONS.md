@@ -297,3 +297,36 @@ sin `trace_id` que una la respuesta con sus spans.
 **Consecuencias.** `AskResponse.trace_id` permite abrir el JSONL y ver los
 candidatos, el tamaño del contexto y los tokens de esa pregunta exacta.
 
+## ADR-021: Benchmark de retrieval a nivel artículo, con categorías que el baseline no puede ganar
+
+**Contexto.** Veinte preguntas de humo alcanzan para saber si algo está roto,
+no para comparar retrievers. Hace falta un conjunto fijo, con categorías que
+representen los fallos que esperamos (ROADMAP, "Problemas que esperamos
+encontrar") y con métricas de ranking, no un sí/no.
+
+**Decisión.** `eval/benchmark.jsonl`: 50 preguntas en 8 categorías (directa,
+multi-artículo, negación, confundible, derogado, temporal, sin respuesta en el
+corpus, referencia cruzada). La unidad de acierto es el artículo (`25552:245`),
+no el chunk ni la versión: los chunks recuperados se deduplican por artículo
+conservando el orden y sobre esa lista se calculan recall@k, precision@k, MRR,
+nDCG@k y hit@k, por pregunta, por categoría y en total. Las preguntas sin
+respuesta en el corpus se corren y se cronometran pero no se puntúan: la
+abstención es una métrica de generación (Fase 8). Las categorías derogado y
+temporal se puntúan igual que las demás aunque el baseline no pueda ganarlas:
+la tabla por categoría hace visible la deuda en vez de esconderla.
+
+**Artículos esperados.** Los eligió el ingeniero leyendo los textos en la base
+(no de memoria) y se verificó que cada id exista en `articles`. Son
+provisorios hasta la revisión de abogados de la Fase 14. Una pregunta puede
+tener un artículo esperado discutible; el benchmark registra `notes` para eso.
+
+**Alternativas.** Puntuar por chunk: premia partir artículos. Puntuar por
+versión: no tiene sentido hasta que el índice tenga más de una versión (Fase
+9). Usar un LLM como juez de relevancia en vez de artículos esperados: más
+flexible, pero no reproducible sin fijar modelo y prompt; queda para
+contrastar en la Fase 8.
+
+**Consecuencias.** `k` cuenta chunks; si un artículo aparece en dos chunks,
+ocupa dos lugares del top-k y el recall lo paga. Es deliberado: es el
+comportamiento que ve el modelo en el contexto.
+

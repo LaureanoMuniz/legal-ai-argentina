@@ -258,8 +258,10 @@ es tarea de la Fase 13; la instrumentación no cambia.
 
 ## Evaluación
 
-- **Retrieval**: recall@k, precision@k, MRR, nDCG contra `eval/benchmark.jsonl`
-  (`expected_articles`, `expected_version`).
+- **Retrieval**: recall@k, precision@k, MRR, nDCG@k y hit@k contra
+  `eval/benchmark.jsonl` (50 preguntas, 8 categorías, `expected_articles`,
+  `as_of` para las temporales), a nivel artículo, por categoría (ADR-021).
+  `legal-ai bench run` escribe el reporte en `experiments/`.
 - **Generación**: claims soportados / total, abstención correcta, exactitud
   de versión; juez LLM propio con structured output, contrastado con Ragas.
 - **Humana**: etiquetas `correct | partially_correct | incorrect | unsupported

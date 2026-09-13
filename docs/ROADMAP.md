@@ -10,8 +10,8 @@ sin medir la actual.
 | 1 | Ingestion reproducible desde Infoleg | `data/raw` completo para el corpus laboral, manifest, tests del fetcher | hecha |
 | 2 | Parser con estructura jurídica | `documents/articles/relations.jsonl`, versiones original/current, tests con fixtures reales | hecha |
 | 3 | RAG baseline: vector → top-k → Claude → respuesta con fuentes | Postgres + pgvector, FastAPI, OTel a JSONL, benchmark de humo con latencias | hecha |
-| 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | siguiente |
-| 5 | BM25 (`pg_search`) e híbrido con RRF | vector vs BM25 vs híbrido, mismo benchmark | |
+| 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | hecha |
+| 5 | BM25 (`pg_search`) e híbrido con RRF | vector vs BM25 vs híbrido, mismo benchmark | siguiente |
 | 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | |
 | 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | |
 | 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | |
@@ -113,6 +113,68 @@ Pendientes técnicos de esta fase:
   datos y pasar a un `UPDATE ... FROM unnest(...)` por lote.
 - Artículos partidos en varios chunks aparecen repetidos en el top-k.
 - Las 14 normas sin artículos numerados siguen sin chunk.
+
+## Fase 4 en detalle
+
+Corrida del 2026-09-13 (UTC) sobre el índice de la Fase 3, catálogo
+2026-09-12, `legal-ai bench run`, k = 8 chunks, métricas a nivel artículo
+sobre las 44 preguntas puntuables (las 6 `not_in_corpus` se corren pero no se
+puntúan). Cada celda es hashing / bge-m3.
+
+| Categoría | n | hit@8 | recall@8 | MRR | nDCG@8 |
+|---|---|---|---|---|---|
+| overall | 44 | 0,41 / 0,80 | 0,36 / 0,72 | 0,19 / 0,60 | 0,21 / 0,60 |
+| direct | 8 | 0,62 / 1,00 | 0,62 / 1,00 | 0,23 / 0,71 | 0,32 / 0,78 |
+| multi_article | 7 | 0,43 / 1,00 | 0,29 / 0,79 | 0,23 / 0,74 | 0,21 / 0,69 |
+| negation | 6 | 0,17 / 0,67 | 0,06 / 0,56 | 0,17 / 0,67 | 0,08 / 0,56 |
+| confusable | 6 | 0,33 / 1,00 | 0,33 / 0,92 | 0,08 / 0,75 | 0,14 / 0,78 |
+| derogated | 5 | 0,00 / 0,00 | 0,00 / 0,00 | 0,00 / 0,00 | 0,00 / 0,00 |
+| temporal | 6 | 0,50 / 0,67 | 0,50 / 0,67 | 0,11 / 0,31 | 0,20 / 0,40 |
+| cross_reference | 6 | 0,67 / 1,00 | 0,58 / 0,92 | 0,42 / 0,89 | 0,42 / 0,84 |
+
+Retrieval p50 / p95: hashing 26 / 28 ms; bge-m3 46 / 50 ms (incluye embeber la
+pregunta en CPU). Reportes: `experiments/2026-09-13-phase4-hashing.json`,
+`experiments/2026-09-13-phase4-bgem3.json`.
+
+Lectura:
+
+- bge-m3 supera al control de hashing en todas las categorías puntuables. Es
+  la condición mínima (ADR-019) y se cumple con margen.
+- `derogated` es 0 por diseño: el baseline no indexa versiones derogadas
+  (ADR-018). Es el número contra el que se va a medir la Fase 9.
+- `negation` es la categoría más floja de bge-m3: b16 ("¿cuándo el despido
+  no genera indemnización?") trae el art. 245 y no el 242/244; b21 ("¿puede
+  renunciar a sus derechos?") no llega al art. 12, cuyo texto dice
+  "irrenunciabilidad". Candidatas a BM25/híbrido (Fase 5) y a expansión de
+  consultas (Fase 7).
+- `temporal`: el baseline ignora `as_of`; b36 (edad mínima antes de la Ley
+  26.390) y b37 (tope del art. 245 en 2010) fallan del todo, y b37 trae las
+  resoluciones de topes que sí están en el corpus. Las que aciertan lo hacen
+  con la versión vigente, no con la de la fecha pedida: acierto de artículo,
+  no de versión.
+- Multi-artículo: recall 0,79. b09 trae el 178 pero no el 182; b13 trae el 52
+  en la posición 5 y no el 55. El contexto que ve el modelo tiene la mitad de
+  la respuesta.
+- b32 ("¿está vigente la Ley 25.250?") devuelve artículos de la propia Ley
+  25.250 marcados como vigentes: la Ley 25.877 la derogó entera en su art. 1 y
+  Infoleg no pone nota por artículo. Seguimiento para el parser: propagar la
+  relación `deroga` a nivel norma al estado de las versiones.
+
+Hallazgo de método: la primera corrida con hashing dio 0,00 en todo porque la
+columna `embedding` tenía vectores de bge-m3 y la consulta no filtraba por
+modelo. Ahora `retrieve_vector` filtra `embedding_model = :model` y los
+comandos se niegan a correr sin chunks de ese modelo. Comparar dos modelos
+obligó a re-embeber dos veces (la caché evitó recalcular); si la Fase 5
+compara más embedders, hace falta una tabla de vectores por modelo.
+
+Otros seguimientos:
+
+- 8 artículos con id `…#2`: números de artículo repetidos dentro de una misma
+  norma (por ejemplo `27971:51#2`). El parser los desambigua así; revisar si
+  son errores de Infoleg o artículos distintos.
+- Los artículos esperados los eligió el ingeniero leyendo los textos en la
+  base; son provisorios hasta la revisión de abogados (Fase 14). El campo
+  `notes` de cada pregunta registra las dudas.
 
 ## Problemas que esperamos encontrar (y medir)
 

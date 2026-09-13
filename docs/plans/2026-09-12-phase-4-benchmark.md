@@ -47,9 +47,9 @@ tests/eval/test_benchmark.py         well-formedness of the repo file + runner o
 
 ### Task 3: Real run and docs
 
-- [ ] `legal-ai bench run --model hashing --name phase4-hashing` and `legal-ai bench run --name phase4-bgem3`.
-- [ ] `docs/ROADMAP.md`: Fase 4 hecha, Fase 5 siguiente, "Fase 4 en detalle" with the per-category table from the two JSON files and the misses worth acting on.
-- [ ] `docs/DECISIONS.md`: ADR-021 (benchmark design: categories, article-level scoring, expected articles pending lawyer review, derogated/temporal scored as honest failures).
-- [ ] `docs/ARCHITECTURE.md` *Evaluación*: point to `eval/benchmark.jsonl` and `bench run`.
-- [ ] `cuaderno/index.html`: Lección 4 with quiz; republish the artifact.
-- [ ] Commit, merge to main, push.
+- [x] `legal-ai bench run --model hashing --name phase4-hashing` and `legal-ai bench run --name phase4-bgem3`.
+- [x] `docs/ROADMAP.md`: Fase 4 hecha, Fase 5 siguiente, "Fase 4 en detalle" with the per-category table from the two JSON files and the misses worth acting on.
+- [x] `docs/DECISIONS.md`: ADR-021 (benchmark design: categories, article-level scoring, expected articles pending lawyer review, derogated/temporal scored as honest failures).
+- [x] `docs/ARCHITECTURE.md` *Evaluación*: point to `eval/benchmark.jsonl` and `bench run`.
+- [x] `cuaderno/index.html`: Lección 4 with quiz; republish the artifact.
+- [x] Commit, merge to main, push.

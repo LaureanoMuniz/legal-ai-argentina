@@ -1,43 +1,43 @@
 {
-  "name": "phase4-hashing",
-  "ran_at": "2026-09-13T01:08:08.148526Z",
+  "name": "phase4-bgem3",
+  "ran_at": "2026-09-13T01:07:25.418666Z",
   "catalog_date": "2026-09-12",
   "k": 8,
-  "embedding_model": "hashing-1024",
+  "embedding_model": "BAAI/bge-m3",
   "questions_path": "eval/benchmark.jsonl",
   "overall": {
     "n": 50,
     "n_scored": 44,
-    "hit_at_k": 0.4090909090909091,
-    "recall_at_k": 0.35984848484848486,
-    "precision_at_k": 0.057224025974025976,
-    "mrr": 0.18528138528138527,
-    "ndcg_at_k": 0.20705570547701557,
-    "p50_retrieval_ms": 26.39574999921024,
-    "p95_retrieval_ms": 28.404792014043778
+    "hit_at_k": 0.7954545454545454,
+    "recall_at_k": 0.7234848484848485,
+    "precision_at_k": 0.11810064935064934,
+    "mrr": 0.6037878787878788,
+    "ndcg_at_k": 0.6039355437234692,
+    "p50_retrieval_ms": 46.20962499757297,
+    "p95_retrieval_ms": 50.25854200357571
   },
   "by_category": {
     "confusable": {
       "n": 6,
       "n_scored": 6,
-      "hit_at_k": 0.3333333333333333,
-      "recall_at_k": 0.3333333333333333,
-      "precision_at_k": 0.041666666666666664,
-      "mrr": 0.07936507936507936,
-      "ndcg_at_k": 0.13888888888888887,
-      "p50_retrieval_ms": 26.18783400976099,
-      "p95_retrieval_ms": 27.665582980262116
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.9166666666666666,
+      "precision_at_k": 0.125,
+      "mrr": 0.75,
+      "ndcg_at_k": 0.7824574467743307,
+      "p50_retrieval_ms": 46.28091599442996,
+      "p95_retrieval_ms": 169.5723329903558
     },
     "cross_reference": {
       "n": 6,
       "n_scored": 6,
-      "hit_at_k": 0.6666666666666666,
-      "recall_at_k": 0.5833333333333334,
-      "precision_at_k": 0.10416666666666667,
-      "mrr": 0.4222222222222222,
-      "ndcg_at_k": 0.42396188485867087,
-      "p50_retrieval_ms": 26.220584026305005,
-      "p95_retrieval_ms": 27.12862499174662
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.9166666666666666,
+      "precision_at_k": 0.14583333333333334,
+      "mrr": 0.8888888888888888,
+      "ndcg_at_k": 0.838811330318941,
+      "p50_retrieval_ms": 45.82133301300928,
+      "p95_retrieval_ms": 46.53341698576696
     },
     "derogated": {
       "n": 5,
@@ -47,41 +47,41 @@
       "precision_at_k": 0.0,
       "mrr": 0.0,
       "ndcg_at_k": 0.0,
-      "p50_retrieval_ms": 26.458249980350956,
-      "p95_retrieval_ms": 28.284499974688515
+      "p50_retrieval_ms": 45.513458986533806,
+      "p95_retrieval_ms": 45.68941600155085
     },
     "direct": {
       "n": 8,
       "n_scored": 8,
-      "hit_at_k": 0.625,
-      "recall_at_k": 0.625,
-      "precision_at_k": 0.078125,
-      "mrr": 0.23125,
-      "ndcg_at_k": 0.3239043724721272,
-      "p50_retrieval_ms": 27.44262499618344,
-      "p95_retrieval_ms": 30.515416990965605
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.1294642857142857,
+      "mrr": 0.7083333333333334,
+      "ndcg_at_k": 0.7827324383928644,
+      "p50_retrieval_ms": 47.91937497793697,
+      "p95_retrieval_ms": 199.2481249908451
     },
     "multi_article": {
       "n": 7,
       "n_scored": 7,
-      "hit_at_k": 0.42857142857142855,
-      "recall_at_k": 0.2857142857142857,
-      "precision_at_k": 0.07142857142857142,
-      "mrr": 0.2346938775510204,
-      "ndcg_at_k": 0.20977864573729674,
-      "p50_retrieval_ms": 26.14304202143103,
-      "p95_retrieval_ms": 27.116332988953218
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.7857142857142857,
+      "precision_at_k": 0.19642857142857142,
+      "mrr": 0.7428571428571429,
+      "ndcg_at_k": 0.6868342045320881,
+      "p50_retrieval_ms": 46.49624999728985,
+      "p95_retrieval_ms": 47.75662499014288
     },
     "negation": {
       "n": 6,
       "n_scored": 6,
-      "hit_at_k": 0.16666666666666666,
-      "recall_at_k": 0.05555555555555555,
-      "precision_at_k": 0.020833333333333332,
-      "mrr": 0.16666666666666666,
-      "ndcg_at_k": 0.07821312100379274,
-      "p50_retrieval_ms": 26.155667001148686,
-      "p95_retrieval_ms": 26.88816699082963
+      "hit_at_k": 0.6666666666666666,
+      "recall_at_k": 0.5555555555555556,
+      "precision_at_k": 0.10416666666666667,
+      "mrr": 0.6666666666666666,
+      "ndcg_at_k": 0.5648332525284907,
+      "p50_retrieval_ms": 46.16620799060911,
+      "p95_retrieval_ms": 50.25854200357571
     },
     "not_in_corpus": {
       "n": 6,
@@ -91,19 +91,19 @@
       "precision_at_k": null,
       "mrr": null,
       "ndcg_at_k": null,
-      "p50_retrieval_ms": 27.2970839869231,
-      "p95_retrieval_ms": 31.736083008581772
+      "p50_retrieval_ms": 46.45712501951493,
+      "p95_retrieval_ms": 47.537832986563444
     },
     "temporal": {
       "n": 6,
       "n_scored": 6,
-      "hit_at_k": 0.5,
-      "recall_at_k": 0.5,
-      "precision_at_k": 0.06547619047619048,
-      "mrr": 0.10833333333333334,
-      "ndcg_at_k": 0.20073036209041273,
-      "p50_retrieval_ms": 25.92341700801626,
-      "p95_retrieval_ms": 26.44575000158511
+      "hit_at_k": 0.6666666666666666,
+      "recall_at_k": 0.6666666666666666,
+      "precision_at_k": 0.08928571428571429,
+      "mrr": 0.3111111111111111,
+      "ndcg_at_k": 0.39780880120575696,
+      "p50_retrieval_ms": 45.54958301014267,
+      "p95_retrieval_ms": 47.01420900528319
     }
   },
   "results": [
@@ -115,24 +115,24 @@
         "25552:92bis"
       ],
       "retrieved_articles": [
-        "63208:1",
         "53159:3",
-        "93595:2",
-        "395521:71",
+        "210489:7",
         "25552:92bis",
+        "63208:1",
+        "395521:71",
         "401266:92bis",
-        "53159:1",
-        "141792:22"
+        "93595:2",
+        "423680:107"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 0.2,
-      "ndcg_at_k": 0.38685280723454163,
-      "first_hit_rank": 5,
-      "retrieval_ms": 30.515416990965605
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "first_hit_rank": 3,
+      "retrieval_ms": 199.2481249908451
     },
     {
       "id": "b02",
@@ -142,24 +142,24 @@
         "25552:231"
       ],
       "retrieved_articles": [
-        "25552:18",
-        "423680:9",
-        "25552:236",
-        "77206:1",
-        "25552:252",
-        "25552:253",
-        "25552:103bis",
-        "27971:28"
+        "25552:231",
+        "210489:42",
+        "93595:3",
+        "25552:94",
+        "210489:43",
+        "210489:48",
+        "15932:95",
+        "25552:18"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 27.44262499618344
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 47.91937497793697
     },
     {
       "id": "b03",
@@ -169,24 +169,23 @@
         "25552:245"
       ],
       "retrieved_articles": [
-        "210489:46",
-        "235960:33",
-        "8384:3",
-        "25552:245",
-        "25379:273",
         "210489:48",
-        "395521:82",
-        "25552:224"
+        "395521:81",
+        "25552:245",
+        "423680:51",
+        "412:153",
+        "4215:51",
+        "412:155"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
-      "precision_at_k": 0.125,
-      "reciprocal_rank": 0.25,
-      "ndcg_at_k": 0.43067655807339306,
-      "first_hit_rank": 4,
-      "retrieval_ms": 27.517750015249476
+      "precision_at_k": 0.14285714285714285,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "first_hit_rank": 3,
+      "retrieval_ms": 47.02975001418963
     },
     {
       "id": "b04",
@@ -196,24 +195,23 @@
         "25552:246"
       ],
       "retrieved_articles": [
-        "140611:8",
-        "395521:219",
-        "71477:2",
-        "246009:5",
-        "379800:1",
-        "246009:2",
-        "86104:3",
-        "376814:3"
+        "210489:49",
+        "25552:246",
+        "423680:144",
+        "412:155",
+        "25552:245",
+        "25552:245bis",
+        "412:153"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.593916991259903
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.14285714285714285,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 47.27079201256856
     },
     {
       "id": "b05",
@@ -223,24 +221,24 @@
         "25552:80"
       ],
       "retrieved_articles": [
-        "77206:1",
-        "65583:5",
-        "25552:252",
-        "423680:25",
         "25552:80",
-        "350161:11",
-        "305214:7",
-        "423680:64"
+        "423680:25",
+        "7968:22",
+        "7968:18",
+        "215351:1",
+        "8767:8",
+        "348166:13",
+        "192152:75"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 0.2,
-      "ndcg_at_k": 0.38685280723454163,
-      "first_hit_rank": 5,
-      "retrieval_ms": 26.953166991006583
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 50.180291989818215
     },
     {
       "id": "b06",
@@ -250,24 +248,24 @@
         "25552:150"
       ],
       "retrieved_articles": [
-        "426270:19",
-        "25552:239",
-        "4215:50",
-        "25552:253",
         "25552:150",
-        "395521:83",
-        "426272:26",
-        "426272:17"
+        "210489:29",
+        "210489:31",
+        "25552:155",
+        "25552:18",
+        "423680:41",
+        "25552:151",
+        "423680:9"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 0.2,
-      "ndcg_at_k": 0.38685280723454163,
-      "first_hit_rank": 5,
-      "retrieval_ms": 27.956915990216658
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 47.70683398237452
     },
     {
       "id": "b07",
@@ -278,13 +276,13 @@
       ],
       "retrieved_articles": [
         "25552:158",
-        "25552:132",
         "210489:38",
-        "25552:153",
-        "19061:2",
-        "323256:2",
-        "403657:1",
-        "8384:3"
+        "192152:52",
+        "210489:30",
+        "39995:3",
+        "39995:1",
+        "25552:194",
+        "352106:3"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -294,7 +292,7 @@
       "reciprocal_rank": 1.0,
       "ndcg_at_k": 1.0,
       "first_hit_rank": 1,
-      "retrieval_ms": 26.455291983438656
+      "retrieval_ms": 47.704917000373825
     },
     {
       "id": "b08",
@@ -304,24 +302,24 @@
         "25552:256"
       ],
       "retrieved_articles": [
-        "25379:247",
-        "25552:262",
-        "25379:239",
-        "25379:170",
-        "25379:243",
-        "25379:242",
-        "25379:4",
-        "215351:1"
+        "210489:69",
+        "25552:256",
+        "21976:9",
+        "27971:44",
+        "21976:7",
+        "21976:3",
+        "426270:13",
+        "25552:258"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 25.941583997337148
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 49.402707983972505
     },
     {
       "id": "b09",
@@ -332,24 +330,24 @@
         "25552:182"
       ],
       "retrieved_articles": [
-        "43703:19",
-        "27971:28",
-        "287178:5",
-        "123332:2",
-        "21976:8",
-        "25552:212",
-        "25379:58",
-        "25379:74"
+        "210489:40",
+        "25552:178",
+        "210489:41",
+        "25552:177",
+        "395521:78",
+        "210489:39",
+        "77209:1",
+        "25552:183"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 25.823625008342788
+      "hit_at_k": true,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.38685280723454163,
+      "first_hit_rank": 2,
+      "retrieval_ms": 47.75662499014288
     },
     {
       "id": "b10",
@@ -362,12 +360,12 @@
       "retrieved_articles": [
         "28165:1",
         "25552:122",
-        "25379:39",
+        "210489:26",
         "25552:121",
+        "210489:27",
         "241014:1",
-        "344201:14",
-        "395521:219",
-        "210489:25"
+        "25552:123",
+        "336003:8"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -377,7 +375,7 @@
       "reciprocal_rank": 0.5,
       "ndcg_at_k": 0.6509209298071326,
       "first_hit_rank": 2,
-      "retrieval_ms": 25.693124975077808
+      "retrieval_ms": 46.59804201219231
     },
     {
       "id": "b11",
@@ -388,24 +386,24 @@
         "25552:211"
       ],
       "retrieved_articles": [
-        "123332:2",
-        "25379:51",
-        "93595:3",
-        "25552:231",
-        "401266:5",
-        "43703:4",
-        "355771:1",
-        "305736:180"
+        "25552:208",
+        "25552:212",
+        "25552:211",
+        "25552:213",
+        "192152:53",
+        "210489:34",
+        "43703:5",
+        "25552:209"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.132416998734698
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.49624999728985
     },
     {
       "id": "b12",
@@ -416,24 +414,24 @@
         "25552:208"
       ],
       "retrieved_articles": [
-        "25552:224",
-        "25552:231",
-        "423212:16",
-        "25552:223",
-        "25552:153",
-        "93595:3",
         "25552:213",
-        "412:67"
+        "25552:208",
+        "25552:212",
+        "25552:156",
+        "25552:245",
+        "25552:210",
+        "25552:254",
+        "192152:53"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
-      "recall_at_k": 0.5,
-      "precision_at_k": 0.125,
-      "reciprocal_rank": 0.14285714285714285,
-      "ndcg_at_k": 0.20438239758848611,
-      "first_hit_rank": 7,
-      "retrieval_ms": 26.446250005392358
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 45.62129100668244
     },
     {
       "id": "b13",
@@ -444,24 +442,24 @@
         "25552:55"
       ],
       "retrieved_articles": [
-        "100705:5",
-        "423680:68",
-        "344201:5",
-        "355771:2",
-        "148719:1",
-        "354746:1",
-        "25552:130",
-        "363676:7"
+        "8767:13",
+        "230592:9",
+        "230592:2",
+        "412:18",
+        "25552:52",
+        "412:7",
+        "384409:5",
+        "305736:146"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 27.116332988953218
+      "hit_at_k": true,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.23719771276929622,
+      "first_hit_rank": 5,
+      "retrieval_ms": 46.163749997504056
     },
     {
       "id": "b14",
@@ -472,24 +470,24 @@
         "25552:241"
       ],
       "retrieved_articles": [
-        "395521:224",
-        "263691:77",
-        "401266:66",
-        "395521:81",
-        "65015:15",
-        "395521:220",
-        "395521:93",
-        "401266:137"
+        "25552:240",
+        "25552:241",
+        "423680:49",
+        "423680:50",
+        "401266:68",
+        "210489:46",
+        "426272:21",
+        "348166:30"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.14304202143103
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 45.4914580041077
     },
     {
       "id": "b15",
@@ -500,14 +498,14 @@
         "25552:220"
       ],
       "retrieved_articles": [
-        "25552:218",
-        "4215:64",
-        "354154:1",
-        "344201:17",
+        "25552:220",
+        "25552:153",
+        "221801:23",
+        "246009:2",
+        "246009:5",
+        "140611:8",
         "25552:221",
-        "372160:3",
-        "53159:18",
-        "363676:18"
+        "12367:14"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -517,7 +515,7 @@
       "reciprocal_rank": 1.0,
       "ndcg_at_k": 0.6131471927654584,
       "first_hit_rank": 1,
-      "retrieval_ms": 26.191834011115134
+      "retrieval_ms": 46.59662500489503
     },
     {
       "id": "b16",
@@ -528,14 +526,13 @@
         "25552:244"
       ],
       "retrieved_articles": [
-        "93:1",
-        "803:12",
-        "25552:247",
-        "263691:15",
-        "230592:14",
-        "412:157",
-        "263691:70",
-        "93595:4"
+        "210489:48",
+        "395521:81",
+        "412:153",
+        "25552:245",
+        "423680:51",
+        "192152:22",
+        "25552:255"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -545,7 +542,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 26.334374997531995
+      "retrieval_ms": 45.87649999302812
     },
     {
       "id": "b17",
@@ -555,24 +552,24 @@
         "25552:2"
       ],
       "retrieved_articles": [
-        "423680:26",
-        "423680:13",
-        "29743:1",
-        "423680:11",
-        "423680:1",
-        "423680:12",
-        "423680:8",
-        "25552:100"
+        "25552:2",
+        "12367:2",
+        "412:112",
+        "423680:2",
+        "10298:1",
+        "379858:1",
+        "423680:6",
+        "192152:3"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.122665993170813
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.16620799060911
     },
     {
       "id": "b18",
@@ -583,24 +580,24 @@
         "25552:132"
       ],
       "retrieved_articles": [
-        "395521:219",
-        "25552:167",
-        "803:12",
-        "4215:77",
-        "27971:28",
-        "352666:9",
-        "25379:24",
-        "21976:11"
+        "25552:131",
+        "192152:39",
+        "25552:132",
+        "25552:133",
+        "354815:2",
+        "423680:37",
+        "219607:3",
+        "25552:130"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.155667001148686
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.283792005851865
     },
     {
       "id": "b19",
@@ -610,24 +607,24 @@
         "25552:168"
       ],
       "retrieved_articles": [
-        "25379:43",
-        "93595:4",
-        "93595:3",
-        "43703:4",
-        "7968:22",
-        "25552:231",
-        "25552:233",
-        "803:12"
+        "25552:168",
+        "25552:166",
+        "25552:169",
+        "25552:167",
+        "25552:170",
+        "242848:6",
+        "394936:6",
+        "192561:6"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 25.774541980354115
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.00054200273007
     },
     {
       "id": "b20",
@@ -640,13 +637,13 @@
       ],
       "retrieved_articles": [
         "25552:38",
-        "25552:102",
-        "25552:41",
         "25552:23",
+        "93595:24",
+        "25552:73",
         "25552:21",
-        "25552:24",
         "423680:13",
-        "25552:37"
+        "141792:14",
+        "395521:68"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -656,7 +653,7 @@
       "reciprocal_rank": 1.0,
       "ndcg_at_k": 0.46927872602275644,
       "first_hit_rank": 1,
-      "retrieval_ms": 26.443249982548878
+      "retrieval_ms": 49.214124999707565
     },
     {
       "id": "b21",
@@ -666,14 +663,14 @@
         "25552:12"
       ],
       "retrieved_articles": [
-        "25379:203bis",
-        "423680:105",
-        "148719:29",
-        "395521:189",
-        "15:30",
-        "379858:7",
-        "423212:11",
-        "43703:3"
+        "115745:1",
+        "25552:75",
+        "25552:66",
+        "25552:73",
+        "423680:144",
+        "93595:3",
+        "423680:23",
+        "25552:254"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -683,7 +680,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 26.88816699082963
+      "retrieval_ms": 50.25854200357571
     },
     {
       "id": "b22",
@@ -693,24 +690,24 @@
         "210489:7"
       ],
       "retrieved_articles": [
-        "53159:3",
-        "210489:51",
-        "93595:2",
-        "395521:71",
-        "63208:1",
-        "401266:92bis",
+        "210489:7",
+        "210489:73",
+        "210489:65",
         "25552:92bis",
-        "388370:22"
+        "401266:92bis",
+        "63208:1",
+        "53159:3",
+        "395521:71"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 27.665582980262116
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 47.060374985449016
     },
     {
       "id": "b23",
@@ -720,24 +717,24 @@
         "210489:29"
       ],
       "retrieved_articles": [
-        "149526:1",
-        "192561:1",
-        "242848:1",
-        "394936:1",
-        "149525:1",
-        "357965:1",
+        "210489:31",
         "151043:1",
-        "177688:1"
+        "149526:1",
+        "210489:29",
+        "149525:1",
+        "192561:1",
+        "177688:1",
+        "210489:32"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.18783400976099
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "first_hit_rank": 4,
+      "retrieval_ms": 47.80425000353716
     },
     {
       "id": "b24",
@@ -747,24 +744,24 @@
         "192152:40"
       ],
       "retrieved_articles": [
-        "25552:198",
-        "25552:197",
-        "423680:43",
-        "412:25",
-        "192152:44",
-        "192152:10",
         "192152:40",
-        "25552:103bis"
+        "192152:41",
+        "192152:42",
+        "192152:16",
+        "398816:1",
+        "349629:1",
+        "192152:11",
+        "354545:1"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 0.14285714285714285,
-      "ndcg_at_k": 0.3333333333333333,
-      "first_hit_rank": 7,
-      "retrieval_ms": 26.058208983158693
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 45.50929201650433
     },
     {
       "id": "b25",
@@ -774,24 +771,24 @@
         "64555:2"
       ],
       "retrieved_articles": [
-        "423680:68",
-        "27971:28",
         "64555:2",
-        "25552:213",
         "395521:85",
-        "287178:5",
-        "25552:155",
-        "412:153"
+        "395521:81",
+        "210489:48",
+        "64555:1",
+        "36739:13",
+        "210489:43",
+        "93595:5"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 0.3333333333333333,
-      "ndcg_at_k": 0.5,
-      "first_hit_rank": 3,
-      "retrieval_ms": 26.58770899870433
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 169.5723329903558
     },
     {
       "id": "b26",
@@ -802,23 +799,24 @@
         "210489:27"
       ],
       "retrieved_articles": [
+        "389071:3",
+        "376814:7",
         "425989:1",
-        "123332:2",
-        "210489:51",
-        "371819:4",
-        "333564:79",
-        "363676:4",
-        "390788:5"
+        "210489:27",
+        "91517:1",
+        "379858:5",
+        "376814:1",
+        "210489:37"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.78441599709913
+      "hit_at_k": true,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.2640681225725909,
+      "first_hit_rank": 4,
+      "retrieval_ms": 45.680084003834054
     },
     {
       "id": "b27",
@@ -828,24 +826,24 @@
         "25552:23"
       ],
       "retrieved_articles": [
-        "65015:15",
-        "401266:78",
-        "423680:165",
-        "80729:1",
-        "423680:73",
-        "423680:170",
-        "96089:11",
-        "25552:22"
+        "25552:23",
+        "25552:22",
+        "423680:13",
+        "210489:1",
+        "729:1",
+        "729:3",
+        "395521:68",
+        "25552:27"
       ],
       "retrieved_chunks": 8,
       "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.167583011556417
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.28091599442996
     },
     {
       "id": "b28",
@@ -855,14 +853,14 @@
         "25552:28"
       ],
       "retrieved_articles": [
-        "401913:3",
-        "305347:38",
-        "425989:1",
-        "379858:7",
-        "348166:30",
-        "403762:4",
-        "350751:25",
-        "350751:26"
+        "423680:14",
+        "423680:17",
+        "423680:15",
+        "192152:104",
+        "423680:16",
+        "192152:88",
+        "192152:105",
+        "25552:29"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -872,7 +870,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 26.458249980350956
+      "retrieval_ms": 45.49204101203941
     },
     {
       "id": "b29",
@@ -882,14 +880,14 @@
         "412:8"
       ],
       "retrieved_articles": [
-        "219607:1",
-        "401266:99",
-        "383380:10",
-        "423680:98",
-        "333564:56",
-        "377528:8",
-        "38142:7",
-        "65583:1"
+        "8767:13",
+        "230592:9",
+        "230592:2",
+        "426580:2",
+        "395521:61",
+        "401266:85",
+        "305736:146",
+        "401266:82"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -899,7 +897,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 26.678958005504683
+      "retrieval_ms": 45.68941600155085
     },
     {
       "id": "b30",
@@ -909,14 +907,14 @@
         "25552:54"
       ],
       "retrieved_articles": [
-        "235960:4",
-        "362527:4",
-        "235960:12",
-        "348166:30",
-        "350751:65",
-        "15:14",
-        "401266:206",
-        "362527:6"
+        "27971:34",
+        "269015:1",
+        "25552:58",
+        "210489:75",
+        "423680:21",
+        "27971:25",
+        "162205:1",
+        "27971:49"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -926,7 +924,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 28.284499974688515
+      "retrieval_ms": 44.475290982518345
     },
     {
       "id": "b31",
@@ -937,14 +935,14 @@
         "25552:193"
       ],
       "retrieved_articles": [
-        "71477:9",
-        "423680:149",
-        "43703:15",
-        "384855:8",
-        "350424:10",
-        "405312:12",
-        "417069:2",
-        "401266:159"
+        "77208:1",
+        "423680:36",
+        "141792:5",
+        "21976:2",
+        "21976:3",
+        "27971:33",
+        "141792:6",
+        "141792:7"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -954,7 +952,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 26.018292002845556
+      "retrieval_ms": 45.513458986533806
     },
     {
       "id": "b32",
@@ -964,14 +962,14 @@
         "93595:1"
       ],
       "retrieved_articles": [
-        "401266:99",
         "63208:5",
-        "65583:1",
-        "65583:14",
-        "148719:9",
-        "305214:5",
-        "423680:149",
-        "72195:8"
+        "63208:34",
+        "63208:35",
+        "63208:1",
+        "53159:22",
+        "63208:10",
+        "7812:5",
+        "63208:9"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -981,7 +979,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 25.757665978744626
+      "retrieval_ms": 45.63662500004284
     },
     {
       "id": "b33",
@@ -993,21 +991,21 @@
       "retrieved_articles": [
         "53159:3",
         "395521:71",
-        "401266:92bis",
         "25552:92bis",
-        "93595:2",
+        "401266:92bis",
         "63208:1",
-        "210489:7"
+        "210489:7",
+        "20421:1"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.14285714285714285,
-      "reciprocal_rank": 0.25,
-      "ndcg_at_k": 0.43067655807339306,
-      "first_hit_rank": 4,
-      "retrieval_ms": 25.831167004071176
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "first_hit_rank": 3,
+      "retrieval_ms": 45.54958301014267
     },
     {
       "id": "b34",
@@ -1017,24 +1015,23 @@
         "25552:245"
       ],
       "retrieved_articles": [
-        "210489:46",
-        "395521:358",
-        "123332:2",
-        "395521:117",
+        "395521:81",
+        "395521:83",
+        "210489:48",
+        "423680:51",
         "25552:245",
-        "235960:33",
-        "15:6",
-        "423680:182"
+        "25552:255",
+        "423680:52"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
-      "precision_at_k": 0.125,
+      "precision_at_k": 0.14285714285714285,
       "reciprocal_rank": 0.2,
       "ndcg_at_k": 0.38685280723454163,
       "first_hit_rank": 5,
-      "retrieval_ms": 26.203250017715618
+      "retrieval_ms": 44.95245800353587
     },
     {
       "id": "b35",
@@ -1044,24 +1041,24 @@
         "25552:231"
       ],
       "retrieved_articles": [
-        "38142:19",
-        "210164:2",
-        "39793:1",
-        "410534:7",
         "25552:231",
-        "4215:76",
-        "15932:81",
-        "401266:172"
+        "210489:42",
+        "15932:95",
+        "93595:3",
+        "25552:94",
+        "25552:236",
+        "210489:45",
+        "423680:48"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 0.2,
-      "ndcg_at_k": 0.38685280723454163,
-      "first_hit_rank": 5,
-      "retrieval_ms": 26.162583992118016
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 45.69316699053161
     },
     {
       "id": "b36",
@@ -1072,14 +1069,14 @@
         "25552:187"
       ],
       "retrieved_articles": [
-        "413035:6",
-        "401266:99",
-        "333564:56",
-        "413035:8",
-        "395521:229",
-        "305347:37",
-        "179703:5",
-        "401266:13"
+        "141792:2",
+        "141792:23",
+        "141792:19",
+        "141792:9",
+        "141792:6",
+        "141792:17",
+        "141792:21",
+        "141792:4"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -1089,7 +1086,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 26.44575000158511
+      "retrieval_ms": 45.328250009333715
     },
     {
       "id": "b37",
@@ -1099,14 +1096,13 @@
         "25552:245"
       ],
       "retrieved_articles": [
-        "272031:1",
-        "423680:84",
-        "64453:1",
-        "395521:132",
-        "263691:22",
-        "395521:82",
-        "395521:120",
-        "333564:56"
+        "95487:1",
+        "184483:1",
+        "147295:1",
+        "99777:6",
+        "27971:51#2",
+        "94005:1",
+        "272031:1"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -1116,7 +1112,7 @@
       "reciprocal_rank": 0.0,
       "ndcg_at_k": 0.0,
       "first_hit_rank": null,
-      "retrieval_ms": 25.92341700801626
+      "retrieval_ms": 47.01420900528319
     },
     {
       "id": "b38",
@@ -1126,245 +1122,14 @@
         "25552:198"
       ],
       "retrieved_articles": [
+        "423680:43",
         "412:25",
-        "423680:43",
-        "426487:1",
-        "427622:1",
-        "333564:55",
-        "333564:56",
-        "235960:12",
-        "367835:1"
-      ],
-      "retrieved_chunks": 8,
-      "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 25.683707994176075
-    },
-    {
-      "id": "b39",
-      "category": "not_in_corpus",
-      "question": "¿Cuál es el tope indemnizatorio vigente para el convenio colectivo de comercio?",
-      "expected_articles": [],
-      "retrieved_articles": [
-        "39523:1",
-        "388370:22",
-        "99777:6",
-        "388370:18",
-        "4215:77",
-        "25379:24",
-        "4215:58",
-        "389071:12"
-      ],
-      "retrieved_chunks": 8,
-      "scored": false,
-      "hit_at_k": null,
-      "recall_at_k": null,
-      "precision_at_k": null,
-      "reciprocal_rank": null,
-      "ndcg_at_k": null,
-      "first_hit_rank": null,
-      "retrieval_ms": 31.736083008581772
-    },
-    {
-      "id": "b40",
-      "category": "not_in_corpus",
-      "question": "¿Qué dice el artículo 14 bis de la Constitución Nacional?",
-      "expected_articles": [],
-      "retrieved_articles": [
-        "305736:70",
-        "305736:143",
-        "412:139",
-        "333564:56",
-        "413035:6",
-        "19061:2",
-        "413035:8",
-        "401266:102"
-      ],
-      "retrieved_chunks": 8,
-      "scored": false,
-      "hit_at_k": null,
-      "recall_at_k": null,
-      "precision_at_k": null,
-      "reciprocal_rank": null,
-      "ndcg_at_k": null,
-      "first_hit_rank": null,
-      "retrieval_ms": 27.2970839869231
-    },
-    {
-      "id": "b41",
-      "category": "not_in_corpus",
-      "question": "¿Cuál es la jornada máxima diaria y semanal según la Ley 11.544?",
-      "expected_articles": [],
-      "retrieved_articles": [
-        "25552:196",
-        "423680:114",
-        "355772:5",
-        "333564:56",
-        "65015:49",
-        "350751:19",
-        "36739:40",
-        "192152:32"
-      ],
-      "retrieved_chunks": 8,
-      "scored": false,
-      "hit_at_k": null,
-      "recall_at_k": null,
-      "precision_at_k": null,
-      "reciprocal_rank": null,
-      "ndcg_at_k": null,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.07508297660388
-    },
-    {
-      "id": "b42",
-      "category": "not_in_corpus",
-      "question": "¿Cuántos días de licencia por paternidad establece el convenio colectivo 130/75 de empleados de comercio?",
-      "expected_articles": [],
-      "retrieved_articles": [
-        "25552:132",
-        "401266:181",
-        "183155:2",
-        "350751:34",
-        "403657:1",
-        "350751:82",
-        "423680:41",
-        "395521:326"
-      ],
-      "retrieved_chunks": 8,
-      "scored": false,
-      "hit_at_k": null,
-      "recall_at_k": null,
-      "precision_at_k": null,
-      "reciprocal_rank": null,
-      "ndcg_at_k": null,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.79275002446957
-    },
-    {
-      "id": "b43",
-      "category": "not_in_corpus",
-      "question": "¿Qué dice el Código Civil y Comercial sobre el contrato de servicios?",
-      "expected_articles": [],
-      "retrieved_articles": [
-        "412:69",
-        "25552:236",
-        "93595:24",
-        "395521:261",
-        "305736:184",
-        "423680:101",
-        "412995:3",
-        "53159:3"
-      ],
-      "retrieved_chunks": 8,
-      "scored": false,
-      "hit_at_k": null,
-      "recall_at_k": null,
-      "precision_at_k": null,
-      "reciprocal_rank": null,
-      "ndcg_at_k": null,
-      "first_hit_rank": null,
-      "retrieval_ms": 27.87062499555759
-    },
-    {
-      "id": "b44",
-      "category": "not_in_corpus",
-      "question": "¿Cuál es el porcentaje de aporte jubilatorio que se descuenta al trabajador según la Ley 24.241?",
-      "expected_articles": [],
-      "retrieved_articles": [
-        "65583:8",
-        "27971:49",
-        "149688:1",
-        "401266:128",
-        "65015:37",
-        "472:41",
-        "43703:15",
-        "426270:14"
-      ],
-      "retrieved_chunks": 8,
-      "scored": false,
-      "hit_at_k": null,
-      "recall_at_k": null,
-      "precision_at_k": null,
-      "reciprocal_rank": null,
-      "ndcg_at_k": null,
-      "first_hit_rank": null,
-      "retrieval_ms": 28.404792014043778
-    },
-    {
-      "id": "b45",
-      "category": "cross_reference",
-      "question": "¿Qué ley sustituyó el artículo 92 bis de la LCT en 2024 y qué artículo de esa ley lo hizo?",
-      "expected_articles": [
-        "401266:91"
-      ],
-      "retrieved_articles": [
-        "333564:56",
-        "263691:3",
-        "423680:110",
-        "305214:3",
-        "401266:124",
-        "401266:99",
-        "4215:115",
-        "423680:84"
-      ],
-      "retrieved_chunks": 8,
-      "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 26.39574999921024
-    },
-    {
-      "id": "b46",
-      "category": "cross_reference",
-      "question": "¿Qué artículo de la Ley 27.802 modificó la entrega de certificados de trabajo del artículo 80 de la LCT?",
-      "expected_articles": [
-        "423680:25"
-      ],
-      "retrieved_articles": [
-        "362527:9",
-        "151877:1",
-        "426270:4",
-        "333564:56",
-        "305347:38",
-        "65015:24",
-        "413035:6",
-        "139522:4"
-      ],
-      "retrieved_chunks": 8,
-      "scored": true,
-      "hit_at_k": false,
-      "recall_at_k": 0.0,
-      "precision_at_k": 0.0,
-      "reciprocal_rank": 0.0,
-      "ndcg_at_k": 0.0,
-      "first_hit_rank": null,
-      "retrieval_ms": 25.79829201567918
-    },
-    {
-      "id": "b47",
-      "category": "cross_reference",
-      "question": "¿A qué ley remite la LCT para la extensión de la jornada de trabajo?",
-      "expected_articles": [
-        "25552:196"
-      ],
-      "retrieved_articles": [
         "25552:198",
-        "423680:43",
-        "25552:196",
-        "413035:6",
-        "355772:5",
         "25552:200",
-        "333564:71",
-        "395521:123"
+        "353199:5",
+        "395521:79",
+        "77254:1",
+        "77209:1"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -1374,7 +1139,236 @@
       "reciprocal_rank": 0.3333333333333333,
       "ndcg_at_k": 0.5,
       "first_hit_rank": 3,
-      "retrieval_ms": 26.579916011542082
+      "retrieval_ms": 45.58066697791219
+    },
+    {
+      "id": "b39",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es el tope indemnizatorio vigente para el convenio colectivo de comercio?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "94005:1",
+        "99777:6",
+        "217407:1",
+        "219896:1",
+        "231501:3",
+        "95487:2",
+        "272031:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 46.625499991932884
+    },
+    {
+      "id": "b40",
+      "category": "not_in_corpus",
+      "question": "¿Qué dice el artículo 14 bis de la Constitución Nacional?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "412995:14",
+        "69724:18",
+        "401266:108",
+        "305736:150",
+        "347:14",
+        "19061:2",
+        "305736:83",
+        "93595:15"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 47.537832986563444
+    },
+    {
+      "id": "b41",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es la jornada máxima diaria y semanal según la Ley 11.544?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "25552:198",
+        "25552:196",
+        "412:25",
+        "25552:200",
+        "210489:11",
+        "423680:43",
+        "192152:40",
+        "25552:190"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 45.559125021100044
+    },
+    {
+      "id": "b42",
+      "category": "not_in_corpus",
+      "question": "¿Cuántos días de licencia por paternidad establece el convenio colectivo 130/75 de empleados de comercio?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "192152:52",
+        "25552:179",
+        "210489:38",
+        "352106:3",
+        "395521:78",
+        "242848:1",
+        "149525:1",
+        "248204:2"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 47.31083399383351
+    },
+    {
+      "id": "b43",
+      "category": "not_in_corpus",
+      "question": "¿Qué dice el Código Civil y Comercial sobre el contrato de servicios?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "395521:252",
+        "25552:21",
+        "25552:30",
+        "25552:38",
+        "25379:20",
+        "25552:23",
+        "803:3",
+        "210489:6"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 45.52720801439136
+    },
+    {
+      "id": "b44",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es el porcentaje de aporte jubilatorio que se descuenta al trabajador según la Ley 24.241?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "729:1",
+        "412:87",
+        "192152:81",
+        "305749:2",
+        "417788:17",
+        "352106:2",
+        "230592:24"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 46.45712501951493
+    },
+    {
+      "id": "b45",
+      "category": "cross_reference",
+      "question": "¿Qué ley sustituyó el artículo 92 bis de la LCT en 2024 y qué artículo de esa ley lo hizo?",
+      "expected_articles": [
+        "401266:91"
+      ],
+      "retrieved_articles": [
+        "401266:91",
+        "379858:1",
+        "210489:72",
+        "333564:32",
+        "395521:262",
+        "25552:12",
+        "162205:1",
+        "379858:3"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.20962499757297
+    },
+    {
+      "id": "b46",
+      "category": "cross_reference",
+      "question": "¿Qué artículo de la Ley 27.802 modificó la entrega de certificados de trabajo del artículo 80 de la LCT?",
+      "expected_articles": [
+        "423680:25"
+      ],
+      "retrieved_articles": [
+        "423680:25",
+        "248688:12",
+        "423680:45",
+        "248688:10",
+        "395521:70",
+        "425871:1",
+        "25552:80",
+        "369835:8"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.53341698576696
+    },
+    {
+      "id": "b47",
+      "category": "cross_reference",
+      "question": "¿A qué ley remite la LCT para la extensión de la jornada de trabajo?",
+      "expected_articles": [
+        "25552:196"
+      ],
+      "retrieved_articles": [
+        "25552:196",
+        "27971:40",
+        "423680:43",
+        "25552:200",
+        "25552:198",
+        "25552:190",
+        "25552:197bis",
+        "25552:203"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 45.10866699274629
     },
     {
       "id": "b48",
@@ -1386,13 +1380,13 @@
       ],
       "retrieved_articles": [
         "25552:248",
+        "423680:52",
         "25552:156",
-        "61181:3",
-        "263691:72",
-        "333564:43",
-        "472:27",
-        "729:1",
-        "425989:1"
+        "203798:3",
+        "25552:249",
+        "25552:255",
+        "27971:12",
+        "37881:6"
       ],
       "retrieved_chunks": 8,
       "scored": true,
@@ -1402,7 +1396,7 @@
       "reciprocal_rank": 1.0,
       "ndcg_at_k": 0.6131471927654584,
       "first_hit_rank": 1,
-      "retrieval_ms": 27.12862499174662
+      "retrieval_ms": 45.82133301300928
     },
     {
       "id": "b49",
@@ -1413,24 +1407,24 @@
         "401266:95"
       ],
       "retrieved_articles": [
-        "15:84",
-        "423680:17",
-        "36739:39",
-        "395521:82",
         "401266:95",
-        "25552:155",
-        "15:62",
-        "25552:245bis"
+        "395521:82",
+        "25552:245bis",
+        "64555:1",
+        "93595:5",
+        "27971:14",
+        "401266:94",
+        "27971:51#2"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.25,
-      "reciprocal_rank": 0.2,
-      "ndcg_at_k": 0.430624116386567,
-      "first_hit_rank": 5,
-      "retrieval_ms": 26.220584026305005
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.9197207891481876,
+      "first_hit_rank": 1,
+      "retrieval_ms": 46.178124990547076
     },
     {
       "id": "b50",
@@ -1440,24 +1434,24 @@
         "93595:1"
       ],
       "retrieved_articles": [
+        "63208:34",
+        "75926:5",
         "93595:1",
-        "401266:77",
-        "423680:169",
-        "15:82",
-        "263691:35",
-        "148719:11",
-        "263691:55",
-        "63208:34"
+        "93595:41",
+        "93595:42",
+        "15932:31",
+        "148719:49",
+        "369835:16"
       ],
       "retrieved_chunks": 8,
       "scored": true,
       "hit_at_k": true,
       "recall_at_k": 1.0,
       "precision_at_k": 0.125,
-      "reciprocal_rank": 1.0,
-      "ndcg_at_k": 1.0,
-      "first_hit_rank": 1,
-      "retrieval_ms": 26.183041016338393
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "first_hit_rank": 3,
+      "retrieval_ms": 44.935749989235774
     }
   ]
 }
