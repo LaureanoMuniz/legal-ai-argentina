@@ -9,6 +9,7 @@ from sqlalchemy.engine import Engine
 from legal_ai.index.embeddings import Embedder
 from legal_ai.retrieval.bm25 import bm25_index_exists, retrieve_bm25
 from legal_ai.retrieval.fusion import convex, dedupe_by_article, rrf
+from legal_ai.retrieval.graph import expand_with_references
 from legal_ai.retrieval.rerank import Reranker, rerank
 from legal_ai.retrieval.rewrite import Rewriter
 from legal_ai.retrieval.types import Candidate
@@ -48,6 +49,7 @@ class Retriever:
         pool: int = RERANK_POOL,
         rewriter: Rewriter | None = None,
         multi_query: bool = True,
+        graph_extra: int = 0,
     ) -> None:
         self.engine = engine
         self.embedder = embedder
@@ -58,6 +60,7 @@ class Retriever:
         self.pool = pool
         self.rewriter = rewriter
         self.multi_query = multi_query
+        self.graph_extra = graph_extra
 
     @property
     def name(self) -> str:
@@ -72,6 +75,8 @@ class Retriever:
             label += f"+{self.rewriter.name}"
             if self.multi_query:
                 label += "+multi"
+        if self.graph_extra:
+            label += f"+graph{self.graph_extra}"
         return label
 
     def embed_query(self, query: str) -> list[float]:
@@ -151,5 +156,17 @@ class Retriever:
     ) -> list[Candidate]:
         plan = plan or self.plan(query, as_of, historical)
         if self.reranker is None:
-            return self._candidates(plan, k)
-        return rerank(self.reranker, query, self._candidates(plan, max(k, self.pool)), k)
+            ranked = self._candidates(plan, k)
+        else:
+            ranked = rerank(self.reranker, query, self._candidates(plan, max(k, self.pool)), k)
+        if not self.graph_extra:
+            return ranked
+        with self.engine.connect() as conn:
+            return expand_with_references(
+                conn,
+                ranked,
+                k,
+                extra=self.graph_extra,
+                as_of=plan.as_of,
+                historical=plan.historical,
+            )

@@ -146,6 +146,29 @@ history = Table(
     Column("raw", Text, nullable=False),
 )
 
+article_references = Table(
+    "article_references",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column(
+        "source_article_id",
+        String(64),
+        ForeignKey("articles.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    ),
+    Column(
+        "target_article_id",
+        String(64),
+        ForeignKey("articles.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    ),
+    Column("kind", String(32), nullable=False),
+    Column("evidence", Text, nullable=False),
+    UniqueConstraint("source_article_id", "target_article_id", name="uq_article_reference"),
+)
+
 chunks = Table(
     "chunks",
     metadata,

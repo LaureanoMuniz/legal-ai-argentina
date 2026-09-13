@@ -155,6 +155,7 @@ def build_pipeline(
         pool=settings.rerank_pool,
         rewriter=rewriter,
         multi_query=settings.rewrite_multi_query,
+        graph_extra=settings.graph_extra,
     )
     generator = (
         ClaudeGenerator(make_client(settings.anthropic_api_key), settings.llm_model)

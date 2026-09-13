@@ -7,7 +7,14 @@ from pydantic import BaseModel
 from sqlalchemy import Table, delete, select
 from sqlalchemy.engine import Connection, Engine
 
-from legal_ai.db.schema import article_versions, articles, documents, history, relations
+from legal_ai.db.schema import (
+    article_references,
+    article_versions,
+    articles,
+    documents,
+    history,
+    relations,
+)
 from legal_ai.ingest.layout import ProcessedLayout
 
 BATCH = 1000
@@ -20,6 +27,7 @@ class LoadReport(BaseModel):
     versions: int
     relations: int
     history: int
+    references: int = 0
 
 
 def _rows(path: Path) -> Iterator[dict[str, Any]]:
@@ -77,6 +85,10 @@ def load_corpus(engine: Engine, processed: ProcessedLayout, corpus: str) -> Load
         n_versions = _insert(conn, article_versions, _rows(folder / "article_versions.jsonl"))
         n_relations = _insert(conn, relations, _with_corpus(folder / "relations.jsonl", corpus))
         n_history = _insert(conn, history, _history_rows(folder / "history.jsonl"))
+        refs_path = folder / "references.jsonl"
+        n_references = (
+            _insert(conn, article_references, _rows(refs_path)) if refs_path.exists() else 0
+        )
     return LoadReport(
         corpus=corpus,
         documents=n_docs,
@@ -84,4 +96,5 @@ def load_corpus(engine: Engine, processed: ProcessedLayout, corpus: str) -> Load
         versions=n_versions,
         relations=n_relations,
         history=n_history,
+        references=n_references,
     )

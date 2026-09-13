@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     rerank_pool: int = 30
     rewrite_model: str | None = "claude-sonnet-5"
     rewrite_multi_query: bool = True
+    graph_extra: int = 0
     retrieval_dedupe: bool = False
     otlp_endpoint: str | None = None
     traces_path: Path = Path("data/traces/spans.jsonl")
