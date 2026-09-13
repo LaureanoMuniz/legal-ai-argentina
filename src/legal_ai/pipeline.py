@@ -1,12 +1,13 @@
 """Question → vector retrieval → context → Claude → grounded answer, with spans per step."""
 
 import time
+from typing import Protocol
 
 from opentelemetry.trace import Tracer, format_trace_id
 from pydantic import BaseModel
 
 from legal_ai.db.engine import make_engine
-from legal_ai.generation.claude import ClaudeGenerator, Usage, make_client
+from legal_ai.generation.claude import ClaudeGenerator, Generation, Usage, make_client
 from legal_ai.generation.prompt import build_context
 from legal_ai.generation.schema import GroundedAnswer
 from legal_ai.index.embeddings import get_embedder
@@ -41,10 +42,14 @@ def _ms(start: float) -> float:
     return (time.perf_counter() - start) * 1000
 
 
+class Generator(Protocol):
+    model: str
+
+    def generate(self, question: str, candidates: list[Candidate]) -> Generation: ...
+
+
 class Pipeline:
-    def __init__(
-        self, retriever: Retriever, generator: ClaudeGenerator | None, tracer: Tracer
-    ) -> None:
+    def __init__(self, retriever: Retriever, generator: Generator | None, tracer: Tracer) -> None:
         self.retriever = retriever
         self.generator = generator
         self._tracer = tracer

@@ -218,6 +218,79 @@ def bench_run(
     typer.echo(f"escrito: {path}")
 
 
+@bench_app.command("generate")
+def bench_generate(
+    k: Annotated[int, typer.Option("--k")] = 8,
+    name: Annotated[str, typer.Option("--name")] = "phase8-generation",
+    questions: Annotated[str, typer.Option("--questions")] = "eval/benchmark.jsonl",
+    model: Annotated[str | None, typer.Option("--model", help="modelo generador")] = None,
+    judge_model: Annotated[str, typer.Option("--judge-model")] = "claude-sonnet-5",
+    limit: Annotated[int | None, typer.Option("--limit")] = None,
+    no_judge: Annotated[bool, typer.Option("--no-judge")] = False,
+) -> None:
+    """Benchmark de generación: abstención, afirmaciones sostenidas (juez), fuentes, costo."""
+    from pathlib import Path
+
+    from legal_ai.eval.generation import run_generation_benchmark, write_report
+    from legal_ai.eval.judge import ClaudeJudge
+    from legal_ai.generation.claude import make_client
+    from legal_ai.ingest.layout import ProcessedLayout
+    from legal_ai.ingest.manifest import read_resolved
+    from legal_ai.pipeline import build_pipeline
+    from legal_ai.settings import Settings
+
+    settings = Settings()
+    if not settings.anthropic_api_key:
+        raise typer.BadParameter("bench generate necesita ANTHROPIC_API_KEY en .env")
+    if model:
+        settings = settings.model_copy(update={"llm_model": model})
+    pipeline = build_pipeline(settings)
+    judge = None if no_judge else ClaudeJudge(make_client(settings.anthropic_api_key), judge_model)
+    resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))
+    report = run_generation_benchmark(
+        pipeline,
+        judge,
+        Path(questions),
+        k,
+        name,
+        resolved.catalog_date.isoformat(),
+        settings.llm_model,
+        limit=limit,
+    )
+    path = write_report(report, Path("experiments"))
+    o = report.overall
+
+    def pct(v: float | None) -> str:
+        return "  -  " if v is None else f"{v:5.2f}"
+
+    typer.echo(
+        f"n={report.n} abstuvo={o.abstained} respondió={o.answered} · claims={o.claims} "
+        f"sostenidas={pct(o.claim_support_rate)} parciales={pct(o.claim_partial_rate)} · "
+        f"cita esperado={pct(o.cited_expected_rate)} responde={pct(o.answers_question_rate)}"
+    )
+    typer.echo(
+        f"abstención en not_in_corpus={pct(report.not_in_corpus_abstention)} · "
+        f"abstención falsa (con hit)={pct(report.answerable_false_abstention)} · "
+        f"citas fuera de contexto={report.unsupported_source_citations}"
+    )
+    typer.echo(
+        f"tokens gen in/out={report.total_input_tokens}/{report.total_output_tokens} · "
+        f"juez in/out={report.judge_input_tokens}/{report.judge_output_tokens} · "
+        f"costo lista=${report.estimated_cost_usd:.2f} · total p50/p95="
+        f"{o.p50_total_ms / 1000:.1f}/{o.p95_total_ms / 1000:.1f} s · {report.retriever}"
+    )
+    typer.echo(
+        f"{'categoría':<16}{'n':>3} {'abst':>5} {'sost':>6} {'parc':>6} {'cita':>6} {'resp':>6}"
+    )
+    for cat, a in report.by_category.items():
+        typer.echo(
+            f"{cat:<16}{a.n:>3} {a.abstained:>5} {pct(a.claim_support_rate):>6} "
+            f"{pct(a.claim_partial_rate):>6} {pct(a.cited_expected_rate):>6} "
+            f"{pct(a.answers_question_rate):>6}"
+        )
+    typer.echo(f"escrito: {path}")
+
+
 def _reranker(settings: "Settings", flag: bool | None) -> "Reranker | None":
     from legal_ai.retrieval.rerank import BgeReranker, get_reranker
 
