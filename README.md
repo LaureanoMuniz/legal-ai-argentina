@@ -124,8 +124,10 @@ Cada `ask` deja sus spans en `data/traces/spans.jsonl`; la respuesta trae el
 
 Fases 0 a 5 completas: arquitectura, ingestion, parser, índice en Postgres con
 RAG baseline (vector → Claude con citas → trazas), benchmark de 50 preguntas
-en 8 categorías, y BM25 + híbrido medidos contra el vector. Números reales en
-`docs/ROADMAP.md`. Fase 6 (reranking) es la siguiente.
+en 8 categorías, y BM25 + híbrido medidos contra el vector. Después de la
+Fase 5 se corrigió un bug del parser (epígrafes partidos en una de cada
+cuatro versiones) y se volvió a medir: no cambió el retrieval. Números reales
+en `docs/ROADMAP.md`. Fase 6 (reranking) es la siguiente.
 
 ## Cuaderno
 

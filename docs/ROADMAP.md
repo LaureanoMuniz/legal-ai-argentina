@@ -57,8 +57,9 @@ Seguimientos:
 - 14 normas con texto y sin artículos numerados (comunicaciones BCRA,
   circulares, decretos de promulgación): decidir en Fase 3 si se indexan como
   un solo chunk.
-- Epígrafes partidos en dos líneas ("Formas de pago. Prestaciones" /
-  "complementarias.") y números con espacio ("ARTICULO 3 1"): casos aislados.
+- Epígrafes partidos en dos líneas: se anotó como "casos aislados"; eran una
+  de cada cuatro versiones actualizadas. Corregido tras la Fase 5 (ver
+  "Corrección del parser").
 - 194 relaciones de notas sin resolver a un `id_norma` (la norma
   modificatoria no está en el corpus).
 
@@ -231,6 +232,65 @@ Seguimientos:
   de sacar conclusiones de latencia.
 - Barrido de fusión como comando reproducible (`bench sweep`) en vez de un
   script suelto.
+
+## Corrección del parser tras la Fase 5 (2026-09-13)
+
+Al inspeccionar los fallos del benchmark apareció un bug del parser: 1.168 de
+las 4.686 versiones actualizadas (2.271 de 15.327 en total) empezaban en
+minúscula porque Infoleg parte el epígrafe con un salto de línea del fuente
+HTML y el conversor lo tomaba como línea nueva. El prefijo del art. 12 decía
+"Protección." y el texto empezaba "de los trabajadores. Irrenunciabilidad.".
+Los nombres de capítulo también quedaban cortados ("...por justa").
+
+Arreglo: los saltos de línea del fuente son espacios, salvo antes de un
+encabezado de artículo sin etiqueta (84 casos en 50 archivos) y dentro de las
+celdas de las páginas de vínculos. La jerarquía acepta nombre sin separador y
+se parte cuando dos marcadores comparten línea; los epígrafes seguidos de una
+oración sin guion se reconocen. Resultado sobre el corpus: 11.322 → 11.367
+artículos, 15.327 → 15.376 versiones, versiones en minúscula 2.271 → 16,
+epígrafes basura (la primera línea del cuerpo tomada como título) 689 menos,
+epígrafes nuevos 195, 15 artículos de un anexo falso eliminados, 105 de un
+anexo real recuperados. Historial (321) y relaciones (13.136) sin cambio.
+Goldens regenerados; LCT sigue con 293 artículos, 16 derogados y 1
+advertencia.
+
+Efecto en el benchmark (mismas 44 preguntas, k = 8, bge-m3, todo el corpus
+re-embebido; cada celda es hit@8 / nDCG@8):
+
+| Categoría | vector antes | vector después | híbrido antes | híbrido después |
+|---|---|---|---|---|
+| overall | 0,80 / 0,60 | 0,77 / 0,60 | 0,82 / 0,62 | 0,80 / 0,59 |
+| direct | 1,00 / 0,78 | 1,00 / 0,77 | 1,00 / 0,77 | 1,00 / 0,77 |
+| multi_article | 1,00 / 0,69 | 1,00 / 0,72 | 1,00 / 0,69 | 1,00 / 0,69 |
+| negation | 0,67 / 0,56 | 0,67 / 0,56 | 0,67 / 0,56 | 0,67 / 0,50 |
+| confusable | 1,00 / 0,78 | 1,00 / 0,81 | 1,00 / 0,77 | 1,00 / 0,77 |
+| derogated | 0,00 / 0,00 | 0,00 / 0,00 | 0,20 / 0,09 | 0,00 / 0,00 |
+| temporal | 0,67 / 0,40 | 0,67 / 0,39 | 0,67 / 0,41 | 0,67 / 0,39 |
+| cross_reference | 1,00 / 0,84 | 0,83 / 0,76 | 1,00 / 0,86 | 1,00 / 0,82 |
+
+Totales: vector antes: hit 0,80, recall 0,72, MRR 0,60, nDCG 0,60 | vector después: hit 0,77, recall 0,70, MRR 0,61, nDCG 0,60 | híbrido antes: hit 0,82, recall 0,75, MRR 0,61, nDCG 0,62 | híbrido después: hit 0,80, recall 0,72, MRR 0,58, nDCG 0,59.
+
+Lectura honesta: **el bug era real y había que arreglarlo, pero no movió el
+retrieval**. Cambiaron cuatro preguntas, dos para cada lado, dentro del ruido.
+Lo que se aprende de los casos:
+
+- b09 (embarazo) y b23 (vacaciones en casas particulares) suben una o dos
+  posiciones: el prefijo completo ayuda un poco.
+- b32 / b50 ("¿está vigente la Ley 25.250?" → Ley 25.877 art. 1, "Derógase la
+  Ley 25.250") bajan de la posición 3 a la 19 en el vector: el prefijo ahora
+  incluye "TITULO PRELIMINAR DEL ORDENAMIENTO DEL REGIMEN LABORAL" y el
+  artículo tiene una sola línea; el prefijo largo diluye al texto corto.
+  Contextual retrieval no es gratis para artículos de una oración.
+- b21 ("¿puede renunciar a sus derechos?") sigue en la posición 47 aunque el
+  prefijo ahora dice "Irrenunciabilidad": el problema es semántico (la
+  pregunta no usa la palabra y el modelo no une renunciar con
+  irrenunciabilidad), no de datos. Candidato a reranker y a reescritura.
+- b16 (242/244) sigue fuera de los 200 primeros.
+
+Reportes: `experiments/2026-09-13-phase5b-parserfix-{vector,hybrid}.json`.
+El default sigue en `hybrid` (ADR-022); con el índice nuevo empata al vector
+en nDCG (0,59 contra 0,60) y sigue sin empeorar hit ni recall en ninguna
+categoría, pero la ventaja que se midió en la Fase 5 desapareció: es ruido.
 
 ## Problemas que esperamos encontrar (y medir)
 

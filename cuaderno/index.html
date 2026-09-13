@@ -235,7 +235,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lecciones <b>1 a 5</b> · Fases 0 a 5</span>
+      <span>Lecciones <b>1 a 6</b> · Fases 0 a 5</span>
       <span>Corpus <b>laboral · 933 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>main</b></span>
@@ -288,8 +288,14 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l5-hallazgos">28. Lo que el benchmark desarmó</a></li>
       <li><a href="#l5-numeros">29. Los números de la Fase 5</a></li>
       <li><a href="#l5-proximo">30. Lo que viene: reranking</a></li>
-      <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar5">Autoevaluación 5</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 6 · Debug del retrieval</span></li>
+      <li><a href="#l6-metodo">31. Cómo se debuggea un retriever</a></li>
+      <li><a href="#l6-bug">32. El bug que sí estaba en el parser</a></li>
+      <li><a href="#l6-resultado">33. Lo que cambió y lo que no</a></li>
+      <li><a href="#l6-proximo">34. Lo que viene, con más datos</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar6">Autoevaluación 6</a></li>
     </ol>
   </nav>
 
@@ -1051,6 +1057,94 @@ LIMIT :k</code></pre>
       <p>Las categorías flojas siguen siendo las mismas: negación (0,56), temporal (0,41), derogados (por diseño). Un reranker lee pregunta y artículo juntos, con un modelo entrenado para decir "esto responde a aquello"; es lo que puede notar que "no genera indemnización" apunta al 242 y no al 245. La Fase 6 lo prueba sobre los 24 candidatos del híbrido, con bge-reranker local y Cohere por API, y mide ganancia por categoría, latencia y costo. Si no mejora negación, la respuesta está en reescribir la pregunta (Fase 7), no en ordenar mejor.</p>
     </section>
 
+    <section id="pensar5">
+      <h2>Autoevaluación 5</h2>
+      <p>Siete preguntas sobre BM25 y fusión. Mismo formato.</p>
+      <div class="quiz" id="quiz5"></div>
+      <div class="score" id="score5" hidden>
+        <span class="big" id="score5-num">0 / 7</span>
+        <span class="msg" id="score5-msg"></span>
+        <button type="button" id="quiz5-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="l6-metodo">
+      <div class="eyebrow">Lección 6 · Debug del retrieval</div>
+      <h2>31. Cómo se debuggea un retriever</h2>
+      <p class="lead">Las métricas dieron bajas y la pregunta fue: ¿es el modelo, es el parser, es el benchmark? Un promedio no lo dice. Lo que lo dice es mirar, pregunta por pregunta, en qué posición real quedó el artículo esperado y cómo se ve el chunk que debería haber salido.</p>
+      <p>El procedimiento fue el mismo que se usa en cualquier sistema de búsqueda. Para cada pregunta fallada: pedir 200 candidatos en vez de 8 y buscar la posición del artículo correcto. Si está en la 9, es un problema de orden. Si está en la 47, es un problema del modelo o de la pregunta. Si no está en los 200, el buscador no tiene forma de encontrarlo y hay que mirar el chunk. Después, leer ese chunk tal como se embebió: prefijo y texto.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Esperado</th><th class="num">Posición real</th><th>Diagnóstico</th></tr></thead>
+        <tbody>
+          <tr><td>b21 ¿puede renunciar a sus derechos?</td><td>art. 12</td><td class="num">42</td><td>Orden, lejos: el modelo no une "renunciar" con "irrenunciabilidad"</td></tr>
+          <tr><td>b09 despido de embarazada</td><td>art. 182</td><td class="num">35</td><td>Orden: el 178 sale segundo, el 182 no llega</td></tr>
+          <tr><td>b13 registración</td><td>art. 55</td><td class="num">26</td><td>Orden</td></tr>
+          <tr><td>b20 objeto prohibido</td><td>arts. 39 / 40</td><td class="num">28 / 15</td><td>Orden</td></tr>
+          <tr><td>b16 despido sin indemnización</td><td>arts. 242 / 244</td><td class="num">&gt; 200</td><td>Vocabulario: la pregunta dice "indemnización", el artículo dice "injuria"</td></tr>
+          <tr><td>b36, b37 (temporales)</td><td>arts. 32 / 187, 245</td><td class="num">83, 56</td><td>Necesitan el índice con versiones por fecha (Fase 9)</td></tr>
+        </tbody>
+        <caption>Posiciones en el ranking vectorial completo, antes de la corrección del parser. Tres cubos distintos: orden (reranker), vocabulario (reescritura de la pregunta), tiempo (índice temporal).</caption>
+      </table>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Esto se llama análisis de errores y es la parte del trabajo que los tutoriales saltean. Antes de cambiar de modelo o de técnica, se clasifica cada fallo en un cubo, porque cada cubo tiene un arreglo distinto y ninguno arregla a los otros. Un reranker no encuentra lo que no está en el pool; un modelo mejor no lee la fecha de la pregunta; un parser perfecto no une dos palabras que el modelo no relaciona.</p>
+      </div>
+    </section>
+
+    <section id="l6-bug">
+      <h2>32. El bug que sí estaba en el parser</h2>
+      <p>Al leer el chunk del art. 12 apareció algo que no tenía que ver con el modelo: el prefijo decía "Art. 12 — Protección." y el texto empezaba "de los trabajadores. Irrenunciabilidad. Será nula...". El epígrafe estaba partido. Una consulta a la base lo midió: 1.168 de las 4.686 versiones actualizadas empezaban en minúscula. Una de cada cuatro. En la Fase 2 lo habíamos anotado como "casos aislados".</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 24 · Un salto de línea no es un salto de línea</div>
+        <p>En HTML, un salto de línea del código fuente es un espacio: sólo <code>&lt;br&gt;</code> y los cierres de bloque cortan el texto. Infoleg escribe los títulos de artículo partidos en dos renglones del fuente, y nuestro conversor tomaba cada renglón como una línea. El parser de estructura veía "Protección" solo y lo tomaba por epígrafe completo. Lo mismo cortaba nombres de capítulo ("De la extinción del contrato de trabajo por justa") y metía saltos de línea falsos en el texto de casi todos los artículos.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 25 · El arreglo correcto rompe tres cosas más</div>
+        <p>Tratar los saltos del fuente como espacios era lo correcto y rompió: (1) las páginas de vínculos, cuyas celdas separan tipo, número y organismo sólo con saltos de línea, y pasaron a un solo campo de 82 caracteres que no entraba en la columna; (2) 84 artículos en 50 normas que Infoleg separa del anterior con un salto de línea y nada más, que quedaron pegados al texto anterior y se perdieron 105 artículos de un anexo; (3) títulos y capítulos que ahora compartían línea ("TITULO II Del contrato de trabajo CAPITULO I Del contrato") o llevaban nombre sin separador. Cada uno tuvo su regla y su test. Y una sorpresa buena: un anexo entero de 15 artículos desapareció porque nunca existió: la línea "ANEXO I que forma parte integrante de la" era texto del cuerpo partido por el fuente.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>El método para cambiar un parser con confianza fue el de la Fase 2: regenerar los golden files, mirar el diff campo por campo (artículos, epígrafes, estados, secciones, notas, hashes de texto) antes de aceptarlo, y comparar la corrida completa del corpus con la anterior: mismos 321 eventos de historial, mismas 13.136 relaciones, 45 artículos más, 689 epígrafes basura menos, 195 epígrafes nuevos. Sin ese diff, "arreglé el parser" es una frase, no un hecho.</p>
+      </div>
+    </section>
+
+    <section id="l6-resultado">
+      <h2>33. Lo que cambió y lo que no</h2>
+      <p>Con el corpus re-parseado, re-cargado y re-embebido (los 9.109 chunks, porque hasta los textos sin epígrafe perdieron sus saltos de línea falsos), se corrió el mismo benchmark. Cada celda es hit@8 / nDCG@8.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">vector antes</th><th class="num">vector después</th><th class="num">híbrido antes</th><th class="num">híbrido después</th></tr></thead>
+        <tbody>
+          <tr><td><strong>overall</strong></td><td class="num">0,80 / 0,60</td><td class="num">0,77 / 0,60</td><td class="num">0,82 / 0,62</td><td class="num">0,80 / 0,59</td></tr>
+          <tr><td>direct</td><td class="num">1,00 / 0,78</td><td class="num">1,00 / 0,77</td><td class="num">1,00 / 0,77</td><td class="num">1,00 / 0,77</td></tr>
+          <tr><td>multi_article</td><td class="num">1,00 / 0,69</td><td class="num">1,00 / 0,72</td><td class="num">1,00 / 0,69</td><td class="num">1,00 / 0,69</td></tr>
+          <tr><td>negation</td><td class="num">0,67 / 0,56</td><td class="num">0,67 / 0,56</td><td class="num">0,67 / 0,56</td><td class="num">0,67 / 0,50</td></tr>
+          <tr><td>confusable</td><td class="num">1,00 / 0,78</td><td class="num">1,00 / 0,81</td><td class="num">1,00 / 0,77</td><td class="num">1,00 / 0,77</td></tr>
+          <tr><td>derogated</td><td class="num">0,00 / 0,00</td><td class="num">0,00 / 0,00</td><td class="num">0,20 / 0,09</td><td class="num">0,00 / 0,00</td></tr>
+          <tr><td>temporal</td><td class="num">0,67 / 0,40</td><td class="num">0,67 / 0,39</td><td class="num">0,67 / 0,41</td><td class="num">0,67 / 0,39</td></tr>
+          <tr><td>cross_reference</td><td class="num">1,00 / 0,84</td><td class="num">0,83 / 0,76</td><td class="num">1,00 / 0,86</td><td class="num">1,00 / 0,82</td></tr>
+        </tbody>
+        <caption>Cuatro preguntas cambiaron, dos para cada lado. El art. 12 pasó de la posición 42 a la 47 con "Irrenunciabilidad" en el prefijo. "Derógase la Ley 25.250" bajó de la 3 a la 19 porque su prefijo ahora incluye el nombre completo del título y el artículo tiene una sola línea: el contexto largo diluye al texto corto.</caption>
+      </table>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 26 · El bug era real y no movió la aguja</div>
+        <p>Es el resultado menos satisfactorio y el más importante de la lección. El parser tenía un bug grande, se arregló bien, los datos quedaron mejor, y el retrieval dio lo mismo. La tentación era no medir, o medir y contar sólo las preguntas que mejoraron. El benchmark dice que el cuello de botella no estaba ahí: está en cómo el modelo relaciona la pregunta con el texto (b21, b16) y en el orden dentro de los primeros 50 (b09, b13, b20).</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Separar "calidad de los datos" de "calidad del retrieval" es lo que permite no engañarse. La corrección se queda porque los datos son correctos y eso importa para la generación y para las fases temporales, aunque hoy no sume puntos. Y queda una hipótesis nueva y medible: para artículos de una oración, el prefijo de contexto puede pesar demasiado. Se prueba en la Fase 7 con variantes de prefijo, no se asume.</p>
+      </div>
+    </section>
+
+    <section id="l6-proximo">
+      <h2>34. Lo que viene, con más datos</h2>
+      <p>El análisis de errores ordena las fases siguientes por lo que cada una puede arreglar. El reranker (Fase 6) apunta al cubo "orden": b09, b13, b20, b21 están entre las posiciones 15 y 47, dentro de un pool de 50. La reescritura de la pregunta (Fase 7) apunta al cubo "vocabulario": b16 y b21 necesitan que "renunciar a derechos" se convierta en algo cercano a "irrenunciabilidad" y "no genera indemnización" en "justa causa, abandono". El índice temporal (Fase 9) apunta a b36, b37 y a los cinco derogados. Y un inspector visual de estas tablas, por pregunta, con el chunk al lado, para no volver a hacer esto con SQL a mano.</p>
+      <p>Sobre modelos de embeddings mejores: hay candidatos (Voyage, Cohere multilingüe, OpenAI, e5), y ahora sí tiene sentido compararlos, porque todos van a recibir el mismo prefijo correcto. Antes del arreglo, la comparación habría medido el bug.</p>
+    </section>
+
     <section id="glosario">
       <h2>Glosario</h2>
       <dl class="gloss">
@@ -1074,14 +1168,15 @@ LIMIT :k</code></pre>
 
 
 
-    <section id="pensar5">
-      <h2>Autoevaluación 5</h2>
-      <p>Siete preguntas sobre BM25 y fusión. Mismo formato.</p>
-      <div class="quiz" id="quiz5"></div>
-      <div class="score" id="score5" hidden>
-        <span class="big" id="score5-num">0 / 7</span>
-        <span class="msg" id="score5-msg"></span>
-        <button type="button" id="quiz5-reset">Volver a empezar</button>
+
+    <section id="pensar6">
+      <h2>Autoevaluación 6</h2>
+      <p>Seis preguntas sobre el método de debug. Mismo formato.</p>
+      <div class="quiz" id="quiz6"></div>
+      <div class="score" id="score6" hidden>
+        <span class="big" id="score6-num">0 / 6</span>
+        <span class="msg" id="score6-msg"></span>
+        <button type="button" id="quiz6-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -1622,6 +1717,94 @@ LIMIT :k</code></pre>
       }
     ];
 
+
+    const QUESTIONS_L6 = [
+      {
+        id: "l6q1",
+        text: "Para debuggear una pregunta fallada, se pidieron 200 candidatos en vez de 8 y se buscó la posición del artículo esperado. ¿Qué distingue eso?",
+        options: [
+          { t: "Si el artículo está en la 9 o la 15, es un problema de orden que un reranker puede arreglar; si está en la 47, es el modelo o la pregunta; si no está en los 200, hay que mirar el chunk porque el buscador no tiene con qué encontrarlo.", ok: true,
+            fb: "Tres cubos, tres arreglos. El promedio de nDCG no distingue ninguno." },
+          { t: "Nada: con k=8 el sistema sólo ve 8 y el resto no importa.", ok: false,
+            fb: "El resto importa para saber qué arreglar. El reranker de la Fase 6 va a leer 50 candidatos, no 8." },
+          { t: "Si el modelo es bueno o malo.", ok: false,
+            fb: "Una posición 47 puede ser culpa del modelo, del chunk o de la pregunta. La posición dice dónde mirar, no quién tiene la culpa." },
+          { t: "Si la pregunta está mal etiquetada.", ok: false,
+            fb: "A veces ayuda a sospecharlo (b16), pero no lo prueba: la etiqueta se revisa leyendo el artículo." }
+        ]
+      },
+      {
+        id: "l6q2",
+        text: "El prefijo del art. 12 decía 'Protección.' y el texto empezaba 'de los trabajadores. Irrenunciabilidad.'. ¿Cuál era la causa?",
+        options: [
+          { t: "Infoleg tiene el epígrafe mal escrito.", ok: false,
+            fb: "El HTML de Infoleg está bien: el título está entero, partido en dos renglones del fuente, que en HTML es un espacio." },
+          { t: "El conversor tomaba cada salto de línea del fuente HTML como una línea nueva, y el parser de estructura veía la primera palabra sola.", ok: true,
+            fb: "Una de cada cuatro versiones actualizadas tenía este problema. En la Fase 2 se había anotado como 'casos aislados' sin medirlo." },
+          { t: "El stemmer español cortó la palabra.", ok: false,
+            fb: "El stemmer actúa en BM25, no en el parser. El texto ya venía partido de antes." },
+          { t: "El modelo de embeddings truncó el prefijo.", ok: false,
+            fb: "El prefijo se arma antes de embeber, en el chunking, a partir de lo que dice el parser." }
+        ]
+      },
+      {
+        id: "l6q3",
+        text: "Al tratar los saltos del fuente como espacios, las páginas de vínculos pasaron a tener un campo de 82 caracteres que rompió la carga. ¿Por qué se resolvió con una excepción para esas páginas en vez de volver atrás?",
+        options: [
+          { t: "Porque volver atrás rompía los tests.", ok: false,
+            fb: "Los tests se regeneran. La razón es de datos, no de tests." },
+          { t: "Porque el cambio general es correcto (HTML trata los saltos como espacios) y las celdas de vínculos son el caso donde Infoleg sí usa el salto como separador de campos. La excepción vive donde vive la rareza.", ok: true,
+            fb: "Una regla correcta con una excepción documentada es mejor que una regla incorrecta que funcionaba por casualidad." },
+          { t: "Porque las páginas de vínculos no importan para el retrieval.", ok: false,
+            fb: "Importan: son las 13.136 relaciones entre normas, la base del grafo de la Fase 10." },
+          { t: "Porque ampliar la columna a 200 caracteres era más simple.", ok: false,
+            fb: "Ampliar la columna habría guardado tipo, número y organismo mezclados en un campo. Es esconder el bug, no arreglarlo." }
+        ]
+      },
+      {
+        id: "l6q4",
+        text: "Después del arreglo, 'Derógase la Ley 25.250' bajó de la posición 3 a la 19 en el ranking vectorial. ¿Qué pasó?",
+        options: [
+          { t: "El artículo se perdió en el re-parseo.", ok: false,
+            fb: "Está, con su chunk. Bajó de posición, no desapareció." },
+          { t: "El prefijo ahora incluye el nombre completo del título ('TITULO PRELIMINAR DEL ORDENAMIENTO DEL REGIMEN LABORAL') y el artículo tiene una sola línea: el contexto largo pesa más que el texto en el vector.", ok: true,
+            fb: "Contextual retrieval ayuda a los fragmentos que no se entienden solos y puede perjudicar a los que ya se entienden. Es una hipótesis medible para la Fase 7." },
+          { t: "bge-m3 cambió de versión.", ok: false,
+            fb: "Mismo modelo, misma caché de embeddings; sólo cambiaron los textos." },
+          { t: "La fusión híbrida lo bajó.", ok: false,
+            fb: "El dato es del ranking vectorial puro, sin fusión." }
+        ]
+      },
+      {
+        id: "l6q5",
+        text: "El parser mejoró de forma medible (2.271 → 16 versiones en minúscula) y el benchmark de retrieval quedó igual. ¿Qué se concluye?",
+        options: [
+          { t: "Que el arreglo fue inútil y conviene revertirlo.", ok: false,
+            fb: "Los datos correctos importan para la generación (el modelo va a citar textos bien formados) y para las fases temporales. Se queda." },
+          { t: "Que el cuello de botella del retrieval no estaba en los datos sino en cómo el modelo relaciona la pregunta con el texto y en el orden dentro de los primeros 50. Calidad de datos y calidad de retrieval son cosas distintas.", ok: true,
+            fb: "Es el resultado más incómodo y el que más ordena el trabajo siguiente." },
+          { t: "Que el benchmark está roto.", ok: false,
+            fb: "El benchmark hizo justo su trabajo: detectar que un cambio grande en los datos no cambió el resultado." },
+          { t: "Que hay que cambiar de modelo de embeddings ya mismo.", ok: false,
+            fb: "Puede ser parte de la respuesta, pero b16 (fuera de los 200 primeros) y b21 (posición 47) apuntan a vocabulario y orden antes que a un modelo mejor." }
+        ]
+      },
+      {
+        id: "l6q6",
+        text: "¿Por qué comparar modelos de embeddings antes de arreglar el parser habría sido un error?",
+        options: [
+          { t: "Porque los modelos nuevos son caros.", ok: false,
+            fb: "El costo no es el argumento. El argumento es qué se estaría midiendo." },
+          { t: "Porque todos habrían recibido prefijos rotos y textos con saltos falsos: la comparación habría medido cuánto tolera cada modelo el bug, no cuál entiende mejor derecho laboral.", ok: true,
+            fb: "Primero los datos correctos, después la comparación. Ahora la comparación mide lo que dice medir." },
+          { t: "Porque bge-m3 es el mejor modelo disponible.", ok: false,
+            fb: "No lo sabemos: hay candidatos serios y hay que medirlos. Justamente por eso el orden importaba." },
+          { t: "Porque el benchmark no admite otros modelos.", ok: false,
+            fb: "Admite cualquier embedder; la limitación es la columna única de vectores, que obliga a re-embeber para cada uno." }
+        ]
+      }
+    ];
+
     function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
       const quiz = document.getElementById(quizId);
       const scoreBox = document.getElementById(scoreId);
@@ -1712,6 +1895,7 @@ LIMIT :k</code></pre>
     mountQuiz("quiz3", "score3", "cuaderno-legal-ai:quiz-l3", QUESTIONS_L3, "quiz3-reset");
     mountQuiz("quiz4", "score4", "cuaderno-legal-ai:quiz-l4", QUESTIONS_L4, "quiz4-reset");
     mountQuiz("quiz5", "score5", "cuaderno-legal-ai:quiz-l5", QUESTIONS_L5, "quiz5-reset");
+    mountQuiz("quiz6", "score6", "cuaderno-legal-ai:quiz-l6", QUESTIONS_L6, "quiz6-reset");
     </script>
 
     <footer>
