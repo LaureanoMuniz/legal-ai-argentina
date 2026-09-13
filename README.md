@@ -79,11 +79,12 @@ legal-ai/
 │   ├── parse/           HTML → documentos y artículos con metadata jurídica
 │   ├── db/              esquema SQLAlchemy, engine, migraciones
 │   ├── index/           carga en Postgres, chunks, embeddings
-│   ├── retrieval/       vector (BM25, híbrido y reranking en fases 5–6)
+│   ├── retrieval/       vector, BM25 (pg_search), fusión híbrida (reranking en Fase 6)
 │   ├── generation/      prompt, structured output, validación de fuentes
 │   ├── observability/   OpenTelemetry → JSONL / OTLP
 │   ├── api/             FastAPI
 │   ├── pipeline.py      pregunta → retrieval → contexto → Claude, con spans
+│   ├── eval/            métricas de ranking y runner del benchmark
 │   └── bench.py         benchmark de humo → experiments/
 └── tests/
 ```
@@ -107,10 +108,11 @@ uv run legal-ai index load laboral    # JSONL → Postgres
 uv run legal-ai index chunk laboral   # una versión vigente por artículo, con prefijo de contexto
 uv run legal-ai index embed laboral   # bge-m3 (o --model hashing, sin descarga)
 
-uv run legal-ai search "¿Cuánto dura el período de prueba?"   # sólo retrieval
+uv run legal-ai search "¿Cuánto dura el período de prueba?"   # sólo retrieval (--retriever vector|bm25|rrf|hybrid)
 uv run legal-ai ask "¿Cuánto dura el período de prueba?"      # retrieval + Claude con citas
 uv run legal-ai serve                                          # GET /health, POST /ask
-uv run legal-ai bench smoke --no-generate                      # 20 preguntas → experiments/
+uv run legal-ai bench smoke --no-generate                      # 20 preguntas de humo → experiments/
+uv run legal-ai bench run --retriever hybrid                   # benchmark de 50 preguntas, métricas por categoría
 
 uv run pytest                # los tests de base saltan si Postgres no está levantado
 ```
@@ -120,9 +122,10 @@ Cada `ask` deja sus spans en `data/traces/spans.jsonl`; la respuesta trae el
 
 ## Estado
 
-Fases 0 a 3 completas: arquitectura, ingestion, parser, e índice en Postgres
-con RAG baseline (vector → Claude con citas → trazas). Números de la corrida
-real en `docs/ROADMAP.md`. Fase 4 (benchmark de preguntas) es la siguiente.
+Fases 0 a 5 completas: arquitectura, ingestion, parser, índice en Postgres con
+RAG baseline (vector → Claude con citas → trazas), benchmark de 50 preguntas
+en 8 categorías, y BM25 + híbrido medidos contra el vector. Números reales en
+`docs/ROADMAP.md`. Fase 6 (reranking) es la siguiente.
 
 ## Cuaderno
 

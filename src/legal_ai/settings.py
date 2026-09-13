@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -23,6 +24,9 @@ class Settings(BaseSettings):
     embedding_model: str = "BAAI/bge-m3"
     embedding_dim: int = 1024
     llm_model: str = "claude-opus-5"
+    retrieval_mode: Literal["vector", "bm25", "rrf", "hybrid"] = "hybrid"
+    hybrid_alpha: float = 0.8
+    retrieval_dedupe: bool = False
     otlp_endpoint: str | None = None
     traces_path: Path = Path("data/traces/spans.jsonl")
 

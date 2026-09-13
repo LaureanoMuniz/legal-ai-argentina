@@ -11,8 +11,8 @@ sin medir la actual.
 | 2 | Parser con estructura jurídica | `documents/articles/relations.jsonl`, versiones original/current, tests con fixtures reales | hecha |
 | 3 | RAG baseline: vector → top-k → Claude → respuesta con fuentes | Postgres + pgvector, FastAPI, OTel a JSONL, benchmark de humo con latencias | hecha |
 | 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | hecha |
-| 5 | BM25 (`pg_search`) e híbrido con RRF | vector vs BM25 vs híbrido, mismo benchmark | siguiente |
-| 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | |
+| 5 | BM25 (`pg_search`) e híbrido | vector vs BM25 vs RRF vs fusión por scores, mismo benchmark | hecha |
+| 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | siguiente |
 | 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | |
 | 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | |
 | 9 | Retrieval temporal: reconstrucción de versiones, filtro por fecha | tests explícitos de Temporal Misgrounding (versión vigente vs histórica) | |
@@ -175,6 +175,62 @@ Otros seguimientos:
 - Los artículos esperados los eligió el ingeniero leyendo los textos en la
   base; son provisorios hasta la revisión de abogados (Fase 14). El campo
   `notes` de cada pregunta registra las dudas.
+
+## Fase 5 en detalle
+
+Mismo benchmark, índice y catálogo que la Fase 4, k = 8, bge-m3 como
+embedder. Cada celda es hit@8 / nDCG@8. Reportes en
+`experiments/2026-09-13-phase5-*.json`.
+
+| Categoría | n | vector | bm25 | rrf | hybrid α=0,8 |
+|---|---|---|---|---|---|
+| overall | 44 | 0,80 / 0,60 | 0,66 / 0,43 | 0,75 / 0,56 | 0,82 / 0,62 |
+| direct | 8 | 1,00 / 0,78 | 1,00 / 0,67 | 1,00 / 0,75 | 1,00 / 0,77 |
+| multi_article | 7 | 1,00 / 0,69 | 0,86 / 0,48 | 0,86 / 0,70 | 1,00 / 0,69 |
+| negation | 6 | 0,67 / 0,56 | 0,33 / 0,15 | 0,67 / 0,45 | 0,67 / 0,56 |
+| confusable | 6 | 1,00 / 0,78 | 0,33 / 0,27 | 0,67 / 0,45 | 1,00 / 0,77 |
+| derogated | 5 | 0,00 / 0,00 | 0,20 / 0,20 | 0,20 / 0,20 | 0,20 / 0,09 |
+| temporal | 6 | 0,67 / 0,40 | 0,67 / 0,43 | 0,67 / 0,42 | 0,67 / 0,41 |
+| cross_reference | 6 | 1,00 / 0,84 | 1,00 / 0,69 | 1,00 / 0,82 | 1,00 / 0,86 |
+
+Totales: vector: hit 0,80, recall 0,72, MRR 0,60, nDCG 0,60 | bm25: hit 0,66, recall 0,61, MRR 0,39, nDCG 0,43 | rrf: hit 0,75, recall 0,70, MRR 0,55, nDCG 0,56 | hybrid α=0,8: hit 0,82, recall 0,75, MRR 0,61, nDCG 0,62.
+
+Latencia de retrieval (p50): vector p50 46 ms · bm25 p50 16 ms · rrf p50 74 ms · hybrid α=0,8 p50 64 ms. BM25 solo es el más rápido; el híbrido
+paga el vector más BM25 más la fusión.
+
+Lectura:
+
+- **BM25 solo pierde contra el vector** en todo salvo `derogated` (encuentra
+  "Derógase la Ley 25.250" por el término exacto) y `temporal`. En
+  `confusable` da 0,33 de hit: "período de prueba" y "vacaciones" aparecen
+  igual en la LCT y en la Ley 26.844, y BM25 no sabe que "casas particulares"
+  decide la norma. El vector sí.
+- **La hipótesis de la Fase 4 era falsa**: BM25 no levanta `negation` (nDCG
+  0,15). El stemmer español no une "renunciar" con "irrenunciabilidad" y las
+  palabras de negación son de baja rareza. Queda para expansión de consultas
+  (Fase 7).
+- **RRF a pesos iguales empeora al vector** (nDCG 0,56 contra 0,60): reparte
+  el ranking entre una lista fuerte y una débil. Se probaron pools de 8, 16 y
+  24, pesos 1:1, 2:1 y 3:1 y k=10 y 60 (script de barrido, no versionado):
+  ninguna combinación superó al vector.
+- **La fusión por scores normalizados** (min-max por lista, 0,8 vector +
+  0,2 BM25, pool 24) da hit 0,82, recall 0,75, MRR 0,61, nDCG 0,62: una
+  pregunta más que el vector (b32, la ley derogada) y un poco mejor en orden.
+  Con 44 preguntas, la diferencia es del tamaño del ruido. Se adopta como
+  default (ADR-022) porque no empeora hit ni recall en ninguna categoría y
+  suma la coincidencia exacta de términos, que va a importar más cuando el
+  benchmark tenga preguntas por número de norma o artículo.
+- **Deduplicar por artículo no cambió ninguna métrica**: las 8 preguntas cuyo
+  top-8 cambió sumaron artículos que no eran los esperados. El costo de
+  latencia (pool 24 en HNSW) no se justifica hoy; queda desactivado.
+
+Seguimientos:
+
+- Las variantes híbridas tuvieron p95 altos en la primera corrida (más de
+  500 ms) que no se repitieron en la segunda; medir con más repeticiones antes
+  de sacar conclusiones de latencia.
+- Barrido de fusión como comando reproducible (`bench sweep`) en vez de un
+  script suelto.
 
 ## Problemas que esperamos encontrar (y medir)
 

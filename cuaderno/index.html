@@ -235,7 +235,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lecciones <b>1 a 4</b> · Fases 0 a 4</span>
+      <span>Lecciones <b>1 a 5</b> · Fases 0 a 5</span>
       <span>Corpus <b>laboral · 933 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>main</b></span>
@@ -281,8 +281,15 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l4-hallazgos">23. Tres cosas que el benchmark encontró</a></li>
       <li><a href="#l4-numeros">24. Los números de la Fase 4</a></li>
       <li><a href="#l4-proximo">25. Lo que viene: BM25 e híbrido</a></li>
-      <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar4">Autoevaluación 4</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 5 · Fase 5</span></li>
+      <li><a href="#l5-bm25">26. BM25 adentro de Postgres</a></li>
+      <li><a href="#l5-fusion">27. Dos listas, una respuesta</a></li>
+      <li><a href="#l5-hallazgos">28. Lo que el benchmark desarmó</a></li>
+      <li><a href="#l5-numeros">29. Los números de la Fase 5</a></li>
+      <li><a href="#l5-proximo">30. Lo que viene: reranking</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar5">Autoevaluación 5</a></li>
     </ol>
   </nav>
 
@@ -957,6 +964,93 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
       <p>La Fase 5 agrega la búsqueda por palabras con pg_search (BM25, dentro de la misma Postgres) y la fusión con el vector por Reciprocal Rank Fusion, escrita a mano. La hipótesis a probar: BM25 debería ayudar donde la pregunta usa la palabra exacta de la ley ("irrenunciabilidad", "artículo 92 bis") y el vector debería ayudar donde no la usa. El benchmark de esta fase dice si es así en este corpus.</p>
     </section>
 
+    <section id="pensar4">
+      <h2>Autoevaluación 4</h2>
+      <p>Ocho preguntas sobre el benchmark y las métricas. Mismo formato.</p>
+      <div class="quiz" id="quiz4"></div>
+      <div class="score" id="score4" hidden>
+        <span class="big" id="score4-num">0 / 8</span>
+        <span class="msg" id="score4-msg"></span>
+        <button type="button" id="quiz4-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="l5-bm25">
+      <div class="eyebrow">Lección 5 · Fase 5</div>
+      <h2>26. BM25 adentro de Postgres</h2>
+      <p class="lead">El vector entiende significado y se pierde con los términos exactos: números de ley, "derógase", una palabra técnica. BM25 es lo contrario: cuenta palabras, pondera por rareza y no entiende nada. La Fase 5 los pone a competir y a cooperar sobre los mismos chunks.</p>
+      <p>BM25 corre en la misma Postgres gracias a pg_search (ParadeDB): un índice sobre <code>embed_text</code> con tokenizer por defecto y stemmer español, una migración de Alembic, y una consulta con <code>paradedb.match</code> en modo disyunción (basta con que aparezca alguna palabra) ordenada por <code>paradedb.score</code>. Antes de escribir la migración se probó la sintaxis a mano contra la base, con un índice temporal que después se borró: la documentación de una extensión que cambia cada mes vale menos que un <code>CREATE INDEX</code> que funciona.</p>
+      <pre><code>SELECT id, article_id, paradedb.score(id) AS score
+FROM chunks
+WHERE id @@@ paradedb.match('embed_text', :q, conjunction_mode => false)
+ORDER BY score DESC, id
+LIMIT :k</code></pre>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>BM25 (1994) sigue siendo la referencia de la búsqueda por palabras: Elasticsearch, Lucene y Tantivy lo usan por defecto. La receta de moda es "híbrido": vector para el significado, BM25 para lo literal, y una fusión. Lo que casi ningún tutorial dice es que hay que medirlo en el corpus propio, porque el resultado depende de cuán buena sea cada lista por separado.</p>
+      </div>
+    </section>
+
+    <section id="l5-fusion">
+      <h2>27. Dos listas, una respuesta</h2>
+      <p>Hay dos formas comunes de fusionar. <strong>Reciprocal Rank Fusion</strong> ignora los scores y suma <code>1 / (60 + posición)</code> por cada lista en la que aparece un chunk: el primero del vector vale igual que el primero de BM25. <strong>Combinación convexa</strong> normaliza los scores de cada lista a [0, 1] por min-max y los mezcla con un peso: <code>0,8 · vector + 0,2 · bm25</code>. Las dos están escritas en Python, en veinte líneas cada una, y las dos son modos del buscador (<code>rrf</code> e <code>hybrid</code>) para poder compararlas con el mismo benchmark.</p>
+      <p>Además se probó deduplicar por artículo: traer 24 chunks, quedarse con el primero de cada artículo, cortar en 8. La idea venía de la Fase 4, donde el art. 245 aparecía dos veces en un top-8.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>RRF es el default de casi todos los motores híbridos porque no necesita calibrar nada: no importa que los scores de BM25 vayan de 0 a 30 y los del coseno de 0 a 1. Ese es también su límite: trata a las dos fuentes como igual de confiables. Cuando una es mucho mejor que la otra, hace falta un peso, y el peso hay que medirlo.</p>
+      </div>
+    </section>
+
+    <section id="l5-hallazgos">
+      <h2>28. Lo que el benchmark desarmó</h2>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 21 · La hipótesis era falsa</div>
+        <p>La Fase 4 terminó con una apuesta: BM25 iba a levantar las preguntas en negativo, porque "¿puede renunciar a sus derechos?" tenía que encontrar al art. 12 por la palabra exacta. A mano funcionó: "irrenunciabilidad derechos trabajador" trae el art. 12 primero. Con la pregunta real, no: el stemmer español no une "renunciar" con "irrenunciabilidad", y las palabras de la negación ("no", "casos") son comunes y pesan poco. BM25 dio 0,15 de nDCG en negación, peor que el vector.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Probar una consulta a mano y probar el benchmark completo son dos experimentos distintos, y sólo el segundo cuenta. La consulta a mano la escribió alguien que ya sabía la respuesta. Este error tiene nombre en evaluación: contaminar la consulta con el conocimiento del resultado. El benchmark existe para que la pregunta venga de afuera.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 22 · RRF empeora al vector</div>
+        <p>Con pesos iguales, el híbrido por RRF quedó por debajo del vector solo: nDCG 0,56 contra 0,60, y en confundibles bajó de 0,78 a 0,45. BM25 no distingue la LCT de la Ley 26.844 cuando las dos dicen "período de prueba", y RRF le dio a esa lista floja el mismo voto que al vector. Se barrieron pools de 8, 16 y 24, pesos 1:1, 2:1 y 3:1, y dos valores de la constante: ninguna combinación superó al vector.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 23 · Una pregunta más no es una victoria</div>
+        <p>La fusión por scores normalizados con 0,8 de peso al vector dio el mejor resultado: hit 0,82, recall 0,75, MRR 0,61, nDCG 0,62. Contra 0,80 / 0,72 / 0,60 / 0,60 del vector. La pregunta que ganó es "¿está vigente la Ley 25.250?", donde BM25 encuentra "Derógase la Ley 25.250" por el término exacto. Con 44 preguntas, una diferencia de una pregunta es ruido. Se adoptó como default igual, y el ADR dice por qué y con qué se vuelve atrás.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Decidir con un benchmark chico obliga a distinguir "mejor" de "no peor". La regla que aplicamos: adoptar el cambio si no empeora ninguna categoría en hit ni recall, si el costo es acotado (unos 20 ms) y si agrega una propiedad que el benchmark actual casi no prueba (coincidencia exacta de números de norma). Y dejar escrito que el default vuelve a <code>vector</code> con una variable de entorno si el benchmark de los abogados dice otra cosa.</p>
+      </div>
+    </section>
+
+    <section id="l5-numeros">
+      <h2>29. Los números de la Fase 5</h2>
+      <p>Mismo benchmark, índice y catálogo que la Fase 4, k = 8, bge-m3. Cada celda es hit@8 / nDCG@8.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">n</th><th class="num">vector</th><th class="num">bm25</th><th class="num">rrf</th><th class="num">hybrid 0,8</th></tr></thead>
+        <tbody>
+          <tr><td><strong>overall</strong></td><td class="num">44</td><td class="num">0,80 / 0,60</td><td class="num">0,66 / 0,43</td><td class="num">0,75 / 0,56</td><td class="num">0,82 / 0,62</td></tr>
+          <tr><td>direct</td><td class="num">8</td><td class="num">1,00 / 0,78</td><td class="num">1,00 / 0,67</td><td class="num">1,00 / 0,75</td><td class="num">1,00 / 0,77</td></tr>
+          <tr><td>multi_article</td><td class="num">7</td><td class="num">1,00 / 0,69</td><td class="num">0,86 / 0,48</td><td class="num">0,86 / 0,70</td><td class="num">1,00 / 0,69</td></tr>
+          <tr><td>negation</td><td class="num">6</td><td class="num">0,67 / 0,56</td><td class="num">0,33 / 0,15</td><td class="num">0,67 / 0,45</td><td class="num">0,67 / 0,56</td></tr>
+          <tr><td>confusable</td><td class="num">6</td><td class="num">1,00 / 0,78</td><td class="num">0,33 / 0,27</td><td class="num">0,67 / 0,45</td><td class="num">1,00 / 0,77</td></tr>
+          <tr><td>derogated</td><td class="num">5</td><td class="num">0,00 / 0,00</td><td class="num">0,20 / 0,20</td><td class="num">0,20 / 0,20</td><td class="num">0,20 / 0,09</td></tr>
+          <tr><td>temporal</td><td class="num">6</td><td class="num">0,67 / 0,40</td><td class="num">0,67 / 0,43</td><td class="num">0,67 / 0,42</td><td class="num">0,67 / 0,41</td></tr>
+          <tr><td>cross_reference</td><td class="num">6</td><td class="num">1,00 / 0,84</td><td class="num">1,00 / 0,69</td><td class="num">1,00 / 0,82</td><td class="num">1,00 / 0,86</td></tr>
+        </tbody>
+        <caption>Retrieval p50: vector 46 ms, bm25 16 ms, rrf 74 ms, hybrid 64 ms. Deduplicar por artículo cambió el top-8 de 8 preguntas y ninguna métrica: los artículos que entraron no eran los esperados. Quedó apagado.</caption>
+      </table>
+      </div>
+    </section>
+
+    <section id="l5-proximo">
+      <h2>30. Lo que viene: reranking</h2>
+      <p>Las categorías flojas siguen siendo las mismas: negación (0,56), temporal (0,41), derogados (por diseño). Un reranker lee pregunta y artículo juntos, con un modelo entrenado para decir "esto responde a aquello"; es lo que puede notar que "no genera indemnización" apunta al 242 y no al 245. La Fase 6 lo prueba sobre los 24 candidatos del híbrido, con bge-reranker local y Cohere por API, y mide ganancia por categoría, latencia y costo. Si no mejora negación, la respuesta está en reescribir la pregunta (Fase 7), no en ordenar mejor.</p>
+    </section>
+
     <section id="glosario">
       <h2>Glosario</h2>
       <dl class="gloss">
@@ -979,14 +1073,15 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
 
 
 
-    <section id="pensar4">
-      <h2>Autoevaluación 4</h2>
-      <p>Ocho preguntas sobre el benchmark y las métricas. Mismo formato.</p>
-      <div class="quiz" id="quiz4"></div>
-      <div class="score" id="score4" hidden>
-        <span class="big" id="score4-num">0 / 8</span>
-        <span class="msg" id="score4-msg"></span>
-        <button type="button" id="quiz4-reset">Volver a empezar</button>
+
+    <section id="pensar5">
+      <h2>Autoevaluación 5</h2>
+      <p>Siete preguntas sobre BM25 y fusión. Mismo formato.</p>
+      <div class="quiz" id="quiz5"></div>
+      <div class="score" id="score5" hidden>
+        <span class="big" id="score5-num">0 / 7</span>
+        <span class="msg" id="score5-msg"></span>
+        <button type="button" id="quiz5-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -1425,6 +1520,108 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
       }
     ];
 
+
+    const QUESTIONS_L5 = [
+      {
+        id: "l5q1",
+        text: "BM25 solo dio 0,33 de hit en la categoría 'confusable' (LCT vs casas particulares vs agrario) y el vector 1,00. ¿Por qué?",
+        options: [
+          { t: "Porque el índice BM25 no cubre la Ley 26.844.", ok: false,
+            fb: "Cubre todos los chunks. El problema no es cobertura." },
+          { t: "Porque 'período de prueba' o 'vacaciones' aparecen igual en la LCT y en la Ley 26.844, y BM25 no sabe que 'casas particulares' es la palabra que decide la norma; el vector sí captura ese contexto.", ok: true,
+            fb: "BM25 pondera por rareza, y 'casas particulares' es raro, pero compite con muchos otros términos de la pregunta. El vector representa la pregunta entera." },
+          { t: "Porque el stemmer español está mal configurado.", ok: false,
+            fb: "El stemmer funcionó en las preguntas directas (1,00 de hit). La debilidad es estructural, no de configuración." },
+          { t: "Porque las preguntas confundibles están mal escritas.", ok: false,
+            fb: "Son las mismas preguntas con las que el vector acertó las seis." }
+        ]
+      },
+      {
+        id: "l5q2",
+        text: "A mano, 'irrenunciabilidad derechos trabajador' trae el art. 12 primero con BM25. Con la pregunta real del benchmark, BM25 no lo encuentra. ¿Qué enseña eso?",
+        options: [
+          { t: "Que el benchmark tiene la pregunta mal formulada y hay que cambiarla.", ok: false,
+            fb: "La pregunta real es la que haría un usuario que no conoce la palabra 'irrenunciabilidad'. Cambiarla sería hacer trampa." },
+          { t: "Que una prueba a mano escrita por quien ya sabe la respuesta no vale como evidencia; sólo cuenta el benchmark, donde la pregunta viene de afuera del sistema.", ok: true,
+            fb: "El stemmer no une 'renunciar' con 'irrenunciabilidad'. La consulta a mano ya traía la respuesta adentro." },
+          { t: "Que BM25 necesita más chunks.", ok: false,
+            fb: "El art. 12 tiene su chunk. Lo que falta es la palabra en la pregunta." },
+          { t: "Que el vector también falla y por eso da igual.", ok: false,
+            fb: "El vector también falla en esa pregunta, pero eso no valida la hipótesis: la hipótesis era que BM25 la arreglaba." }
+        ]
+      },
+      {
+        id: "l5q3",
+        text: "RRF suma 1 / (60 + posición) por cada lista. ¿Por qué eso perjudicó al vector en este corpus?",
+        options: [
+          { t: "Porque la constante 60 es demasiado grande para 8 resultados.", ok: false,
+            fb: "Se probó también con 10. Cambió poco. El problema no es la constante." },
+          { t: "Porque RRF le da el mismo voto al primero de BM25 que al primero del vector, y BM25 era la lista débil: la fusión repartió el ranking entre una fuente buena y una mala.", ok: true,
+            fb: "RRF es robusto justamente porque ignora los scores. Esa robustez se paga cuando una fuente es claramente peor." },
+          { t: "Porque RRF elimina los chunks que no aparecen en las dos listas.", ok: false,
+            fb: "No elimina nada: un chunk que aparece en una sola lista suma su término y compite igual." },
+          { t: "Porque el pool de 24 era demasiado chico.", ok: false,
+            fb: "Se probaron pools de 8, 16 y 24; los pools más grandes dieron peor, no mejor." }
+        ]
+      },
+      {
+        id: "l5q4",
+        text: "La fusión por scores normaliza cada lista por min-max antes de mezclar. ¿Para qué?",
+        options: [
+          { t: "Para que los scores de BM25 (que llegan a 30) y el coseno (entre 0 y 1) sean comparables antes de pesarlos.", ok: true,
+            fb: "Sin normalizar, BM25 aplastaría al vector sólo por la escala. Min-max por lista los pone en [0, 1]. Tiene un costo: depende de la distribución de scores de cada consulta." },
+          { t: "Para acelerar la consulta.", ok: false,
+            fb: "La normalización se hace sobre 24 números en Python; no afecta el tiempo." },
+          { t: "Para eliminar los duplicados entre listas.", ok: false,
+            fb: "Los duplicados se resuelven sumando las dos contribuciones del mismo chunk, no normalizando." },
+          { t: "Para que la suma dé exactamente 1.", ok: false,
+            fb: "La suma de pesos (0,8 + 0,2) da 1; la normalización es otra cosa: escala cada lista." }
+        ]
+      },
+      {
+        id: "l5q5",
+        text: "El híbrido ganó una pregunta más que el vector (35 → 36 de 44). ¿Es una mejora?",
+        options: [
+          { t: "Sí, claramente: subieron las cuatro métricas.", ok: false,
+            fb: "Subieron, pero una pregunta en 44 está dentro del ruido. Decir 'claramente' sería inventar certeza." },
+          { t: "No se puede afirmar que sea mejor; sí que no es peor en ninguna categoría en hit ni recall, y que suma coincidencia exacta de términos. Con eso se adoptó como default, dejando escrito cómo volver atrás.", ok: true,
+            fb: "Distinguir 'mejor' de 'no peor' es lo que permite decidir con un benchmark chico sin engañarse." },
+          { t: "No, porque agrega 20 ms de latencia.", ok: false,
+            fb: "El costo es real y acotado. Solo, no decide; se pesa contra lo que suma." },
+          { t: "Sí, porque encontró la ley derogada.", ok: false,
+            fb: "Encontró 'Derógase la Ley 25.250' por el término exacto. Es la pregunta que ganó, pero una pregunta no hace una tendencia." }
+        ]
+      },
+      {
+        id: "l5q6",
+        text: "Deduplicar por artículo cambió el top-8 de 8 preguntas y no movió ninguna métrica. ¿Qué pasó?",
+        options: [
+          { t: "Un bug: la deduplicación no se aplicó.", ok: false,
+            fb: "Se aplicó: 8 listas cambiaron. Lo que no cambió fue el resultado." },
+          { t: "Los lugares que liberó el chunk repetido los ocuparon artículos que tampoco eran los esperados: el problema de esas preguntas no era el duplicado sino el ranking.", ok: true,
+            fb: "Es una hipótesis razonable que el benchmark descartó barato. Se apagó y quedó medido." },
+          { t: "Las métricas no miran duplicados.", ok: false,
+            fb: "Las métricas ya deduplican por artículo al puntuar; lo que la opción cambia es qué artículos entran en el top-8." },
+          { t: "Porque el pool de 24 era insuficiente.", ok: false,
+            fb: "Con pool 24 quedaron 8 artículos distintos en todas las preguntas. No faltaron candidatos." }
+        ]
+      },
+      {
+        id: "l5q7",
+        text: "¿Por qué se probó la sintaxis de pg_search a mano, con un índice temporal, antes de escribir la migración?",
+        options: [
+          { t: "Porque Alembic no puede crear índices BM25.", ok: false,
+            fb: "Puede: la migración ejecuta el mismo CREATE INDEX." },
+          { t: "Porque la extensión cambia de sintaxis entre versiones y la documentación puede no coincidir con la 0.25.9 instalada; un CREATE INDEX que funciona vale más que una página web.", ok: true,
+            fb: "Se creó, se consultó con tres preguntas, se borró. Cinco minutos que evitan una migración rota en la base de tests." },
+          { t: "Para medir la latencia del índice.", ok: false,
+            fb: "La latencia se midió después, con el benchmark." },
+          { t: "Porque la base de tests no tiene pg_search.", ok: false,
+            fb: "La tiene: la migración 0001 crea la extensión en cualquier base que se migre." }
+        ]
+      }
+    ];
+
     function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
       const quiz = document.getElementById(quizId);
       const scoreBox = document.getElementById(scoreId);
@@ -1514,6 +1711,7 @@ CAPITULO IV Del despido · Art. 245 — Indemnización por antigüedad o despido
     mountQuiz("quiz2", "score2", "cuaderno-legal-ai:quiz-l2", QUESTIONS_L2, "quiz2-reset");
     mountQuiz("quiz3", "score3", "cuaderno-legal-ai:quiz-l3", QUESTIONS_L3, "quiz3-reset");
     mountQuiz("quiz4", "score4", "cuaderno-legal-ai:quiz-l4", QUESTIONS_L4, "quiz4-reset");
+    mountQuiz("quiz5", "score5", "cuaderno-legal-ai:quiz-l5", QUESTIONS_L5, "quiz5-reset");
     </script>
 
     <footer>

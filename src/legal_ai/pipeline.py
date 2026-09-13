@@ -11,7 +11,7 @@ from legal_ai.generation.prompt import build_context
 from legal_ai.generation.schema import GroundedAnswer
 from legal_ai.index.embeddings import get_embedder
 from legal_ai.observability.tracing import setup_tracing
-from legal_ai.retrieval.retriever import Retriever
+from legal_ai.retrieval.retriever import Mode, Retriever
 from legal_ai.retrieval.types import Candidate
 from legal_ai.settings import Settings
 
@@ -53,7 +53,7 @@ class Pipeline:
             root.set_attribute("legal_ai.question", question)
             root.set_attribute("legal_ai.k", k)
             start = time.perf_counter()
-            with self._tracer.start_as_current_span("retrieval.vector") as span:
+            with self._tracer.start_as_current_span(f"retrieval.{self.retriever.mode}") as span:
                 candidates = self.retriever.search(question, k)
                 span.set_attribute(
                     "legal_ai.candidates", [f"{c.version_id}:{c.score:.3f}" for c in candidates]
@@ -107,11 +107,20 @@ class Pipeline:
         )
 
 
-def build_pipeline(settings: Settings | None = None, embedder_name: str | None = None) -> Pipeline:
+def build_pipeline(
+    settings: Settings | None = None,
+    embedder_name: str | None = None,
+    mode: Mode | None = None,
+    dedupe: bool | None = None,
+) -> Pipeline:
     settings = settings or Settings()
     tracer = setup_tracing("legal-ai", settings.otlp_endpoint, settings.traces_path)
     retriever = Retriever(
-        make_engine(settings.database_url), get_embedder(embedder_name or settings.embedding_model)
+        make_engine(settings.database_url),
+        get_embedder(embedder_name or settings.embedding_model),
+        mode=mode or settings.retrieval_mode,
+        dedupe=settings.retrieval_dedupe if dedupe is None else dedupe,
+        alpha=settings.hybrid_alpha,
     )
     generator = (
         ClaudeGenerator(make_client(settings.anthropic_api_key), settings.llm_model)

@@ -64,6 +64,7 @@ class BenchmarkReport(BaseModel):
     catalog_date: str
     k: int
     embedding_model: str
+    retriever: str = "vector"
     questions_path: str
     overall: Aggregate
     by_category: dict[str, Aggregate]
@@ -148,6 +149,7 @@ def run_benchmark(
         catalog_date=catalog_date,
         k=k,
         embedding_model=embedding_model,
+        retriever=retriever.name,
         questions_path=str(questions_path),
         overall=aggregate(results),
         by_category={c: aggregate(rs) for c, rs in sorted(by_category.items())},

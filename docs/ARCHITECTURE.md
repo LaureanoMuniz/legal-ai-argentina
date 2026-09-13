@@ -221,9 +221,23 @@ Todas las variantes devuelven la misma estructura: lista de
   ORDER BY embedding <=> CAST(:q AS vector)
   LIMIT :k
   ```
-- **bm25**: `pg_search` con analizador en castellano.
-- **híbrido**: las dos listas fusionadas con Reciprocal Rank Fusion en Python
-  (explícito, con `k` configurable).
+- **bm25** (Fase 5, `retrieval/bm25.py`): índice `chunks_bm25` de pg_search
+  sobre `embed_text`, tokenizer default con stemmer español (migración 0002).
+
+  ```sql
+  SELECT id, version_id, article_id, document_id, context_prefix, text,
+         paradedb.score(id) AS score
+  FROM chunks
+  WHERE id @@@ paradedb.match('embed_text', :q, conjunction_mode => false)
+  ORDER BY score DESC, id
+  LIMIT :k
+  ```
+- **híbrido** (`retrieval/fusion.py`): 24 candidatos de cada fuente; el modo
+  `hybrid` combina scores normalizados por min-max (`alpha · vector +
+  (1 - alpha) · bm25`, alpha 0,8); el modo `rrf` usa Reciprocal Rank Fusion
+  (k = 60). Los dos en Python, explícitos. `hybrid` es el default (ADR-022).
+- **dedupe por artículo** (opcional): pool de 3k, primer chunk de cada
+  artículo, corte en k. Medido sin efecto en la Fase 5; apagado por default.
 - **reranking**: cross-encoder sobre los top-N del híbrido.
 - **filtros temporales**: `effective_from <= fecha AND (effective_until IS NULL OR effective_until > fecha)`.
 

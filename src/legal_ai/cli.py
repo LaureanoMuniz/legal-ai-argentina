@@ -20,19 +20,26 @@ def search(
     query: Annotated[str, typer.Argument(help="Pregunta o texto a buscar.")],
     k: Annotated[int, typer.Option("--k")] = 8,
     model: Annotated[str | None, typer.Option("--model")] = None,
+    retriever: Annotated[
+        str | None, typer.Option("--retriever", help="vector | bm25 | rrf | hybrid")
+    ] = None,
+    dedupe: Annotated[bool, typer.Option("--dedupe/--no-dedupe")] = False,
 ) -> None:
-    """Búsqueda vectorial: muestra los k chunks más cercanos con score."""
+    """Búsqueda: muestra los k chunks mejor rankeados con su score."""
     from legal_ai.db.engine import make_engine
     from legal_ai.index.embeddings import get_embedder
-    from legal_ai.retrieval.retriever import Retriever
+    from legal_ai.retrieval.retriever import Retriever, parse_mode
     from legal_ai.settings import Settings
 
     settings = Settings()
-    retriever = Retriever(
-        make_engine(settings.database_url), get_embedder(model or settings.embedding_model)
+    searcher = Retriever(
+        make_engine(settings.database_url),
+        get_embedder(model or settings.embedding_model),
+        mode=parse_mode(retriever) if retriever else settings.retrieval_mode,
+        dedupe=dedupe,
     )
-    retriever.require_index()
-    for c in retriever.search(query, k):
+    searcher.require_index()
+    for c in searcher.search(query, k):
         typer.echo(f"{c.rank:2d} {c.score:.3f} {c.article_id:>16} {c.context_prefix[:90]}")
 
 
@@ -42,11 +49,14 @@ def ask(
     k: Annotated[int, typer.Option("--k")] = 8,
     generate: Annotated[bool, typer.Option("--generate/--no-generate")] = True,
     model: Annotated[str | None, typer.Option("--model")] = None,
+    retriever: Annotated[str | None, typer.Option("--retriever")] = None,
 ) -> None:
     """Pipeline completo: retrieval → contexto → Claude → respuesta con citas."""
     from legal_ai.pipeline import build_pipeline
+    from legal_ai.retrieval.retriever import parse_mode
 
-    response = build_pipeline(embedder_name=model).ask(question, k, generate)
+    mode = parse_mode(retriever) if retriever else None
+    response = build_pipeline(embedder_name=model, mode=mode).ask(question, k, generate)
     if response.answer is None:
         typer.echo("(sin generación: falta ANTHROPIC_API_KEY o se pasó --no-generate)")
     else:
@@ -126,6 +136,10 @@ def bench_run(
     model: Annotated[str | None, typer.Option("--model")] = None,
     name: Annotated[str, typer.Option("--name")] = "phase4-baseline",
     questions: Annotated[str, typer.Option("--questions")] = "eval/benchmark.jsonl",
+    retriever: Annotated[
+        str | None, typer.Option("--retriever", help="vector | bm25 | rrf | hybrid")
+    ] = None,
+    dedupe: Annotated[bool, typer.Option("--dedupe/--no-dedupe")] = False,
 ) -> None:
     """Benchmark de retrieval: recall@k, MRR, nDCG y hit@k por categoría (eval/benchmark.jsonl)."""
     from pathlib import Path
@@ -135,16 +149,21 @@ def bench_run(
     from legal_ai.index.embeddings import get_embedder
     from legal_ai.ingest.layout import ProcessedLayout
     from legal_ai.ingest.manifest import read_resolved
-    from legal_ai.retrieval.retriever import Retriever
+    from legal_ai.retrieval.retriever import Retriever, parse_mode
     from legal_ai.settings import Settings
 
     settings = Settings()
     embedder = get_embedder(model or settings.embedding_model)
-    retriever = Retriever(make_engine(settings.database_url), embedder)
-    retriever.require_index()
+    searcher = Retriever(
+        make_engine(settings.database_url),
+        embedder,
+        mode=parse_mode(retriever) if retriever else settings.retrieval_mode,
+        dedupe=dedupe,
+    )
+    searcher.require_index()
     resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))
     report = run_benchmark(
-        retriever, Path(questions), k, name, embedder.name, resolved.catalog_date.isoformat()
+        searcher, Path(questions), k, name, embedder.name, resolved.catalog_date.isoformat()
     )
     path = write_report(report, Path("experiments"))
 
@@ -160,7 +179,7 @@ def bench_run(
         )
     typer.echo(
         f"retrieval p50/p95 {report.overall.p50_retrieval_ms:.0f}/"
-        f"{report.overall.p95_retrieval_ms:.0f} ms · k={k} · {embedder.name}"
+        f"{report.overall.p95_retrieval_ms:.0f} ms · k={k} · {searcher.name}"
     )
     for r in report.results:
         if r.scored and not r.hit_at_k:

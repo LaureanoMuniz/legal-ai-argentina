@@ -330,3 +330,32 @@ contrastar en la Fase 8.
 ocupa dos lugares del top-k y el recall lo paga. Es deliberado: es el
 comportamiento que ve el modelo en el contexto.
 
+## ADR-022: Híbrido por fusión de scores normalizados, no RRF; vector sigue siendo el que manda
+
+**Contexto.** La Fase 5 agregó BM25 (pg_search, stemmer español) sobre los
+mismos chunks y lo comparó con el vector (bge-m3) en el benchmark de la Fase
+4. BM25 solo perdió en casi todas las categorías; RRF a pesos iguales (la
+receta habitual) quedó por debajo del vector solo en nDCG (0,56 contra 0,60),
+con cualquier pool y peso probado.
+
+**Decisión.** El modo `hybrid` fusiona por combinación convexa de scores
+normalizados por min-max dentro de cada lista (pool de 24 por fuente):
+`0,8 · vector + 0,2 · BM25`. Pasa a ser el default de `retrieval_mode`. RRF
+queda disponible como modo `rrf` para seguir comparando. El peso vive en
+`Settings.hybrid_alpha`.
+
+**Por qué no RRF.** RRF ignora la magnitud de los scores: el primer resultado
+de BM25 vale lo mismo que el primero del vector aunque BM25 esté adivinando.
+Con una fuente claramente más débil, eso diluye a la fuerte. La fusión por
+scores deja que el vector mande y que BM25 sólo desempate o rescate
+coincidencias exactas (números de norma, "derógase").
+
+**Consecuencias.** La ganancia medida es de una pregunta en 44 y +0,02 de
+nDCG: del tamaño del ruido. El default se adopta porque no empeora hit ni
+recall en ninguna categoría y porque la coincidencia exacta de términos es
+una propiedad que el benchmark actual casi no prueba. Si el benchmark de la
+Fase 14 muestra otra cosa, el default vuelve a `vector` sin tocar código.
+Min-max por lista es sensible a la distribución de scores de cada consulta;
+alternativas (z-score, calibración) se prueban cuando haya un reranker con el
+que compararlas (Fase 6).
+
