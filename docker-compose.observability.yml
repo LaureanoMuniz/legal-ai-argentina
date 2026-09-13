@@ -1,0 +1,15 @@
+# Backend OTLP opcional para ver las trazas con una UI (Arize Phoenix).
+# Uso: docker compose -f docker-compose.observability.yml up -d
+#      LEGAL_AI_OTLP_ENDPOINT=http://localhost:6006/v1/traces uv run legal-ai ask "..."
+# Langfuse (self-hosted) también recibe OTLP: apuntar el endpoint a /api/public/otel/v1/traces.
+services:
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    ports:
+      - "6006:6006"
+    environment:
+      PHOENIX_WORKING_DIR: /data
+    volumes:
+      - phoenix-data:/data
+volumes:
+  phoenix-data:

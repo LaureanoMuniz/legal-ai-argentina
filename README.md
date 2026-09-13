@@ -110,9 +110,13 @@ uv run legal-ai index embed laboral   # bge-m3 (o --model hashing, sin descarga)
 
 uv run legal-ai search "¿Cuánto dura el período de prueba?"   # retrieval (--retriever vector|bm25|rrf|hybrid, --rewrite, --rerank --pool N)
 uv run legal-ai ask "¿Cuánto dura el período de prueba?"      # retrieval + Claude con citas
-uv run legal-ai serve                                          # GET /health, POST /ask
+uv run legal-ai serve                                          # UI en http://127.0.0.1:8000 + API (/ask, /ask/stream, /trace, /feedback)
 uv run legal-ai bench smoke --no-generate                      # 20 preguntas de humo → experiments/
-uv run legal-ai bench run --retriever hybrid                   # benchmark de 50 preguntas, métricas por categoría
+uv run legal-ai bench run --retriever hybrid                   # benchmark de retrieval: 50 preguntas, métricas por categoría
+uv run legal-ai bench generate                                 # generación + juez: abstención, afirmaciones sostenidas, costo
+uv run legal-ai bench agent --limit 20                         # agente con herramientas, mismas preguntas y juez
+uv run legal-ai traces                                         # resumen de los spans: latencia por etapa, tokens, costo
+uv run legal-ai mcp                                            # servidor MCP por stdio para Claude Desktop / Claude Code
 
 uv run pytest                # los tests de base saltan si Postgres no está levantado
 ```
@@ -122,14 +126,29 @@ Cada `ask` deja sus spans en `data/traces/spans.jsonl`; la respuesta trae el
 
 ## Estado
 
-Fases 0 a 5 completas: arquitectura, ingestion, parser, índice en Postgres con
-RAG baseline (vector → Claude con citas → trazas), benchmark de 50 preguntas
-en 8 categorías, BM25 + híbrido, reranker local (Fase 6) y reescritura de la
-pregunta con Claude más multi-query (Fase 7), que es el default: hit@8 pasó
-de 0,80 a 0,86 en el benchmark. Primer smoke con generación medido: abstención
-correcta en las preguntas sin respuesta y cero citas fuera del contexto.
-Números reales en `docs/ROADMAP.md`. Fase 8 (generación fundamentada medida)
-es la siguiente.
+Las 15 fases del plan están construidas y medidas sobre el corpus laboral:
+ingestion, parser con versiones, índice en Postgres, benchmark de 50
+preguntas, BM25 e híbrido, reranker, reescritura de la pregunta con Claude,
+generación con citas medida por un juez, retrieval temporal con versiones
+reconstruidas, grafo de referencias, agente con herramientas, observabilidad,
+interfaz de preguntas con feedback y servidor MCP. Los números de cada fase,
+con su fecha y su archivo en `experiments/`, están en `docs/ROADMAP.md`; las
+decisiones en `docs/DECISIONS.md`; lo que salió mal y cómo se arregló en
+`docs/BITACORA.md`.
+
+Lo que falta es lo que no se puede hacer sin gente: etiquetas de abogados
+sobre las respuestas (la interfaz ya las guarda) y un benchmark revisado por
+ellos.
+
+## La interfaz
+
+`uv run legal-ai serve` y abrir http://127.0.0.1:8000. A la izquierda hay un
+catálogo de preguntas para probar; cada respuesta muestra las afirmaciones con
+sus fuentes (clic para leer el artículo con todas sus versiones), botones para
+calificarla, y un panel "por debajo del capó" con lo que pasó en esa request:
+cómo se reescribió la pregunta, qué fecha se interpretó, qué fragmentos se
+recuperaron y por qué camino, cuánto tardó cada etapa, tokens y costo, y los
+spans crudos. Necesita Postgres levantado y `ANTHROPIC_API_KEY` en `.env`.
 
 ## Cuaderno
 

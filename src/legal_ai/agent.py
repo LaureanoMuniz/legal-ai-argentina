@@ -35,7 +35,7 @@ def build_agent(model: Model | str) -> Agent[AgentDeps, GroundedAnswer]:
         deps_type=AgentDeps,
         output_type=GroundedAnswer,
         instructions=AGENT_INSTRUCTIONS,
-        retries=2,
+        retries=3,
     )
 
     @agent.tool

@@ -171,3 +171,34 @@ def test_generation_benchmark_measures_abstention_support_and_cost(db, tmp_path:
     path = write_report(report, tmp_path / "exp")
     assert path.exists()
     assert aggregate([]).claim_support_rate is None
+
+
+def test_judge_retries_with_more_tokens_when_json_is_truncated():
+    from types import SimpleNamespace
+
+    from pydantic import ValidationError
+
+    calls = []
+
+    class Flaky:
+        def parse(self, **kwargs):
+            calls.append(kwargs["max_tokens"])
+            if len(calls) == 1:
+                raise ValidationError.from_exception_data("Judgement", [])
+            return SimpleNamespace(
+                parsed_output=Judgement(
+                    verdicts=[ClaimVerdict(index=1, verdict="supported", reason="r")],
+                    answers_question=True,
+                ),
+                usage=SimpleNamespace(input_tokens=10, output_tokens=5),
+            )
+
+    judge = ClaudeJudge(SimpleNamespace(messages=Flaky()), "claude-sonnet-5")
+    answer = GroundedAnswer(
+        answer="x",
+        claims=[Claim(claim="c", sources=[])],
+        confidence="low",
+        insufficient_evidence=False,
+    )
+    out = judge.judge("q", answer, [])
+    assert calls == [4000, 8000] and out.verdicts[0].verdict == "supported" and judge.truncated == 1

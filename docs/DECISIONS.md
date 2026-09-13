@@ -445,3 +445,32 @@ disponible para el agente y para GraphRAG multi-salto si el benchmark de la
 Fase 14 muestra preguntas que lo necesiten. Neo4j no se justifica con un
 salto y 5.184 aristas.
 
+## ADR-028: Un mismo juego de herramientas para el agente y para el MCP server
+
+**Decisión.** `legal_ai.tools.Toolbox` implementa cuatro operaciones
+(`search_laws`, `get_article`, `get_law_version`, `find_related_legislation`)
+sobre el retriever y Postgres. El agente (Pydantic AI, Claude) y el servidor
+MCP (`legal-ai mcp`, stdio) las exponen sin lógica propia. El agente decide
+qué buscar y qué leer; devuelve el mismo `GroundedAnswer` que el pipeline
+fijo, y sus fuentes se validan contra lo que las herramientas devolvieron.
+
+**Por qué.** Comparar agente contra pipeline fijo sólo tiene sentido si usan
+el mismo índice y el mismo esquema de respuesta; y un cliente MCP externo
+(Claude Desktop, Claude Code) tiene que ver exactamente lo que ve el agente.
+
+**Consecuencias.** El agente cuesta más llamadas por pregunta (se mide en
+`bench agent`) y puede fallar en la validación de salida; el benchmark
+registra esos errores en vez de cortarse.
+
+## ADR-029: Observabilidad: JSONL siempre, OTLP opcional, panel "por debajo del capó" en la UI
+
+**Decisión.** Cada request escribe sus spans a `data/traces/spans.jsonl`;
+`legal-ai traces` los resume (requests, p50/p95 por etapa, tokens, costo).
+Con `LEGAL_AI_OTLP_ENDPOINT` los mismos spans van a cualquier backend OTLP;
+`docker-compose.observability.yml` levanta Arize Phoenix como ejemplo (un
+contenedor). La UI muestra por cada pregunta el plan (reescritura, fecha),
+los candidatos con score y origen, la latencia por etapa, tokens y costo, y
+los spans crudos. Langfuse queda como opción documentada, no como
+dependencia: su stack self-hosted (Postgres, ClickHouse, Redis, MinIO) no se
+justifica para un usuario.
+

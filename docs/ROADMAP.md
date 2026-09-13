@@ -18,10 +18,10 @@ sin medir la actual.
 | 9 | Retrieval temporal: reconstrucción de versiones, filtro por fecha | tests explícitos de Temporal Misgrounding (versión vigente vs histórica) | hecha |
 | 10 | Knowledge graph legal (Postgres → Neo4j si hace falta) | casos donde el vector falla por depender de relaciones | hecha (Postgres) |
 | 11 | GraphRAG como segundo camino | vector vs híbrido vs grafo vs híbrido+grafo en preguntas multi-hop | hecha (1 salto, medido) |
-| 12 | Agente con tools explícitas (Pydantic AI) | decisiones trazadas; comparación contra pipeline fijo | |
-| 13 | Observabilidad completa | trazas por request con candidatos, scores, contexto y citas | |
-| 14 | Evaluación humana (abogados) | interfaz de etiquetado, dataset, regresiones | |
-| 15 | MCP server | `search_laws`, `get_article`, `get_law_version`, `find_related_legislation` | |
+| 12 | Agente con tools explícitas (Pydantic AI) | decisiones trazadas; comparación contra pipeline fijo | hecha (medido en 20 preguntas) |
+| 13 | Observabilidad completa | trazas por request con candidatos, scores, contexto y citas | hecha (JSONL + `traces` + OTLP a Phoenix; panel en la UI) |
+| 14 | Evaluación humana (abogados) | interfaz de etiquetado, dataset, regresiones | hecha la interfaz; faltan las etiquetas |
+| 15 | MCP server | `search_laws`, `get_article`, `get_law_version`, `find_related_legislation` | hecha |
 
 ## Fase 1 en detalle
 

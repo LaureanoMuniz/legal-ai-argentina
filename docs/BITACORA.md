@@ -48,4 +48,7 @@ visibles cuando la hubo.
 | 36 | 9 | El art. 54 derogado no tiene texto en ningún lado del corpus | Pregunta b30 | Falla sin arreglo posible con esta fuente | Hay huecos que la fuente no llena |
 | 37 | 10 | Los vecinos del grafo ocupan lugares del top-8 y desplazan aciertos | Benchmark con grafo | Apagado por default; útil para el agente | Más contexto no es gratis con k fijo |
 | 38 | 15 | `mcp` 2.x renombró FastMCP a MCPServer | Import roto | Se usó la API nueva | Verificar la versión instalada antes de escribir contra un recuerdo |
-
+| 39 | 8 | El juez devolvió JSON cortado (max_tokens 2.000) y la corrida murió | Traceback | max_tokens 4.000 con reintento a 8.000; el generador también atrapa el corte y se abstiene | Salida estructurada larga necesita presupuesto y captura del corte |
+| 40 | 12 | El agente agotó los reintentos de salida en una pregunta y tiró toda la corrida | Traceback | Error por pregunta registrado como abstención con marca | Un benchmark no se corta por un caso |
+| 41 | 13 | Colima no pudo extraer la imagen de Phoenix (`unpigz: input/output error`) | `docker compose up` | Compose y exportador quedan documentados; la validación con backend OTLP queda pendiente en esta máquina | El entorno también falla |
+| 42 | 9 | 337 originales sin fecha de cierre convivían con su vigente (misma fecha, texto con diferencias de transcripción): 248 chunks duplicados en el índice "sólo vigente" | Búsqueda que devolvía @original y @current del mismo artículo | Se indexa el original sólo si fue reemplazado de verdad | Un flag en la fila equivocada (el vigente sabe si cambió, el original no) |

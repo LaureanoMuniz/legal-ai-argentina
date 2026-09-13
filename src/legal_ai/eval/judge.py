@@ -2,7 +2,7 @@
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 from legal_ai.generation.schema import GroundedAnswer
 from legal_ai.retrieval.types import Candidate
@@ -54,25 +54,38 @@ class ClaudeJudge:
         self.input_tokens = 0
         self.output_tokens = 0
         self.calls = 0
+        self.truncated = 0
 
     def judge(
         self, question: str, answer: GroundedAnswer, candidates: list[Candidate]
     ) -> Judgement:
         if not answer.claims:
             return Judgement(verdicts=[], answers_question=False)
-        response = self._client.messages.parse(
-            model=self.model,
-            max_tokens=2000,
-            system=[{"type": "text", "text": JUDGE_SYSTEM, "cache_control": {"type": "ephemeral"}}],
-            messages=[
-                {"role": "user", "content": build_judge_message(question, answer, candidates)}
-            ],
-            output_format=Judgement,
-        )
-        self.calls += 1
-        self.input_tokens += response.usage.input_tokens
-        self.output_tokens += response.usage.output_tokens
-        parsed = response.parsed_output
+        message = build_judge_message(question, answer, candidates)
+        parsed = None
+        for max_tokens in (4000, 8000):
+            try:
+                response = self._client.messages.parse(
+                    model=self.model,
+                    max_tokens=max_tokens,
+                    system=[
+                        {
+                            "type": "text",
+                            "text": JUDGE_SYSTEM,
+                            "cache_control": {"type": "ephemeral"},
+                        }
+                    ],
+                    messages=[{"role": "user", "content": message}],
+                    output_format=Judgement,
+                )
+            except ValidationError:
+                self.truncated += 1
+                continue
+            self.calls += 1
+            self.input_tokens += response.usage.input_tokens
+            self.output_tokens += response.usage.output_tokens
+            parsed = response.parsed_output
+            break
         if parsed is None:
             return Judgement(
                 verdicts=[

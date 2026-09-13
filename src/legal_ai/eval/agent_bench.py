@@ -7,8 +7,9 @@ from pathlib import Path
 
 from pydantic import BaseModel
 from pydantic_ai import Agent
+from pydantic_ai.exceptions import UnexpectedModelBehavior
 
-from legal_ai.agent import AgentDeps, run_agent
+from legal_ai.agent import AgentDeps, AgentRun, run_agent
 from legal_ai.bench import percentile
 from legal_ai.eval.benchmark import Question, load_questions
 from legal_ai.eval.generation import PRICES, GenerationAggregate, GenerationResult, Judge, aggregate
@@ -28,6 +29,7 @@ class AgentReport(BaseModel):
     not_in_corpus_abstention: float | None
     unsupported_source_citations: int
     tool_calls_total: int
+    agent_errors: int = 0
     tool_calls_p50: float
     total_input_tokens: int
     total_output_tokens: int
@@ -77,9 +79,25 @@ def run_agent_benchmark(
     results: list[GenerationResult] = []
     traces: dict[str, list[dict[str, object]]] = {}
     total_in = total_out = 0
+    errors = 0
     for q in questions:
         start = time.perf_counter()
-        run = run_agent(agent, toolbox, q.question)
+        try:
+            run = run_agent(agent, toolbox, q.question)
+        except UnexpectedModelBehavior as exc:
+            run = AgentRun(
+                answer=GroundedAnswer(
+                    answer=f"(error del agente: {exc})",
+                    claims=[],
+                    confidence="low",
+                    insufficient_evidence=True,
+                ),
+                unsupported_sources=[],
+                tool_calls=[{"tool": "error", "message": str(exc)[:200]}],
+                input_tokens=0,
+                output_tokens=0,
+            )
+            errors += 1
         elapsed = (time.perf_counter() - start) * 1000
         total_in += run.input_tokens
         total_out += run.output_tokens
@@ -155,6 +173,7 @@ def run_agent_benchmark(
         else None,
         unsupported_source_citations=sum(len(r.unsupported_sources) for r in results),
         tool_calls_total=sum(calls),
+        agent_errors=errors,
         tool_calls_p50=percentile([float(c) for c in calls], 0.5),
         total_input_tokens=total_in,
         total_output_tokens=total_out,

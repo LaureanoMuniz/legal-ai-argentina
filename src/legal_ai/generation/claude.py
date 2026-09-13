@@ -1,7 +1,7 @@
 from typing import Any
 
 import anthropic
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from legal_ai.generation.prompt import SYSTEM_PROMPT, build_context, build_user_message
 from legal_ai.generation.schema import GroundedAnswer
@@ -30,21 +30,34 @@ def make_client(api_key: str | None, max_retries: int = 5) -> anthropic.Anthropi
 
 
 class ClaudeGenerator:
-    def __init__(self, client: Any, model: str) -> None:
+    def __init__(self, client: Any, model: str, max_tokens: int = 6000) -> None:
         self._client = client
         self.model = model
+        self.max_tokens = max_tokens
 
     def generate(self, question: str, candidates: list[Candidate]) -> Generation:
         message = build_user_message(question, build_context(candidates))
-        response = self._client.messages.parse(
-            model=self.model,
-            max_tokens=4096,
-            system=[
-                {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}
-            ],
-            messages=[{"role": "user", "content": message}],
-            output_format=GroundedAnswer,
-        )
+        try:
+            response = self._client.messages.parse(
+                model=self.model,
+                max_tokens=self.max_tokens,
+                system=[
+                    {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}
+                ],
+                messages=[{"role": "user", "content": message}],
+                output_format=GroundedAnswer,
+            )
+        except ValidationError:
+            empty = GroundedAnswer(
+                answer="", claims=[], confidence="low", insufficient_evidence=True
+            )
+            return Generation(
+                answer=empty,
+                usage=Usage(input_tokens=0, output_tokens=self.max_tokens),
+                model=self.model,
+                stop_reason="max_tokens",
+                unsupported_sources=[],
+            )
         usage = Usage(
             input_tokens=response.usage.input_tokens,
             output_tokens=response.usage.output_tokens,

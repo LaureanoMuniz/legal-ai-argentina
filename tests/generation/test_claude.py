@@ -78,3 +78,15 @@ def test_refusal_becomes_insufficient_evidence():
     generation = ClaudeGenerator(client, "claude-opus-5").generate("pregunta", candidates())
     assert generation.answer.insufficient_evidence is True and generation.answer.claims == []
     assert generation.stop_reason == "refusal"
+
+
+def test_truncated_json_becomes_insufficient_evidence():
+    from pydantic import ValidationError
+
+    class Broken:
+        def parse(self, **kwargs):
+            raise ValidationError.from_exception_data("GroundedAnswer", [])
+
+    generator = ClaudeGenerator(SimpleNamespace(messages=Broken()), "claude-opus-5")
+    out = generator.generate("q", candidates())
+    assert out.answer.insufficient_evidence is True and out.stop_reason == "max_tokens"

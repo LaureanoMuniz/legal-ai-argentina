@@ -318,6 +318,7 @@ def bench_agent(
     limit: Annotated[int | None, typer.Option("--limit")] = None,
 ) -> None:
     """Benchmark del agente con herramientas: mismas preguntas y juez que bench generate."""
+    import os
     from pathlib import Path
 
     from legal_ai.agent import anthropic_model, build_agent
@@ -330,6 +331,7 @@ def bench_agent(
     from legal_ai.settings import Settings
     from legal_ai.tools import Toolbox
 
+    os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
     settings = Settings()
     if not settings.anthropic_api_key:
         raise typer.BadParameter("bench agent necesita ANTHROPIC_API_KEY en .env")
@@ -350,11 +352,31 @@ def bench_agent(
         f"n={report.n} abstuvo={o.abstained} respondió={o.answered} · claims={o.claims} "
         f"sostenidas={o.claim_support_rate} · cita esperado={o.cited_expected_rate} · "
         f"llamadas a tools={report.tool_calls_total} (p50 {report.tool_calls_p50:.0f}/pregunta) · "
+        f"errores={report.agent_errors} · "
         f"tokens {report.total_input_tokens}/{report.total_output_tokens} · "
         f"costo ${report.estimated_cost_usd:.2f} · "
         f"p50 {o.p50_total_ms / 1000:.1f} s"
     )
     typer.echo(f"escrito: {path}")
+
+
+@app.command("traces")
+def traces_summary() -> None:
+    """Resumen del archivo de spans: requests, latencia por etapa, tokens y costo."""
+    from legal_ai.observability.report import summarize
+    from legal_ai.settings import Settings
+
+    summary = summarize(Settings().traces_path)
+    typer.echo(
+        f"requests={summary.requests} · tokens in/out="
+        f"{summary.input_tokens}/{summary.output_tokens} · "
+        f"costo lista=${summary.estimated_cost_usd:.2f} · modelos={summary.models}"
+    )
+    typer.echo(f"retrievers={summary.retrievers}")
+    for st in summary.stages:
+        typer.echo(
+            f"  {st.name:<22} n={st.count:<5} p50={st.p50_ms:8.0f} ms  p95={st.p95_ms:8.0f} ms"
+        )
 
 
 @app.command("mcp")

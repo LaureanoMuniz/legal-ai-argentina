@@ -130,13 +130,8 @@ def test_split_quoted_separates_pointer_from_quoted_article():
 
 
 def test_indexable_versions_and_period_notes():
-    changed_original = {
-        **ORIG,
-        "text_sha256": "a",
-        "unchanged_from_original": False,
-        "effective_until": "2026-03-06",
-    }
-    current = {**CUR, "text_sha256": "b"}
+    changed_original = {**ORIG, "text_sha256": "a", "effective_until": "2026-03-06"}
+    current = {**CUR, "text_sha256": "b", "unchanged_from_original": False}
     reconstructed = {
         **CUR,
         "id": "25552:12@2004-03-19",
@@ -148,8 +143,12 @@ def test_indexable_versions_and_period_notes():
     }
     chosen = indexable_versions([changed_original, current, reconstructed])
     assert [v["version_kind"] for v in chosen] == ["current", "original", "reconstructed"]
-    unchanged = {**ORIG, "text_sha256": "b", "unchanged_from_original": True}
-    assert [v["version_kind"] for v in indexable_versions([unchanged, current])] == ["current"]
+    unchanged = {**ORIG, "text_sha256": "b"}
+    same = {**current, "unchanged_from_original": True}
+    assert [v["version_kind"] for v in indexable_versions([unchanged, same])] == ["current"]
+    transcription = {**ORIG, "text_sha256": "zz", "effective_until": None}
+    assert [v["version_kind"] for v in indexable_versions([transcription, current])] == ["current"]
+    assert [v["version_kind"] for v in indexable_versions([transcription])] == ["original"]
     assert period_note(current).startswith(" Vigente desde")
     assert "Texto histórico: vigente de 2004-03-19 a 2026-03-06" in period_note(reconstructed)
     assert (
