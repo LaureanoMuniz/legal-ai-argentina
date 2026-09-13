@@ -574,6 +574,31 @@ candidatos (`--graph N`), respetando el filtro temporal.
 - Decisión: disponible, apagado por default (ADR-027). Vale más para el
   agente (que puede pedir "qué cita este artículo") que para el pipeline fijo.
 
+## Fase 12 en detalle: agente con herramientas
+
+Pydantic AI con Claude Sonnet 5 y tres herramientas (`search_laws`,
+`get_article`, `get_law_version`) sobre el mismo índice; salida
+`GroundedAnswer`; fuentes validadas contra lo que devolvieron las
+herramientas. `bench agent --limit 20`, mismo juez que `bench generate`.
+
+| Sistema (Sonnet 5, mismas 20 preguntas) | respondió | afirmaciones | sostenidas | citó esperado | p50 | tokens in/out | costo (sin juez) |
+|---|---|---|---|---|---|---|---|
+| Pipeline fijo (híbrido + reescritura) | 20/20 | 100 | 0,87 | 0,95 | 9.7 s | 70,024 / 18,985 | $0.49 |
+| Agente con herramientas | 19/20 | 87 | 0,91 | 1,00 | 12.1 s | 207,645 / 19,547 | $0.92 |
+
+- Primera corrida: 6 de 20 preguntas fallaron por "Exceeded maximum output
+  retries": la llamada final se cortaba por `max_tokens` y llegaba sin
+  `claims`. Con presupuesto de 8.000 tokens de salida y la instrucción de
+  que `answer` sea breve, quedó 1 error en 20 (bitácora 40).
+- Llamadas a herramientas por pregunta: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 5] (por herramienta:
+  {'search_laws': 22, 'get_article': 7, 'error': 1}). El agente casi siempre hace una búsqueda y responde; usa
+  `get_article` cuando quiere el texto completo o las versiones.
+- Contra el pipeline fijo con el mismo modelo: sostén parecido, más tokens
+  (los resultados de las herramientas viajan enteros en el contexto) y más
+  latencia. Para preguntas directas no aporta; su lugar son las preguntas que
+  necesitan decidir qué leer (fechas, remisiones) y el uso interactivo.
+  Reportes: `experiments/2026-09-13-phase12-agent-sonnet5*.json`.
+
 ## Fases 13, 14 y 15 en detalle: observabilidad, interfaz con feedback, MCP
 
 - **Observabilidad.** Cada request escribe spans (GenAI semconv) a
