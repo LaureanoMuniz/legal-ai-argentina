@@ -48,10 +48,7 @@ def context_prefix(
     if article.get("heading"):
         art += f" — {article['heading']}"
     parts.append(art)
-    prefix = " · ".join(parts) + "."
-    if version.get("effective_from"):
-        prefix += f" Vigente desde {version['effective_from']}."
-    return prefix
+    return " · ".join(parts) + "." + period_note(version)
 
 
 def _pack(units: list[str], max_chars: int, joiner: str) -> list[str]:
@@ -107,6 +104,48 @@ def article_pieces(text: str, split_quotes: bool = SPLIT_QUOTES) -> list[str]:
     return [intro, *split_text(quoted)]
 
 
+def original_unchanged(version: Mapping[str, Any]) -> bool:
+    return bool(version.get("unchanged_from_original", False))
+
+
+def indexable_versions(versions: Sequence[Mapping[str, Any]]) -> list[Mapping[str, Any]]:
+    by_kind = {v["version_kind"]: v for v in versions if v["version_kind"] != "reconstructed"}
+    chosen: list[Mapping[str, Any]] = []
+    current = by_kind.get("current")
+    original = by_kind.get("original")
+    if current is not None and (current.get("text") or "").strip():
+        chosen.append(current)
+    differs = current is None or (
+        not original_unchanged(original or {})
+        and (original or {}).get("text_sha256") != current.get("text_sha256")
+    )
+    if original is not None and (original.get("text") or "").strip() and differs:
+        chosen.append(original)
+    chosen.extend(
+        v
+        for v in versions
+        if v["version_kind"] == "reconstructed" and (v.get("text") or "").strip()
+    )
+    return chosen
+
+
+def period_note(version: Mapping[str, Any]) -> str:
+    start, end, status = (
+        version.get("effective_from"),
+        version.get("effective_until"),
+        version.get("status"),
+    )
+    if status == "derogado":
+        return f" Derogado desde {end or start}." if (end or start) else " Derogado."
+    if end:
+        return (
+            f" Texto histórico: vigente de {start} a {end}."
+            if start
+            else f" Texto histórico hasta {end}."
+        )
+    return f" Vigente desde {start}." if start else ""
+
+
 def choose_version(versions: Sequence[Mapping[str, Any]]) -> Mapping[str, Any] | None:
     by_kind = {v["version_kind"]: v for v in versions}
     chosen = by_kind.get("current") or by_kind.get("original")
@@ -124,24 +163,22 @@ def build_chunks(
 ) -> list[ChunkRecord]:
     if article.get("annex"):
         return []
-    version = choose_version(versions)
-    if version is None:
-        return []
-    prefix = context_prefix(doc, article, version)
     records: list[ChunkRecord] = []
-    for index, piece in enumerate(article_pieces(version["text"])):
-        embed_text = f"{prefix}\n{piece}"
-        records.append(
-            ChunkRecord(
-                id=f"{version['id']}#{index}",
-                version_id=version["id"],
-                article_id=article["id"],
-                document_id=doc["id_norma"],
-                chunk_index=index,
-                context_prefix=prefix,
-                text=piece,
-                embed_text=embed_text,
-                token_estimate=max(1, len(embed_text) // 4),
+    for version in indexable_versions(versions):
+        prefix = context_prefix(doc, article, version)
+        for index, piece in enumerate(article_pieces(version["text"])):
+            embed_text = f"{prefix}\n{piece}"
+            records.append(
+                ChunkRecord(
+                    id=f"{version['id']}#{index}",
+                    version_id=version["id"],
+                    article_id=article["id"],
+                    document_id=doc["id_norma"],
+                    chunk_index=index,
+                    context_prefix=prefix,
+                    text=piece,
+                    embed_text=embed_text,
+                    token_estimate=max(1, len(embed_text) // 4),
+                )
             )
-        )
     return records

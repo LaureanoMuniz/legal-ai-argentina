@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -20,6 +21,8 @@ class FakeMessages:
             parsed_output=Rewrite(
                 query="Irrenunciabilidad de derechos del trabajador",
                 terms=["irrenunciabilidad", "nulidad"],
+                as_of=date(2020, 6, 30),
+                historical=True,
             ),
             usage=SimpleNamespace(input_tokens=300, output_tokens=40),
         )
@@ -39,7 +42,12 @@ def test_rewriter_caches_on_disk_and_counts_usage(tmp_path: Path):
     assert client.messages.calls == 1 and rw.calls == 1
     assert len(json.loads(cache.read_text())) == 1
     again = ClaudeRewriter(SimpleNamespace(messages=FakeMessages()), "claude-opus-5", cache)
-    assert again.rewrite("¿Puede el trabajador renunciar a sus derechos?").query == first.query
+    reloaded = again.rewrite("¿Puede el trabajador renunciar a sus derechos?")
+    assert (
+        reloaded.query == first.query
+        and reloaded.as_of == date(2020, 6, 30)
+        and reloaded.historical
+    )
     assert again.calls == 0
 
 
@@ -64,3 +72,5 @@ def test_retriever_searches_with_rewritten_query(db, tmp_path: Path):
     fused = multi.search("período de prueba", 3)
     assert len(fused) == 3 and all(c.retriever == "rrf" for c in fused)
     assert multi.name.endswith("+rewrite(static)+multi")
+    plan = multi.plan("período de prueba", None, None)
+    assert plan.rewritten and plan.historical is False and plan.as_of is None

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from datetime import date
 from pathlib import Path
 from typing import Any, Protocol
 
@@ -20,12 +21,20 @@ Reglas:
 3. Si la pregunta es en negativo ("¿cuándo no corresponde…?"), nombrá las excepciones o
    causales tal como las llama la ley.
 4. No inventes números de artículo ni de ley que la pregunta no mencione.
-5. `query`: una o dos oraciones en castellano. `terms`: entre 3 y 8 términos jurídicos."""
+5. `query`: una o dos oraciones en castellano. `terms`: entre 3 y 8 términos jurídicos.
+6. `as_of`: si la pregunta refiere a una fecha o año concreto ("en 2020", "antes de 2024",
+   "cuando regía la ley X"), la fecha en formato AAAA-MM-DD que mejor la representa (para un
+   año, el 30 de junio; para "antes de <fecha>", el día anterior). Si no, null.
+7. `historical`: true si la pregunta pide un texto que ya no rige ("¿qué decía…?", "¿qué
+   establecía…?", "antes de su derogación", "está derogado"); false si pregunta por el
+   derecho vigente."""
 
 
 class Rewrite(BaseModel):
     query: str = Field(description="Consulta reformulada con vocabulario legal, sin responder.")
     terms: list[str] = Field(description="Términos jurídicos clave, entre 3 y 8.")
+    as_of: date | None = Field(default=None, description="Fecha de referencia AAAA-MM-DD o null.")
+    historical: bool = Field(default=False, description="true si pide un texto que ya no rige.")
 
     @property
     def search_text(self) -> str:
@@ -72,7 +81,7 @@ class ClaudeRewriter:
         self.output_tokens += response.usage.output_tokens
         parsed = response.parsed_output
         rewrite = parsed if parsed is not None else Rewrite(query=question, terms=[])
-        self._cache[key] = rewrite.model_dump()
+        self._cache[key] = rewrite.model_dump(mode="json")
         if self._cache_path:
             self._cache_path.parent.mkdir(parents=True, exist_ok=True)
             self._cache_path.write_text(

@@ -63,13 +63,25 @@ def ask(
     generate: Annotated[bool, typer.Option("--generate/--no-generate")] = True,
     model: Annotated[str | None, typer.Option("--model")] = None,
     retriever: Annotated[str | None, typer.Option("--retriever")] = None,
+    as_of: Annotated[str | None, typer.Option("--as-of", help="AAAA-MM-DD")] = None,
+    historical: Annotated[bool | None, typer.Option("--historical/--current")] = None,
 ) -> None:
     """Pipeline completo: retrieval → contexto → Claude → respuesta con citas."""
+    from datetime import date
+
     from legal_ai.pipeline import build_pipeline
     from legal_ai.retrieval.retriever import parse_mode
 
     mode = parse_mode(retriever) if retriever else None
-    response = build_pipeline(embedder_name=model, mode=mode).ask(question, k, generate)
+    response = build_pipeline(embedder_name=model, mode=mode).ask(
+        question,
+        k,
+        generate,
+        as_of=date.fromisoformat(as_of) if as_of else None,
+        historical=historical,
+    )
+    p = response.plan
+    typer.echo(f"plan: as_of={p.as_of} historical={p.historical} reescrita={p.rewritten or '-'}")
     if response.answer is None:
         typer.echo("(sin generación: falta ANTHROPIC_API_KEY o se pasó --no-generate)")
     else:
@@ -192,12 +204,14 @@ def bench_run(
     def fmt(v: float | None) -> str:
         return "  -  " if v is None else f"{v:5.2f}"
 
-    typer.echo(f"{'categoría':<16}{'n':>3} {'hit@k':>6} {'recall':>7} {'mrr':>6} {'ndcg':>6}")
+    typer.echo(
+        f"{'categoría':<16}{'n':>3} {'hit@k':>6} {'recall':>7} {'mrr':>6} {'ndcg':>6} {'vers':>6}"
+    )
     rows = [("overall", report.overall)] + list(report.by_category.items())
     for label, agg in rows:
         typer.echo(
             f"{label:<16}{agg.n_scored:>3} {fmt(agg.hit_at_k):>6} {fmt(agg.recall_at_k):>7} "
-            f"{fmt(agg.mrr):>6} {fmt(agg.ndcg_at_k):>6}"
+            f"{fmt(agg.mrr):>6} {fmt(agg.ndcg_at_k):>6} {fmt(agg.version_hit):>6}"
         )
     typer.echo(
         f"retrieval p50/p95 {report.overall.p50_retrieval_ms:.0f}/"

@@ -1,6 +1,7 @@
 """HTTP API: /health and /ask over the RAG pipeline."""
 
 from collections.abc import Callable
+from datetime import date
 from functools import lru_cache
 
 from fastapi import FastAPI
@@ -13,6 +14,8 @@ from legal_ai.pipeline import AskResponse, Pipeline, build_pipeline
 class AskRequest(BaseModel):
     question: str = Field(min_length=3, max_length=2000)
     k: int = Field(default=8, ge=1, le=50)
+    as_of: date | None = None
+    historical: bool | None = None
 
 
 def create_app(pipeline_factory: Callable[[], Pipeline] = build_pipeline) -> FastAPI:
@@ -28,7 +31,9 @@ def create_app(pipeline_factory: Callable[[], Pipeline] = build_pipeline) -> Fas
 
     @app.post("/ask", response_model=AskResponse)
     def ask(request: AskRequest) -> AskResponse:
-        return get_pipeline().ask(request.question, request.k)
+        return get_pipeline().ask(
+            request.question, request.k, as_of=request.as_of, historical=request.historical
+        )
 
     return app
 

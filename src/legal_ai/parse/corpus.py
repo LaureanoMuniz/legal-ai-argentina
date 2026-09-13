@@ -10,6 +10,7 @@ from legal_ai.ingest.layout import ProcessedLayout, RawLayout
 from legal_ai.ingest.manifest import ResolvedCorpus, ResolvedNorm
 from legal_ai.parse.antecedentes import HistoryEvent, parse_antecedentes
 from legal_ai.parse.html_text import decode_html, html_to_lines
+from legal_ai.parse.reconstruct import chain_versions, reconstruct
 from legal_ai.parse.structure import ParsedText, parse_text
 from legal_ai.parse.versions import (
     ArticleRecord,
@@ -311,6 +312,12 @@ def parse_corpus(
             )
         )
 
+    version_dicts = [v.model_dump() for v in versions]
+    reconstructed = reconstruct([d.model_dump() for d in documents], version_dicts)
+    added = chain_versions(version_dicts, reconstructed, {a.id for a in articles})
+    versions = [ArticleVersionRecord.model_validate(v) for v in version_dicts]
+    n_reconstructed = len(added)
+
     _write_jsonl(out_dir / "documents.jsonl", documents)
     _write_jsonl(out_dir / "articles.jsonl", articles)
     _write_jsonl(out_dir / "article_versions.jsonl", versions)
@@ -328,6 +335,7 @@ def parse_corpus(
             ),
             "articles": len(articles),
             "versions": len(versions),
+            "reconstructed_versions": n_reconstructed,
             "relations": len(relations),
             "history": len(history),
             "warnings": sum(len(r.warnings) for r in reports),

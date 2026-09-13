@@ -1,7 +1,9 @@
 """Retriever facade: vector, BM25 or hybrid (RRF), optionally deduplicated by article."""
 
+from datetime import date
 from typing import Literal
 
+from pydantic import BaseModel
 from sqlalchemy.engine import Engine
 
 from legal_ai.index.embeddings import Embedder
@@ -11,6 +13,14 @@ from legal_ai.retrieval.rerank import Reranker, rerank
 from legal_ai.retrieval.rewrite import Rewriter
 from legal_ai.retrieval.types import Candidate
 from legal_ai.retrieval.vector import count_embedded, retrieve_vector
+
+
+class SearchPlan(BaseModel):
+    query: str
+    rewritten: str | None
+    as_of: date | None
+    historical: bool
+
 
 Mode = Literal["vector", "bm25", "rrf", "hybrid"]
 MODES: tuple[Mode, ...] = ("vector", "bm25", "rrf", "hybrid")
@@ -84,34 +94,62 @@ class Retriever:
                         "falta el índice BM25 chunks_bm25; corré `legal-ai db upgrade`"
                     )
 
-    def _search(self, query: str, k: int) -> list[Candidate]:
+    def _search(
+        self, query: str, k: int, as_of: date | None = None, historical: bool = False
+    ) -> list[Candidate]:
         with self.engine.connect() as conn:
             if self.mode == "bm25":
-                return retrieve_bm25(conn, query, k)
+                return retrieve_bm25(conn, query, k, as_of, historical)
             vector = self.embed_query(query)
             if self.mode == "vector":
-                return retrieve_vector(conn, vector, k, self.embedder.name)
+                return retrieve_vector(conn, vector, k, self.embedder.name, as_of, historical)
             pool = max(k, FUSION_POOL)
-            dense = retrieve_vector(conn, vector, pool, self.embedder.name)
-            sparse = retrieve_bm25(conn, query, pool)
+            dense = retrieve_vector(conn, vector, pool, self.embedder.name, as_of, historical)
+            sparse = retrieve_bm25(conn, query, pool, as_of, historical)
         if self.mode == "rrf":
             return rrf([dense, sparse], k)
         return convex(dense, sparse, k, self.alpha)
 
-    def _ranked(self, query: str, k: int) -> list[Candidate]:
+    def _ranked(self, query: str, k: int, as_of: date | None, historical: bool) -> list[Candidate]:
         if not self.dedupe:
-            return self._search(query, k)
-        return dedupe_by_article(self._search(query, k * POOL_FACTOR), k)
+            return self._search(query, k, as_of, historical)
+        return dedupe_by_article(self._search(query, k * POOL_FACTOR, as_of, historical), k)
 
-    def _candidates(self, query: str, k: int) -> list[Candidate]:
-        if self.rewriter is None:
-            return self._ranked(query, k)
-        rewritten = self.rewriter.rewrite(query).search_text
+    def plan(self, query: str, as_of: date | None, historical: bool | None) -> SearchPlan:
+        rewrite = self.rewriter.rewrite(query) if self.rewriter else None
+        if as_of is None and rewrite is not None and rewrite.as_of:
+            as_of = rewrite.as_of
+        if historical is None:
+            historical = bool(rewrite.historical) if rewrite is not None else False
+        return SearchPlan(
+            query=query,
+            rewritten=rewrite.search_text if rewrite else None,
+            as_of=as_of,
+            historical=historical,
+        )
+
+    def _candidates(self, plan: SearchPlan, k: int) -> list[Candidate]:
+        if plan.rewritten is None:
+            return self._ranked(plan.query, k, plan.as_of, plan.historical)
         if not self.multi_query:
-            return self._ranked(rewritten, k)
-        return rrf([self._ranked(rewritten, k), self._ranked(query, k)], k)
+            return self._ranked(plan.rewritten, k, plan.as_of, plan.historical)
+        return rrf(
+            [
+                self._ranked(plan.rewritten, k, plan.as_of, plan.historical),
+                self._ranked(plan.query, k, plan.as_of, plan.historical),
+            ],
+            k,
+        )
 
-    def search(self, query: str, k: int = 8) -> list[Candidate]:
+    def search(
+        self,
+        query: str,
+        k: int = 8,
+        as_of: date | None = None,
+        historical: bool | None = None,
+        plan: SearchPlan | None = None,
+    ) -> list[Candidate]:
+        plan = plan or self.plan(query, as_of, historical)
         if self.reranker is None:
-            return self._candidates(query, k)
-        return rerank(self.reranker, query, self._candidates(query, max(k, self.pool)), k)
+            return self._candidates(plan, k)
+        return rerank(self.reranker, query, self._candidates(plan, max(k, self.pool)), k)

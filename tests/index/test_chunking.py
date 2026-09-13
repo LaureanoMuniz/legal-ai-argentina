@@ -1,4 +1,11 @@
-from legal_ai.index.chunking import build_chunks, choose_version, context_prefix, split_text
+from legal_ai.index.chunking import (
+    build_chunks,
+    choose_version,
+    context_prefix,
+    indexable_versions,
+    period_note,
+    split_text,
+)
 
 DOC = {
     "id_norma": 25552,
@@ -119,4 +126,33 @@ def test_split_quoted_separates_pointer_from_quoted_article():
     assert (
         split_quoted("Apruébase el reglamento que como Anexo I forma parte de la presente: ok.")
         is None
+    )
+
+
+def test_indexable_versions_and_period_notes():
+    changed_original = {
+        **ORIG,
+        "text_sha256": "a",
+        "unchanged_from_original": False,
+        "effective_until": "2026-03-06",
+    }
+    current = {**CUR, "text_sha256": "b"}
+    reconstructed = {
+        **CUR,
+        "id": "25552:12@2004-03-19",
+        "version_kind": "reconstructed",
+        "status": "historico",
+        "effective_from": "2004-03-19",
+        "effective_until": "2026-03-06",
+        "text": "texto 2004",
+    }
+    chosen = indexable_versions([changed_original, current, reconstructed])
+    assert [v["version_kind"] for v in chosen] == ["current", "original", "reconstructed"]
+    unchanged = {**ORIG, "text_sha256": "b", "unchanged_from_original": True}
+    assert [v["version_kind"] for v in indexable_versions([unchanged, current])] == ["current"]
+    assert period_note(current).startswith(" Vigente desde")
+    assert "Texto histórico: vigente de 2004-03-19 a 2026-03-06" in period_note(reconstructed)
+    assert (
+        period_note({**current, "status": "derogado", "effective_until": "2026-03-06"})
+        == " Derogado desde 2026-03-06."
     )

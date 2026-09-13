@@ -1,6 +1,7 @@
 """Question → vector retrieval → context → Claude → grounded answer, with spans per step."""
 
 import time
+from datetime import date
 from typing import Protocol
 
 from opentelemetry.trace import Tracer, format_trace_id
@@ -13,7 +14,7 @@ from legal_ai.generation.schema import GroundedAnswer
 from legal_ai.index.embeddings import get_embedder
 from legal_ai.observability.tracing import setup_tracing
 from legal_ai.retrieval.rerank import get_reranker
-from legal_ai.retrieval.retriever import Mode, Retriever
+from legal_ai.retrieval.retriever import Mode, Retriever, SearchPlan
 from legal_ai.retrieval.rewrite import ClaudeRewriter
 from legal_ai.retrieval.types import Candidate
 from legal_ai.settings import Settings
@@ -28,6 +29,7 @@ class Timing(BaseModel):
 
 class AskResponse(BaseModel):
     question: str
+    plan: SearchPlan
     answer: GroundedAnswer | None
     sources: list[str]
     candidates: list[Candidate]
@@ -54,15 +56,27 @@ class Pipeline:
         self.generator = generator
         self._tracer = tracer
 
-    def ask(self, question: str, k: int = 8, generate: bool = True) -> AskResponse:
+    def ask(
+        self,
+        question: str,
+        k: int = 8,
+        generate: bool = True,
+        as_of: date | None = None,
+        historical: bool | None = None,
+    ) -> AskResponse:
         total_start = time.perf_counter()
         with self._tracer.start_as_current_span("ask") as root:
             root.set_attribute("legal_ai.question", question)
             root.set_attribute("legal_ai.k", k)
             root.set_attribute("legal_ai.retriever", self.retriever.name)
+            with self._tracer.start_as_current_span("query.plan") as span:
+                plan = self.retriever.plan(question, as_of, historical)
+                span.set_attribute("legal_ai.rewritten", plan.rewritten or "")
+                span.set_attribute("legal_ai.as_of", plan.as_of.isoformat() if plan.as_of else "")
+                span.set_attribute("legal_ai.historical", plan.historical)
             start = time.perf_counter()
             with self._tracer.start_as_current_span(f"retrieval.{self.retriever.mode}") as span:
-                candidates = self.retriever.search(question, k)
+                candidates = self.retriever.search(question, k, plan=plan)
                 span.set_attribute(
                     "legal_ai.candidates", [f"{c.version_id}:{c.score:.3f}" for c in candidates]
                 )
@@ -99,6 +113,7 @@ class Pipeline:
             trace_id = format_trace_id(root.get_span_context().trace_id)
         return AskResponse(
             question=question,
+            plan=plan,
             answer=answer,
             sources=sources,
             candidates=candidates,

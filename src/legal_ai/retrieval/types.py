@@ -1,3 +1,5 @@
+from datetime import date
+
 from pydantic import BaseModel
 
 
@@ -11,3 +13,6 @@ class Candidate(BaseModel):
     retriever: str
     context_prefix: str
     text: str
+    status: str | None = None
+    effective_from: date | None = None
+    effective_until: date | None = None

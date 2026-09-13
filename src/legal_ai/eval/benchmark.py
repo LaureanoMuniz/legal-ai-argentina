@@ -3,7 +3,7 @@
 import json
 import time
 from collections import defaultdict
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from pydantic import BaseModel
@@ -43,6 +43,7 @@ class QuestionScore(BaseModel):
     reciprocal_rank: float | None
     ndcg_at_k: float | None
     first_hit_rank: int | None
+    version_hit: bool | None
     retrieval_ms: float
 
 
@@ -54,6 +55,7 @@ class Aggregate(BaseModel):
     precision_at_k: float | None
     mrr: float | None
     ndcg_at_k: float | None
+    version_hit: float | None
     p50_retrieval_ms: float
     p95_retrieval_ms: float
 
@@ -99,6 +101,7 @@ def score_question(question: Question, retrieved_articles: list[str], k: int) ->
         reciprocal_rank=reciprocal_rank(retrieved_articles, expected, k) if scored else None,
         ndcg_at_k=ndcg_at_k(retrieved_articles, expected, k) if scored else None,
         first_hit_rank=first_hit,
+        version_hit=None,
         retrieval_ms=0.0,
     )
 
@@ -117,6 +120,9 @@ def aggregate(results: list[QuestionScore]) -> Aggregate:
         precision_at_k=_mean([r.precision_at_k or 0.0 for r in scored]),
         mrr=_mean([r.reciprocal_rank or 0.0 for r in scored]),
         ndcg_at_k=_mean([r.ndcg_at_k or 0.0 for r in scored]),
+        version_hit=_mean(
+            [1.0 if r.version_hit else 0.0 for r in scored if r.version_hit is not None]
+        ),
         p50_retrieval_ms=percentile([r.retrieval_ms for r in results], 0.5),
         p95_retrieval_ms=percentile([r.retrieval_ms for r in results], 0.95),
     )
@@ -133,10 +139,19 @@ def run_benchmark(
     results: list[QuestionScore] = []
     for question in load_questions(questions_path):
         start = time.perf_counter()
-        candidates = retriever.search(question.question, k)
+        as_of = date.fromisoformat(question.as_of) if question.as_of else None
+        candidates = retriever.search(question.question, k, as_of=as_of)
         elapsed = (time.perf_counter() - start) * 1000
         articles = dedupe_ordered(c.article_id for c in candidates)
         score = score_question(question, articles, k)
+        if as_of is not None and question.expected_articles:
+            score.version_hit = any(
+                c.article_id in question.expected_articles
+                and c.effective_from is not None
+                and c.effective_from <= as_of
+                and (c.effective_until is None or c.effective_until > as_of)
+                for c in candidates[:k]
+            )
         score.retrieved_chunks = len(candidates)
         score.retrieval_ms = elapsed
         results.append(score)
