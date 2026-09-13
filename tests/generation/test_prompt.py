@@ -30,5 +30,10 @@ def test_build_context_labels_blocks_with_version_ids():
 def test_user_message_and_system_prompt_rules():
     message = build_user_message("¿Cuánto dura el período de prueba?", "[x] ctx")
     assert "¿Cuánto dura el período de prueba?" in message and "[x] ctx" in message
-    for rule in ("únicamente", "insufficient_evidence", "asesoramiento", "[25552:245@current]"):
+    for rule in (
+        "únicamente",
+        "insufficient_evidence",
+        "asesoramiento",
+        "[25552:245@current]",
+    ):
         assert rule in SYSTEM_PROMPT

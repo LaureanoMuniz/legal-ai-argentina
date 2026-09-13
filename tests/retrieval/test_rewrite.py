@@ -54,9 +54,12 @@ def test_rewriter_caches_on_disk_and_counts_usage(tmp_path: Path):
 class StaticRewriter:
     name = "rewrite(static)"
 
-    def rewrite(self, question: str) -> Rewrite:
+    def rewrite(self, question: str, history=None) -> Rewrite:
         return Rewrite(
-            query="período de prueba contrato por tiempo indeterminado", terms=["prueba"]
+            query="período de prueba contrato por tiempo indeterminado",
+            terms=["prueba"],
+            standalone="¿cuánto dura el período de prueba?" if history else None,
+            subqueries=["período de prueba casas particulares"],
         )
 
 
@@ -74,3 +77,9 @@ def test_retriever_searches_with_rewritten_query(db, tmp_path: Path):
     assert multi.name.endswith("+rewrite(static)+multi")
     plan = multi.plan("período de prueba", None, None)
     assert plan.rewritten and plan.historical is False and plan.as_of is None
+    assert plan.subqueries == [] and plan.query == "período de prueba"
+    with_history = multi.plan("¿y eso?", None, None, [("¿cuánto dura?", "seis meses")])
+    assert with_history.query == "¿cuánto dura el período de prueba?"
+    dec = Retriever(db, HashingEmbedder(), rewriter=StaticRewriter(), decompose=True)
+    assert dec.plan("x", None, None).subqueries == ["período de prueba casas particulares"]
+    assert len(dec.search("período de prueba", 3)) == 3 and dec.name.endswith("+decompose")

@@ -17,7 +17,7 @@ class ScriptedGenerator:
         self.answers = answers
         self.model = "fake"
 
-    def generate(self, question, candidates):
+    def generate(self, question, candidates, history=None):
         from legal_ai.generation.claude import Generation, Usage
 
         answer = self.answers.pop(0)

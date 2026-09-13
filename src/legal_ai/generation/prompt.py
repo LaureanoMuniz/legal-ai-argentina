@@ -24,3 +24,13 @@ def build_context(candidates: list[Candidate]) -> str:
 
 def build_user_message(question: str, context: str) -> str:
     return f"CONTEXTO:\n\n{context}\n\nPREGUNTA: {question}"
+
+
+def build_history_messages(
+    history: list[tuple[str, str]], max_turns: int = 6
+) -> list[dict[str, str]]:
+    messages: list[dict[str, str]] = []
+    for question, answer in history[-max_turns:]:
+        messages.append({"role": "user", "content": question})
+        messages.append({"role": "assistant", "content": answer})
+    return messages

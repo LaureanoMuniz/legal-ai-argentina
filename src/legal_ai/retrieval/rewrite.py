@@ -27,7 +27,17 @@ Reglas:
    año, el 30 de junio; para "antes de <fecha>", el día anterior). Si no, null.
 7. `historical`: true si la pregunta pide un texto que ya no rige ("¿qué decía…?", "¿qué
    establecía…?", "antes de su derogación", "está derogado"); false si pregunta por el
-   derecho vigente."""
+   derecho vigente.
+8. Si viene un HISTORIAL de la conversación, la pregunta puede depender de él ("¿y en casas
+   particulares?", "¿y con diez años de antigüedad?"). `standalone` es esa misma pregunta
+   reescrita para entenderse sola, con el tema del historial incorporado. Si la pregunta ya se
+   entiende sola, `standalone` es null.
+9. `subqueries`: si la pregunta abarca varios institutos jurídicos distintos, o está en negativo
+   y la ley trata cada excepción en un artículo aparte, escribí entre 2 y 3 búsquedas separadas,
+   una por instituto, con el vocabulario de la ley. Ejemplo: "¿cuándo el despido no genera
+   indemnización?" → ["despido con justa causa por injuria del trabajador", "abandono de
+   trabajo como acto de incumplimiento", "extinción por fuerza mayor o falta de trabajo"].
+   Si la pregunta apunta a un solo instituto, dejá la lista vacía."""
 
 
 class Rewrite(BaseModel):
@@ -35,16 +45,25 @@ class Rewrite(BaseModel):
     terms: list[str] = Field(description="Términos jurídicos clave, entre 3 y 8.")
     as_of: date | None = Field(default=None, description="Fecha de referencia AAAA-MM-DD o null.")
     historical: bool = Field(default=False, description="true si pide un texto que ya no rige.")
+    standalone: str | None = Field(
+        default=None, description="La pregunta reescrita para entenderse sin el historial."
+    )
+    subqueries: list[str] = Field(
+        default_factory=list, description="Entre 0 y 3 búsquedas separadas, una por instituto."
+    )
 
     @property
     def search_text(self) -> str:
         return f"{self.query} {' '.join(self.terms)}".strip()
 
 
+History = list[tuple[str, str]]
+
+
 class Rewriter(Protocol):
     name: str
 
-    def rewrite(self, question: str) -> Rewrite: ...
+    def rewrite(self, question: str, history: History | None = None) -> Rewrite: ...
 
 
 class ClaudeRewriter:
@@ -60,20 +79,25 @@ class ClaudeRewriter:
         self.output_tokens = 0
         self.calls = 0
 
-    def _key(self, question: str) -> str:
-        return hashlib.sha256(f"{self.model}\n{question}".encode()).hexdigest()
+    def _key(self, question: str, history: History | None) -> str:
+        tail = "\n".join(f"{q}\n{a[:300]}" for q, a in (history or [])[-3:])
+        return hashlib.sha256(f"{self.model}\n{question}\n{tail}".encode()).hexdigest()
 
-    def rewrite(self, question: str) -> Rewrite:
-        key = self._key(question)
+    def rewrite(self, question: str, history: History | None = None) -> Rewrite:
+        key = self._key(question, history)
         if key in self._cache:
             return Rewrite.model_validate(self._cache[key])
+        content = f"PREGUNTA: {question}"
+        if history:
+            turns = "\n".join(f"- Usuario: {q}\n  Asistente: {a[:400]}" for q, a in history[-3:])
+            content = f"HISTORIAL:\n{turns}\n\n{content}"
         response = self._client.messages.parse(
             model=self.model,
-            max_tokens=400,
+            max_tokens=700,
             system=[
                 {"type": "text", "text": REWRITE_SYSTEM, "cache_control": {"type": "ephemeral"}}
             ],
-            messages=[{"role": "user", "content": f"PREGUNTA: {question}"}],
+            messages=[{"role": "user", "content": content}],
             output_format=Rewrite,
         )
         self.calls += 1

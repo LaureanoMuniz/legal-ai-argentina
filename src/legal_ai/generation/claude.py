@@ -3,7 +3,12 @@ from typing import Any
 import anthropic
 from pydantic import BaseModel, ValidationError
 
-from legal_ai.generation.prompt import SYSTEM_PROMPT, build_context, build_user_message
+from legal_ai.generation.prompt import (
+    SYSTEM_PROMPT,
+    build_context,
+    build_history_messages,
+    build_user_message,
+)
 from legal_ai.generation.schema import GroundedAnswer
 from legal_ai.retrieval.types import Candidate
 
@@ -35,8 +40,14 @@ class ClaudeGenerator:
         self.model = model
         self.max_tokens = max_tokens
 
-    def generate(self, question: str, candidates: list[Candidate]) -> Generation:
+    def generate(
+        self,
+        question: str,
+        candidates: list[Candidate],
+        history: list[tuple[str, str]] | None = None,
+    ) -> Generation:
         message = build_user_message(question, build_context(candidates))
+        messages = [*build_history_messages(history or []), {"role": "user", "content": message}]
         try:
             response = self._client.messages.parse(
                 model=self.model,
@@ -44,7 +55,7 @@ class ClaudeGenerator:
                 system=[
                     {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}
                 ],
-                messages=[{"role": "user", "content": message}],
+                messages=messages,
                 output_format=GroundedAnswer,
             )
         except ValidationError:

@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     rewrite_model: str | None = "claude-sonnet-5"
     rewrite_multi_query: bool = True
     graph_extra: int = 0
+    decompose: bool = False
     retrieval_dedupe: bool = False
     otlp_endpoint: str | None = None
     traces_path: Path = Path("data/traces/spans.jsonl")

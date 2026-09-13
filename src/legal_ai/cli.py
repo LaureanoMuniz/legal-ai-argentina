@@ -34,6 +34,7 @@ def search(
     rewrite: Annotated[bool | None, typer.Option("--rewrite/--no-rewrite")] = None,
     multi: Annotated[bool | None, typer.Option("--multi/--no-multi")] = None,
     graph: Annotated[int | None, typer.Option("--graph", help="vecinos por referencias")] = None,
+    decompose: Annotated[bool | None, typer.Option("--decompose/--no-decompose")] = None,
 ) -> None:
     """Búsqueda: muestra los k chunks mejor rankeados con su score."""
     from legal_ai.db.engine import make_engine
@@ -52,6 +53,7 @@ def search(
         rewriter=_rewriter(settings, rewrite),
         multi_query=settings.rewrite_multi_query if multi is None else multi,
         graph_extra=settings.graph_extra if graph is None else graph,
+        decompose=settings.decompose if decompose is None else decompose,
     )
     searcher.require_index()
     for c in searcher.search(query, k):
@@ -172,6 +174,7 @@ def bench_run(
     rewrite: Annotated[bool | None, typer.Option("--rewrite/--no-rewrite")] = None,
     multi: Annotated[bool | None, typer.Option("--multi/--no-multi")] = None,
     graph: Annotated[int | None, typer.Option("--graph", help="vecinos por referencias")] = None,
+    decompose: Annotated[bool | None, typer.Option("--decompose/--no-decompose")] = None,
 ) -> None:
     """Benchmark de retrieval: recall@k, MRR, nDCG y hit@k por categoría (eval/benchmark.jsonl)."""
     from pathlib import Path
@@ -197,6 +200,7 @@ def bench_run(
         rewriter=_rewriter(settings, rewrite),
         multi_query=settings.rewrite_multi_query if multi is None else multi,
         graph_extra=settings.graph_extra if graph is None else graph,
+        decompose=settings.decompose if decompose is None else decompose,
     )
     searcher.require_index()
     resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))

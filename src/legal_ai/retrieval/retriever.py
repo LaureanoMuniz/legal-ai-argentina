@@ -1,6 +1,7 @@
 """Retriever facade: vector, BM25 or hybrid (RRF), optionally deduplicated by article."""
 
 from datetime import date
+from functools import partial
 from typing import Literal
 
 from pydantic import BaseModel
@@ -21,6 +22,7 @@ class SearchPlan(BaseModel):
     rewritten: str | None
     as_of: date | None
     historical: bool
+    subqueries: list[str] = []
 
 
 Mode = Literal["vector", "bm25", "rrf", "hybrid"]
@@ -50,6 +52,7 @@ class Retriever:
         rewriter: Rewriter | None = None,
         multi_query: bool = True,
         graph_extra: int = 0,
+        decompose: bool = False,
     ) -> None:
         self.engine = engine
         self.embedder = embedder
@@ -61,6 +64,7 @@ class Retriever:
         self.rewriter = rewriter
         self.multi_query = multi_query
         self.graph_extra = graph_extra
+        self.decompose = decompose
 
     @property
     def name(self) -> str:
@@ -77,6 +81,8 @@ class Retriever:
                 label += "+multi"
         if self.graph_extra:
             label += f"+graph{self.graph_extra}"
+        if self.decompose:
+            label += "+decompose"
         return label
 
     def embed_query(self, query: str) -> list[float]:
@@ -115,36 +121,43 @@ class Retriever:
             return rrf([dense, sparse], k)
         return convex(dense, sparse, k, self.alpha)
 
-    def _ranked(self, query: str, k: int, as_of: date | None, historical: bool) -> list[Candidate]:
+    def _ranked(
+        self, query: str, k: int, as_of: date | None = None, historical: bool = False
+    ) -> list[Candidate]:
         if not self.dedupe:
             return self._search(query, k, as_of, historical)
         return dedupe_by_article(self._search(query, k * POOL_FACTOR, as_of, historical), k)
 
-    def plan(self, query: str, as_of: date | None, historical: bool | None) -> SearchPlan:
-        rewrite = self.rewriter.rewrite(query) if self.rewriter else None
+    def plan(
+        self,
+        query: str,
+        as_of: date | None,
+        historical: bool | None,
+        history: list[tuple[str, str]] | None = None,
+    ) -> SearchPlan:
+        rewrite = self.rewriter.rewrite(query, history) if self.rewriter else None
         if as_of is None and rewrite is not None and rewrite.as_of:
             as_of = rewrite.as_of
         if historical is None:
             historical = bool(rewrite.historical) if rewrite is not None else False
         return SearchPlan(
-            query=query,
+            query=rewrite.standalone if rewrite and rewrite.standalone else query,
             rewritten=rewrite.search_text if rewrite else None,
             as_of=as_of,
             historical=historical,
+            subqueries=list(rewrite.subqueries) if rewrite and self.decompose else [],
         )
 
     def _candidates(self, plan: SearchPlan, k: int) -> list[Candidate]:
+        run = partial(self._ranked, k=k, as_of=plan.as_of, historical=plan.historical)
         if plan.rewritten is None:
-            return self._ranked(plan.query, k, plan.as_of, plan.historical)
-        if not self.multi_query:
-            return self._ranked(plan.rewritten, k, plan.as_of, plan.historical)
-        return rrf(
-            [
-                self._ranked(plan.rewritten, k, plan.as_of, plan.historical),
-                self._ranked(plan.query, k, plan.as_of, plan.historical),
-            ],
-            k,
-        )
+            lists = [run(plan.query)]
+        elif not self.multi_query:
+            lists = [run(plan.rewritten)]
+        else:
+            lists = [run(plan.rewritten), run(plan.query)]
+        lists.extend(run(sub) for sub in plan.subqueries)
+        return lists[0] if len(lists) == 1 else rrf(lists, k)
 
     def search(
         self,

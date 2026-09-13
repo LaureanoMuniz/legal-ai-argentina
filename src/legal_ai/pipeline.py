@@ -51,7 +51,12 @@ StageCallback = Callable[[str, dict[str, object]], None]
 class Generator(Protocol):
     model: str
 
-    def generate(self, question: str, candidates: list[Candidate]) -> Generation: ...
+    def generate(
+        self,
+        question: str,
+        candidates: list[Candidate],
+        history: list[tuple[str, str]] | None = None,
+    ) -> Generation: ...
 
 
 class Pipeline:
@@ -68,6 +73,7 @@ class Pipeline:
         as_of: date | None = None,
         historical: bool | None = None,
         on_stage: StageCallback | None = None,
+        history: list[tuple[str, str]] | None = None,
     ) -> AskResponse:
         def emit(stage: str, payload: dict[str, object]) -> None:
             if on_stage is not None:
@@ -79,10 +85,11 @@ class Pipeline:
             root.set_attribute("legal_ai.k", k)
             root.set_attribute("legal_ai.retriever", self.retriever.name)
             with self._tracer.start_as_current_span("query.plan") as span:
-                plan = self.retriever.plan(question, as_of, historical)
+                plan = self.retriever.plan(question, as_of, historical, history)
                 span.set_attribute("legal_ai.rewritten", plan.rewritten or "")
                 span.set_attribute("legal_ai.as_of", plan.as_of.isoformat() if plan.as_of else "")
                 span.set_attribute("legal_ai.historical", plan.historical)
+                span.set_attribute("legal_ai.subqueries", plan.subqueries)
             emit("plan", plan.model_dump(mode="json"))
             start = time.perf_counter()
             with self._tracer.start_as_current_span(f"retrieval.{self.retriever.mode}") as span:
@@ -112,7 +119,7 @@ class Pipeline:
                 with self._tracer.start_as_current_span("gen_ai.chat") as span:
                     span.set_attribute("gen_ai.system", "anthropic")
                     span.set_attribute("gen_ai.request.model", self.generator.model)
-                    generation = self.generator.generate(question, candidates)
+                    generation = self.generator.generate(plan.query, candidates, history)
                     span.set_attribute("gen_ai.usage.input_tokens", generation.usage.input_tokens)
                     span.set_attribute("gen_ai.usage.output_tokens", generation.usage.output_tokens)
                     span.set_attribute(
@@ -179,6 +186,7 @@ def build_pipeline(
         rewriter=rewriter,
         multi_query=settings.rewrite_multi_query,
         graph_extra=settings.graph_extra,
+        decompose=settings.decompose,
     )
     generator = (
         ClaudeGenerator(make_client(settings.anthropic_api_key), settings.llm_model)
