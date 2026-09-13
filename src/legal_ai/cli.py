@@ -350,7 +350,8 @@ def bench_agent(
         f"n={report.n} abstuvo={o.abstained} respondió={o.answered} · claims={o.claims} "
         f"sostenidas={o.claim_support_rate} · cita esperado={o.cited_expected_rate} · "
         f"llamadas a tools={report.tool_calls_total} (p50 {report.tool_calls_p50:.0f}/pregunta) · "
-        f"tokens {report.total_input_tokens}/{report.total_output_tokens} · costo ${report.estimated_cost_usd:.2f} · "
+        f"tokens {report.total_input_tokens}/{report.total_output_tokens} · "
+        f"costo ${report.estimated_cost_usd:.2f} · "
         f"p50 {o.p50_total_ms / 1000:.1f} s"
     )
     typer.echo(f"escrito: {path}")

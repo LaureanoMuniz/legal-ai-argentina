@@ -15,9 +15,9 @@ sin medir la actual.
 | 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | hecha (local; Cohere pendiente) |
 | 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | hecha (reescritura + multi-query) |
 | 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | hecha |
-| 9 | Retrieval temporal: reconstrucción de versiones, filtro por fecha | tests explícitos de Temporal Misgrounding (versión vigente vs histórica) | |
-| 10 | Knowledge graph legal (Postgres → Neo4j si hace falta) | casos donde el vector falla por depender de relaciones | |
-| 11 | GraphRAG como segundo camino | vector vs híbrido vs grafo vs híbrido+grafo en preguntas multi-hop | |
+| 9 | Retrieval temporal: reconstrucción de versiones, filtro por fecha | tests explícitos de Temporal Misgrounding (versión vigente vs histórica) | hecha |
+| 10 | Knowledge graph legal (Postgres → Neo4j si hace falta) | casos donde el vector falla por depender de relaciones | hecha (Postgres) |
+| 11 | GraphRAG como segundo camino | vector vs híbrido vs grafo vs híbrido+grafo en preguntas multi-hop | hecha (1 salto, medido) |
 | 12 | Agente con tools explícitas (Pydantic AI) | decisiones trazadas; comparación contra pipeline fijo | |
 | 13 | Observabilidad completa | trazas por request con candidatos, scores, contexto y citas | |
 | 14 | Evaluación humana (abogados) | interfaz de etiquetado, dataset, regresiones | |
@@ -492,6 +492,65 @@ el índice no tiene el texto que la pregunta pide (2020, derogados), dice que
 no tiene evidencia en vez de contestar con el vigente. Reporte:
 `experiments/2026-09-13-phase8-opus5-generation.json`. Pendiente: comparar
 Sonnet 5 como generador (costo y latencia) y repetir sobre el índice temporal.
+
+## Fase 9 en detalle: retrieval temporal
+
+Infoleg publica dos textos por artículo. Las leyes modificatorias del corpus
+transcriben el texto nuevo de cada artículo que sustituyen ("Sustitúyese el
+artículo 92 bis… por el siguiente: …"): el parser convierte esas citas en
+versiones `reconstructed` encadenadas entre el original y el vigente, con
+`effective_from` = fecha del Boletín de la ley modificatoria y
+`effective_until` = fecha del cambio siguiente. Validación: en 70 de las 76
+cadenas de la LCT la última reconstruida coincide con el texto vigente
+(similitud ≥ 0,9); las 6 restantes difieren por transcripción o epígrafe.
+Resultado: 57 versiones históricas nuevas (34 en la LCT; el resto de las 163
+candidatas duplican al vigente o caen antes del original y se descartan).
+
+Índice: cada versión indexable tiene chunk (vigente, original si cambió,
+reconstruidas) con su período en el prefijo ("Texto histórico: vigente de
+2004-03-19 a 2023-12-21"): 9.106 → 11.314 chunks. La búsqueda filtra por
+`as_of` (versión vigente en esa fecha) o incluye todo con `historical`; sin
+nada, sólo lo vigente hoy. El reescritor extrae `as_of` e `historical` de la
+pregunta ("en 2023", "antes de su derogación").
+
+| Configuración | hit@8 | recall@8 | MRR | nDCG@8 | version hit (temporal) | p50 |
+|---|---|---|---|---|---|---|
+| híbrido, sólo vigentes (Fase 7) | 0,86 | 0,84 | 0,62 | 0,64 | – | 249 ms |
+| híbrido, índice temporal (Fase 9) | 0,91 | 0,86 | 0,77 | 0,76 | 1,00 | 3001 ms |
+| híbrido + grafo 3 (Fase 10) | 0,89 | 0,88 | 0,77 | 0,77 | 1,00 | 149 ms |
+| vector + grafo 3 | 0,89 | 0,88 | 0,75 | 0,75 | 1,00 | 50 ms |
+
+Por categoría (hit@8 / nDCG@8):
+
+| Config | direct | multi_article | negation | confusable | derogated | temporal | cross_reference |
+|---|---|---|---|---|---|---|---|
+| híbrido, sólo vigentes (Fase 7) | 1,00 / 0,80 | 1,00 / 0,68 | 0,83 / 0,55 | 1,00 / 0,91 | 0,20 / 0,09 | 0,83 / 0,55 | 1,00 / 0,78 |
+| híbrido, índice temporal (Fase 9) | 1,00 / 0,77 | 1,00 / 0,71 | 0,67 / 0,57 | 1,00 / 0,97 | 0,80 / 0,60 | 1,00 / 0,98 | 0,83 / 0,71 |
+| híbrido + grafo 3 (Fase 10) | 1,00 / 0,77 | 0,86 / 0,75 | 0,67 / 0,57 | 1,00 / 0,94 | 0,80 / 0,60 | 1,00 / 0,98 | 0,83 / 0,75 |
+
+- Temporal: 6/6 con la versión correcta para la fecha (`version hit` 1,00).
+  Antes, acertaba el artículo con el texto de hoy en 4 de 6.
+- Derogadas: 4/5. El reescritor marca `historical` y el índice ya tiene el
+  texto original o histórico. Falla b30 (art. 54): el texto derogado no existe
+  en ningún lado del corpus (Infoleg muestra sólo la nota).
+- Negación volvió a 0,67: la reescritura de Sonnet cambió entre corridas
+  (se regeneró la caché) y b21 quedó fuera. Es la variabilidad del reescritor:
+  con temperatura por default, dos corridas no son idénticas.
+- Latencia p50 3,0 s porque las reescrituras se hicieron en la misma corrida
+  (caché vacía); con caché, 150 ms.
+
+## Fase 10 y 11 en detalle: grafo de referencias y expansión
+
+El parser extrae 5.184 aristas "artículo cita artículo" (1.070 entre normas
+distintas) a `article_references`, en Postgres (no hace falta Neo4j para un
+salto). El retriever puede agregar hasta N vecinos citados por los 3 primeros
+candidatos (`--graph N`), respetando el filtro temporal.
+
+- Con 3 vecinos: recall 0,86 → 0,88 y nDCG 0,76 → 0,77, hit 0,91 → 0,89. Los
+  vecinos ocupan lugares del top-8 y en b13 desplazan al art. 52. b09 (178 →
+  182) gana el 182 por la arista.
+- Decisión: disponible, apagado por default (ADR-027). Vale más para el
+  agente (que puede pedir "qué cita este artículo") que para el pipeline fijo.
 
 ## Problemas que esperamos encontrar (y medir)
 

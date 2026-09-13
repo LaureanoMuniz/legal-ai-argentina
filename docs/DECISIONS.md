@@ -418,3 +418,30 @@ Una afirmación sostenida por un fragmento equivocado (versión histórica, otra
 norma) sale "supported". Por eso `cited_expected` y la revisión humana (Fase
 14) existen. Costo del juez: unos 4.000 tokens por respuesta.
 
+## ADR-026: Versiones históricas reconstruidas desde las leyes modificatorias, con filtro por fecha en el índice
+
+**Decisión.** Las versiones intermedias no se piden a Infoleg (no existen):
+se reconstruyen desde el texto que cada ley modificatoria transcribe. Se
+guardan como `version_kind = reconstructed`, `status = historico`, con rango
+de vigencia encadenado. El índice contiene todas las versiones con texto y la
+búsqueda filtra por `as_of`; por default sólo lo vigente hoy.
+
+**Validación.** La última reconstruida de cada artículo debe coincidir con el
+texto vigente: 70/76 en la LCT. Ese número es la medida de calidad de la
+reconstrucción y se recalcula en cada parseo.
+
+**Límites.** Sólo cubre cambios cuya ley modificatoria está en el corpus y
+usa la forma "sustitúyese… por el siguiente:". Derogaciones sin texto y
+modificaciones parciales ("sustitúyese el inciso c)") no generan versión.
+El `as_of` extraído por el reescritor es una interpretación del modelo; el
+usuario puede fijarlo explícitamente.
+
+## ADR-027: Referencias entre artículos en Postgres; expansión de un salto, opcional
+
+**Decisión.** Las citas "artículo N" dentro de los textos se guardan como
+aristas en `article_references`. El retriever puede expandir con vecinos de
+un salto. Medido: recall +0,02, hit −0,02. Queda apagado por default y
+disponible para el agente y para GraphRAG multi-salto si el benchmark de la
+Fase 14 muestra preguntas que lo necesiten. Neo4j no se justifica con un
+salto y 5.184 aristas.
+

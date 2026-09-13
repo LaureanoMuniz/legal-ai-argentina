@@ -44,3 +44,8 @@ las fases 8 a 15 y todavía no tienen lección.
 
 Las entradas se agregan al final de cada fase, con la métrica que las hizo
 visibles cuando la hubo.
+| 35 | 9 | La reescritura cambia entre corridas: al regenerar la caché, una pregunta que acertaba dejó de acertar | Benchmark temporal | Se documentó; fijar temperatura o promediar corridas queda para la Fase 14 | Un componente no determinista mueve el benchmark solo |
+| 36 | 9 | El art. 54 derogado no tiene texto en ningún lado del corpus | Pregunta b30 | Falla sin arreglo posible con esta fuente | Hay huecos que la fuente no llena |
+| 37 | 10 | Los vecinos del grafo ocupan lugares del top-8 y desplazan aciertos | Benchmark con grafo | Apagado por default; útil para el agente | Más contexto no es gratis con k fijo |
+| 38 | 15 | `mcp` 2.x renombró FastMCP a MCPServer | Import roto | Se usó la API nueva | Verificar la versión instalada antes de escribir contra un recuerdo |
+
