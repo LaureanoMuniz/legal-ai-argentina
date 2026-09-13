@@ -235,7 +235,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lecciones <b>1 a 7</b> · Fases 0 a 7</span>
+      <span>Lecciones <b>1 a 9</b> · Fases 0 a 15</span>
       <span>Corpus <b>laboral · 933 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>main</b></span>
@@ -302,8 +302,17 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l7-generacion">38. La primera respuesta real</a></li>
       <li><a href="#l7-numeros">39. Los números de las Fases 6 y 7</a></li>
       <li><a href="#l7-proximo">40. Lo que viene: medir la generación</a></li>
-      <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar7">Autoevaluación 7</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 8 · Fase 8</span></li>
+      <li><a href="#l8-juez">41. Medir la generación con un juez</a></li>
+      <li><a href="#l8-numeros">42. Los números de la Fase 8</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 9 · Fases 9 a 15</span></li>
+      <li><a href="#l9-tiempo">43. La ley tiene fecha</a></li>
+      <li><a href="#l9-grafo">44. Referencias, agente y MCP</a></li>
+      <li><a href="#l9-capo">45. Por debajo del capó</a></li>
+      <li><a href="#l9-numeros">46. Los números finales</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar8">Autoevaluación 8</a></li>
     </ol>
   </nav>
 
@@ -1266,6 +1275,120 @@ LIMIT :k</code></pre>
       <p>El retrieval tocó el techo de lo que este benchmark puede medir sin versiones históricas. Lo que sigue es la Fase 8: correr el benchmark grande con generación, medir con un juez si cada afirmación está sostenida por el fragmento que cita, y la abstención en las seis preguntas sin respuesta. Después, la Fase 9: versiones por fecha, que es lo único que destraba las derogadas y las temporales.</p>
     </section>
 
+    <section id="pensar7">
+      <h2>Autoevaluación 7</h2>
+      <p>Seis preguntas sobre reranking, reescritura y la primera generación.</p>
+      <div class="quiz" id="quiz7"></div>
+      <div class="score" id="score7" hidden>
+        <span class="big" id="score7-num">0 / 6</span>
+        <span class="msg" id="score7-msg"></span>
+        <button type="button" id="quiz7-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="l8-juez">
+      <div class="eyebrow">Lección 8 · Fase 8</div>
+      <h2>41. Medir la generación con un juez</h2>
+      <p class="lead">Hasta acá medimos si el buscador encuentra el artículo correcto. La Fase 8 mide lo que le importa a quien pregunta: si la respuesta dice cosas que la ley dice, si cita bien y si sabe callarse.</p>
+      <p>Tres números, de tres fuentes distintas. La <strong>abstención</strong> sale de la propia respuesta estructurada (`insufficient_evidence`), sin ningún modelo de por medio: en las 6 preguntas sin respuesta en el corpus debería ser true; en preguntas con el artículo esperado en el contexto, false. Las <strong>citas fuera del contexto</strong> son un chequeo de conjuntos: cada id citado tiene que estar entre los fragmentos. Y el <strong>sostén de cada afirmación</strong> lo dicta un juez: Sonnet 5 recibe la pregunta, cada afirmación numerada y los fragmentos que esa afirmación citó, y devuelve supported, partial o unsupported, con la instrucción de ser estricto con números y plazos.</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 31 · El SDK no era como lo recordaba</div>
+        <p>La primera llamada real falló: <code>messages.parse()</code> en anthropic 1.5 no acepta <code>cache_control</code> como argumento; va adentro del bloque <code>system</code>. Dos corridas más se cortaron por errores transitorios de la API y una tercera porque el juez devolvió un JSON incompleto al quedarse sin <code>max_tokens</code>. Cada una dejó una defensa: reintentos, caché, presupuesto de salida con reintento, captura del corte.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>"LLM-as-a-judge" es el estándar para medir generación a escala, y tiene un límite conocido: el juez no sabe derecho, sólo compara texto con texto. Una afirmación sostenida por el fragmento equivocado (otra norma, otra versión) sale "supported". Por eso se mide aparte si la respuesta citó el artículo esperado, y por eso la revisión humana sigue siendo la última palabra. Ragas y DeepEval hacen esto mismo con prompts genéricos; un juez propio ve los ids y el castellano jurídico.</p>
+      </div>
+    </section>
+
+    <section id="l8-numeros">
+      <h2>42. Los números de la Fase 8</h2>
+      <p>50 preguntas, pipeline completo (híbrido + reescritura Sonnet + multi-query, k = 8), Opus 5 redactando, Sonnet 5 juzgando. Índice previo a las versiones históricas.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">n</th><th class="num">se abstuvo</th><th class="num">afirmaciones sostenidas</th><th class="num">citó el esperado</th></tr></thead>
+        <tbody>
+          <tr><td>confusable</td><td class="num">6</td><td class="num">0</td><td class="num">1,00</td><td class="num">1,00</td></tr>
+          <tr><td>cross_reference</td><td class="num">6</td><td class="num">0</td><td class="num">1,00</td><td class="num">1,00</td></tr>
+          <tr><td>derogated</td><td class="num">5</td><td class="num">3</td><td class="num">1,00</td><td class="num">0,50</td></tr>
+          <tr><td>direct</td><td class="num">8</td><td class="num">0</td><td class="num">0,98</td><td class="num">1,00</td></tr>
+          <tr><td>multi_article</td><td class="num">7</td><td class="num">0</td><td class="num">0,94</td><td class="num">1,00</td></tr>
+          <tr><td>negation</td><td class="num">6</td><td class="num">1</td><td class="num">1,00</td><td class="num">1,00</td></tr>
+          <tr><td>not_in_corpus</td><td class="num">6</td><td class="num">6</td><td class="num">–</td><td class="num">–</td></tr>
+          <tr><td>temporal</td><td class="num">6</td><td class="num">4</td><td class="num">1,00</td><td class="num">1,00</td></tr>
+        </tbody>
+        <caption>Total: 218 afirmaciones, 0,98 sostenidas, 0 citas fuera del contexto, abstención 6/6 en las preguntas sin respuesta. Las abstenciones en temporal y derogadas eran correctas: el índice sólo tenía el texto vigente y la pregunta pedía otro. Costo $3.11 a precio de lista, 14 s por pregunta en la mediana.</caption>
+      </table>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Con el contexto correcto, el modelo casi no inventa; el riesgo vive en el retrieval y en la versión. Eso es lo que justifica haber gastado seis fases en buscar mejor antes de tocar el prompt de generación. La latencia de 14 segundos es el otro dato: obliga a mostrar las etapas en vivo en la interfaz.</p>
+      </div>
+    </section>
+
+    <section id="l9-tiempo">
+      <div class="eyebrow">Lección 9 · Fases 9 a 15</div>
+      <h2>43. La ley tiene fecha</h2>
+      <p class="lead">Infoleg publica dos textos por artículo: el original y el de hoy. Las versiones del medio no existen en ningún archivo. Pero cada ley que cambió un artículo transcribe el texto nuevo ("Sustitúyese el artículo 92 bis… por el siguiente:"), y esas leyes están en el corpus.</p>
+      <p>El parser convierte esas citas en versiones reconstruidas: texto, fecha de vigencia (el Boletín de la ley modificatoria) y fecha de cierre (el cambio siguiente). La validación es una sola pregunta: ¿la última reconstruida de cada artículo coincide con el texto vigente? En la LCT, 70 de 76 sí. Cada versión con texto tiene su chunk, con el período en el prefijo; la búsqueda filtra por fecha, y el reescritor extrae la fecha de la pregunta ("en 2023" → 30 de junio de 2023) o la intención histórica ("¿qué decía…?").</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 33 · Las versiones se calculaban y se perdían</div>
+        <p>La primera corrida del parser con reconstrucción dio cero versiones nuevas. La función las calculaba, las encadenaba, corregía las fechas del original… y no las agregaba a la lista de salida. El test unitario miraba el valor de retorno y pasaba. Se agregó la línea y un test que verifica la lista completa. Una hora de trabajo por una mutación que faltaba.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 42 · 248 chunks duplicados escondidos</div>
+        <p>Al indexar todas las versiones apareció que 337 "originales" convivían con su vigente en el índice de hoy: mismo artículo, misma fecha, texto con diferencias de transcripción y sin fecha de cierre. El flag "no cambió" vivía en la fila del vigente, y el chunking lo buscaba en la del original. Cada uno de esos artículos ocupaba dos lugares del top-8.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Modelar el tiempo como rangos de vigencia por versión y filtrar con <code>effective_from &lt;= fecha &lt; effective_until</code> es lo que hacen las bases legislativas serias y los sistemas bitemporales en general. La parte difícil no es el filtro sino conseguir las versiones: acá salieron de leer las leyes modificatorias, que es exactamente lo que hace un abogado a mano.</p>
+      </div>
+    </section>
+
+    <section id="l9-grafo">
+      <h2>44. Referencias, agente y MCP</h2>
+      <p>Tres piezas que comparten una idea: el sistema deja de ser una tubería fija.</p>
+      <ul>
+        <li><strong>Grafo de referencias</strong>: 5.184 aristas "artículo cita artículo" extraídas de los textos, en Postgres. El retriever puede sumar los vecinos citados por los primeros candidatos. Medido: recall +0,02, hit −0,02. Apagado por default; útil para el agente.</li>
+        <li><strong>Agente con herramientas</strong> (Pydantic AI): buscar, leer un artículo con todas sus versiones, pedir el texto que regía en una fecha. El modelo decide qué llamar. Devuelve el mismo formato de respuesta y sus fuentes se validan contra lo que las herramientas devolvieron.</li>
+        <li><strong>Servidor MCP</strong>: las mismas cuatro herramientas expuestas a Claude Desktop o Claude Code con <code>legal-ai mcp</code>. La versión 2 del SDK renombró la clase principal a mitad de camino; otra entrada en la bitácora.</li>
+      </ul>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Un agente cuesta más llamadas y más latencia por pregunta que un pipeline fijo, y gana cuando la pregunta necesita decidir qué leer (una fecha, una remisión). La comparación se hace con las mismas preguntas y el mismo juez, y se reporta con llamadas por pregunta y costo, no sólo con aciertos.</p>
+      </div>
+    </section>
+
+    <section id="l9-capo">
+      <h2>45. Por debajo del capó</h2>
+      <p>La interfaz (<code>legal-ai serve</code>) muestra, por cada pregunta, lo que el sistema hizo: cómo la reescribió y qué fecha interpretó, qué fragmentos trajo y por qué camino (vector, palabras, referencia cruzada), en qué versión estaba cada uno, cuánto tardó cada etapa, cuántos tokens gastó y cuánto costó, y los spans crudos de OpenTelemetry. Las etapas se ven en vivo mientras la respuesta se arma. Cada respuesta se puede calificar con siete etiquetas y un comentario; las etiquetas quedan en Postgres, listas para convertirse en tests de regresión.</p>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Los spans van siempre a un archivo local y, con una variable de entorno, a cualquier backend OTLP (Phoenix, Langfuse, Jaeger). <code>legal-ai traces</code> resume el archivo: requests, p50 y p95 por etapa, tokens y costo. Lo que un abogado marca en la interfaz es el dataset de la Fase 14: sin esas etiquetas, el benchmark sigue siendo del ingeniero.</p>
+      </div>
+    </section>
+
+    <section id="l9-numeros">
+      <h2>46. Los números finales</h2>
+      <p>Retrieval sobre las 44 preguntas puntuables, k = 8, hit@8 / nDCG@8.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">Fase 7 (sólo vigentes)</th><th class="num">Fase 9 (índice temporal)</th><th class="num">Fase 10 (+ grafo)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>overall</strong></td><td class="num">0,86 / 0,64</td><td class="num">0,91 / 0,76</td><td class="num">0,89 / 0,77</td></tr>
+          <tr><td>direct</td><td class="num">1,00 / 0,80</td><td class="num">1,00 / 0,77</td><td class="num">1,00 / 0,77</td></tr>
+          <tr><td>multi_article</td><td class="num">1,00 / 0,68</td><td class="num">1,00 / 0,71</td><td class="num">0,86 / 0,75</td></tr>
+          <tr><td>negation</td><td class="num">0,83 / 0,55</td><td class="num">0,67 / 0,57</td><td class="num">0,67 / 0,57</td></tr>
+          <tr><td>confusable</td><td class="num">1,00 / 0,91</td><td class="num">1,00 / 0,97</td><td class="num">1,00 / 0,94</td></tr>
+          <tr><td>derogated</td><td class="num">0,20 / 0,09</td><td class="num">0,80 / 0,60</td><td class="num">0,80 / 0,60</td></tr>
+          <tr><td>temporal</td><td class="num">0,83 / 0,55</td><td class="num">1,00 / 0,98</td><td class="num">1,00 / 0,98</td></tr>
+          <tr><td>cross_reference</td><td class="num">1,00 / 0,78</td><td class="num">0,83 / 0,71</td><td class="num">0,83 / 0,75</td></tr>
+        </tbody>
+        <caption>Las temporales pasan a 6/6 con la versión correcta para la fecha; las derogadas a 4/5 (la quinta no tiene texto en el corpus). Quedan afuera dos preguntas de negación y una de referencia cruzada. El punto de partida de la Fase 3 era 0,77 / 0,60.</caption>
+      </table>
+      </div>
+    </section>
+
     <section id="glosario">
       <h2>Glosario</h2>
       <dl class="gloss">
@@ -1291,14 +1414,15 @@ LIMIT :k</code></pre>
 
 
 
-    <section id="pensar7">
-      <h2>Autoevaluación 7</h2>
-      <p>Seis preguntas sobre reranking, reescritura y la primera generación.</p>
-      <div class="quiz" id="quiz7"></div>
-      <div class="score" id="score7" hidden>
-        <span class="big" id="score7-num">0 / 6</span>
-        <span class="msg" id="score7-msg"></span>
-        <button type="button" id="quiz7-reset">Volver a empezar</button>
+
+    <section id="pensar8">
+      <h2>Autoevaluación 8</h2>
+      <p>Seis preguntas sobre generación, tiempo y agentes.</p>
+      <div class="quiz" id="quiz8"></div>
+      <div class="score" id="score8" hidden>
+        <span class="big" id="score8-num">0 / 6</span>
+        <span class="msg" id="score8-msg"></span>
+        <button type="button" id="quiz8-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -2015,6 +2139,94 @@ LIMIT :k</code></pre>
       }
     ];
 
+
+    const QUESTIONS_L8 = [
+      {
+        id: "l8q1",
+        text: "El juez dijo 'supported' en el 98% de las afirmaciones. ¿Qué NO prueba ese número?",
+        options: [
+          { t: "Que las respuestas sean jurídicamente correctas: el juez compara afirmación con fragmento citado; si el fragmento era de otra norma u otra versión, igual dice 'supported'.", ok: true,
+            fb: "Por eso existe 'citó el esperado' y por eso la revisión humana es la última palabra." },
+          { t: "Que el modelo no inventa citas.", ok: false,
+            fb: "Eso lo prueba otro número: 0 citas fuera del contexto, que es un chequeo de conjuntos." },
+          { t: "Que el juez funciona.", ok: false,
+            fb: "Un 98% es coherente con lo que se vio a mano; no es prueba de nada por sí solo." },
+          { t: "Nada: 98% es 98%.", ok: false,
+            fb: "Un número sin saber qué mide no es un resultado." }
+        ]
+      },
+      {
+        id: "l8q2",
+        text: "En la Fase 8, el modelo se abstuvo en 4 preguntas temporales aunque el artículo esperado estaba en el contexto. ¿Estuvo mal?",
+        options: [
+          { t: "Sí: tenía el artículo y no respondió.", ok: false,
+            fb: "Tenía el texto vigente y la pregunta pedía el de 2020. Contestar con el de hoy habría sido Temporal Misgrounding." },
+          { t: "No: el índice sólo tenía el texto vigente y la pregunta pedía otra fecha; decir 'no tengo evidencia' era lo correcto. La Fase 9 le dio las versiones.", ok: true,
+            fb: "La abstención es la red de seguridad del sistema. Se mide como 'abstención falsa' para no perderla de vista, y se interpreta caso por caso." },
+          { t: "Da igual: las temporales no cuentan.", ok: false,
+            fb: "Cuentan, y son de las más importantes: son el problema que da nombre al proyecto." },
+          { t: "Fue un error del juez.", ok: false,
+            fb: "La abstención no pasa por el juez: sale de la respuesta estructurada." }
+        ]
+      },
+      {
+        id: "l8q3",
+        text: "¿De dónde salen las versiones intermedias de un artículo de la LCT, si Infoleg no las publica?",
+        options: [
+          { t: "De un archivo histórico de Infoleg.", ok: false,
+            fb: "No existe: Infoleg publica el original y el vigente." },
+          { t: "De las leyes modificatorias del corpus, que transcriben el texto nuevo de cada artículo que sustituyen; la fecha del Boletín de esa ley es la fecha de vigencia.", ok: true,
+            fb: "Es lo que hace un abogado a mano. La validación: la última reconstruida debe coincidir con el vigente (70 de 76 en la LCT)." },
+          { t: "Las escribe Claude.", ok: false,
+            fb: "Ninguna versión se genera con un modelo: todo texto viene de un documento de Infoleg." },
+          { t: "Del historial 'Antecedentes Normativos'.", ok: false,
+            fb: "El historial dice quién cambió qué y cuándo, pero no trae los textos. Sirve de índice." }
+        ]
+      },
+      {
+        id: "l8q4",
+        text: "¿Cómo sabe el sistema que '¿Cuánto duraba el período de prueba en 2023?' pide una versión histórica?",
+        options: [
+          { t: "Por la palabra 'duraba'.", ok: false,
+            fb: "No hay reglas de palabras: sería frágil." },
+          { t: "El reescritor (Claude) devuelve, junto con la consulta reformulada, una fecha de referencia (2023-06-30) y un flag de intención histórica; la búsqueda filtra por esa fecha.", ok: true,
+            fb: "El usuario también puede fijar la fecha a mano en la interfaz. Lo que devuelve el modelo es una interpretación, y se muestra." },
+          { t: "Busca en todas las versiones y elige la más parecida.", ok: false,
+            fb: "Elegir por parecido devolvería casi siempre la vigente, que es la más completa." },
+          { t: "No lo sabe: responde con la ley de hoy.", ok: false,
+            fb: "Eso era la Fase 8. En la Fase 9 responde 'tres meses' citando la versión 2004–2023." }
+        ]
+      },
+      {
+        id: "l8q5",
+        text: "Sumar vecinos del grafo de referencias subió recall y bajó hit. ¿Por qué puede pasar eso?",
+        options: [
+          { t: "Porque el grafo tiene aristas equivocadas.", ok: false,
+            fb: "Puede haberlas, pero la explicación principal es otra." },
+          { t: "Porque k es fijo: los vecinos ocupan lugares del top-8 y desplazan candidatos; en algunas preguntas entra el artículo que faltaba (sube recall) y en otras sale uno que acertaba (baja hit).", ok: true,
+            fb: "Más contexto no es gratis cuando el presupuesto de fragmentos está acotado. Por eso queda apagado y disponible para el agente." },
+          { t: "Porque el reranker los reordenó.", ok: false,
+            fb: "No había reranker en esas corridas." },
+          { t: "Es imposible: si recall sube, hit sube.", ok: false,
+            fb: "Son métricas distintas: recall promedia fracciones por pregunta; hit cuenta preguntas con al menos un acierto." }
+        ]
+      },
+      {
+        id: "l8q6",
+        text: "¿Para qué sirve el panel 'por debajo del capó' además de mostrar cosas?",
+        options: [
+          { t: "Para que la respuesta parezca más seria.", ok: false,
+            fb: "Si fuera eso, sería decoración. Es una herramienta de diagnóstico." },
+          { t: "Para clasificar cada fallo en su cubo sin volver a hacerlo a mano: si el artículo correcto no está entre los candidatos es retrieval, si está y no se citó es generación, si la fecha interpretada es otra es el plan. Y sus etiquetas alimentan el dataset humano.", ok: true,
+            fb: "Es la Lección 6 convertida en interfaz. Cada respuesta calificada con 'versión equivocada' o 'fuente equivocada' es un caso de regresión futuro." },
+          { t: "Para reemplazar los benchmarks.", ok: false,
+            fb: "Mira una pregunta por vez; los benchmarks miran cincuenta. Se complementan." },
+          { t: "Para bajar el costo.", ok: false,
+            fb: "Muestra el costo; no lo cambia." }
+        ]
+      }
+    ];
+
     function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
       const quiz = document.getElementById(quizId);
       const scoreBox = document.getElementById(scoreId);
@@ -2107,6 +2319,7 @@ LIMIT :k</code></pre>
     mountQuiz("quiz5", "score5", "cuaderno-legal-ai:quiz-l5", QUESTIONS_L5, "quiz5-reset");
     mountQuiz("quiz6", "score6", "cuaderno-legal-ai:quiz-l6", QUESTIONS_L6, "quiz6-reset");
     mountQuiz("quiz7", "score7", "cuaderno-legal-ai:quiz-l7", QUESTIONS_L7, "quiz7-reset");
+    mountQuiz("quiz8", "score8", "cuaderno-legal-ai:quiz-l8", QUESTIONS_L8, "quiz8-reset");
     </script>
 
     <footer>

@@ -122,9 +122,9 @@ def indexable_versions(versions: Sequence[Mapping[str, Any]]) -> list[Mapping[st
         and original.get("effective_until") is not None
         and original.get("text_sha256") != current.get("text_sha256")
     )
-    if original is not None and (original.get("text") or "").strip():
-        if current is None or superseded:  # noqa: SIM102
-            chosen.append(original)
+    keep_original = current is None or superseded
+    if original is not None and (original.get("text") or "").strip() and keep_original:
+        chosen.append(original)
     chosen.extend(
         v
         for v in versions
