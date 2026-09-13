@@ -9,6 +9,8 @@ _BREAK_RE = re.compile(
 )
 _TAG_RE = re.compile(r"<[^>]+>")
 _SPACES_RE = re.compile(r"[ \t\r\f\v\xa0]+")
+_SOURCE_NEWLINE_RE = re.compile(r"[\r\n]+")
+_NEWLINE_BEFORE_ARTICLE_RE = re.compile(r"[\r\n]+(?=\s*(?:ART[IÍ]CULO|Art[íi]culo|Art\.)\s*\d)")
 
 
 def decode_html(raw: bytes) -> str:
@@ -20,8 +22,12 @@ def decode_html(raw: bytes) -> str:
         return raw.decode("latin-1", errors="replace")
 
 
-def html_to_lines(doc: str) -> list[str]:
+def html_to_lines(doc: str, keep_source_newlines: bool = False) -> list[str]:
     text = _DROP_RE.sub(" ", doc)
+    if not keep_source_newlines:
+        text = _NEWLINE_BEFORE_ARTICLE_RE.sub("\x00", text)
+        text = _SOURCE_NEWLINE_RE.sub(" ", text)
+        text = text.replace("\x00", "\n")
     text = _BREAK_RE.sub("\n", text)
     text = _TAG_RE.sub(" ", text)
     text = html.unescape(text)

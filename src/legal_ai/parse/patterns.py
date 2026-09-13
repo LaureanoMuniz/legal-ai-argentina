@@ -10,12 +10,20 @@ _ARTICLE_RE = re.compile(
     r"(?P<rest>.*)$"
 )
 _CROSS_REF_RE = re.compile(r"^(?:de\s|del\s|y\s|,|que\s|a\s\d|al\s)", re.IGNORECASE)
-_HEADING_WITH_BODY_RE = re.compile(r"^(?P<h>.{2,80}?)\.\s*[—–-]\s*(?P<b>\S.*)$")
-_HEADING_ONLY_RE = re.compile(r"^(?P<h>.{2,80}?)\.?$")
+_HEADING_WITH_BODY_RE = re.compile(r"^(?P<h>.{2,120}?)\.\s*[—–-]\s*(?P<b>\S.*)$")
+_HEADING_ONLY_RE = re.compile(r"^(?P<h>.{2,160}?)\.?$")
+_HEADING_THEN_SENTENCE_RE = re.compile(
+    r"^(?P<h>[A-ZÁÉÍÓÚ][^.()]{1,80}?(?:\.\s+[A-ZÁÉÍÓÚ][^.()]{1,80}?){0,3})\.\s+(?P<b>[A-ZÁÉÍÓÚ].*)$"
+)
 _SENTENCE_START_RE = re.compile(
     r"^(?:El|La|Los|Las|Se|Cuando|Si|En|No|Toda|Todo|Todas|Todos|Queda|Quedan|Es|Son|Ser[áa]n?|"
     r"Este|Esta|Estos|Estas|Dicho|Dicha|Ning[úu]n|Ninguna|Cada|Para|Por|Con|Sin|Durante|Salvo|"
-    r"Hasta|Desde|Ante|Corresponde|Deber[áa]n?|Podr[áa]n?|Tendr[áa]n?)\s"
+    r"Hasta|Desde|Ante|Corresponde|Deber[áa]n?|Podr[áa]n?|Tendr[áa]n?|Habr[áa]n?|Hay|"
+    r"Quien|Quienes|Al|A|Dentro|Vencido|Vencida|Producida|Producido|Transcurrido|Transcurrida|"
+    r"Antes|Despu[ée]s|Vigente|Prescriben|Prescribe|Proceder[áa]|Procede|Est[áa]n?|Existiendo|"
+    r"Mientras|Aunque|Siempre|S[óo]lo|Solo|Tanto|Tambi[ée]n|Ser[íi]a|Deber[íi]a|Podr[íi]a|"
+    r"Regir[áa]n?|Rige|Rigen|Gozar[áa]n?|Percibir[áa]n?|Tiene|Tienen|Debe|Deben|Puede|Pueden|"
+    r"Constituye|Constituyen|Configura|Incurre|Incurren)\s"
 )
 _IMPERATIVE_RE = re.compile(
     r"^(?:Comun[íi]quese|Reg[íi]strese|Publ[íi]quese|D[ée]se|Arch[íi]vese|T[ée]ngase|"
@@ -24,8 +32,11 @@ _IMPERATIVE_RE = re.compile(
 _HEADING_TAIL_RE = re.compile(r"^(?P<h>[A-ZÁÉÍÓÚ][^.]{1,40})\.\s*[—–-]\s*(?P<b>\S.*)$")
 _HIERARCHY_RE = re.compile(
     r"^(?P<kind>LIBRO|T[IÍ]TULO|CAP[IÍ]TULO|SECCI[OÓ]N)\s+"
-    r"(?P<num>[IVXLCDM]+|\d+|[A-ZÁÉÍÓÚ]+)(?![a-záéíóú])\s*"
-    r"(?:[.:\-–—]\s*(?P<name>\S.*))?$"
+    r"(?P<num>[IVXLCDM]+|\d+|[A-ZÁÉÍÓÚ]+)(?![A-Za-záéíóúñ])"
+    r"(?:\s*[.:\-–—])?\s*(?P<name>[A-ZÁÉÍÓÚÑ].*?)?\s*\.?$"
+)
+_INLINE_HIERARCHY_RE = re.compile(
+    r"\s+(?=(?:LIBRO|T[IÍ]TULO|CAP[IÍ]TULO|SECCI[OÓ]N)\s+(?:[IVXLCDM]+|\d+)(?![a-záéíóúñ]))"
 )
 _ANNEX_RE = re.compile(
     r"^(?i:anexos?)(?:\s+(?P<num>[IVXLC]+|\d+|[A-Z]))?(?![a-záéíóú])\s*(?:[-:–—.].*)?$"
@@ -66,12 +77,21 @@ def _split_heading(rest: str) -> tuple[str | None, str]:
             heading = f"{heading}. {tail.group('h').strip()}"
             body = tail.group("b").strip()
         return heading, body
+    then_sentence = _HEADING_THEN_SENTENCE_RE.match(rest)
     if (
-        len(rest) <= 80
+        then_sentence
+        and not _IMPERATIVE_RE.match(rest)
+        and not _SENTENCE_START_RE.match(rest)
+        and _SENTENCE_START_RE.match(then_sentence.group("b"))
+        and all(len(part.split()) <= 8 for part in then_sentence.group("h").split(". "))
+    ):
+        return then_sentence.group("h").strip(), then_sentence.group("b").strip()
+    if (
+        len(rest) <= 160
         and " — " not in rest
         and not rest.endswith(":")
         and rest[0].isupper()
-        and len(rest.split()) <= 10
+        and all(len(part.split()) <= 8 for part in rest.split(". "))
         and not _IMPERATIVE_RE.match(rest)
         and not _SENTENCE_START_RE.match(rest)
     ):
@@ -108,8 +128,19 @@ class Section(BaseModel):
     name: str | None
 
 
+def split_hierarchy_line(line: str) -> list[str]:
+    parts = _INLINE_HIERARCHY_RE.split(line)
+    if len(parts) == 1:
+        return [line]
+    head = parts[0]
+    uppercase_title = head == head.upper() and len(head) <= 100
+    if match_hierarchy(head) is None and not uppercase_title:
+        return [line]
+    return parts
+
+
 def match_hierarchy(line: str) -> Section | None:
-    if len(line) > 120:
+    if len(line) > 250:
         return None
     match = _HIERARCHY_RE.match(line)
     if not match:
@@ -118,7 +149,7 @@ def match_hierarchy(line: str) -> Section | None:
     return Section(
         kind=_KIND_NORMALIZE.get(kind, kind),
         number=match.group("num"),
-        name=match.group("name").strip() if match.group("name") else None,
+        name=match.group("name").strip(" .") if match.group("name") else None,
     )
 
 

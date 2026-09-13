@@ -44,3 +44,31 @@ def test_html_to_lines_keeps_inline_tags_on_one_line():
     assert html_to_lines(doc) == [
         "Art. 28. — (Artículo derogado por art. 207 de la Ley Nº 27.802 B.O. 6/3/2026.)"
     ]
+
+
+def test_source_newlines_are_whitespace_not_line_breaks():
+    doc = "<p>Art. 12.  <span>Protección\nde los trabajadores. Irrenunciabilidad.</span> <br></p><p>Será\nnula.</p>"
+    assert html_to_lines(doc) == [
+        "Art. 12. Protección de los trabajadores. Irrenunciabilidad.",
+        "Será nula.",
+    ]
+
+
+def test_bare_newline_before_article_header_still_breaks():
+    doc = "<p>ARTICULO 2º.- Destinatarios. El programa\nestá destinado a personas.\nARTICULO 3º.- Condiciones. Para acceder\nal programa.</p>"
+    assert html_to_lines(doc) == [
+        "ARTICULO 2º.- Destinatarios. El programa está destinado a personas.",
+        "ARTICULO 3º.- Condiciones. Para acceder al programa.",
+    ]
+
+
+def test_keep_source_newlines_for_table_cells():
+    cell = "<td>Decreto&nbsp;Reglamentario\n 2725/1991 \n &nbsp; PODER EJECUTIVO NACIONAL (P.E.N.)</td>"
+    assert html_to_lines(cell, keep_source_newlines=True) == [
+        "Decreto Reglamentario",
+        "2725/1991",
+        "PODER EJECUTIVO NACIONAL (P.E.N.)",
+    ]
+    assert html_to_lines(cell) == [
+        "Decreto Reglamentario 2725/1991 PODER EJECUTIVO NACIONAL (P.E.N.)"
+    ]

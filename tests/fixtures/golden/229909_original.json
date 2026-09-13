@@ -10,7 +10,7 @@
    "annex": null,
    "sections": [],
    "n_notes": 0,
-   "text_sha256": "aa5a88aa35b6a98a7f66e0d7d99eaf8d3659b3ea6d02422c609322cc3e9c06d1"
+   "text_sha256": "d6e28cc1ab22cb36b7263bcd6abba554bc7aae4796bd7fa1f1bcf213e73ef077"
   },
   {
    "key": "2",
@@ -44,7 +44,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "04dae0564ec842853394b5e91e58ce34e678da5e7a0c8f0ff9e1baafd79a3c29"
+   "text_sha256": "1b6061b409d29e39859d8be94e3415479be18b6cf2eb07cdef88d116b1be3ecb"
   },
   {
    "key": "3",
@@ -56,7 +56,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "80224b52a8a428c3a254ca1e62169ceb8afeb9f4b16bebad212615f8d1c50a42"
+   "text_sha256": "69f34af77f992dc3a448fe42d82ed38aa311adefc3b159702a1953f30072a53c"
   },
   {
    "key": "4",
@@ -68,7 +68,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "d3d807984c7112261de021e360123287b0d64fcf61f8d99eb96a1ac3c643217b"
+   "text_sha256": "88db32f7d1b5f58ba87915bd8fc9ac18b97353c3b68e4bc1f1691b5bbcd1c926"
   },
   {
    "key": "5",
@@ -80,7 +80,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "82e067626703cddcc76eed160fe88da18c9b6afe89e655f71ad0cdada8d92f49"
+   "text_sha256": "85a211dfa1031af44ac84091d6e4cbc1378e959f18dab686ad441118159ab85f"
   },
   {
    "key": "6",
@@ -92,7 +92,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "ebbce73379b32d4770f5c293828aaafd4fecc491d8ce7d944b8aeb83be0e449e"
+   "text_sha256": "10279a46c8fa708446692c2df54ba7a9b27abd308a81e48efe42250bc7c4bdd8"
   },
   {
    "key": "7",
@@ -104,31 +104,31 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "77217f41434900380d6bc16e225feedca200f6a896dbbe7e220946e9bedb206f"
+   "text_sha256": "b4596dab55a9b201bf4a45cd905587f55fa9e40a4315528fb9a454b407e56616"
   },
   {
    "key": "8",
    "label": "8",
-   "heading": "Condiciones más favorables provenientes de convenciones",
+   "heading": "Condiciones más favorables provenientes de convenciones colectivas de trabajo",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "20bd42d292d408d0ff7b26ecfe4d2f05744edc3d97219e7f3ae32a20e436b1da"
+   "text_sha256": "82cd2803c6df685fcc30ed5bd4b2fa050885c366f32c9f7385d9cccb8addee4c"
   },
   {
    "key": "9",
    "label": "9",
-   "heading": null,
+   "heading": "El principio de la norma más favorable para el trabajador",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "ea871594feaccf9c692c9daf1bdee95e2fff7b47aad186e867487fac804188ce"
+   "text_sha256": "48b4a9ef9ac48e3cf3791c3b1730ce04ad78cff8d9437a67527268a48bd6456a"
   },
   {
    "key": "10",
@@ -140,19 +140,19 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "e2c94896ecbf9947112f883004705dee3c7c6ee219f82587d5846100b86dcf82"
+   "text_sha256": "3819a4a19f36d7a824c4a146078b5908ab0962608d0c9ae0567db0b57b3b1d55"
   },
   {
    "key": "11",
    "label": "11",
-   "heading": "Principios de interpretación y aplicación de la ley. —",
+   "heading": "Principios de interpretación y aplicación de la ley",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "e929624fc298b5f0fd1da9154293f4bbe62ae0071108ef6de429b61e5f86385f"
+   "text_sha256": "b09d8e607565596797ad2f083052877e0755e87e871e8261ad7a785a9f7b9fa5"
   },
   {
    "key": "12",
@@ -164,7 +164,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "83971c15383a9f59526d4451714f2742533312f829a8981037e36eaeaf04d209"
+   "text_sha256": "9738fb6e9dade670c559f8b01ba4e2d2a452fb5709b50a2d5b3deaeab2de6ac6"
   },
   {
    "key": "13",
@@ -176,7 +176,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "0de4919586c3a6c15ff5e8714baaf041e5145465c4a0e031cf0489e91d51753b"
+   "text_sha256": "5bb0e0569930a0b198973a37dab23c2eba92f9e7e088f9b5f8bc5e0094183f36"
   },
   {
    "key": "14",
@@ -188,31 +188,31 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "0a64ce6a24d053607061dbd6502350388e0f8e78bfbcd69b3603bfefb253fed7"
+   "text_sha256": "6bb26648f18ad8a965e02104c82fcc5514aed8a7e3baeecc5c78c87bcb245534"
   },
   {
    "key": "15",
    "label": "15",
-   "heading": "Acuerdos transaccionales conciliatorios o liberatorios",
+   "heading": "Acuerdos transaccionales conciliatorios o liberatorios. Su validez",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "b188ca9833285e6a733ae3d6f44388114d61323da7b58cfa1185f3f09447d571"
+   "text_sha256": "455176a65df44774a2c1015331f8abe5df8b0bdc0d1022637738e04ef4bb1a2d"
   },
   {
    "key": "16",
    "label": "16",
-   "heading": "Aplicación analógica de las convenciones colectivas de",
+   "heading": "Aplicación analógica de las convenciones colectivas de trabajo. Su exclusión",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "09dd4a72862a07da35205dd799b61e5ab1891325376d784de2f37b15c0598a89"
+   "text_sha256": "95b7840204db91026b153c7d67d97532651dea8bc6d5a94b5163dd181f85eb0a"
   },
   {
    "key": "17",
@@ -224,7 +224,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "6c2bfe38b070de2e3ccda9b341d049105267d8268e3bd5da5e5258c05d65cdc1"
+   "text_sha256": "e05c8eaa85c6f9c6b37e575a8bbad58b1b65c572af5c7f962c9f9a435b50b235"
   },
   {
    "key": "18",
@@ -236,7 +236,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "e15a2c91dc8b454a1667cd4ddaf59b1fd0ecec7a21fe1c92729c70a483e87678"
+   "text_sha256": "2cc8bd0d3fcf504d3ca7709525590d8cafbeb216881c00dd047a217f61952831"
   },
   {
    "key": "19",
@@ -248,7 +248,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "e0ada9e0825989ecc401a80038380ce9b164852b40061c39145583325b3bc485"
+   "text_sha256": "c4f414f0b0b34e557c8f80afe1fa56e6fdbc5ba549c24b954ebfb8690e3eb68d"
   },
   {
    "key": "20",
@@ -260,7 +260,7 @@
     "TITULO I Disposiciones Generales"
    ],
    "n_notes": 0,
-   "text_sha256": "60e8f89dbbbc0488bf33d6ea0ee4a1c436b77712adbad9bc726f4680b62b87cf"
+   "text_sha256": "1339c3b6b875448b07a1a47e83fd80c49771fba75697f6ad995b4b56c4d57af8"
   },
   {
    "key": "21",
@@ -273,7 +273,7 @@
     "CAPITULO I Del contrato y la relación de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "f1e9ec671d333e67acc8f5fdafdabeadcdeb27d54b59b5d766016af9abcf76d9"
+   "text_sha256": "d4f9fecc266322fe26b7087360b096cd21ed087d51c9ff196e5f4917320bf612"
   },
   {
    "key": "22",
@@ -286,7 +286,7 @@
     "CAPITULO I Del contrato y la relación de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "4402d447f1faf94a4a655bc7f4a70be47aefbe3d17a877ca452c5852a4703a63"
+   "text_sha256": "f843f5f357c33c7b3ae67fd1ac9cb15deb514c7aec5413a592cd07630979b808"
   },
   {
    "key": "23",
@@ -299,7 +299,7 @@
     "CAPITULO I Del contrato y la relación de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "887dc750b7955a4b8418cf2ef517f38bcbd6ecff0749d5c58eccc5029dff3846"
+   "text_sha256": "883628fbd45e53439265ca892a7cc2774401d7d88f9a2d580537bc462d5a38e4"
   },
   {
    "key": "24",
@@ -312,7 +312,7 @@
     "CAPITULO I Del contrato y la relación de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "64d73f582a7938951c12e558f639cfe82fdea1c99821efbe50e16117554d3f32"
+   "text_sha256": "076714c2b72ab9b8498df5244784649a06207d6982553f2826720c911e1c7364"
   },
   {
    "key": "25",
@@ -325,7 +325,7 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "ad9fa284bda17fda9496cf74231bbd78faf64e67306bee8cdd071d0bcff417cb"
+   "text_sha256": "da6cbf7882902c68a1c35071f41e0d46da35b1a672dad80bddab3c439c02a323"
   },
   {
    "key": "26",
@@ -338,7 +338,7 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "39bcf4f9ca5eaf1572038ccdb98c2b9a3dbff65d63d31a0e58ef6c8c8fca03d0"
+   "text_sha256": "5d3df09749c28c560317ae7d4a28eb7b5c276d1e699f48ee63f7e9444da877a2"
   },
   {
    "key": "27",
@@ -351,7 +351,7 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "77f273171cda6434d60cc601a41fc42ea90c86458508ee17727d135415e4b57c"
+   "text_sha256": "d0cd3cc083d677927bb1d14a8eeb681190e8661a60079964e48b3e8dcb60175c"
   },
   {
    "key": "28",
@@ -364,7 +364,7 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "1ce384ad2cbb732c60e73e5a3d0aa7047efd4d06787a5c9e520b37c83658f077"
+   "text_sha256": "9ce86012d114452b0393655eb94100204879872f4fa18fa849eecc4708785668"
   },
   {
    "key": "29",
@@ -377,7 +377,7 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "d4a66e1e195f08806322ddc1380a9e1c190d788c13c6eed04143452dc0c2a19b"
+   "text_sha256": "0458fc82a5e0b64e867896daa83236c53da454c988991fbe8f3d5113c11ac4d7"
   },
   {
    "key": "30",
@@ -390,12 +390,12 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "d103e225e7ae477146ef806c62400ae2d80daf63a83eafd1ceb2a0fb31ab82be"
+   "text_sha256": "dcf2b9cc31721ccfdbe4fee52eeef172fe94848d0c299b268d917498b7a07ac8"
   },
   {
    "key": "31",
    "label": "31",
-   "heading": "Empresas subordinadas o relacionadas",
+   "heading": "Empresas subordinadas o relacionadas. Solidaridad",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -403,7 +403,7 @@
     "CAPITULO II De los sujetos del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "4db4c01ae0d6355bc5b66b34b7a985d41d283b7859469f12f1109703d6e2ce97"
+   "text_sha256": "1a62a7552d6db2f2145f8bc4ac58cfb71d53cd6d819348056211120851319477"
   },
   {
    "key": "32",
@@ -416,7 +416,7 @@
     "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "ca0bcd47ef90786a8cb31009dbab30210970ea518e80b470b4afb454491fae63"
+   "text_sha256": "99fca575e8d7ceb1c8cec3ebdcb1a4c3ea46d0d9a3b7fa61c80f3ba6ea24bc17"
   },
   {
    "key": "33",
@@ -429,7 +429,7 @@
     "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "fc8fe4c24203203fe46c97d86fab4c972d4fbe0e30bcec9e41aa2a6e25b2859e"
+   "text_sha256": "77be487fda3ae0273433f01be9547e9b56ca082130a331e8f105dce8e1b71d28"
   },
   {
    "key": "34",
@@ -442,7 +442,7 @@
     "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "99dc00edffc53b6c2145703276dbedb817ba5dc4e17b5a11be0aff0d2a324b58"
+   "text_sha256": "3315d2c92c6c6c022d209a652a4cba8bed5669568b8989fe12c0d3d88eaae4a7"
   },
   {
    "key": "35",
@@ -468,7 +468,7 @@
     "CAPITULO III De los requisitos esenciales y formales del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "c4e9bb8de0efb9c6772068d03d4b6cc8831e84dba35d5229846af36dca404b05"
+   "text_sha256": "d480bbca7e4145e3bd2d01dd9f37d2841820712093ea4482c42c67076781bdc4"
   },
   {
    "key": "37",
@@ -481,7 +481,7 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "c88705b5ba6268b9339b9dfff5470f71d54f8c80c64be0ed4fd4e37a17db0033"
+   "text_sha256": "e2502fe2cfb860517543baf11cb872dbea9355f1ceb1be2a14bedf721b511e8c"
   },
   {
    "key": "38",
@@ -507,7 +507,7 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "0720fda4605d3c616b86cf7b874d59d5c3496d27976223a88ab3c72aa9fcff09"
+   "text_sha256": "da5a291f0b0b3c7a5a4dee153171c59cb2b7dd649388171dfbf9c656c1857193"
   },
   {
    "key": "40",
@@ -520,7 +520,7 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "59bb332f339de1b1f60d825f7b906f747ec34e79f43d0aa2149c21be68b494c6"
+   "text_sha256": "78963c5ceb7818db6c07b63c42a40dd68fc7cfe9948cfe39b1c9d62a09e300d9"
   },
   {
    "key": "41",
@@ -533,12 +533,12 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "e9107ac045ffe7f95454fc245ef8855fa3a6d90eda38046ce23e47b0082dd5c4"
+   "text_sha256": "49faa5319dac46791fb9cec7c673a1679803dfab028dff1fe0732cee59d2d4bf"
   },
   {
    "key": "42",
    "label": "42",
-   "heading": "Nulidad del contrato de objeto prohibido",
+   "heading": "Nulidad del contrato de objeto prohibido. Inoponibilidad al trabajador",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -546,7 +546,7 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "fa42da07a4c837cad9aa016479dc4f3aa7846daf0d16c5110f3f8a2e91252915"
+   "text_sha256": "8562e615d110afae7e7fa57c16ec4621d6a9337a5520995fb351f0f3878222cc"
   },
   {
    "key": "43",
@@ -559,7 +559,7 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "5744e603ccbabe82dc8df25e2883e6393d3ef1f5c24f80f8994b07b927e349a2"
+   "text_sha256": "04a6b97b61686e190684d25c62c458c520d64ad5d8170f05efd20e2b8cde0f63"
   },
   {
    "key": "44",
@@ -572,7 +572,7 @@
     "CAPITULO IV Del objeto del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "2cc619be15e295d38aeb48ce192119d618c342eb94008ee5572a25c5e2b2f99c"
+   "text_sha256": "7c2604b7efb831842b2f3638fb8e4069d6d89c4554dc295ca2d61da12ff67a4e"
   },
   {
    "key": "45",
@@ -585,12 +585,12 @@
     "CAPITULO V De la formación del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "fc7754a5a914c86c6eb9c99b6dfa509400eb38e535dbb61736eb0b4a1a86829c"
+   "text_sha256": "9fd4bbe7fc8698d9a6aa8a2ce3a5bbcd76d565608f7d592aa18301cefa6d78c2"
   },
   {
    "key": "46",
    "label": "46",
-   "heading": "Enunciación del contenido esencial",
+   "heading": "Enunciación del contenido esencial. Suficiencia",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -598,7 +598,7 @@
     "CAPITULO V De la formación del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "302d6e718cc6e3fa69cf8c51b214344d59a84359dc247c807d00f50e598cceec"
+   "text_sha256": "17a58a8a7969accdf84183a9b25d3f1e72d9deef5e7369936e5ce18230323391"
   },
   {
    "key": "47",
@@ -611,7 +611,7 @@
     "CAPITULO V De la formación del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "aa13e54c9de6f5cb4ed8d605dfd79ed07d11e26684c1574126120aa61601561f"
+   "text_sha256": "7ba277a82ed74902698c4e88f0aad014835984d9761b4095880d469e3cffdf5c"
   },
   {
    "key": "48",
@@ -624,7 +624,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "c5410de2411651d3aac552a528c8209c7b021f9b4c15b612eb489dbada9af5f0"
+   "text_sha256": "f8098f4b194721c75cb4cdb635f7da4f32f47cade5b206d6be1787432c390826"
   },
   {
    "key": "49",
@@ -637,7 +637,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "f37529a614e8537630a0a162ce65f51c721ba1b9054f5e69f17f14d8b2dfef55"
+   "text_sha256": "e510117f066174d5ca2c9532bb3830d34b83865c588debfde7c2256f8b5e19e4"
   },
   {
    "key": "50",
@@ -650,12 +650,12 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "ba0367e982ca0980f4f3199f9c0e420b386bf33c39e69b02e777b09bb55eefe2"
+   "text_sha256": "5d903fe009532707bf2de328b9c760d0ae928c0101008dd87e58d12e90d7299c"
   },
   {
    "key": "51",
    "label": "51",
-   "heading": "Aplicación de estatutos profesionales o convenciones",
+   "heading": "Aplicación de estatutos profesionales o convenciones colectivas de trabajo",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -663,7 +663,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "6671e9e0c0a8c0a27f763534b7b3b891e42ef8d4608186cc21d5dd49712b1661"
+   "text_sha256": "5bbf186b37c50c6ff9872e610b04a11b5c8b7b73e3ef986569488fcce6edcfac"
   },
   {
    "key": "52",
@@ -676,7 +676,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "750b5419d07726fd0062370e9dbcb3147b4896c6c5532a6f703bccb64b6350cc"
+   "text_sha256": "d37e9b0a344e513c290b8547d830bb798129215bbef28e3b4171853980daa6d3"
   },
   {
    "key": "53",
@@ -689,12 +689,12 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "4d3610b78cb10440ad17e65cac3149c68094f318f88bd9c8086b737be2be9ec0"
+   "text_sha256": "809a4282952b73866af0019c155cee54d77a56fc1ee838518176c653fd97c8d7"
   },
   {
    "key": "54",
    "label": "54",
-   "heading": "Aplicación a los registros, planillas u otros elementos de",
+   "heading": "Aplicación a los registros, planillas u otros elementos de contralor",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -702,7 +702,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "313b4e6a24cddd8105cffed59c301642ec9a2e28b5f896343c62c16613bcf1a9"
+   "text_sha256": "54c5a6873f2ecb36cd515efc7428f54109258b2707b441aa0f6e11520a560dff"
   },
   {
    "key": "55",
@@ -715,7 +715,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "ffa38dec8f39f05e1abe0e244100ac50c9d2924dc743ab12dda69223dc0a6a29"
+   "text_sha256": "f162904751153b2ad80378cd18206d73a5748eaea4dcde1eb84147254617f6fb"
   },
   {
    "key": "56",
@@ -728,7 +728,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "1539d95824b5a3395868607c6e5b901e6d0fc23110df67db5fb49a7f85de6b0c"
+   "text_sha256": "dffad3f166b6f27868e0e2a0a1d66e8ecad9069c1594924740fd931faa60ebea"
   },
   {
    "key": "57",
@@ -741,7 +741,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "516601a8fea8f5bb4f88dbd825499f985d4cae281e071349d7004633652da6ad"
+   "text_sha256": "fe28dac99678677f582f74c8bd9ad5a5881677c77245fff17392129a86b2d36b"
   },
   {
    "key": "58",
@@ -754,7 +754,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "e0d00c895327d8946158fd44c067dd2b8a567858f8de6abf6ea022f13bd8d604"
+   "text_sha256": "67eff470c681cc0476677f6de4d2ff1abbc9a13628abd5db3b76e6d7bec1f5b5"
   },
   {
    "key": "59",
@@ -767,7 +767,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "01f5ef17c37be9714cb29c215493521031f58c028ef8bd07847f8db009d9807c"
+   "text_sha256": "a69f85068dae33686278dd736857ee9937797d5415ce3c0f41e4524d9c79a569"
   },
   {
    "key": "60",
@@ -780,7 +780,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "0727927642392851a9f6ed142906b7bb942aa855532acc27e70bbb52f057b2c8"
+   "text_sha256": "7e0eccd8c97c574d49b82fe45dd9e3dedc152cabf50f48e532bb1036b04b1554"
   },
   {
    "key": "61",
@@ -793,7 +793,7 @@
     "CAPITULO VI De la forma y prueba del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "b6f006a62b6f85ace7b0ec313005992f9a2de46d6cbfe84da77497710993d0f8"
+   "text_sha256": "4ebf263555a2134290a13bbfd90f158d52ac77f93dc527aaf007d6c8ba3cc9ea"
   },
   {
    "key": "62",
@@ -806,7 +806,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "0aa8c813fbfd72e2a61feb1d251710221fad97e70051fd3225c237b4856fe378"
+   "text_sha256": "3350ab90a080dab05871b110b797b8cc1a6b1094c638fcf540802c14fe3705dc"
   },
   {
    "key": "63",
@@ -819,7 +819,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "b8e7b10e1ff15020d7f4411bb326865d39dcf99feeac6969fdd82aebacf2683a"
+   "text_sha256": "b342cf89418754a5d0fd1a04971aabf1526aa615b3b9993719555346e89dde02"
   },
   {
    "key": "64",
@@ -832,7 +832,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "b38a14b3f048e0d04fe593d48430d02b950cca3f8de22841dd88dbbe80e5d329"
+   "text_sha256": "404fafaca470c7f0ee24ffd829dd164c7b8a3f77428a74ccb9902947816fec81"
   },
   {
    "key": "65",
@@ -845,7 +845,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "70aa52f5e1efea8aef85828915b9e925c9f7fa7e3fa73c45e8110c6c47147bc3"
+   "text_sha256": "0c56ae2c352c20472cde3be18f4c62c599585ebf055423a65cc70b0367fe3fe4"
   },
   {
    "key": "66",
@@ -858,7 +858,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "e4e645aa700061b16cdcdb9c31bc3962edfb7e65c3f9fad083cde57a42e2a2be"
+   "text_sha256": "9e46ea14f77de309978cc5d16e8d97e29546d214d3e698d8c15fce4b788e25e7"
   },
   {
    "key": "67",
@@ -871,7 +871,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "5baa5c233a2ff32f0d0c27428a4b1185db4c164748799c7d747805c27ae589f3"
+   "text_sha256": "773fde95cc670fcb8672fbfed98bbcb69521faecbfcb3725e2f74702741d4fc7"
   },
   {
    "key": "68",
@@ -884,7 +884,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "2611d23d16e0fbdff1bce1b0b6f784465ca3dcd1b51a91fb0c6d63a691c27fae"
+   "text_sha256": "416d757362dd59b72263d158c1edd8a5c405580cb5a6c1473a097ebf88595649"
   },
   {
    "key": "69",
@@ -897,7 +897,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "f6e0e3731a65f4bebb3ca5598b748606e2442d0749841b24b3ba73dde6cdccec"
+   "text_sha256": "d6670357cae53effe7196632b2f48e028ed83af1397a99dce9cdcc8b374d6fdf"
   },
   {
    "key": "70",
@@ -910,7 +910,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "6e2ba279774fa315cad8f67059bff89795b2fe59e218e2d27fce4c82d27e766b"
+   "text_sha256": "7c74560b8531a3682313f5741f302a2608225ce4f50b42722a618e3b2c1356e2"
   },
   {
    "key": "71",
@@ -936,7 +936,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "c7be30403c3b081c5138b4c8bb4ef46940fc19f24fbb7fc7e5eb23266dc787ca"
+   "text_sha256": "8accf0ab38bdeac41cd7752142f2f47f639af42e77179e9f96744794f7f277be"
   },
   {
    "key": "73",
@@ -949,7 +949,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "72fcf615e692e1c71dba3ae2a94af9955e4f42ef9e1cd18e156b10ca5fae6e42"
+   "text_sha256": "954c524b8c2932ad7be4441e7ffcb89ca69706dc34e32c49f5f7adb41139f66a"
   },
   {
    "key": "74",
@@ -962,7 +962,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "62b7d1a6f709fa974cb48fb468035f907b04452b2758b7babc5139b4d0772c82"
+   "text_sha256": "8d35318c1a7e3372239fa646b06865119dd20ef07f116681be3fb5031d50e986"
   },
   {
    "key": "75",
@@ -975,7 +975,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "1c812b9a6ddbda84304616115d573de3cb00c186f54e110746cab9c1731cef67"
+   "text_sha256": "1f5dc3a94da8947bce1c5c65c04646cd3d2cf9127c38f47c763055bd276e4568"
   },
   {
    "key": "76",
@@ -988,7 +988,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "108af3ae13962b67114b5252e58177f61b873359fb7549f6d4c7ff3483dc3db9"
+   "text_sha256": "984ae80ee59339fc3e95e701ae1c6d4cf855d64f80e65f11b657b6c34aabc5a7"
   },
   {
    "key": "77",
@@ -1001,7 +1001,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "9e87a2d7473ec3fc2b84358c2d6044cf35873e156f315186caf17a50ef779def"
+   "text_sha256": "ad3e192f59efed8ea82b9f9291d36ed8c3632b121f3622ef32b33cb880d491f9"
   },
   {
    "key": "78",
@@ -1014,7 +1014,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "24ffdd96367b08c585139e8a45e1fca210c0abc570bba9cf6d790f2d253a4af2"
+   "text_sha256": "09515cf04cfcdadefa74932a5c09ea263e8bad06798687aa2f1bf64c97c637bf"
   },
   {
    "key": "79",
@@ -1027,12 +1027,12 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "113426d170bdcea5cf9863e56621fea446f7a41286b71509d49a4d457f50f660"
+   "text_sha256": "dd2e0acd3a4e8dad53975e3c23f0b7a12f1263cc4abf43d5673556ed391bde66"
   },
   {
    "key": "80",
    "label": "80",
-   "heading": "Deber de observar las obligaciones frente a los organismos",
+   "heading": "Deber de observar las obligaciones frente a los organismos sindicales y de la seguridad social. Certificado de trabajo",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1040,7 +1040,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "8f3359efed72a5279c36781c68d1506ac3398e4cc2195dce1eb38920bbc535c9"
+   "text_sha256": "6c26b70e248b2656f50944978db694290d473c62564afc0b5e48c6f78f08e003"
   },
   {
    "key": "81",
@@ -1053,7 +1053,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "dd270359eddb4347643ce188e191b72f2769a3e0ceeb71a28231ff4fb9e565f0"
+   "text_sha256": "73881239af23b81977048306616a5510b7117b7c9a0f0e084278a0ec2adefac9"
   },
   {
    "key": "82",
@@ -1066,7 +1066,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "d8aa7fd65f11b387bb02b79afb53c0f6d3bf8bb9c8c65c8b6a2b263a04952c8b"
+   "text_sha256": "5c9627033ba71fe6c1065a085350e8dbb3fa5cf70753980fd91b983b575291a1"
   },
   {
    "key": "83",
@@ -1079,7 +1079,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "6b90439b49f33c132b813be220f7ac1cdc0a246a871b832cec2e7678b3a94bba"
+   "text_sha256": "21b2d80b19a06dcd8464c60d7231eb3feef8272fd8c9df6d1ed66779c7845f01"
   },
   {
    "key": "84",
@@ -1092,7 +1092,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "1a14cf483fb4e23dbdade2c66ca58b223a9f52144fa055b4b96aaffaea92a016"
+   "text_sha256": "7231e132398744a52d409351100d50656c2d58e4e6934d63c4e16614bb6edff3"
   },
   {
    "key": "85",
@@ -1105,7 +1105,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "a0892953a6f95b573e3b25e84c3400378784ab0c4b53ddb4035bbca28c1487c2"
+   "text_sha256": "7a8586b2c3bc1cd85952614bf29b009e22b8573c3660f6f932c231f1a56edae2"
   },
   {
    "key": "86",
@@ -1118,7 +1118,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "44c282e3222fb7f3eb3271e3395a919370a69a291735dffa9c5f9390516203b0"
+   "text_sha256": "b19f65bc6dbac9c4539f4e49a88e1dcef11cb8cabcd17ad92f809340974e9070"
   },
   {
    "key": "87",
@@ -1131,7 +1131,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "2f67a1c7eb7e32f7370f8f53b5831eab9daf3eb9f06b43a8b4a1dbb3ce681338"
+   "text_sha256": "0e3f15f054c8bce2f9ccd03985fc39277f8385aed5eab1cc97e6d863db738a23"
   },
   {
    "key": "88",
@@ -1144,7 +1144,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "9f25d5336aa306246e0971a3b30b6db2bf81c9108f4286f2c21f2399e83bd087"
+   "text_sha256": "38426ad4518b97ce94b7ef42f3b6d3e057c57a561947f85c2f6465f3bffef20c"
   },
   {
    "key": "89",
@@ -1157,7 +1157,7 @@
     "CAPITULO VII De los derechos y deberes de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "991fbd037d9d9e63838130b1ee560abf3dfee96e3acb55359082aa632ca8a21b"
+   "text_sha256": "04772561db8a2fcbc5267672cb11b49e26ddd163e8ca1c4c1359abf15483d0af"
   },
   {
    "key": "90",
@@ -1170,7 +1170,7 @@
     "CAPITULO I Principios generales"
    ],
    "n_notes": 0,
-   "text_sha256": "74e862faaec9bc8b32c74315a2b3284e36b06acb6d0822c5c002d643e9931ad4"
+   "text_sha256": "3b46651ce818c8225d6ff514ad8c62fc36bac10be06196b6cad531f679de9736"
   },
   {
    "key": "91",
@@ -1183,7 +1183,7 @@
     "CAPITULO I Principios generales"
    ],
    "n_notes": 0,
-   "text_sha256": "cb192ba65dbac5037f19311dc6d9e2a886fcab66a244fce45cbfb8781caa2aa6"
+   "text_sha256": "99fc45c01beaf04d4007df7a26a43b4596f33e27198a30dbcb9b3f618f0c7ed2"
   },
   {
    "key": "92",
@@ -1209,7 +1209,7 @@
     "CAPITULO II Del contrato de trabajo a plazo fijo"
    ],
    "n_notes": 0,
-   "text_sha256": "dae131b4541b9ee1823b04e7cb5322b24a6e5c53b429f8dadd6f75e050d5acdf"
+   "text_sha256": "64126cabf12709966ed5fbb7301cba44ada6ac7ae563936ccced19f38f499b98"
   },
   {
    "key": "94",
@@ -1222,12 +1222,12 @@
     "CAPITULO II Del contrato de trabajo a plazo fijo"
    ],
    "n_notes": 0,
-   "text_sha256": "84d52bb51ef738d29afa000a8dbea7e9b244ba23ca8ca1faf95246c14ee57764"
+   "text_sha256": "f180044d13234996bfdfb962d918f260511f5930adad902a9d6375079c5c4b7b"
   },
   {
    "key": "95",
    "label": "95",
-   "heading": "Despido antes del vencimiento del plazo",
+   "heading": "Despido antes del vencimiento del plazo. Indemnización",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1235,7 +1235,7 @@
     "CAPITULO II Del contrato de trabajo a plazo fijo"
    ],
    "n_notes": 0,
-   "text_sha256": "ec637729e38797642b59b1a2cddebb71d4cc50b49a0d52dd7b62e94dd9a0d3da"
+   "text_sha256": "65336c63a80fc76cbf5515817c992643d2729ba70bd86a65b516b373b3f71b8f"
   },
   {
    "key": "96",
@@ -1248,12 +1248,12 @@
     "CAPITULO III Del contrato de trabajo de temporada"
    ],
    "n_notes": 0,
-   "text_sha256": "44af044ad576c7c6af043b1d419a084dac819b143a451e497097004547efdecd"
+   "text_sha256": "e3c80ff16cb9e212c8c5cbc30b6a398b86182486d71467a420ccb6c702c1cb9d"
   },
   {
    "key": "97",
    "label": "97",
-   "heading": "Equiparación a los contratos a plazo fijo",
+   "heading": "Equiparación a los contratos a plazo fijo. Permanencia",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1261,12 +1261,12 @@
     "CAPITULO III Del contrato de trabajo de temporada"
    ],
    "n_notes": 0,
-   "text_sha256": "3ab2f7efdf17b6a110cc1ac9ced30c9508579de65fbfe37faac3115ba8a535fb"
+   "text_sha256": "520f8f6445d9dea48a85438d5968378521b2f73a30da66475328354539e72846"
   },
   {
    "key": "98",
    "label": "98",
-   "heading": "Comportamiento de las partes a la época de la reiniciación",
+   "heading": "Comportamiento de las partes a la época de la reiniciación del trabajo. Responsabilidad",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1274,7 +1274,7 @@
     "CAPITULO III Del contrato de trabajo de temporada"
    ],
    "n_notes": 0,
-   "text_sha256": "b09caffa1a490f82163d5bec35ab3f6fdf3a7a9f2a5cc2d7e9a89f710dc072e8"
+   "text_sha256": "16e54821b12f0ca4a534c8a9032db10905fd49060e7482a5aa6f6d0ba2827086"
   },
   {
    "key": "99",
@@ -1287,7 +1287,7 @@
     "CAPITULO IV Del contrato de trabajo eventual"
    ],
    "n_notes": 0,
-   "text_sha256": "46f0233cb2e902d416144b20d0796bac2d86acf92d2fe58a9e6f078f27c2021f"
+   "text_sha256": "b71abfb6a14cd3665ec498ff954f1a215524fed767f1e1820d7f5dd7d009f274"
   },
   {
    "key": "100",
@@ -1300,7 +1300,7 @@
     "CAPITULO IV Del contrato de trabajo eventual"
    ],
    "n_notes": 0,
-   "text_sha256": "809b42b9f3e0c42f3827b9cd6c52745f37203bf2f162bc8ef8d25b91cfa6aa24"
+   "text_sha256": "d908e6416027ea3d0841f8f2f4e7d67cb7150b0ff86765cd0e2066baf5a99e39"
   },
   {
    "key": "101",
@@ -1313,12 +1313,12 @@
     "CAPITULO V Del contrato de trabajo de grupo o por equipo"
    ],
    "n_notes": 0,
-   "text_sha256": "701ba130802fe5ca2b9ea41874b32645d9d6ad7f4dc4177b5251f787491081e2"
+   "text_sha256": "8abf9e9451fa4dfb69ff4575796852a51d318fbb94afb28766020e634ab5199e"
   },
   {
    "key": "102",
    "label": "102",
-   "heading": "Trabajo prestado por integrantes de una sociedad. —",
+   "heading": "Trabajo prestado por integrantes de una sociedad. Equiparación. Condiciones",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1326,7 +1326,7 @@
     "CAPITULO V Del contrato de trabajo de grupo o por equipo"
    ],
    "n_notes": 0,
-   "text_sha256": "aa4bd95fb435f0169cbc3a6dae58ea504df06b35b70b435a60adb38cd363c728"
+   "text_sha256": "d3cd38f95f4e40e71abeb4071f964cbc5132e4ba766436fa500ef0613247681f"
   },
   {
    "key": "103",
@@ -1339,7 +1339,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "6d4cb1a4441fe7b95e2d86274e640af7ac4422c4daabe0e4448dd7f60e889abb"
+   "text_sha256": "08cdad99f19b5f78f943243a711d10122f1f1db07173462fe414fae54011cdb5"
   },
   {
    "key": "104",
@@ -1352,7 +1352,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "67be7bb3f879631c30e5b93e3caeaa9f4cf183f25d3a4efb5c84e3dbec7866b8"
+   "text_sha256": "f67d97bb48713afb6cf9c2634d213fea1c37b2a7a09484375cf26611cf7a619f"
   },
   {
    "key": "105",
@@ -1365,7 +1365,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "75e98d65bce6395c9862526ae17327cb3e2c453e474f3f9bbf96d42bd9203a1c"
+   "text_sha256": "22628a1a20679fef99d48df578077f492c4c8bf57a60f6312de96000363c3487"
   },
   {
    "key": "106",
@@ -1378,7 +1378,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "6e348f259a9f0b5cf3434ee1e477201bd87b31a19c2b46424d9258908f1e66bf"
+   "text_sha256": "700d884ad7e1b8b6887935297812362cec8cfb21d4884c2584a4e89aef823320"
   },
   {
    "key": "107",
@@ -1391,7 +1391,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "15db062bc99451e8aaf3c1635ca28165360525d917cbe9eb2aab60dfca48a543"
+   "text_sha256": "2223007deac4869ac2a090be19929dab88f7ea243f63f9910d7c2064e5b1736d"
   },
   {
    "key": "108",
@@ -1404,12 +1404,12 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "0984a66145edd44d84d236c774160d889c335feebd235e4f9d9dfa64e6e55c93"
+   "text_sha256": "9b7604f924c53738f48759524ba077488b0d12257267f921fb2c615d152ca3e7"
   },
   {
    "key": "109",
    "label": "109",
-   "heading": "Comisiones colectivas o porcentajes sobre ventas. —",
+   "heading": "Comisiones colectivas o porcentajes sobre ventas. Distribución",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1417,12 +1417,12 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "35c73e096281e32db06c1f4cef0fff52a3e47f905cadd3c948dce4c0d67402c9"
+   "text_sha256": "2ab7229fd1dd85e50ed0d9a2eac70e8e7b95d38c879c7512b92659ed0cf69ef5"
   },
   {
    "key": "110",
    "label": "110",
-   "heading": "Participación en las utilidades",
+   "heading": "Participación en las utilidades. Habilitación o formas similares",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1430,7 +1430,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "be2b4c14f4d2b81070c455f1313e409f6dcc88e464e42f55850c1ffbb26f0e22"
+   "text_sha256": "89e5ccf1cacdf3af3c3e230fe6b50f0e7260d13548650adcd9e982a3bbe38a08"
   },
   {
    "key": "111",
@@ -1443,7 +1443,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "7de23632ba4d6cdfafdfe1dd29010b6ab92eb0fc80dc01125d528bd63108041d"
+   "text_sha256": "e5862db7c3bf73e0a5060df649aaba28b128d51ec244424a45a8d11235af5a00"
   },
   {
    "key": "112",
@@ -1456,7 +1456,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "0b0d8ae011b6ccd8b3552d97e62a7de90d40ea5dab2699bd72a267bab126dd8d"
+   "text_sha256": "bf0ce466751ba782aaec0fed73a6432c97d8e141f081edc084c6fb6a65cb3b5c"
   },
   {
    "key": "113",
@@ -1469,7 +1469,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "72713be3926382dee9e47495766ea5b198e677e3c593d120338f2c11ecce8848"
+   "text_sha256": "c742188223349fcda2250d1fceb14bba61a85f59e5d8934e8818c47285ca3f99"
   },
   {
    "key": "114",
@@ -1482,7 +1482,7 @@
     "CAPITULO I Del sueldo o salario en general"
    ],
    "n_notes": 0,
-   "text_sha256": "5c587e578fde610485c7b408eabdf0d72ccc49478002252aafdced1f882e45ad"
+   "text_sha256": "79b948aba0e1383752d0a17f9da544a35d61d6f07b943bd1a6b67479ab15e88a"
   },
   {
    "key": "115",
@@ -1508,7 +1508,7 @@
     "CAPITULO II Del salario mínimo vital y móvil"
    ],
    "n_notes": 0,
-   "text_sha256": "a3aff2c6972b87faf52dd7bf1e4730306acb6f42d4186c1ddfd1601d8a0839de"
+   "text_sha256": "9bf17238f2f9a991f600fc76ee718ca03bb5d8534eab0cc60ff1359c64a138dd"
   },
   {
    "key": "117",
@@ -1521,7 +1521,7 @@
     "CAPITULO II Del salario mínimo vital y móvil"
    ],
    "n_notes": 0,
-   "text_sha256": "f689750ffd69c7773d2a26fd987e6d5f8e78e0e77597a2f4a18a8f2bd41e2e98"
+   "text_sha256": "8be309298bda31f784d383d6eee469284a9f08646c7939da1813e0d8e41c1a6f"
   },
   {
    "key": "118",
@@ -1534,7 +1534,7 @@
     "CAPITULO II Del salario mínimo vital y móvil"
    ],
    "n_notes": 0,
-   "text_sha256": "1e5f143b8a94790aca81cdf6a01ab917de0ea63ffd5c3539ea8405bd351ffc39"
+   "text_sha256": "8cd1d8937de2ab0b8368bd73998602c3c4bddd4becc90ff774c49d703189c1fa"
   },
   {
    "key": "119",
@@ -1547,7 +1547,7 @@
     "CAPITULO II Del salario mínimo vital y móvil"
    ],
    "n_notes": 0,
-   "text_sha256": "935617b411621cde1a0d8ff6c74c613d774d68bc11ba50de8dcf96eb1dd78a5c"
+   "text_sha256": "938d72b1c724973d4fdc6c0da09e25ef9975178c4d15de82f449649b79e0392c"
   },
   {
    "key": "120",
@@ -1560,7 +1560,7 @@
     "CAPITULO II Del salario mínimo vital y móvil"
    ],
    "n_notes": 0,
-   "text_sha256": "39b1f1f5dbb0bb127d3ac1baab7717396669a254d885cb441265142bdaba2022"
+   "text_sha256": "e855a9677e2f7585c22dc0bddcb1f19e7c906e0d145494af8258225540f6da7c"
   },
   {
    "key": "121",
@@ -1573,7 +1573,7 @@
     "CAPITULO III Del sueldo anual complementario"
    ],
    "n_notes": 0,
-   "text_sha256": "598783f646cd7a205539d15669982e1011b2165b77ac96831cf7d6dbc44daf25"
+   "text_sha256": "f0d0196030eeb7f5e850f243a113588603984780e829e4477599e98589d49756"
   },
   {
    "key": "122",
@@ -1586,12 +1586,12 @@
     "CAPITULO III Del sueldo anual complementario"
    ],
    "n_notes": 0,
-   "text_sha256": "e401f5b3ba7d58e8bd6d8427e7e4c92c1db022b1f961e70b78ada5442fe7b852"
+   "text_sha256": "e62e033859f03761d85600a0396a9b1be02c068641f527b9dad5f1d2e4d10984"
   },
   {
    "key": "123",
    "label": "123",
-   "heading": "Extinción del contrato de trabajo",
+   "heading": "Extinción del contrato de trabajo. Pago proporcional",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1599,7 +1599,7 @@
     "CAPITULO III Del sueldo anual complementario"
    ],
    "n_notes": 0,
-   "text_sha256": "1df6fc16e68bdf940a7da8c9f141ba2feed383d0975b4c7ada6f839eab03da4b"
+   "text_sha256": "180c03f648e499a6b8e6db1a402c5ab94592d05cd9302a730eada6d1508aa5f1"
   },
   {
    "key": "124",
@@ -1612,7 +1612,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "fb66d3b9ef7ed5f587f0aa2844c2d4026406bc24b5a200eef873bd7f612334ab"
+   "text_sha256": "1bfc10c0433873cd19be41a32b87e48653d18f82d98fe7da5a8241fa32ddf38b"
   },
   {
    "key": "125",
@@ -1625,7 +1625,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "14627f2f30b9c2d99d78dd56d1af0a38d5635ade311db9ba07adb758995b77b0"
+   "text_sha256": "d842e8450ca6ca0917c51348b83c8b232de76d9e35e5f55a981e3bca831ce4bd"
   },
   {
    "key": "126",
@@ -1638,7 +1638,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "dba9cb1210efc7b9540a10c006f9edc3eeab472058ab17e54d96d057cb7de76e"
+   "text_sha256": "3b465be08bc2aa7d0a17b38db381d91b97734988bf0fa7c4be1331107c1fd80a"
   },
   {
    "key": "127",
@@ -1651,7 +1651,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "a4f59822d80ca2a1c299e4d3d82da17fec4e63f5fd43a6a6c8646b15b07c8af0"
+   "text_sha256": "8486b237a8f88a066e6251a48de202974bba584d5b1914cadc10e957d38d3dcc"
   },
   {
    "key": "128",
@@ -1664,7 +1664,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "8a7f4f90460c88b092c0ce9b03f88fc8e1ca71e09661c68e658ef1b5f266efab"
+   "text_sha256": "c428b7ee7210305d14cb3dc4761980412206fdaa0d930ce6c0b7dff861e6190f"
   },
   {
    "key": "129",
@@ -1677,7 +1677,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "f8d60f71cf2ac0fc8a40f9fc3e7465ac4f80fa1cd95554d4ceee516ddd1ca1f7"
+   "text_sha256": "be80034a3ea87ae9c724fe147195a12d3066e68d5687d85627b6aee06c0903ae"
   },
   {
    "key": "130",
@@ -1690,7 +1690,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "ef1637be6b2faecd43d8b151dd5a89bb1e1164ab49bfeeccb78d47e818cc970e"
+   "text_sha256": "2128a6d206656baa7fd4dcc326c3da4ecec6da92685e6df8c9011735b462c56c"
   },
   {
    "key": "131",
@@ -1703,7 +1703,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "94b0a8111ede4446c86580001a69c4002faa20e5be4100092ac60dfdc856d1f1"
+   "text_sha256": "ceda2f9fb3c4ab10c3085c90f578cab26efeb0aae30f232e72efe9f301f594fe"
   },
   {
    "key": "132",
@@ -1716,12 +1716,12 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "7f68cf816a35ad1a315ecbcda37eac5f1e20311b43fa5da74f1c705500f613ec"
+   "text_sha256": "a32d3995ffa27190958f589ad871f5202adf847bee531bd7df32b1d69c723f28"
   },
   {
    "key": "133",
    "label": "133",
-   "heading": "Porcentaje máximo de retención",
+   "heading": "Porcentaje máximo de retención. Conformidad del trabajador. Autorización administrativa",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1729,7 +1729,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "f3f05ebf3535b34a8f7d285d48e9c9f234460d530941c37894884b1598b36ede"
+   "text_sha256": "9cbd96253cd3247c2af7a7f66178d3a32197f2d1beabdd1cd60929239f2c1edf"
   },
   {
    "key": "134",
@@ -1742,7 +1742,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "61e427f0fbfcaa0f85f8e55a3dcfd45160517876c152118033bb09f7577958ff"
+   "text_sha256": "3e8e012c75f077ce169fbc23ceea070b87ba25fb05a809cd9cb6794371896c76"
   },
   {
    "key": "135",
@@ -1755,7 +1755,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "a5edc73ce62d244dbf9b9b59c337c6575db8bd2130cb992ecb945c677da42633"
+   "text_sha256": "22c53bbb7ff651bcc63f24ed4341dae272a2576914d7faa3b4c01752fb01ec1b"
   },
   {
    "key": "136",
@@ -1768,7 +1768,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "827118acfbf8da7d66ac4d865951ae0416fbb9a4baadb45f5ab78fa5f6cc0907"
+   "text_sha256": "d9a9551774ba829700b79dfa3e46d7e0be3883e62de60671046018f6d8803ac5"
   },
   {
    "key": "137",
@@ -1781,7 +1781,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "52876062cc507045ec1f1566af6bcb98120c3edaf27b628ead78d75805863330"
+   "text_sha256": "cc492ff5dd4cee15878925b87043b00a1cc62db21162bf28e0668f290e1a525b"
   },
   {
    "key": "138",
@@ -1794,7 +1794,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "849f1227cb5d8b93b603bb9a938e68f6e9205200f84cb7edb75c88b5244f0e4f"
+   "text_sha256": "59b0f35a597df8922c5562babbf7a3c219c72419cf407b5a45de1ef6fbd5dc89"
   },
   {
    "key": "139",
@@ -1807,7 +1807,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "33aca397d8bc05734696d6e4fccd05ab5433cc2e88b36e4730971b3d8ca7532c"
+   "text_sha256": "d3c991cb7a0ff5f86e165eb48ba7ed8e359471910e5ececec95efc6e7af29398"
   },
   {
    "key": "140",
@@ -1820,7 +1820,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "8549ab5452433f709e955166fba4454af8c02979a5a0de3bab8769b47f2eca3e"
+   "text_sha256": "03049d8a01dfbe9fe1468531a92f11819941c3f948d0207f614cdac89cab30bf"
   },
   {
    "key": "141",
@@ -1833,7 +1833,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "7fee96d9600c044ecb53208fc8b8b23964cc4a8c6e2f8499d82edb81b9565231"
+   "text_sha256": "8f3c0060eae93ef7dde59ed9ae03d0fcec41047d7c56791ca048ff4d56a9d990"
   },
   {
    "key": "142",
@@ -1846,7 +1846,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "39296ec7107579b4453de5614261f6cbaa85be3cbb0781c5ccf6fdc71e266a37"
+   "text_sha256": "a7b43da4f8785eac1609349ed3093e0232f32f35df559ce605d6df50ec03c15d"
   },
   {
    "key": "143",
@@ -1859,7 +1859,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "3c09ab8d797db0446192e1182b0970a9d0749549c31d772664aa144ee4aacb67"
+   "text_sha256": "58320488244c06126a826b6126f66bc0b09c619ee3c0c05ff0f0a42074858dbb"
   },
   {
    "key": "144",
@@ -1872,7 +1872,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "e9588b92c7be3ff551b9004fa06a43f9ffdd1ca8295b12744c5ca485c0985eaf"
+   "text_sha256": "1c3f6e4134a3bde2c085127eda18a470d7804048fd3be43811c57a6b745a4946"
   },
   {
    "key": "145",
@@ -1885,7 +1885,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "083dbbed63a19fda2b1019814a897d1181325f21251078fa4daa2a6b838914d2"
+   "text_sha256": "f97d73564a7d0a60158210fb12fe62fef5fcfaf53b47610d0179c037ae8bcc14"
   },
   {
    "key": "146",
@@ -1898,7 +1898,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "2c431770b2f528065041583ba7491b61e31b0fe2271668b6cceade45cb349f78"
+   "text_sha256": "5495f1faa0c32d7fbf0e6c9e95db561e8b07b85e387482fec21e6ed1b64c5363"
   },
   {
    "key": "147",
@@ -1911,7 +1911,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "4d4a141873aca8f1ac43f5cb948cdbc4da2dd8b6b8a1238bf21b029e9451b9e2"
+   "text_sha256": "1d57791f6af0cc0e424774ea071fc7e0205ce2c525d5903a280359024d63b0b1"
   },
   {
    "key": "148",
@@ -1924,12 +1924,12 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "57f8cd2d4b379083a030a25d14f0c2e8bc1e897c6508eb3830172f6b1f0c100c"
+   "text_sha256": "291371a433ff394ebbb2b05cb7707d856f0b8362544930fa7db15aa19d6653a9"
   },
   {
    "key": "149",
    "label": "149",
-   "heading": "Aplicación al pago de indemnizaciones u otros beneficios. —",
+   "heading": "Aplicación al pago de indemnizaciones u otros beneficios",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -1937,7 +1937,7 @@
     "CAPITULO IV De la tutela y pago de la remuneración"
    ],
    "n_notes": 0,
-   "text_sha256": "0bab9c2b4924927216ec47147fe69f020eba3722c328e58b00ec01f67375b6c9"
+   "text_sha256": "8aa1ef202bf8fd7e98983455549064a9085c3fe591012e63cc83677224f35e20"
   },
   {
    "key": "150",
@@ -1950,7 +1950,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "4ddee91b9d000f8b2a9d0cf318e1b7599163d559c09cf6b79daaa0e3276b8273"
+   "text_sha256": "02ad04e43c44f12568f7005b3e42f5c655f5e9b5bea24b86c332587ad985e8c9"
   },
   {
    "key": "151",
@@ -1963,7 +1963,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "36cf885b1e736db257142cea6af1b38790df1f11ccd705f262dd55d12740df97"
+   "text_sha256": "dc878b33b134d0daba8755334cd49eb7ea19b2e6f9c2e2d2bb36250b9aa9b2af"
   },
   {
    "key": "152",
@@ -1976,7 +1976,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "33b174e66e4156b60ea9023c8a9c29912ed28364def75c9859778b6cd20b19d9"
+   "text_sha256": "486fe59dad2a5b9362d81e5eb9c37a7a156c81dc7c35a4e49827b3c92dc3cd39"
   },
   {
    "key": "153",
@@ -1989,7 +1989,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "fe593f61576e93dd8cd138455a4a61fb95ed89c0523fcc94e9e89cb0ddb4cfd4"
+   "text_sha256": "dfcaa4f5ef3fddfca6b6f7accadb99902e3617857e2fadd871c1bc19e0da4a30"
   },
   {
    "key": "154",
@@ -2002,7 +2002,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "558a573f758a8b31f396565f6472c7e919f319e4a6c29f232f1eebed28dfce70"
+   "text_sha256": "d724552055b75a838975e16bce2bd29359fadf33a7122850404acd3feb98fb5d"
   },
   {
    "key": "155",
@@ -2015,7 +2015,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "488df1501314f84214eeb6557e9137c16b784109c3e04bb7a06e968936035c00"
+   "text_sha256": "5220ef0b044684cf894914901bc3a0b64675c362097e0c33b12aee73d027e6bf"
   },
   {
    "key": "156",
@@ -2028,7 +2028,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "e20c906ba85a6a83696892a992de14db6f7d5a83ea857e24a6246d86c933aca6"
+   "text_sha256": "00e9e16007f5e3559eab3d076764c96d1e081e53d2d63dfe2b98c48ddad6a9fd"
   },
   {
    "key": "157",
@@ -2041,7 +2041,7 @@
     "CAPITULO I Régimen general"
    ],
    "n_notes": 0,
-   "text_sha256": "f3c69b47c37e2cc69d6af41f53f317388a180fee7563b003f12beab3cfec139a"
+   "text_sha256": "a64d5ec7cd76fddbefc14c7dd572e851a13b725aede6b852e30ebc66504ee407"
   },
   {
    "key": "158",
@@ -2054,7 +2054,7 @@
     "CAPITULO II Régimen de las licencias especiales"
    ],
    "n_notes": 0,
-   "text_sha256": "578aa747c5b1ca43b8aa26ad937261cf03b4f5ef1347594c024d27116c24d8f1"
+   "text_sha256": "9f7032ee1abf742b1315d68c12091aca57bcd32cf7f04d8d952adc8c17307610"
   },
   {
    "key": "159",
@@ -2067,7 +2067,7 @@
     "CAPITULO II Régimen de las licencias especiales"
    ],
    "n_notes": 0,
-   "text_sha256": "2f8e1acf07b480eaea89385238ad9447fcf88b3c08f86b38d580ef4cf533b068"
+   "text_sha256": "c284c5d6e8e708c16869c9c5c342a1e862316e18ee83c1128314c6624840d4ee"
   },
   {
    "key": "160",
@@ -2080,7 +2080,7 @@
     "CAPITULO II Régimen de las licencias especiales"
    ],
    "n_notes": 0,
-   "text_sha256": "9db45d750e02fd20f5b8e29f037f40e6cf420e5b5b8b3b8a0af66d1dc936dfaa"
+   "text_sha256": "b4f6f86e662c2ff9d548784e05ef948e991ff4dde48ad078aca4b61ccb45116d"
   },
   {
    "key": "161",
@@ -2093,7 +2093,7 @@
     "CAPITULO II Régimen de las licencias especiales"
    ],
    "n_notes": 0,
-   "text_sha256": "094976c2f4facbe5b159e4da89bb9567347ad22a076caccf0ba0e3bc1cafdd83"
+   "text_sha256": "425e81b7da673572db35123a0fbc72a45af5b235ed7404c0cfc87057f6ba3ee3"
   },
   {
    "key": "162",
@@ -2106,7 +2106,7 @@
     "CAPITULO III Disposiciones comunes"
    ],
    "n_notes": 0,
-   "text_sha256": "6a011562c8e5b3ccbc7907368c9c21221db7e448c5e8f4a53769dc773c25a550"
+   "text_sha256": "d2bdbbe5a07d419c9096e96c281a0bc887971e594607ac5193d76ed9ac5238b1"
   },
   {
    "key": "163",
@@ -2119,7 +2119,7 @@
     "CAPITULO III Disposiciones comunes"
    ],
    "n_notes": 0,
-   "text_sha256": "210cb2dcafa58c6b8cc59bc15ba6c5ad97e423023df0cdad3db9c6983cc09ef7"
+   "text_sha256": "65fc3fca569cd603b7abd8048ed9c57e5c47e7f6655d08f8151c68bb7f641393"
   },
   {
    "key": "164",
@@ -2132,7 +2132,7 @@
     "CAPITULO III Disposiciones comunes"
    ],
    "n_notes": 0,
-   "text_sha256": "0ca7fdaa954d4de3a79e1146bfa629a3d277c250280436f3cc3e7f481b6cb8f4"
+   "text_sha256": "ca053f9332a3b836ad5b01b176244af4e4139db32831750552007a1588bf069f"
   },
   {
    "key": "165",
@@ -2149,14 +2149,14 @@
   {
    "key": "166",
    "label": "166",
-   "heading": "Aplicación de las normas sobre descanso semanal. Salario",
+   "heading": "Aplicación de las normas sobre descanso semanal. Salario. Suplementación",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO VI De los feriados obligatorios y días no laborables"
    ],
    "n_notes": 0,
-   "text_sha256": "ded02115ea5c0bb4bfd4805d3c5abecccff8eafe3e17f9d0fb34d3eb13160780"
+   "text_sha256": "a7a9eb7361f85f5e4c5d97cf632df322a2dd8dd6015b5d715b9dee6fb848218e"
   },
   {
    "key": "167",
@@ -2168,7 +2168,7 @@
     "TITULO VI De los feriados obligatorios y días no laborables"
    ],
    "n_notes": 0,
-   "text_sha256": "f0443b052fac77cf81877cfb081167b8fd70b0df21f3a1303ee015c967e037f7"
+   "text_sha256": "aadd520e72ad4a585b36e77c8e6d20073182b08001ddf959afa3273c2e87e23d"
   },
   {
    "key": "168",
@@ -2180,7 +2180,7 @@
     "TITULO VI De los feriados obligatorios y días no laborables"
    ],
    "n_notes": 0,
-   "text_sha256": "50fb62416041afaaec5ef3bba8773460a8419477a6ae001a18e2c73a3ce89b85"
+   "text_sha256": "c3c4bcbff986e3a993e06e8833064615ef9409ae577691795d6720dfbdd4949d"
   },
   {
    "key": "169",
@@ -2192,7 +2192,7 @@
     "TITULO VI De los feriados obligatorios y días no laborables"
    ],
    "n_notes": 0,
-   "text_sha256": "9719e79a76a67dbc11558c2b075a58c7091315fac92f4f5a26d83b0be4f568ac"
+   "text_sha256": "af9e1566ba5a19853008014d78ff861a094f1b0e3759497a91354c060791e0f7"
   },
   {
    "key": "170",
@@ -2204,7 +2204,7 @@
     "TITULO VI De los feriados obligatorios y días no laborables"
    ],
    "n_notes": 0,
-   "text_sha256": "6badc50f761becac79132f538224390f8ff7ff297735963ed41c3b88d81e2b36"
+   "text_sha256": "9984d505bfc3908637eb0b1638430abefd58baf6ce8ef5d1c7958362770cf455"
   },
   {
    "key": "171",
@@ -2216,7 +2216,7 @@
     "TITULO VI De los feriados obligatorios y días no laborables"
    ],
    "n_notes": 0,
-   "text_sha256": "6484ab7a53f5509d70e7d0c2de8029c4f89e3d67d9821ec5808490c5f353c39d"
+   "text_sha256": "c2cb1ae407da453a84057ec6f45bbb7d55fd6e71cf779e29eca6b660d5be5974"
   },
   {
    "key": "172",
@@ -2229,7 +2229,7 @@
     "CAPITULO I Disposiciones generales"
    ],
    "n_notes": 0,
-   "text_sha256": "c26a1685a051dbddc88e55948f73aa45c3ed1dd0321ead174a9e4f6764eaa6f1"
+   "text_sha256": "e1668e488cd2ca1b6fbc5486c095a1f304413d01fc5fb6cd864475dce4627680"
   },
   {
    "key": "173",
@@ -2242,7 +2242,7 @@
     "CAPITULO I Disposiciones generales"
    ],
    "n_notes": 0,
-   "text_sha256": "a043265cf31ee245323068fa3341a22f7218315be7c2c6df95e5d27bbc4ad1c6"
+   "text_sha256": "f5c84d400be36f6e67427eab941e08fec5f7436fa20c3b8f05803a24fab8300b"
   },
   {
    "key": "174",
@@ -2255,7 +2255,7 @@
     "CAPITULO I Disposiciones generales"
    ],
    "n_notes": 0,
-   "text_sha256": "8bf457c61a7e23510e769970dd3e6ffc8e773e7ca0f22f8592e8a68e7d787a72"
+   "text_sha256": "74bd989ae3d7dedf56c121327ef0300b2f617c80516c2f3254d24092c221b225"
   },
   {
    "key": "175",
@@ -2268,12 +2268,12 @@
     "CAPITULO I Disposiciones generales"
    ],
    "n_notes": 0,
-   "text_sha256": "9865cee369af393a437fe6247238402a5ed920131e6cd3495f11da622edbe8ce"
+   "text_sha256": "b4bcf50120ac5428408aecd75d5e63ecc6a073595ce190a7c25e109ef4090252"
   },
   {
    "key": "176",
    "label": "176",
-   "heading": "Tareas penosas, peligrosas o insalubres. Prohibición. —",
+   "heading": "Tareas penosas, peligrosas o insalubres. Prohibición",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -2281,7 +2281,7 @@
     "CAPITULO I Disposiciones generales"
    ],
    "n_notes": 0,
-   "text_sha256": "aaaaefc8a99c062a41d809781a6eccfc8363099c78e897bdeaf68edf6fd44639"
+   "text_sha256": "f01498f19939cdaa59c6144607db284a66d07e7ebbbc11474a90ee57c9c2eeb1"
   },
   {
    "key": "177",
@@ -2294,7 +2294,7 @@
     "CAPITULO II De la protección de la maternidad"
    ],
    "n_notes": 0,
-   "text_sha256": "9ff2d6a41ba629b4736e25d473190eefe44d603404d890a86bda4d1e14a5af8c"
+   "text_sha256": "87656cf8229bf5f53835d74b3a8d0d287128d0eefc31d482a7229e503d62aae1"
   },
   {
    "key": "178",
@@ -2307,7 +2307,7 @@
     "CAPITULO II De la protección de la maternidad"
    ],
    "n_notes": 0,
-   "text_sha256": "bff4987d78099c2e0089e7bec0115595484855a997c57ec296cc84f7f8bf5864"
+   "text_sha256": "d6ba459f284dd0761d244b7ce2030afd1387eacd5075679c275626356d964b55"
   },
   {
    "key": "179",
@@ -2320,7 +2320,7 @@
     "CAPITULO II De la protección de la maternidad"
    ],
    "n_notes": 0,
-   "text_sha256": "9293bc17fa8cb33c0e2ef9b44103c8283fa96d04342084ff0bda943126cd6d0d"
+   "text_sha256": "ea1b62c3ef97e2505ebb160d3e87bc016c3372301be01b89501d16ec489e152e"
   },
   {
    "key": "180",
@@ -2333,7 +2333,7 @@
     "CAPITULO III De la prohibición del despido por causa de matrimonio"
    ],
    "n_notes": 0,
-   "text_sha256": "a4bbd2d5a74f43c6b291042dde0ab6b013ea5fc143d1d1074b1d02f631e0e3b1"
+   "text_sha256": "554dd8322e1991b378638d4e6f8afa2994072ab477d9ee02ae97235c56617eed"
   },
   {
    "key": "181",
@@ -2346,7 +2346,7 @@
     "CAPITULO III De la prohibición del despido por causa de matrimonio"
    ],
    "n_notes": 0,
-   "text_sha256": "e981cd55695a2c26315ef6966108d541c2819487ca9ff0ca9b09b609a6257439"
+   "text_sha256": "41d581edf547d70ec57fd43c7a01a565cca40764425fbd78ed6291ca1ee0f5e2"
   },
   {
    "key": "182",
@@ -2359,7 +2359,7 @@
     "CAPITULO III De la prohibición del despido por causa de matrimonio"
    ],
    "n_notes": 0,
-   "text_sha256": "c1de91305d004e45cc84ec90147285c9136ef6cac479fd7e25f35ddf4f127aa8"
+   "text_sha256": "d99b8b2436d78db956985a05c885248c309543c3ec79fb485ffd28259b9d2698"
   },
   {
    "key": "183",
@@ -2372,7 +2372,7 @@
     "CAPITULO IV Del estado de excedencia"
    ],
    "n_notes": 0,
-   "text_sha256": "febf9f3643cd108d5e094cdc11725846fb8a51b1df0d24da8f2367212ee8f4e5"
+   "text_sha256": "80c16d69c36f48dab69131f24c66042f2537ca3f8c430768a874c88e10db1aed"
   },
   {
    "key": "184",
@@ -2385,7 +2385,7 @@
     "CAPITULO IV Del estado de excedencia"
    ],
    "n_notes": 0,
-   "text_sha256": "0a2fc949b97e140492b1c5551e5292c94d7a93d762a00b70da9879573afd76e1"
+   "text_sha256": "37f86831dc146b2bf79e44feefcb18787d052003fd814e4830bcd7414edc15c9"
   },
   {
    "key": "185",
@@ -2398,7 +2398,7 @@
     "CAPITULO IV Del estado de excedencia"
    ],
    "n_notes": 0,
-   "text_sha256": "fc199627cc1f5a3965db4500b5bd0adc3a01f96dc6fd5772ef25043e8251680e"
+   "text_sha256": "9c35e5fa0f1d3d62961175c170b8f0340683619314053710e3e6486c4792d614"
   },
   {
    "key": "186",
@@ -2411,19 +2411,19 @@
     "CAPITULO IV Del estado de excedencia"
    ],
    "n_notes": 0,
-   "text_sha256": "e0e4aada3decbe15c3c6b40e5f38eee65c8577e591b54bae7b95e5c6ca1807b3"
+   "text_sha256": "907b10698fbbbd506e68f83633a6b343575e01f0c9c0189604721f4d489ab774"
   },
   {
    "key": "187",
    "label": "187",
-   "heading": "Disposiciones generales. Capacidad. Igualdad de",
+   "heading": "Disposiciones generales. Capacidad. Igualdad de remuneración. Aprendizaje y orientación profesional",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "e98e8f8848e34b8d1f252245d2ce4afb44e21f4f9c2b974e24a6ecf5d2725cc6"
+   "text_sha256": "5e5b69efb9345f55dd389890706f86d15f41c419a0f75cbb1cfc80acb2190a9f"
   },
   {
    "key": "188",
@@ -2435,19 +2435,19 @@
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "4fd38d93b7ad3fde1765ec7e5380950aed41054f10619f9f940bbc127126206f"
+   "text_sha256": "b323e04036f2a1ef71a33ca201f4e9cfdcd69541bb44e51b0b4df6c682dfd142"
   },
   {
    "key": "189",
    "label": "189",
-   "heading": null,
+   "heading": "Menores de catorce (14) años. Prohibición de su empleo",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "23ef8cbdcc6229b4e5088db4e9e35b9fab2f34e4d01731bdc78c51a4d589b9d5"
+   "text_sha256": "b868bb5d30efd491c44ddbc6778e2a019700a873c7290bb1c4bf687f7e121dca"
   },
   {
    "key": "190",
@@ -2459,19 +2459,19 @@
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "1dd53c5ed75dee076c174251dd95ed70a8da76d8596d9f3f746194afe3993ae9"
+   "text_sha256": "97fdd40a27aac6e89eafde55825861c193aba99a86a71e225d31cffa92c93d86"
   },
   {
    "key": "191",
    "label": "191",
-   "heading": "Descanso al mediodía. Trabajo a domicilio. Tareas penosas,",
+   "heading": "Descanso al mediodía. Trabajo a domicilio. Tareas penosas, peligrosas o insalubres. Remisión",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "880ae6a9467bf135c195f6787b2dd418f67ee4a44942f6234b9da83b2b771442"
+   "text_sha256": "ab17d8c90f365fa8d3f63da64afb08b8126a77a9e609f3bd3558c21e40b01720"
   },
   {
    "key": "192",
@@ -2483,7 +2483,7 @@
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "c0e516ed0637c383e556813ca918e3d3c22accb3505d334fe3b86d003b56a457"
+   "text_sha256": "99aa92ff8d2254e191f9979bd998c011da51437d1a98ca41b26db1d6084fc6de"
   },
   {
    "key": "193",
@@ -2495,7 +2495,7 @@
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "881fd341ec47a4cef358691204603c14c4da9f81a3ddea5dbbdabf8e94d5e71f"
+   "text_sha256": "a8c71d95247b601d24d66994240fa0a3eaf59ae6fdbe594bb8a7c87e87217c29"
   },
   {
    "key": "194",
@@ -2507,7 +2507,7 @@
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "55b7834d38c3de96968302a13a02a4ec69633f8c5939ca1a91fcc38bf77abd57"
+   "text_sha256": "3ad9ef6a5d6e20a0325d4b1a2178d088ff5176ea6dda3fe1155bde4ac3845b93"
   },
   {
    "key": "195",
@@ -2519,7 +2519,7 @@
     "TITULO VIII Del trabajo de los menores"
    ],
    "n_notes": 0,
-   "text_sha256": "2b8cb1db3f49ea690fbb99b7d5014cf95c05f20f15cf18f1e5425bfbb7ed731e"
+   "text_sha256": "790f14af5747bf2ee8432df36c42d8ae1d8b20a40a59f22922c133788803ea62"
   },
   {
    "key": "196",
@@ -2532,7 +2532,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "176284f574cfd897fa6c090411175a8305d262c4359cfb5eca5da372da16ab48"
+   "text_sha256": "ab1bedf00f6c4e9b50a9dd2aa64341256731d47b697d690e073cad135ecc5ba3"
   },
   {
    "key": "197",
@@ -2545,7 +2545,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "cf8bbc75e29091333f2353645ecd8affb803c28d9283ec4d0fbb78e727798b45"
+   "text_sha256": "bab566642dc7d4617bbaffcb1603fab0b5784b88c76be7dfd220141474a33951"
   },
   {
    "key": "198",
@@ -2558,7 +2558,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "d2669f90a2e5cf680a85a3c721a61716b51fae483f6c75cd642cc34c0a0d65b4"
+   "text_sha256": "536c5296e6a7f0776dc97eef95220adad5ef44a7002a7f4b953e008339a5f0e5"
   },
   {
    "key": "199",
@@ -2571,7 +2571,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "12ad416b5b58a40bd6dd3f8cb1e2d624da3bc7ebf43fc0fe35fddd453c2d6295"
+   "text_sha256": "7aa9881200e0145f9022f3a871d66dea425e4b8b7a0649d9815dcfd5963da3c8"
   },
   {
    "key": "200",
@@ -2584,7 +2584,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "eba8a6f178cec149f9e907af84072f1e2318b920187c9ee4202936b5796f6270"
+   "text_sha256": "218fb4630e0ea6bb5e6821c351b882d547c927e77d73ff53b930a02f55f29808"
   },
   {
    "key": "201",
@@ -2597,7 +2597,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "31f60b2dd24f11c7898a5a807f316a065d82adc95e93251d80a425a6d49710cb"
+   "text_sha256": "373a3bb25a23afe7c3c1d5ca9b9169f0c73bb15d63c58c4b3e1dfaca32baad9b"
   },
   {
    "key": "202",
@@ -2610,12 +2610,12 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "42f39fe102d256138f121300d0b3aa5fba04042c0d068e32745b1a3877c38f93"
+   "text_sha256": "d8725f62915744f9aec85a4d8fc7d51cb9dd7f6f072c027f6fac715579ac6025"
   },
   {
    "key": "203",
    "label": "203",
-   "heading": "Obligación de prestar servicios en horas suplementarias. —",
+   "heading": "Obligación de prestar servicios en horas suplementarias",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -2623,7 +2623,7 @@
     "CAPITULO I Jornada de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "66ef6aee16497cb960d2aa298a98054fb5994582ec63b64f0d66aa8c0b25f5a7"
+   "text_sha256": "6ad9d8f6a0a116a6951552ac1cd8dbc7ce4ed976b5a2e8a972cc717c549e6b3a"
   },
   {
    "key": "204",
@@ -2636,7 +2636,7 @@
     "CAPITULO II Del descanso semanal"
    ],
    "n_notes": 0,
-   "text_sha256": "ee79cdbb2364f32d5b5454988e1811fee84b296174efd708e2e3d8ec051db0a6"
+   "text_sha256": "43adb39383b312e0e3b315ad603627ac4fc082bb34095d641469f53815304623"
   },
   {
    "key": "205",
@@ -2649,7 +2649,7 @@
     "CAPITULO II Del descanso semanal"
    ],
    "n_notes": 0,
-   "text_sha256": "321a4db2c493076fac28261768faf46fd9900ec0d31a83bf6d8725026348e90a"
+   "text_sha256": "8c5541f6fbd17e72368e499f1e0f836deed39c73f2199b94d547f43f34b10c2e"
   },
   {
    "key": "206",
@@ -2662,7 +2662,7 @@
     "CAPITULO II Del descanso semanal"
    ],
    "n_notes": 0,
-   "text_sha256": "87bf4eed9c7a65ecdfd0c4d5145eef2a18cc711e2542ffb989bc3174f87fce13"
+   "text_sha256": "d25ad666fe4f8d8fff984ce9e317104f283d74c954df88fc75f8af2b37ebbaab"
   },
   {
    "key": "207",
@@ -2675,7 +2675,7 @@
     "CAPITULO II Del descanso semanal"
    ],
    "n_notes": 0,
-   "text_sha256": "06e4137be10af1f80e61db0a8cad0f6c33d95215a8f45eeac565f919a1b9e345"
+   "text_sha256": "9787abfec43003d0fc8d672b42ee35fad6bda41375013778237778d7d35a89e3"
   },
   {
    "key": "208",
@@ -2688,7 +2688,7 @@
     "CAPITULO I De los accidentes y enfermedades inculpables"
    ],
    "n_notes": 0,
-   "text_sha256": "8b4442b019d8becb9386f7c9c5f6dff9e367e53942718e167f85e0ff55c5409e"
+   "text_sha256": "ea16bd31e3d52565339ee4a855165ed336b7d0942ea2af96b188c9bed3c9ffe2"
   },
   {
    "key": "209",
@@ -2701,7 +2701,7 @@
     "CAPITULO I De los accidentes y enfermedades inculpables"
    ],
    "n_notes": 0,
-   "text_sha256": "1ecd139699dfc99fa9c6e4f7b5ca2ac8e6531de7d3e9da36d42589174f8f17fd"
+   "text_sha256": "6e2a52c9d7088c58caddaf93e739e379424d8ce6eaacdccf654415b99c3fdc03"
   },
   {
    "key": "210",
@@ -2714,7 +2714,7 @@
     "CAPITULO I De los accidentes y enfermedades inculpables"
    ],
    "n_notes": 0,
-   "text_sha256": "f6436018174bf9edd0123a87d54df72b78b523ccbc4d89af2598c979c54c7a0f"
+   "text_sha256": "7688f403253d028f3e4d5d08719d72ab4c27d8dd8c02dda06869d5efeb04969c"
   },
   {
    "key": "211",
@@ -2727,7 +2727,7 @@
     "CAPITULO I De los accidentes y enfermedades inculpables"
    ],
    "n_notes": 0,
-   "text_sha256": "3231b80cbd80265cb98b50d4b1c9b1239cca2f1751be902d3920387665af7d30"
+   "text_sha256": "dc0e58eef1f8e01a2a644a5b831855f4b2fcadf651355d685a6dc4737e2054e1"
   },
   {
    "key": "212",
@@ -2740,7 +2740,7 @@
     "CAPITULO I De los accidentes y enfermedades inculpables"
    ],
    "n_notes": 0,
-   "text_sha256": "aff20c847326f04ca30f7889cf42135b274253a16065950b759327603384eb9f"
+   "text_sha256": "bc4c311a835b3ee26c490221586659ec34ca4f2d5554bb11c896732fcb635cf1"
   },
   {
    "key": "213",
@@ -2753,7 +2753,7 @@
     "CAPITULO I De los accidentes y enfermedades inculpables"
    ],
    "n_notes": 0,
-   "text_sha256": "eef20bfbe9b944d4610b9fecf70306ccc51a0db8c8f61e06afca0a7e2e316cbc"
+   "text_sha256": "5fefaeb8a009ab0b8b9290cc53f855b01085a4f3a9d757f5c379f0a71abe9ed0"
   },
   {
    "key": "214",
@@ -2766,7 +2766,7 @@
     "CAPITULO II Servicio militar y convocatorias especiales"
    ],
    "n_notes": 0,
-   "text_sha256": "1f9dc318310a5041d496073068d2bf98856c25d0a6385fe36c39501365e4fbb7"
+   "text_sha256": "869e79cf9b62807a1288e3c393395a18be65537f456f07062fdbf5b94b33809f"
   },
   {
    "key": "215",
@@ -2779,7 +2779,7 @@
     "CAPITULO III Del desempeño de cargos electivos"
    ],
    "n_notes": 0,
-   "text_sha256": "18fde3a58cfd75debb86c053c8bc2a2adf330c5dc291e4f8ffa7ec5c56ab43ba"
+   "text_sha256": "fa7c031706370137c24e9b589172937c76bc00f355335034727b9a2a1c66ea57"
   },
   {
    "key": "216",
@@ -2792,20 +2792,20 @@
     "CAPITULO III Del desempeño de cargos electivos"
    ],
    "n_notes": 0,
-   "text_sha256": "ecce9ab6a97df3c83cf361be6a61cfbd098eadbea8a91f3005885d423376991d"
+   "text_sha256": "2f901b54a06a7e4fcfc4a28c229c928f1b74c0091295011a99ce815dfe27a148"
   },
   {
    "key": "217",
    "label": "217",
-   "heading": "Reserva del empleo. Cómputo como tiempo de servicio. Fuero",
+   "heading": "Reserva del empleo. Cómputo como tiempo de servicio. Fuero sindical",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO X De la suspensión de ciertos efectos del contrato de trabajo",
-    "CAPITULO IV Del desempeño de cargos electivos o"
+    "CAPITULO IV Del desempeño de cargos electivos o representativos en asociaciones profesionales de trabajadores con personería gremial o en organismos o comisiones que requieran representación sindical"
    ],
    "n_notes": 0,
-   "text_sha256": "1b32778f183bf2b407798be23cfa17a5fa40fcda35de8fef2f3a05af57faf264"
+   "text_sha256": "b17d8f037543bc66c2ffa4d80b436655ed067ddbc5f10137e12005bc4e958a2b"
   },
   {
    "key": "218",
@@ -2818,7 +2818,7 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "829fb63a51719de000c6a75b3703ff7e36805039b74093f868e02f6101a00fbc"
+   "text_sha256": "ed52900354615c6df7f01c592ae2247532f09e9aa37698e8dd064a31e072925e"
   },
   {
    "key": "219",
@@ -2831,7 +2831,7 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "19b0eebbc2007e8048e20437b0e0f28a4bef2bc08f7545674c448dcf6c0f9019"
+   "text_sha256": "cf8d6cfe8be44a8972435614a77d41221c5ecbf1eb1587e2c924657f4dd5eac8"
   },
   {
    "key": "220",
@@ -2844,7 +2844,7 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "c9416bd832fe94fa5432ea77a071326ba1ac14ac09d744a52fc97d145de62d25"
+   "text_sha256": "cd2b6466b16ead77e9e287f12d70be492ecd31eddd33ea77eabcf608b80cbdb9"
   },
   {
    "key": "221",
@@ -2857,7 +2857,7 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "9f1976a26b7f43fa73400d89dd467fcbd19197853b66a5216e42fe34058230dd"
+   "text_sha256": "21447812db0a5f7cfc2e773f18a3262e957f2698b1776956bd8f3a3a9b18dcd9"
   },
   {
    "key": "222",
@@ -2870,7 +2870,7 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "29a402103a4fcf4ae7fb1dfc57d8666ba51b9fa4a520c86f9bfe82ecd5a2163d"
+   "text_sha256": "436c9d1080ae12fde511393a541a9632fa63e6ab26f343b0cabe5b2f05fcc62c"
   },
   {
    "key": "223",
@@ -2883,12 +2883,12 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "b2e784da63d38efebe2217dc969c563adccd4860e16d4a33edb7536844bc9166"
+   "text_sha256": "70f15be616a14b0c5b7cb41c3d74186b96a91c94b22cef978d1bc3d3c78d3862"
   },
   {
    "key": "224",
    "label": "224",
-   "heading": "Suspensión preventiva. Denuncia del empleador y de",
+   "heading": "Suspensión preventiva. Denuncia del empleador y de terceros",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -2896,7 +2896,7 @@
     "CAPITULO V De las suspensiones por causas económicas y disciplinarias"
    ],
    "n_notes": 0,
-   "text_sha256": "2f49d2a1af9199278bb27d9d468ae817007c579336eb269677ac9bbeac756e95"
+   "text_sha256": "3d2169268196963e0b35f4b965d60b5a108cc3c7b7c49cf1ca4ec4ecb5af6aaa"
   },
   {
    "key": "225",
@@ -2908,7 +2908,7 @@
     "TITULO XI De la transferencia del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "5b70d2bbd186b1813634c3ce8bba5506a0ff86015f885742df6cb2906e91af9a"
+   "text_sha256": "30cec0704ad91c4a2c88ade5dc7a9fbd1262a9bc61b185a20e29448daaf9a6ed"
   },
   {
    "key": "226",
@@ -2920,19 +2920,19 @@
     "TITULO XI De la transferencia del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "3af0c29bbcd039cd06ebd00cba54da4e388818cfaee9822da2f30e68a16ec24d"
+   "text_sha256": "3e499e353f919bcbfafd117dcfa10d47e0e3f85103d9a8f455370c6be99afc55"
   },
   {
    "key": "227",
    "label": "227",
-   "heading": "Arrendamiento o cesión transitoria del establecimiento. —",
+   "heading": "Arrendamiento o cesión transitoria del establecimiento",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
     "TITULO XI De la transferencia del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "98f1cc5963a77ce42d5157de06e8bbe672277a337a71dbb5abf09aa75bf95e2a"
+   "text_sha256": "d5e351bf34ea55c752914f23cc8649a0d21500e769eeffcc2e7e1c8bdea02644"
   },
   {
    "key": "228",
@@ -2944,7 +2944,7 @@
     "TITULO XI De la transferencia del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "5eba8e743a521574f3692fbb25c6916d47f369f70c99640724b1bcd1036809f6"
+   "text_sha256": "e9c74f6ede8421f5787e993c1b4434effe621156e4e494b28ce1cabea39b0ef5"
   },
   {
    "key": "229",
@@ -2956,7 +2956,7 @@
     "TITULO XI De la transferencia del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "524e17c895d16f12bc7187112ceaf9c25c1d05e5b7c5a003f35f4a647a3dc2fc"
+   "text_sha256": "1bc0e7c6d60acb2ba23a95abee381a9a52674394124c8b9f95350828ea54a774"
   },
   {
    "key": "230",
@@ -2968,7 +2968,7 @@
     "TITULO XI De la transferencia del contrato de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "aa8f0f8bde1da1c06c0893ef569a9beff8437ace65426f793d1248ba121bcec7"
+   "text_sha256": "9bb7a3ca6d25827cd644865682597d684d0a69756e486ef1a8490841715b1489"
   },
   {
    "key": "231",
@@ -2981,7 +2981,7 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "398d35862d0fea1eca6ebaf441e3b894ec0fff8caa9857365c50520def7f63a2"
+   "text_sha256": "5c9953b3ba22e6703037a022e979dc4482559de811a8041407b80ed0c320888a"
   },
   {
    "key": "232",
@@ -2994,12 +2994,12 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "61e8211426a672d40245f34b25d6af9e685b43eb8ded57f7996e8bd284fcfeb3"
+   "text_sha256": "9e2d814285c83b7afc4c6d5f5809b5887958cbadb72f6004d57a686c7d2172c5"
   },
   {
    "key": "233",
    "label": "233",
-   "heading": "Comienzo del plazo. Integración de la indemnización con los",
+   "heading": "Comienzo del plazo. Integración de la indemnización con los salarios del mes del despido",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -3007,7 +3007,7 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "14b115bb46a34d966a94fbc9f37d8c35ccad75424fa1e18edce865fb7656a209"
+   "text_sha256": "b2091952b94680c6d9236f83d9c1cdbdb7179aebbe40daa5ace0349dccc04c03"
   },
   {
    "key": "234",
@@ -3038,7 +3038,7 @@
   {
    "key": "236",
    "label": "236",
-   "heading": "Extinción. Renuncia al plazo faltante. Eximición de la",
+   "heading": "Extinción. Renuncia al plazo faltante. Eximición de la obligación de prestar servicios",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -3046,7 +3046,7 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "2b7f21d1dc84a3720ddf7239226c0a19336e95e5485fb34e717777a81e80334c"
+   "text_sha256": "b153d6ce6b99820ca7265c94a252a9a946cbc2daddab0ab862518bd327dc7dce"
   },
   {
    "key": "237",
@@ -3059,7 +3059,7 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "a98767ce57cb0d6192aa04f441af9b449f78de5d3b879047c4535242f5374279"
+   "text_sha256": "33515283c34502792e67b1f74be4be4f87d4a85d05978e31573325e04824ac76"
   },
   {
    "key": "238",
@@ -3072,7 +3072,7 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "6ea864a910f6021e3c1348d448f4d0049412f67b32a4c817aa5681660ff1a1cf"
+   "text_sha256": "d1ab9adc371fdba31cf46a9981cf0b31d69ecf855cbbd04ad6ad8eddf0331caf"
   },
   {
    "key": "239",
@@ -3085,7 +3085,7 @@
     "CAPITULO I Del preaviso"
    ],
    "n_notes": 0,
-   "text_sha256": "1c5aaa99300e6c955d786db2ba18d0ea9a1d9dc3ecb3c476672dd8a994e4015a"
+   "text_sha256": "44eaf46e077a0b8bc7f95c6b3f89291ea26aa81609d075993685f285710d7b94"
   },
   {
    "key": "240",
@@ -3098,7 +3098,7 @@
     "CAPITULO II De la extinción del contrato de trabajo por renuncia del trabajador"
    ],
    "n_notes": 0,
-   "text_sha256": "0a86c3f51c7e2d1b32a3641d08767169f919089dc25196bcefbc9b70875eba6e"
+   "text_sha256": "4d05c0dcaa7cb890e1d2dde4e9101b9f1abbd0e24e64dccc2efaf4afa317c778"
   },
   {
    "key": "241",
@@ -3111,7 +3111,7 @@
     "CAPITULO III De la extinción del contrato de trabajo por voluntad concurrente de las partes"
    ],
    "n_notes": 0,
-   "text_sha256": "e641efc8e003dae1cbe4fcf662eb03cdd7b9edb13576e50f5aa0b40cbf2f4fad"
+   "text_sha256": "35b9bf3bc3f6bb302e903f0b1f8a54706ae9778519c59ce259513ead3a9ae638"
   },
   {
    "key": "242",
@@ -3124,7 +3124,7 @@
     "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
    ],
    "n_notes": 0,
-   "text_sha256": "1dbc111b84c46c589a14dbd4ba150c62603fa06a95228a734e6eadace7ac40a2"
+   "text_sha256": "634d4ca5c7c998585a3d14f1bb95c41087adc80484c4178b1a8ab8d7a613d5a3"
   },
   {
    "key": "243",
@@ -3137,7 +3137,7 @@
     "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
    ],
    "n_notes": 0,
-   "text_sha256": "ee04c60bcc5dcf6953776a076850d8f81466987c41f9e1f1410fca5d5eea560a"
+   "text_sha256": "f14e39f30615512d7d4e8b7f4fb75a40818c998581466e173918dccb5665084b"
   },
   {
    "key": "244",
@@ -3150,7 +3150,7 @@
     "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
    ],
    "n_notes": 0,
-   "text_sha256": "d4205f49987844943962bed93d427cd461ab78e2f5ef46f260ed3fc259ce813f"
+   "text_sha256": "d9b2a0af09e3708cd3313096acf59d7cc6d07b9bd062f57dab156f7116dc13b6"
   },
   {
    "key": "245",
@@ -3163,7 +3163,7 @@
     "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
    ],
    "n_notes": 0,
-   "text_sha256": "4968741146585943ed151e33827ca02f6e1ac71035fab04f1d17e7b7c3d9baed"
+   "text_sha256": "ba9534b1293be229490c11996228fd191675384a139c92956a0ff8fc2fe93aa6"
   },
   {
    "key": "246",
@@ -3176,7 +3176,7 @@
     "CAPITULO IV De la extinción del contrato de trabajo por justa causa"
    ],
    "n_notes": 0,
-   "text_sha256": "c6844a935bf37977d2903804ed8a347708e1b966cdf66193827dac33285e213e"
+   "text_sha256": "dabacad88f8ba53c9facb58c929d44af46feb76bab4235596d7c6ecce85e417b"
   },
   {
    "key": "247",
@@ -3189,7 +3189,7 @@
     "CAPITULO V De la extinción del contrato de trabajo por fuerza mayor o por falta o disminución de trabajo"
    ],
    "n_notes": 0,
-   "text_sha256": "334be9421fecdd5fed19c0a83e227e97af2d92203d8df019b230323ae32fd1e8"
+   "text_sha256": "eddec1cf883aa7a59ae71e793f6d9a5bcd9418ebec86ee04ac7cd870fb3a7b2a"
   },
   {
    "key": "248",
@@ -3202,7 +3202,7 @@
     "CAPITULO VI De la extinción del contrato de trabajo por muerte del trabajador"
    ],
    "n_notes": 0,
-   "text_sha256": "f88f2231daa68bd4468cf53f3ba346713aaf15e22e01f9bbf3367a9a75f5d844"
+   "text_sha256": "757187257bfec173be04aa1b8e37d3e81cb5cc4d6fd0061baa1c3c6c8defe0b4"
   },
   {
    "key": "249",
@@ -3215,7 +3215,7 @@
     "CAPITULO VII De la extinción del contrato de trabajo por muerte del empleador"
    ],
    "n_notes": 0,
-   "text_sha256": "b8b8bbd615f3b310a96a6287e56b487d8e9283d820f6e69cec1e5d55499d67dc"
+   "text_sha256": "9e94a3b9917592a78b4ccc0683e124d8bee0d5372415c38c5e02bd5a66ec1b55"
   },
   {
    "key": "250",
@@ -3228,12 +3228,12 @@
     "CAPITULO VIII De la extinción del contrato de trabajo por vencimiento del plazo"
    ],
    "n_notes": 0,
-   "text_sha256": "88b34ef97760aefbc1bf57d02f7520e7b369ab95cf7eed4948b44d23c721129b"
+   "text_sha256": "a950a20809cb7ec6e61b101188369bdafc4c8d468aed2f2f3c5c18e4d10c0242"
   },
   {
    "key": "251",
    "label": "251",
-   "heading": "Calificación de la conducta del empleador. Monto de la",
+   "heading": "Calificación de la conducta del empleador. Monto de la indemnización",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -3241,7 +3241,7 @@
     "CAPITULO IX De la extinción del contrato de trabajo por quiebra o concurso del empleador"
    ],
    "n_notes": 0,
-   "text_sha256": "b62ee938663f3008cb8f24a4aed7e6b4716252d08ffb1d65089986c353478da3"
+   "text_sha256": "fcf359c3e4c79adc204d87f52d3de0902bfb7e8a88ca0b1b67373cd2e2a6d733"
   },
   {
    "key": "252",
@@ -3254,7 +3254,7 @@
     "CAPITULO X De la extinción del contrato de trabajo por jubilación del trabajador"
    ],
    "n_notes": 0,
-   "text_sha256": "1195a83e759b6236d27a8e8dee4a2325c7abd427dac8c96394983a0286b27e04"
+   "text_sha256": "d87a6fabc221cd43c9a38633c91f5ecb70cba1bf3bc7cdab50621d54f59a8db9"
   },
   {
    "key": "253",
@@ -3267,12 +3267,12 @@
     "CAPITULO X De la extinción del contrato de trabajo por jubilación del trabajador"
    ],
    "n_notes": 0,
-   "text_sha256": "62c989aa796df09b8a70571a19cf70d259ec248bba0c4ced01b15b720a99a226"
+   "text_sha256": "9cccbe9e249ae21a79c43fa75de401a5aac4d04565aa81267c085c9430e76275"
   },
   {
    "key": "254",
    "label": "254",
-   "heading": "Incapacidad e inhabilidad. Monto de la indemnización. —",
+   "heading": "Incapacidad e inhabilidad. Monto de la indemnización",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -3280,12 +3280,12 @@
     "CAPITULO XI De la extinción del contrato de trabajo por incapacidad o inhabilidad del trabajador"
    ],
    "n_notes": 0,
-   "text_sha256": "8107f201961d42725173b869f2f341252d7574297f1c835a411bb3bde17141cc"
+   "text_sha256": "d28b58182ab7de84b38c1c605e15bd4609594f1c327b66470183c14952260d18"
   },
   {
    "key": "255",
    "label": "255",
-   "heading": "Reingreso del trabajador. Deducción de las Indemnizaciones",
+   "heading": "Reingreso del trabajador. Deducción de las Indemnizaciones percibidas",
    "status": "vigente",
    "annex": "ANEXO",
    "sections": [
@@ -3293,7 +3293,7 @@
     "CAPITULO XII Disposición común"
    ],
    "n_notes": 0,
-   "text_sha256": "b721e40794dff790f0aafde06919d407d0a9bd37a9a3ac439d09e3a9497e1c03"
+   "text_sha256": "3b281145f345f9da2c5e0ef590934c5a52d7e4bcd77510061d0a06e0a7e9e340"
   },
   {
    "key": "256",
@@ -3305,7 +3305,7 @@
     "TITULO XIII De la prescripción y caducidad"
    ],
    "n_notes": 0,
-   "text_sha256": "051e5bd177a3258927d1dbb5778d315d586c5a8704cc820752e243870549ae8b"
+   "text_sha256": "4651ad58d148b050381fe80a5fe194a755587ecc2f428b576657241739424b3f"
   },
   {
    "key": "257",
@@ -3317,7 +3317,7 @@
     "TITULO XIII De la prescripción y caducidad"
    ],
    "n_notes": 0,
-   "text_sha256": "3c7901b15effb82ae7405590d695a9bdaf5bce7bf20e595b69b298e2a287b1dc"
+   "text_sha256": "e6ff61eef71e85d0ed523ab994021b59521112c56cc85f9dd434b26c71fa53f0"
   },
   {
    "key": "258",
@@ -3329,7 +3329,7 @@
     "TITULO XIII De la prescripción y caducidad"
    ],
    "n_notes": 0,
-   "text_sha256": "f22a4b9b8de78f66fabc5a73cd8d6b609103d179aa3e9722456378b8acf894ee"
+   "text_sha256": "3ec017b467286dccea91a2f7195aaa7885853dece75cd6b8c15f67c589e9bd5f"
   },
   {
    "key": "259",
@@ -3353,7 +3353,7 @@
     "TITULO XIII De la prescripción y caducidad"
    ],
    "n_notes": 0,
-   "text_sha256": "f4c381e4c6c55646d6a6d5c50857b08d519dd2a5c925fe0660efe98279266f50"
+   "text_sha256": "0da84733814a64a00a683fd2b123873192854b5c50c9ef6e785e7abea79a9946"
   },
   {
    "key": "261",
@@ -3366,7 +3366,7 @@
     "CAPITULO I De la preferencia de los créditos laborales"
    ],
    "n_notes": 0,
-   "text_sha256": "00fce9ea4b8401b9419c1b4df9f57ee56a953d93ae50ea3e1ff09a939f601c37"
+   "text_sha256": "b1925205a494f4dcfa4c023015438f23899fc5fcdcd2704dde70175e7aaa463c"
   },
   {
    "key": "262",
@@ -3392,7 +3392,7 @@
     "CAPITULO I De la preferencia de los créditos laborales"
    ],
    "n_notes": 0,
-   "text_sha256": "4e54c41d430d06c065503137a8a14fadceb7b8201a236988168874a2091fbee7"
+   "text_sha256": "6ea15b32446c15cf9a66f2af7fc171167bbdcb47e40f25bbeee80881edf55790"
   },
   {
    "key": "264",
@@ -3418,7 +3418,7 @@
     "CAPITULO I De la preferencia de los créditos laborales"
    ],
    "n_notes": 0,
-   "text_sha256": "9d73036b31b391f672c80edf56cd0306fb056b82ac631f5b913c6223fdf3d84f"
+   "text_sha256": "35a871202865ec1ac7d770ff82006f58f7cf16ee0f43fe49167ee8bd30c9f669"
   },
   {
    "key": "266",
@@ -3431,7 +3431,7 @@
     "CAPITULO I De la preferencia de los créditos laborales"
    ],
    "n_notes": 0,
-   "text_sha256": "1cc7fa8e75d5f7766be277c4ec15a9e3d107bb161d6c8900fa7e64e53a32e555"
+   "text_sha256": "ad206b9185ea3917e230b6f34229ddd17547303796016f888bb2f3b2eef3971a"
   },
   {
    "key": "267",
@@ -3444,7 +3444,7 @@
     "CAPITULO I De la preferencia de los créditos laborales"
    ],
    "n_notes": 0,
-   "text_sha256": "1248b93cde00d1fc53e6601d01390df03de37e757542cb4f81aaf87c27ff7d9e"
+   "text_sha256": "9619d5b3f9af291a7abe0e72309917a63cefa46b86ae8ca70014105fa2f5fe4b"
   },
   {
    "key": "268",
@@ -3457,7 +3457,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "00526252c7019b644d9501dfabb7ca0b2f8e36babce13e78652ceb835f630e86"
+   "text_sha256": "a7695b2f3ac236ff85a67c5da4f7673920c5638b8a028f4863dbbbefc7b5be8c"
   },
   {
    "key": "269",
@@ -3470,7 +3470,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "a1c9f30300f2ac9961d35f0ff390ad58dc2f039f1d3d7e22c94b8e805ea915f9"
+   "text_sha256": "b4ee69246cdb0cbaf0c713b96972e2f3a49eb8c970a8301785ec7d5d3c7be767"
   },
   {
    "key": "270",
@@ -3483,7 +3483,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "0ce11746b99732ae7d793b816d874d2e913e146b578b207594b334cd5a445572"
+   "text_sha256": "afdf568b0b0eec3c3804f765d042df9ba82fdda4f7663f50fba433adec0ea91e"
   },
   {
    "key": "271",
@@ -3496,7 +3496,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "38a1434b6711aa65a49fd68dbe2cdc8b2af5c0e9ed3c8acd99ae2cd9468c6a68"
+   "text_sha256": "876fa640171e395cb126b54be11e2783aa0ac64b0e47f3cd941101cfb1907a45"
   },
   {
    "key": "272",
@@ -3509,7 +3509,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "b982bd9b9d5ff75a1a20ff667589af6617a93f614aad3c03f8cb9427837d58ff"
+   "text_sha256": "24e48738fcc31b56294bd592282c6e639ba1bd254c9b4d2b1bce3348d0524c4c"
   },
   {
    "key": "273",
@@ -3522,7 +3522,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "769d83d838a47421bc4904780e2404b07c2826514bcf07c7baab9a1a2dc3ebf4"
+   "text_sha256": "17d2aafc63115950993661492ca535aa71fceda8533a2937485c5ac02c1c631f"
   },
   {
    "key": "274",
@@ -3535,7 +3535,7 @@
     "CAPITULO II De las clases de privilegios"
    ],
    "n_notes": 0,
-   "text_sha256": "2df7d240017834d75b90e0793f30a517bce4d9e5871dc93804cd4061568b555c"
+   "text_sha256": "76991589207ca83f722fc4c0bc408ca7c39930c29b2265d0f60a5ea14e75f4a0"
   },
   {
    "key": "275",
@@ -3547,7 +3547,7 @@
     "TITULO XV Disposiciones complementarias"
    ],
    "n_notes": 0,
-   "text_sha256": "09cacc2c4d13ac0f31189264fe9b16cb62c0f1b914ff2c4f496dc294f6620e56"
+   "text_sha256": "6c752c1b42dd90f98453df0253142751e220cf9f00b578b8d4da8288ed8fd856"
   },
   {
    "key": "276",
@@ -3559,7 +3559,7 @@
     "TITULO XV Disposiciones complementarias"
    ],
    "n_notes": 0,
-   "text_sha256": "465e8add0266a6c48aec776b0e1314d0e361a526c8b5b3d95304bd05aa395396"
+   "text_sha256": "eb7461694953bd0f97409b7f556841d89cfddee4ae8174145e596fbe6a30f0f8"
   },
   {
    "key": "277",
@@ -3571,7 +3571,7 @@
     "TITULO XV Disposiciones complementarias"
    ],
    "n_notes": 0,
-   "text_sha256": "b44d012a86305873e11ce115eaaca2ac1f6898211f7184e8428de4762b95e1c8"
+   "text_sha256": "98a8f8e2e8fae30b3c5e1b2291a623292389365b32631bcabf757c916c19545b"
   }
  ],
  "n_annexes": 1,

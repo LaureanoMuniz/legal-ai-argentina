@@ -86,9 +86,9 @@ def parse_vinculos(raw: bytes, self_id: int, direction: str) -> list[Relation]:
         if id_match is None or len(cells) < 3:
             continue
         other_id = int(id_match.group(1))
-        who = html_to_lines(cells[0])
-        when = html_to_lines(cells[1])
-        what = html_to_lines(cells[2])
+        who = html_to_lines(cells[0], keep_source_newlines=True)
+        when = html_to_lines(cells[1], keep_source_newlines=True)
+        what = html_to_lines(cells[2], keep_source_newlines=True)
         descripcion = what[1] if len(what) > 1 else (what[0] if what else None)
         source, target = (self_id, other_id) if direction == "modifica" else (other_id, self_id)
         relations.append(

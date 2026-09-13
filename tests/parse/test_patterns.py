@@ -178,3 +178,41 @@ def test_markers():
     )
     assert is_closing("Comuníquese al Poder Ejecutivo Nacional.")
     assert not is_closing("El empleador deberá comunicar el despido por escrito.")
+
+
+def test_hierarchy_name_without_separator_and_inline_split():
+    from legal_ai.parse.patterns import match_hierarchy, split_hierarchy_line
+
+    section = match_hierarchy("CAPITULO II Del descanso semanal.")
+    assert section is not None and section.number == "II" and section.name == "Del descanso semanal"
+    assert match_hierarchy("TITULO II de la Ley 20.744 establece que el contrato") is None
+    assert split_hierarchy_line("TITULO II Del contrato de trabajo CAPITULO I Del contrato") == [
+        "TITULO II Del contrato de trabajo",
+        "CAPITULO I Del contrato",
+    ]
+    assert split_hierarchy_line("TEXTO ORDENADO DEL REGIMEN TITULO I Disposiciones Generales") == [
+        "TEXTO ORDENADO DEL REGIMEN",
+        "TITULO I Disposiciones Generales",
+    ]
+    assert split_hierarchy_line("conforme al TITULO II de esta ley y al CAPITULO I") == [
+        "conforme al TITULO II de esta ley y al CAPITULO I"
+    ]
+
+
+def test_heading_followed_by_sentence_without_dash():
+    from legal_ai.parse.patterns import match_article
+
+    header = match_article(
+        "Art. 32. —Capacidad. Las personas desde los dieciocho (18) años, pueden celebrar contrato."
+    )
+    assert header is not None and header.heading == "Capacidad"
+    assert header.body.startswith("Las personas")
+    header = match_article(
+        "Art. 133. —Porcentaje máximo de retención. Conformidad del trabajador. Autorización administrativa."
+    )
+    assert (
+        header is not None
+        and header.heading
+        == "Porcentaje máximo de retención. Conformidad del trabajador. Autorización administrativa"
+    )
+    assert header.body == ""

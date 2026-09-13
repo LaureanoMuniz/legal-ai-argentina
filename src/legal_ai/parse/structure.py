@@ -11,10 +11,12 @@ from legal_ai.parse.patterns import (
     match_annex,
     match_article,
     match_hierarchy,
+    split_hierarchy_line,
 )
 
 _ORDER = ["LIBRO", "TITULO", "CAPITULO", "SECCION"]
 _QUOTE_INTRO_RE = re.compile(r":\s*[\"“«'‘]?\s*$")
+_SECTION_NOTE_RE = re.compile(r"\s*\([^()]*\)\s*$")
 _INDEX_RE = re.compile(r"^[IÍ]NDICE\b")
 
 
@@ -211,8 +213,8 @@ class _Builder:
             return
         if header is not None and not self.quoting:
             self.warnings.append(f"cross-reference-like header ignored: {line}")
-        if self.pending_section is not None and len(line) <= 120:
-            self.pending_section.name = line
+        if self.pending_section is not None and len(line) <= 250:
+            self.pending_section.name = _SECTION_NOTE_RE.sub("", line).strip(" .")
             self.pending_section = None
             return
         if self.header is not None and not self.closed:
@@ -268,7 +270,8 @@ def _propagate_container_notes(articles: list[ParsedArticle]) -> list[str]:
 def parse_text(lines: list[str]) -> ParsedText:
     builder = _Builder()
     for line in lines:
-        builder.feed(line)
+        for part in split_hierarchy_line(line):
+            builder.feed(part)
     parsed = builder.build()
     parsed.warnings.extend(_propagate_container_notes(parsed.articles))
     return parsed
