@@ -309,6 +309,14 @@ def bench_generate(
     typer.echo(f"escrito: {path}")
 
 
+@app.command("mcp")
+def mcp_serve() -> None:
+    """Levanta el servidor MCP por stdio (search_laws, get_article, get_law_version, ...)."""
+    from legal_ai.mcp_server import main
+
+    main()
+
+
 def _reranker(settings: "Settings", flag: bool | None) -> "Reranker | None":
     from legal_ai.retrieval.rerank import BgeReranker, get_reranker
 
