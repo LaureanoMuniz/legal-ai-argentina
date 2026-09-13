@@ -136,6 +136,12 @@ con su fecha y su archivo en `experiments/`, están en `docs/ROADMAP.md`; las
 decisiones en `docs/DECISIONS.md`; lo que salió mal y cómo se arregló en
 `docs/BITACORA.md`.
 
+Números finales sobre 50 preguntas (detalle y archivos en el roadmap):
+retrieval hit@8 0,91 y nDCG@8 0,72 (desde 0,77 / 0,60 en la Fase 3), las 6
+preguntas con fecha con la versión correcta, generación con 0,96 de
+afirmaciones sostenidas por sus fuentes según un juez, 0 citas inventadas y
+abstención en las 6 preguntas sin respuesta en el corpus.
+
 Lo que falta es lo que no se puede hacer sin gente: etiquetas de abogados
 sobre las respuestas (la interfaz ya las guarda) y un benchmark revisado por
 ellos.

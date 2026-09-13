@@ -52,3 +52,6 @@ visibles cuando la hubo.
 | 40 | 12 | El agente agotó los reintentos de salida en una pregunta y tiró toda la corrida | Traceback | Error por pregunta registrado como abstención con marca | Un benchmark no se corta por un caso |
 | 41 | 13 | Colima no pudo extraer la imagen de Phoenix (`unpigz: input/output error`) | `docker compose up` | Compose y exportador quedan documentados; la validación con backend OTLP queda pendiente en esta máquina | El entorno también falla |
 | 42 | 9 | 337 originales sin fecha de cierre convivían con su vigente (misma fecha, texto con diferencias de transcripción): 248 chunks duplicados en el índice "sólo vigente" | Búsqueda que devolvía @original y @current del mismo artículo | Se indexa el original sólo si fue reemplazado de verdad | Un flag en la fila equivocada (el vigente sabe si cambió, el original no) |
+| 43 | 12 | La respuesta final del agente llegaba sin `claims`: la llamada de salida se cortaba por `max_tokens` (6 de 20 preguntas) | Mensajes capturados con `capture_run_messages` | Presupuesto de 8.000 tokens de salida y `answer` breve; quedó 1 error en 20 | Mirar los mensajes del reintento, no sólo la excepción |
+| 44 | 9 | Quitar los 248 chunks duplicados no mejoró las métricas (MRR bajó 0,04) | Benchmark final | Se documentó como ruido entre corridas | Arreglar datos y medir igual, aunque no sume |
+

@@ -23,6 +23,27 @@ sin medir la actual.
 | 14 | Evaluación humana (abogados) | interfaz de etiquetado, dataset, regresiones | hecha la interfaz; faltan las etiquetas |
 | 15 | MCP server | `search_laws`, `get_article`, `get_law_version`, `find_related_legislation` | hecha |
 
+## Resumen final (2026-09-13)
+
+Sobre el corpus laboral (933 normas, 11.365 artículos, 15.430 versiones de
+las cuales 57 reconstruidas, 11.066 chunks), con el default
+`hybrid + reescritura Sonnet 5 + multi-query` sobre el índice temporal:
+
+| Qué | Valor | De dónde |
+|---|---|---|
+| Retrieval, 44 preguntas puntuables, k = 8 | hit@8 0,91 · recall@8 0,86 · MRR 0,73 · nDCG@8 0,72 | `phase9b-final-hybrid` |
+| Temporales con la versión correcta para la fecha | 6 / 6 | ídem |
+| Generación (Opus 5), 50 preguntas | 0,96 afirmaciones sostenidas · 0 citas fuera del contexto · abstención 6/6 sin respuesta · abstención falsa 0,03 | `phase8-opus5-generation-final` |
+| Latencia y costo por pregunta (Opus) | p50 14.3 s · $0.065 | ídem |
+| Con Sonnet 5 como generador | 0,92 sostenidas · p50 7,7 s · $0,036 | `phase8-sonnet5-generation-temporal` |
+| Punto de partida (Fase 3, vector solo) | hit@8 0,77 · nDCG@8 0,60 | `phase4-bgem3` |
+
+Fallos que quedan en retrieval: dos preguntas en negativo (arts. 242/244 y
+12), un artículo derogado sin texto en el corpus y una pregunta "puntero"
+sobre qué ley sustituyó al 92 bis. Lo que falta para hablar de exactitud
+jurídica: etiquetas de abogados sobre estas respuestas (la interfaz las
+guarda).
+
 ## Fase 1 en detalle
 
 1. Descargar los tres ZIP de datos.jus.gob.ar a `data/raw/infoleg/catalog/<fecha>/` con hash y manifest.
@@ -485,6 +506,14 @@ cita y dicta `supported`, `partial` o `unsupported`. Corrida del 2026-09-13,
 | temporal | 6 | 4 | 1,00 | 0,00 | 1,00 | 1,00 |
 
 Afirmaciones no sostenidas: [('b06', 1), ('b12', 2)].
+
+Corrida final (Opus 5, índice temporal definitivo, 2026-09-13):
+respondió 39 y se abstuvo en 11 (6 sin respuesta en el corpus + 5 con
+evidencia que el modelo juzgó insuficiente); 247 afirmaciones, 0,96
+sostenidas y 0,02 parciales; citó el artículo esperado en 1,00 de
+las respuestas; abstención falsa 0,03; 0 citas fuera del
+contexto; p50 14.3 s; $3.23. Reporte:
+`experiments/2026-09-13-phase8-opus5-generation-final.json`.
 
 Comparación de generadores (mismo juez Sonnet 5, mismo retriever):
 
