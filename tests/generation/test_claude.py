@@ -63,7 +63,7 @@ def test_generate_passes_schema_prompt_and_context_and_validates_sources():
     )
     call = messages.calls[0]
     assert call["model"] == "claude-opus-5" and call["output_format"] is GroundedAnswer
-    assert call["cache_control"] == {"type": "ephemeral"}
+    assert call["system"][0]["cache_control"] == {"type": "ephemeral"}
     assert "[25552:92bis@current]" in call["messages"][0]["content"]
     assert generation.answer.answer == "Seis meses."
     assert generation.unsupported_sources == ["25552:999@current"]

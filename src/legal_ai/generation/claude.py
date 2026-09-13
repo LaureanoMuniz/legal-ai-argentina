@@ -37,8 +37,9 @@ class ClaudeGenerator:
         response = self._client.messages.parse(
             model=self.model,
             max_tokens=4096,
-            system=SYSTEM_PROMPT,
-            cache_control={"type": "ephemeral"},
+            system=[
+                {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}
+            ],
             messages=[{"role": "user", "content": message}],
             output_format=GroundedAnswer,
         )

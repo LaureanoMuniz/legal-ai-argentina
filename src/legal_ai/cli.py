@@ -8,6 +8,7 @@ from legal_ai.parse.cli import run as parse_run
 
 if TYPE_CHECKING:
     from legal_ai.retrieval.rerank import Reranker
+    from legal_ai.retrieval.rewrite import Rewriter
     from legal_ai.settings import Settings
 
 app = typer.Typer(help="Legal AI Argentina: herramientas de ingestion, indexado y evaluación.")
@@ -30,6 +31,7 @@ def search(
     dedupe: Annotated[bool, typer.Option("--dedupe/--no-dedupe")] = False,
     rerank: Annotated[bool | None, typer.Option("--rerank/--no-rerank")] = None,
     pool: Annotated[int | None, typer.Option("--pool")] = None,
+    rewrite: Annotated[bool | None, typer.Option("--rewrite/--no-rewrite")] = None,
 ) -> None:
     """Búsqueda: muestra los k chunks mejor rankeados con su score."""
     from legal_ai.db.engine import make_engine
@@ -45,6 +47,7 @@ def search(
         dedupe=dedupe,
         reranker=_reranker(settings, rerank),
         pool=pool or settings.rerank_pool,
+        rewriter=_rewriter(settings, rewrite),
     )
     searcher.require_index()
     for c in searcher.search(query, k):
@@ -150,6 +153,7 @@ def bench_run(
     dedupe: Annotated[bool, typer.Option("--dedupe/--no-dedupe")] = False,
     rerank: Annotated[bool | None, typer.Option("--rerank/--no-rerank")] = None,
     pool: Annotated[int | None, typer.Option("--pool")] = None,
+    rewrite: Annotated[bool | None, typer.Option("--rewrite/--no-rewrite")] = None,
 ) -> None:
     """Benchmark de retrieval: recall@k, MRR, nDCG y hit@k por categoría (eval/benchmark.jsonl)."""
     from pathlib import Path
@@ -160,6 +164,7 @@ def bench_run(
     from legal_ai.ingest.layout import ProcessedLayout
     from legal_ai.ingest.manifest import read_resolved
     from legal_ai.retrieval.retriever import Retriever, parse_mode
+    from legal_ai.retrieval.rewrite import ClaudeRewriter
     from legal_ai.settings import Settings
 
     settings = Settings()
@@ -171,6 +176,7 @@ def bench_run(
         dedupe=dedupe,
         reranker=_reranker(settings, rerank),
         pool=pool or settings.rerank_pool,
+        rewriter=_rewriter(settings, rewrite),
     )
     searcher.require_index()
     resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path("laboral"))
@@ -193,6 +199,13 @@ def bench_run(
         f"retrieval p50/p95 {report.overall.p50_retrieval_ms:.0f}/"
         f"{report.overall.p95_retrieval_ms:.0f} ms · k={k} · {searcher.name}"
     )
+    rw = searcher.rewriter
+    if isinstance(rw, ClaudeRewriter):
+        cost = (rw.input_tokens * 5 + rw.output_tokens * 25) / 1e6
+        typer.echo(
+            f"reescrituras: {rw.calls} llamadas, tokens in/out "
+            f"{rw.input_tokens}/{rw.output_tokens}, costo lista ${cost:.4f}"
+        )
     for r in report.results:
         if r.scored and not r.hit_at_k:
             typer.echo(
@@ -207,6 +220,19 @@ def _reranker(settings: "Settings", flag: bool | None) -> "Reranker | None":
     if flag is False or (flag is None and not settings.reranker_model):
         return None
     return get_reranker(settings.reranker_model or BgeReranker.name)
+
+
+def _rewriter(settings: "Settings", flag: bool | None) -> "Rewriter | None":
+    from legal_ai.generation.claude import make_client
+    from legal_ai.retrieval.rewrite import ClaudeRewriter
+
+    if flag is False or (flag is None and not settings.rewrite_model):
+        return None
+    if not settings.anthropic_api_key:
+        raise typer.BadParameter("--rewrite necesita ANTHROPIC_API_KEY en .env")
+    model = settings.rewrite_model or settings.llm_model
+    cache = settings.data_dir / "cache" / "rewrites" / f"{model}.json"
+    return ClaudeRewriter(make_client(settings.anthropic_api_key), model, cache)
 
 
 @app.callback()
