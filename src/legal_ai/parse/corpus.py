@@ -315,6 +315,7 @@ def parse_corpus(
     version_dicts = [v.model_dump() for v in versions]
     reconstructed = reconstruct([d.model_dump() for d in documents], version_dicts)
     added = chain_versions(version_dicts, reconstructed, {a.id for a in articles})
+    version_dicts.extend(added)
     versions = [ArticleVersionRecord.model_validate(v) for v in version_dicts]
     n_reconstructed = len(added)
 

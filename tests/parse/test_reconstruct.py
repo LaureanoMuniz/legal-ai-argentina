@@ -85,6 +85,7 @@ def test_chain_versions_inserts_intermediate_and_fixes_ranges():
     vs = versions()
     added = chain_versions(vs, reconstruct(docs(), vs), {"25552:92bis", "93595:2", "401266:91"})
     assert [a["id"] for a in added] == ["25552:92bis@2004-03-19"]
+    assert added[0] not in vs
     mid = added[0]
     assert mid["version_kind"] == "reconstructed" and mid["status"] == "historico"
     assert mid["effective_from"] == date(2004, 3, 19) and mid["effective_until"] == date(2024, 7, 8)
