@@ -359,3 +359,40 @@ Min-max por lista es sensible a la distribución de scores de cada consulta;
 alternativas (z-score, calibración) se prueban cuando haya un reranker con el
 que compararlas (Fase 6).
 
+## ADR-023: Reranker local disponible, apagado por default
+
+**Decisión.** `Retriever` acepta un `Reranker` (cross-encoder
+`bge-reranker-v2-m3`, local) y un `pool`. Sobre el vector con pool 50 sube
+nDCG@8 de 0,58 a 0,67 y negación de 0,50 a 0,70, pero cuesta 3,7 s por
+pregunta en CPU/MPS y con pool 30 la ganancia casi desaparece porque los
+artículos que hay que rescatar están en las posiciones 30 a 50. Encima de la
+reescritura de la pregunta (ADR-024) no mejora. Queda apagado por default
+(`LEGAL_AI_RERANKER_MODEL` vacío) y disponible con `--rerank --pool N`.
+
+**Alternativas.** Cohere Rerank por API: pendiente, sin clave. Pool 100:
+más latencia sin evidencia de ganancia adicional.
+
+## ADR-024: Reescritura de la pregunta con Claude, con caché y multi-query, como default
+
+**Decisión.** Antes de buscar, Sonnet 5 reformula la pregunta con el
+vocabulario de la ley (salida estructurada `query` + `terms`). Se busca con
+la reescritura y con la pregunta original, y se fusionan por RRF
+(`multi-query`). Las reescrituras se cachean en `data/cache/rewrites/` por
+pregunta y modelo. Default: `hybrid + rewrite(claude-sonnet-5) + multi`.
+
+**Por qué.** Es la única técnica que cerró la brecha de vocabulario medida en
+el debug (art. 12: fuera del top-8 → posición 2; 242/244: fuera de los 200 →
+top-8). hit@8 0,80 → 0,86, recall 0,72 → 0,84 sobre 44 preguntas. Costo
+$0,004 y 2,7 s por reescritura con Sonnet 5.
+
+**Por qué multi-query.** La reescritura sola pierde preguntas "puntero" ("¿qué
+ley sustituyó el 92 bis?") al abstraerlas; conservar la pregunta original las
+recupera. RRF entre dos listas cuesta MRR (0,68 → 0,64 con Opus); se acepta
+porque el modelo lee los 8 fragmentos.
+
+**Consecuencias.** Sin `ANTHROPIC_API_KEY` el sistema degrada a híbrido sin
+reescritura y lo dice. La reescritura es un punto de fallo nuevo (errores
+transitorios de la API: se reintenta 5 veces) y una fuente de sesgo: si el
+modelo "adivina" la respuesta al reformular, la búsqueda se sesga hacia ella;
+el prompt le prohíbe responder y el benchmark lo vigila.
+

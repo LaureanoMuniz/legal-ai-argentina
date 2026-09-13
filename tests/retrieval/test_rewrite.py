@@ -54,7 +54,13 @@ class StaticRewriter:
 
 def test_retriever_searches_with_rewritten_query(db, tmp_path: Path):
     indexed(db, tmp_path)
-    r = Retriever(db, HashingEmbedder(), mode="vector", rewriter=StaticRewriter())
+    r = Retriever(
+        db, HashingEmbedder(), mode="vector", rewriter=StaticRewriter(), multi_query=False
+    )
     out = r.search("¿cuánto dura?", 3)
     assert len(out) == 3 and "25552:92bis" in [c.article_id for c in out]
     assert r.name.endswith("+rewrite(static)")
+    multi = Retriever(db, HashingEmbedder(), mode="vector", rewriter=StaticRewriter())
+    fused = multi.search("período de prueba", 3)
+    assert len(fused) == 3 and all(c.retriever == "rrf" for c in fused)
+    assert multi.name.endswith("+rewrite(static)+multi")

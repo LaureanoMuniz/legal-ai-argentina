@@ -242,6 +242,15 @@ Todas las variantes devuelven la misma estructura: lista de
   (k = 60). Los dos en Python, explícitos. `hybrid` es el default (ADR-022).
 - **dedupe por artículo** (opcional): pool de 3k, primer chunk de cada
   artículo, corte en k. Medido sin efecto en la Fase 5; apagado por default.
+- **reescritura** (Fase 7, `retrieval/rewrite.py`): Claude reformula la
+  pregunta con vocabulario legal; se busca con la reescritura y con la
+  original y se fusiona por RRF (`multi-query`). Caché en
+  `data/cache/rewrites/`. Default con Sonnet 5 (ADR-024).
+- **reranking** (Fase 6, `retrieval/rerank.py`): cross-encoder local sobre un
+  pool de N candidatos; opcional (ADR-023).
+- **chunks "puntero + cita"**: un artículo del tipo "Sustitúyese X por el
+  siguiente: <texto>" se parte en dos chunks, la oración puntero y el texto
+  citado (1.447 en el corpus).
 - **reranking**: cross-encoder sobre los top-N del híbrido.
 - **filtros temporales**: `effective_from <= fecha AND (effective_until IS NULL OR effective_until > fecha)`.
 

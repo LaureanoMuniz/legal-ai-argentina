@@ -235,7 +235,7 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
     <h1>Cómo se construye un RAG legal, contado mientras se construye</h1>
     <p>Una lección por fase. Qué armamos, qué problema real apareció en el camino, qué hace la industria con ese problema y qué decidimos nosotros. Sin asesoramiento jurídico: esto es ingeniería.</p>
     <div class="status">
-      <span>Lecciones <b>1 a 6</b> · Fases 0 a 5</span>
+      <span>Lecciones <b>1 a 7</b> · Fases 0 a 7</span>
       <span>Corpus <b>laboral · 933 normas</b></span>
       <span>Catálogo Infoleg <b>2026-09-12</b></span>
       <span>Rama <b>main</b></span>
@@ -295,8 +295,15 @@ footer { color: var(--muted); font-size: .85rem; padding-top: 2rem; }
       <li><a href="#l6-resultado">33. Lo que cambió y lo que no</a></li>
       <li><a href="#l6-segunda">34. Segunda pasada: cuatro sospechosos</a></li>
       <li><a href="#l6-proximo">35. Lo que viene, con más datos</a></li>
-      <li><a href="#glosario">Glosario</a></li>
       <li><a href="#pensar6">Autoevaluación 6</a></li>
+      <li class="sub" style="padding-left:0;margin-top:.6rem"><span class="eyebrow">Lección 7 · Fases 6 y 7</span></li>
+      <li><a href="#l7-rerank">36. El reranker en el sistema</a></li>
+      <li><a href="#l7-rewrite">37. Reescribir la pregunta</a></li>
+      <li><a href="#l7-generacion">38. La primera respuesta real</a></li>
+      <li><a href="#l7-numeros">39. Los números de las Fases 6 y 7</a></li>
+      <li><a href="#l7-proximo">40. Lo que viene: medir la generación</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+      <li><a href="#pensar7">Autoevaluación 7</a></li>
     </ol>
   </nav>
 
@@ -1171,6 +1178,94 @@ LIMIT :k</code></pre>
       <p>Sobre modelos de embeddings mejores: hay candidatos (Voyage, Cohere multilingüe, OpenAI, e5), y ahora sí tiene sentido compararlos, porque todos van a recibir el mismo prefijo correcto. Antes del arreglo, la comparación habría medido el bug.</p>
     </section>
 
+    <section id="pensar6">
+      <h2>Autoevaluación 6</h2>
+      <p>Seis preguntas sobre el método de debug. Mismo formato.</p>
+      <div class="quiz" id="quiz6"></div>
+      <div class="score" id="score6" hidden>
+        <span class="big" id="score6-num">0 / 6</span>
+        <span class="msg" id="score6-msg"></span>
+        <button type="button" id="quiz6-reset">Volver a empezar</button>
+      </div>
+    </section>
+
+    <section id="l7-rerank">
+      <div class="eyebrow">Lección 7 · Fases 6 y 7</div>
+      <h2>36. El reranker en el sistema</h2>
+      <p class="lead">Las dos pasadas de debug dejaron dos cubos con arreglo conocido: orden dentro de los primeros 50 y vocabulario entre pregunta y ley. Las Fases 6 y 7 implementan los dos arreglos como etapas del sistema, los miden con el mismo benchmark y deciden un default nuevo.</p>
+      <p>El reranker entró como una etapa más del buscador: un pool de N candidatos del retriever, el cross-encoder <code>bge-reranker-v2-m3</code> lee la pregunta junto con "prefijo + texto" de cada uno, y devuelve los 8 mejores. Para los tests hay un reranker falso que cuenta palabras en común, así la lógica de reordenar y cortar se prueba sin bajar 2 GB.</p>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 28 · El sondeo prometía 0,67 y el sistema dio 0,62</div>
+        <p>El sondeo de la Lección 6 reordenaba los 50 primeros del vector. La primera corrida real usó el híbrido con pool 50 y el vector con pool 30, y la ganancia se achicó. La diferencia era una sola pregunta: el art. 12 está en la posición 45 del vector; el pool de 30 no llega, y el híbrido de 50 lo pierde al fusionar con BM25. Con vector y pool 50 el sistema reprodujo el sondeo: nDCG 0,58 → 0,67. El pool importa más que el modelo.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>El tamaño del pool es el parámetro que decide si un reranker sirve: si el candidato correcto no entra, no hay reordenamiento que lo rescate. Se elige mirando la distribución de posiciones de los aciertos (Lección 6, "posición real del esperado") y se paga en latencia: 2,2 s con pool 20, 3,7 s con pool 50 en esta máquina. Por eso el reranker quedó disponible pero apagado por default (ADR-023): la Fase 7 lo hizo innecesario para este benchmark.</p>
+      </div>
+    </section>
+
+    <section id="l7-rewrite">
+      <h2>37. Reescribir la pregunta</h2>
+      <p>Con la clave de API disponible, la reescritura pasó de experimento a mano a etapa del sistema. Claude recibe la pregunta y devuelve, en formato fijo, una consulta reformulada con el vocabulario de la ley y una lista de términos. El prompt prohíbe responder e inventar números de artículo, y exige conservar lo que la pregunta ya dice: régimen especial, negaciones, leyes mencionadas. Cada reescritura se guarda en disco por pregunta y modelo: repetir el benchmark no vuelve a pagar.</p>
+      <pre><code>¿Puede el trabajador renunciar a los derechos que le da la ley?
+→ "Irrenunciabilidad de los derechos del trabajador: nulidad de toda convención
+   que suprima o reduzca derechos previstos en la ley, los estatutos o los convenios."
+   términos: irrenunciabilidad · nulidad · orden público laboral · convención de partes</code></pre>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 29 · Reescribir también pierde</div>
+        <p>La reescritura rescató las dos preguntas de vocabulario (el art. 12 pasó de fuera del top-8 a la posición 2) y perdió dos que antes salían: "¿qué ley sustituyó el 92 bis y con qué artículo?" y la de registración. Al abstraer la pregunta en términos jurídicos, la oración exacta que calzaba con el chunk puntero desapareció. La solución fue no elegir: buscar con la pregunta original y con la reescrita, y fusionar las dos listas (multi-query). Hit 0,84 → 0,86, a costa de un poco de orden.</p>
+      </div>
+      <div class="callout complicacion">
+        <div class="eyebrow">Complicación 30 · Dos corridas murieron a mitad de camino</div>
+        <p>Las dos primeras corridas con reescritura se cortaron con un error de la API después de 33 preguntas. La caché salvó lo hecho y la corrida siguiente continuó desde ahí. El cliente pasó a reintentar 5 veces. Una llamada de red por pregunta es un punto de fallo nuevo y hay que tratarlo como tal.</p>
+      </div>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Reescribir la consulta con un LLM antes de buscar tiene varios nombres (query rewriting, expansion, HyDE cuando se genera una respuesta hipotética) y un riesgo común: que el modelo "adivine" la respuesta al reformular y la búsqueda se sesgue hacia lo que él cree. El prompt le prohíbe responder y el benchmark vigila. Sonnet 5 reescribe en 2,7 s por $0,004; Opus 5 en 5,2 s, ordena un poco mejor y cuesta el doble. El default es Sonnet con multi-query.</p>
+      </div>
+    </section>
+
+    <section id="l7-generacion">
+      <h2>38. La primera respuesta real</h2>
+      <p>Con la clave también corrió por primera vez la generación: las 20 preguntas de humo, con Claude Opus 5 leyendo los 8 fragmentos y devolviendo respuesta, afirmaciones con fuentes y la marca de evidencia insuficiente. Cuatro cosas medidas, no supuestas:</p>
+      <ul>
+        <li><strong>Abstención</strong>: en las dos preguntas sin respuesta en el corpus (tope de comercio, art. 14 bis) marcó evidencia insuficiente. También en la de jornada máxima, donde el art. 196 remite a una ley que no está: correcto.</li>
+        <li><strong>Citas</strong>: 0 fuentes fuera del contexto en 20 respuestas. Cada id citado estaba entre los fragmentos.</li>
+        <li><strong>Costo</strong>: $0,96 a precio de lista por las 20 preguntas; unos 3.400 tokens de entrada y 1.250 de salida por pregunta.</li>
+        <li><strong>Latencia</strong>: 15 segundos por pregunta en la mediana. La generación domina; el retrieval son 300 ms.</li>
+      </ul>
+      <div class="callout industria">
+        <div class="eyebrow">Qué hace la industria</div>
+        <p>Que 20 preguntas salgan sin citas inventadas es necesario y no suficiente: falta medir si cada afirmación está realmente sostenida por el fragmento citado, que es la Fase 8 con un juez. Y la latencia de 15 s dice que la respuesta tiene que llegar en streaming, no de una vez.</p>
+      </div>
+    </section>
+
+    <section id="l7-numeros">
+      <h2>39. Los números de las Fases 6 y 7</h2>
+      <p>Mismo benchmark, k = 8, índice con chunks "puntero + cita" partidos. Cada celda es hit@8 / nDCG@8.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Categoría</th><th class="num">híbrido base</th><th class="num">vector + rerank 50</th><th class="num">híbrido + Opus</th><th class="num">híbrido + Sonnet + multi</th></tr></thead>
+        <tbody>
+          <tr><td><strong>overall</strong></td><td class="num">0,80 / 0,58</td><td class="num">0,84 / 0,67</td><td class="num">0,84 / 0,69</td><td class="num">0,86 / 0,64</td></tr>
+          <tr><td>direct</td><td class="num">1,00 / 0,71</td><td class="num">1,00 / 0,83</td><td class="num">1,00 / 0,74</td><td class="num">1,00 / 0,80</td></tr>
+          <tr><td>multi_article</td><td class="num">1,00 / 0,68</td><td class="num">1,00 / 0,68</td><td class="num">0,86 / 0,76</td><td class="num">1,00 / 0,68</td></tr>
+          <tr><td>negation</td><td class="num">0,67 / 0,50</td><td class="num">0,83 / 0,70</td><td class="num">1,00 / 0,76</td><td class="num">0,83 / 0,55</td></tr>
+          <tr><td>confusable</td><td class="num">1,00 / 0,77</td><td class="num">0,83 / 0,73</td><td class="num">1,00 / 0,88</td><td class="num">1,00 / 0,91</td></tr>
+          <tr><td>derogated</td><td class="num">0,00 / 0,00</td><td class="num">0,20 / 0,09</td><td class="num">0,20 / 0,13</td><td class="num">0,20 / 0,09</td></tr>
+          <tr><td>temporal</td><td class="num">0,67 / 0,47</td><td class="num">0,83 / 0,59</td><td class="num">0,83 / 0,67</td><td class="num">0,83 / 0,55</td></tr>
+          <tr><td>cross_reference</td><td class="num">1,00 / 0,76</td><td class="num">1,00 / 0,94</td><td class="num">0,83 / 0,77</td><td class="num">1,00 / 0,78</td></tr>
+        </tbody>
+        <caption>La última columna es el default nuevo. Quedan 6 fallos: una de negación, cuatro derogadas (sin chunk por diseño) y una temporal. Sobre las 39 preguntas alcanzables, 38 aciertan. Retrieval p50: 249 ms más la reescritura (2,7 s con Sonnet, cacheada en el benchmark).</caption>
+      </table>
+      </div>
+    </section>
+
+    <section id="l7-proximo">
+      <h2>40. Lo que viene: medir la generación</h2>
+      <p>El retrieval tocó el techo de lo que este benchmark puede medir sin versiones históricas. Lo que sigue es la Fase 8: correr el benchmark grande con generación, medir con un juez si cada afirmación está sostenida por el fragmento que cita, y la abstención en las seis preguntas sin respuesta. Después, la Fase 9: versiones por fecha, que es lo único que destraba las derogadas y las temporales.</p>
+    </section>
+
     <section id="glosario">
       <h2>Glosario</h2>
       <dl class="gloss">
@@ -1195,14 +1290,15 @@ LIMIT :k</code></pre>
 
 
 
-    <section id="pensar6">
-      <h2>Autoevaluación 6</h2>
-      <p>Seis preguntas sobre el método de debug. Mismo formato.</p>
-      <div class="quiz" id="quiz6"></div>
-      <div class="score" id="score6" hidden>
-        <span class="big" id="score6-num">0 / 6</span>
-        <span class="msg" id="score6-msg"></span>
-        <button type="button" id="quiz6-reset">Volver a empezar</button>
+
+    <section id="pensar7">
+      <h2>Autoevaluación 7</h2>
+      <p>Seis preguntas sobre reranking, reescritura y la primera generación.</p>
+      <div class="quiz" id="quiz7"></div>
+      <div class="score" id="score7" hidden>
+        <span class="big" id="score7-num">0 / 6</span>
+        <span class="msg" id="score7-msg"></span>
+        <button type="button" id="quiz7-reset">Volver a empezar</button>
       </div>
     </section>
 
@@ -1831,6 +1927,94 @@ LIMIT :k</code></pre>
       }
     ];
 
+
+    const QUESTIONS_L7 = [
+      {
+        id: "l7q1",
+        text: "El sondeo del reranker dio nDCG 0,67 y la primera corrida real 0,62. ¿Cuál fue la diferencia?",
+        options: [
+          { t: "El modelo de reranking cambió entre las dos corridas.", ok: false,
+            fb: "Mismo modelo, misma máquina. Cambió el pool y el retriever de base." },
+          { t: "El sondeo reordenaba los 50 primeros del vector; la corrida real usó pool 30 y el híbrido, y el art. 12 (posición 45 en el vector) quedaba afuera del pool o se perdía en la fusión.", ok: true,
+            fb: "Una pregunta explica toda la diferencia. El pool decide qué puede rescatar el reranker." },
+          { t: "El benchmark cambió de preguntas.", ok: false,
+            fb: "Mismas 44 preguntas puntuables." },
+          { t: "La caché de embeddings estaba vacía.", ok: false,
+            fb: "La caché afecta el tiempo de re-embeber, no el resultado de la búsqueda." }
+        ]
+      },
+      {
+        id: "l7q2",
+        text: "La reescritura rescató el art. 12 y perdió '¿qué ley sustituyó el 92 bis?'. ¿Por qué perdió esa?",
+        options: [
+          { t: "Porque Claude no conoce la Ley 27.742.", ok: false,
+            fb: "No necesita conocerla: la pregunta la nombra por artículo. El problema fue qué hizo con la pregunta." },
+          { t: "Porque al reformular en términos jurídicos abstractos, la oración exacta que calzaba con el chunk puntero ('Sustitúyese el artículo 92 bis…') desapareció de la consulta.", ok: true,
+            fb: "La reescritura ayuda cuando la pregunta usa palabras distintas a la ley, y estorba cuando la pregunta ya usa las de la ley. Multi-query conserva las dos." },
+          { t: "Porque el reranker la bajó.", ok: false,
+            fb: "En esa corrida no había reranker." },
+          { t: "Porque la caché devolvió una reescritura vieja.", ok: false,
+            fb: "La caché guarda por pregunta y modelo; devuelve siempre la misma reescritura para la misma pregunta, que es lo que se quiere." }
+        ]
+      },
+      {
+        id: "l7q3",
+        text: "Multi-query subió hit@8 de 0,84 a 0,86 y bajó MRR de 0,68 a 0,64. ¿Por qué se adoptó igual?",
+        options: [
+          { t: "Porque MRR no importa nunca.", ok: false,
+            fb: "Importa cuando el usuario ve una lista. Acá el consumidor es el modelo." },
+          { t: "Porque el consumidor de los 8 fragmentos es Claude, que los lee todos; que el correcto esté entre los 8 (hit, recall) pesa más que si está primero o tercero (MRR). Y el costo de MRR viene de RRF, que reparte las primeras posiciones entre dos listas.", ok: true,
+            fb: "La métrica que manda depende de quién consume el ranking. Se deja escrito en el ADR para poder revisarlo." },
+          { t: "Porque Sonnet es más barato.", ok: false,
+            fb: "El modelo de reescritura es otra decisión, independiente de multi-query." },
+          { t: "Porque la diferencia está dentro del ruido y da igual.", ok: false,
+            fb: "Dos preguntas recuperadas (b13, b45) no es ruido: son casos identificados con causa conocida." }
+        ]
+      },
+      {
+        id: "l7q4",
+        text: "¿Cuál es el riesgo específico de reescribir la pregunta con un LLM antes de buscar?",
+        options: [
+          { t: "Que tarde más.", ok: false,
+            fb: "Tarda 2,7 s y es un costo real, pero no es el riesgo específico." },
+          { t: "Que el modelo 'adivine' la respuesta al reformular y la búsqueda se sesgue hacia lo que él cree, en vez de hacia lo que dice la ley.", ok: true,
+            fb: "Por eso el prompt prohíbe responder e inventar números de artículo, y por eso la reescritura se mide con el benchmark y no se asume." },
+          { t: "Que la caché crezca demasiado.", ok: false,
+            fb: "Son unos cientos de bytes por pregunta." },
+          { t: "Que no funcione en castellano.", ok: false,
+            fb: "Funciona; las reescrituras están en la caché para leerlas." }
+        ]
+      },
+      {
+        id: "l7q5",
+        text: "En el smoke con generación, 20 de 20 respuestas citaron sólo ids que estaban en el contexto. ¿Qué prueba eso y qué no?",
+        options: [
+          { t: "Prueba que las respuestas son correctas.", ok: false,
+            fb: "Prueba que no inventó citas. Una cita real puede sostener mal una afirmación." },
+          { t: "Prueba que el modelo no inventa identificadores de fuente en este formato; no prueba que cada afirmación esté sostenida por el fragmento citado, que se mide con un juez en la Fase 8.", ok: true,
+            fb: "Es la verificación mínima, la que se puede hacer con un conjunto de ids. La siguiente necesita leer." },
+          { t: "Prueba que el retrieval fue perfecto.", ok: false,
+            fb: "El retrieval acertó 16 de 20; la generación citó bien lo que recibió, correcto o no." },
+          { t: "No prueba nada porque son sólo 20.", ok: false,
+            fb: "Veinte alcanzan para detectar un modelo que inventa ids; no alcanzan para una tasa fina." }
+        ]
+      },
+      {
+        id: "l7q6",
+        text: "En 6 preguntas de las 20, el modelo marcó 'evidencia insuficiente'. Dos no tenían respuesta en el corpus. ¿Qué pasa con las otras cuatro?",
+        options: [
+          { t: "Son errores del modelo: debería haber respondido.", ok: false,
+            fb: "Por ejemplo, en jornada máxima el art. 196 remite a la Ley 11.544, que no está en el corpus: abstenerse es correcto. Hay que mirarlas una por una." },
+          { t: "Hay que leerlas: algunas son abstenciones correctas (jornada remite a una ley ausente; el art. 28 derogado no tiene texto) y otras pueden ser exceso de prudencia. Distinguirlo es tarea de la Fase 8, con etiquetas.", ok: true,
+            fb: "Abstención correcta y abstención excesiva se ven igual en un contador. Se separan leyendo." },
+          { t: "Son culpa del retrieval, siempre.", ok: false,
+            fb: "En dos de ellas el retrieval acertó el artículo y el modelo igual se abstuvo. Puede ser prudencia justificada o no." },
+          { t: "Da igual: abstenerse nunca es un error.", ok: false,
+            fb: "Abstenerse cuando la evidencia estaba es un error de utilidad. Menos grave que inventar, pero error." }
+        ]
+      }
+    ];
+
     function mountQuiz(quizId, scoreId, KEY, QUESTIONS, resetId) {
       const quiz = document.getElementById(quizId);
       const scoreBox = document.getElementById(scoreId);
@@ -1922,6 +2106,7 @@ LIMIT :k</code></pre>
     mountQuiz("quiz4", "score4", "cuaderno-legal-ai:quiz-l4", QUESTIONS_L4, "quiz4-reset");
     mountQuiz("quiz5", "score5", "cuaderno-legal-ai:quiz-l5", QUESTIONS_L5, "quiz5-reset");
     mountQuiz("quiz6", "score6", "cuaderno-legal-ai:quiz-l6", QUESTIONS_L6, "quiz6-reset");
+    mountQuiz("quiz7", "score7", "cuaderno-legal-ai:quiz-l7", QUESTIONS_L7, "quiz7-reset");
     </script>
 
     <footer>

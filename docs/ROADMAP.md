@@ -12,9 +12,9 @@ sin medir la actual.
 | 3 | RAG baseline: vector → top-k → Claude → respuesta con fuentes | Postgres + pgvector, FastAPI, OTel a JSONL, benchmark de humo con latencias | hecha |
 | 4 | Benchmark de ~50 preguntas en 8 categorías | `eval/benchmark.jsonl`, recall@k / MRR / nDCG del baseline | hecha |
 | 5 | BM25 (`pg_search`) e híbrido | vector vs BM25 vs RRF vs fusión por scores, mismo benchmark | hecha |
-| 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | siguiente |
-| 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | |
-| 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | |
+| 6 | Reranking (bge-reranker local vs Cohere) | ganancia por categoría, latencia y costo; cuándo empeora | hecha (local; Cohere pendiente) |
+| 7 | Query expansion / decomposition, contextual retrieval | query original vs expandida | hecha (reescritura + multi-query) |
+| 8 | Generación fundamentada: claims + fuentes + abstención | % claims soportados, abstención correcta | siguiente (primer smoke medido) |
 | 9 | Retrieval temporal: reconstrucción de versiones, filtro por fecha | tests explícitos de Temporal Misgrounding (versión vigente vs histórica) | |
 | 10 | Knowledge graph legal (Postgres → Neo4j si hace falta) | casos donde el vector falla por depender de relaciones | |
 | 11 | GraphRAG como segundo camino | vector vs híbrido vs grafo vs híbrido+grafo en preguntas multi-hop | |
@@ -367,6 +367,90 @@ fallos que quedan son de orden dentro de los primeros 50 (reranker, ganancia
 medida) y de vocabulario entre pregunta y ley (reescritura, ganancia medida
 a mano, pendiente de automatizar). La Fase 6 implementa el reranker con pool
 y latencia medidos; la Fase 7, la reescritura.
+
+## Fase 6 en detalle: reranking
+
+Cross-encoder `BAAI/bge-reranker-v2-m3` local (MPS) sobre el pool del
+retriever; la pregunta original y `prefijo + texto` de cada chunk se leen
+juntos y se reordena. Corrida del 2026-09-13, mismas 44 preguntas, k = 8.
+
+| Configuración | hit@8 | recall@8 | MRR | nDCG@8 | retrieval p50 | nota |
+|---|---|---|---|---|---|---|
+| híbrido (base, chunks partidos) | 0,80 | 0,72 | 0,57 | 0,58 | 70 ms |  |
+| vector (base) | 0,77 | 0,70 | 0,58 | 0,58 | 50 ms |  |
+| híbrido + rerank pool 20 | 0,77 | 0,72 | 0,60 | 0,60 | 2223 ms | índice previo al corte de chunks |
+| híbrido + rerank pool 30 | 0,77 | 0,73 | 0,60 | 0,61 | 2732 ms | ídem |
+| híbrido + rerank pool 50 | 0,82 | 0,79 | 0,63 | 0,65 | 3545 ms |  |
+| vector + rerank pool 30 | 0,77 | 0,74 | 0,60 | 0,62 | 2558 ms | índice previo |
+| vector + rerank pool 50 | 0,84 | 0,81 | 0,65 | 0,67 | 3605 ms | mejor sin LLM |
+
+- El pool importa más que el modelo de fusión: con pool 30 el art. 12 (posición
+  45 en el vector) no entra y la ganancia casi desaparece; con pool 50 entra y
+  sube a la posición 1. El híbrido de 50 lo pierde al fusionar. Por eso el
+  mejor sin LLM es vector + rerank 50.
+- Por categoría: negación 0,56 → 0,70 de nDCG, referencia cruzada 0,76 →
+  0,94, temporal 0,39 → 0,59; confundibles baja 0,81 → 0,73.
+- Costo: 2,2 a 3,7 s por pregunta en esta máquina según el pool. Cohere
+  Rerank por API queda pendiente (sin clave).
+- Decisión (ADR-023): disponible, apagado por default. Encima de la
+  reescritura no suma y agrega segundos.
+
+## Fase 7 en detalle: reescritura de la pregunta
+
+Claude reescribe la pregunta con el vocabulario de la ley (salida
+estructurada: `query` + `terms`), con caché en disco por pregunta y modelo.
+`multi-query` fusiona por RRF los resultados de la pregunta original y de la
+reescrita. Reescribir 50 preguntas: Sonnet 5, p50 2,7 s por llamada, $0,22 en
+total a precio de lista; Opus 5, p50 5,2 s, unos $0,007 por llamada.
+
+| Configuración | hit@8 | recall@8 | MRR | nDCG@8 | retrieval p50 | nota |
+|---|---|---|---|---|---|---|
+| híbrido + reescritura Opus 5 | 0,84 | 0,81 | 0,68 | 0,69 | 100 ms |  |
+| vector + reescritura Opus 5 | 0,84 | 0,81 | 0,67 | 0,68 | 60 ms |  |
+| híbrido + reescritura Opus 5 + multi-query | 0,86 | 0,83 | 0,64 | 0,66 | 173 ms |  |
+| vector + reescritura Opus 5 + multi-query | 0,86 | 0,83 | 0,62 | 0,65 | 114 ms |  |
+| híbrido + reescritura Sonnet 5 | 0,82 | 0,81 | 0,63 | 0,66 | 94 ms |  |
+| híbrido + reescritura Sonnet 5 + multi-query | 0,86 | 0,84 | 0,62 | 0,64 | 249 ms | default nuevo |
+| vector + reescritura Opus 5 + rerank 50 | 0,80 | 0,77 | 0,63 | 0,65 | 3473 ms |  |
+| híbrido + reescritura Opus 5 + rerank 50 | 0,82 | 0,80 | 0,64 | 0,66 | 3513 ms |  |
+
+Por categoría (hit@8 / nDCG@8):
+
+| Config | direct | multi_article | negation | confusable | derogated | temporal | cross_reference |
+|---|---|---|---|---|---|---|---|
+| híbrido base | 1,00 / 0,71 | 1,00 / 0,68 | 0,67 / 0,50 | 1,00 / 0,77 | 0,00 / 0,00 | 0,67 / 0,47 | 1,00 / 0,76 |
+| vector + rerank 50 | 1,00 / 0,83 | 1,00 / 0,68 | 0,83 / 0,70 | 0,83 / 0,73 | 0,20 / 0,09 | 0,83 / 0,59 | 1,00 / 0,94 |
+| híbrido + Sonnet + multi (default) | 1,00 / 0,80 | 1,00 / 0,68 | 0,83 / 0,55 | 1,00 / 0,91 | 0,20 / 0,09 | 0,83 / 0,55 | 1,00 / 0,78 |
+| híbrido + Opus (sin multi) | 1,00 / 0,74 | 0,86 / 0,76 | 1,00 / 0,76 | 1,00 / 0,88 | 0,20 / 0,13 | 0,83 / 0,67 | 0,83 / 0,77 |
+
+- La reescritura rescata las dos preguntas de vocabulario: b21 (art. 12) pasa
+  de fuera del top-8 a la posición 2 y b16 (242/244) de fuera de los 200 a la
+  5 con Opus. Es exactamente lo que la segunda pasada de debug había medido a
+  mano.
+- Reescribir también pierde: b13 y b45 (preguntas "puntero", del tipo "¿qué
+  ley sustituyó…?") se abstraen y dejan de calzar. `multi-query` las recupera
+  al conservar la pregunta original: hit 0,84 → 0,86, a costa de MRR (RRF
+  reparte las primeras posiciones).
+- Rerank encima de la reescritura no mejora (0,66 contra 0,69 de nDCG): el
+  cross-encoder ve la pregunta original y reordena candidatos que la
+  reescritura ya había ordenado bien.
+- Quedan 6 fallos en la mejor configuración: b16 (con Sonnet), los 4
+  derogados sin chunk y b36 (temporal). El techo de esta fase para lo
+  alcanzable es 38 de 39.
+- Decisión (ADR-024): default `hybrid + reescritura Sonnet 5 + multi-query`.
+  Sin `ANTHROPIC_API_KEY` el sistema degrada a híbrido sin reescritura.
+
+## Fase 8, anticipo: primer smoke con generación
+
+`bench smoke` con Claude Opus 5 sobre las 20 preguntas de humo (retriever
+híbrido sin reescritura, 2026-09-13): hit@8 0,80; abstención correcta en las
+2 preguntas sin respuesta en el corpus (s15, s16) y también en s11 (jornada:
+la Ley 11.544 no está), s14, s17, s18 y s20; **0 fuentes citadas fuera del
+contexto en 20 respuestas**; 67,771 tokens de entrada y
+24,955 de salida, $0.96 a precio de lista, p50 total
+15.5 s por pregunta (la generación domina). Reporte:
+`experiments/2026-09-13-phase3-baseline-generation.json`. La Fase 8 mide
+claims soportados con un juez y la abstención sobre el benchmark grande.
 
 ## Problemas que esperamos encontrar (y medir)
 

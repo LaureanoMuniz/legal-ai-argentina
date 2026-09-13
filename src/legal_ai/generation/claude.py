@@ -23,8 +23,10 @@ class Generation(BaseModel):
     unsupported_sources: list[str]
 
 
-def make_client(api_key: str | None) -> anthropic.Anthropic:
-    return anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
+def make_client(api_key: str | None, max_retries: int = 5) -> anthropic.Anthropic:
+    if api_key:
+        return anthropic.Anthropic(api_key=api_key, max_retries=max_retries)
+    return anthropic.Anthropic(max_retries=max_retries)
 
 
 class ClaudeGenerator:

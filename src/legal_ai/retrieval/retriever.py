@@ -37,6 +37,7 @@ class Retriever:
         reranker: Reranker | None = None,
         pool: int = RERANK_POOL,
         rewriter: Rewriter | None = None,
+        multi_query: bool = True,
     ) -> None:
         self.engine = engine
         self.embedder = embedder
@@ -46,6 +47,7 @@ class Retriever:
         self.reranker = reranker
         self.pool = pool
         self.rewriter = rewriter
+        self.multi_query = multi_query
 
     @property
     def name(self) -> str:
@@ -58,6 +60,8 @@ class Retriever:
             label += f"+rerank({self.reranker.name},pool={self.pool})"
         if self.rewriter is not None:
             label += f"+{self.rewriter.name}"
+            if self.multi_query:
+                label += "+multi"
         return label
 
     def embed_query(self, query: str) -> list[float]:
@@ -99,9 +103,15 @@ class Retriever:
             return self._search(query, k)
         return dedupe_by_article(self._search(query, k * POOL_FACTOR), k)
 
+    def _candidates(self, query: str, k: int) -> list[Candidate]:
+        if self.rewriter is None:
+            return self._ranked(query, k)
+        rewritten = self.rewriter.rewrite(query).search_text
+        if not self.multi_query:
+            return self._ranked(rewritten, k)
+        return rrf([self._ranked(rewritten, k), self._ranked(query, k)], k)
+
     def search(self, query: str, k: int = 8) -> list[Candidate]:
-        search_query = self.rewriter.rewrite(query).search_text if self.rewriter else query
         if self.reranker is None:
-            return self._ranked(search_query, k)
-        pool = self._ranked(search_query, max(k, self.pool))
-        return rerank(self.reranker, query, pool, k)
+            return self._candidates(query, k)
+        return rerank(self.reranker, query, self._candidates(query, max(k, self.pool)), k)

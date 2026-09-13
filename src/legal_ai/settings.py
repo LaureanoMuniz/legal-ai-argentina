@@ -28,7 +28,8 @@ class Settings(BaseSettings):
     hybrid_alpha: float = 0.8
     reranker_model: str | None = None
     rerank_pool: int = 30
-    rewrite_model: str | None = None
+    rewrite_model: str | None = "claude-sonnet-5"
+    rewrite_multi_query: bool = True
     retrieval_dedupe: bool = False
     otlp_endpoint: str | None = None
     traces_path: Path = Path("data/traces/spans.jsonl")

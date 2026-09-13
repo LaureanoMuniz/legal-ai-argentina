@@ -108,7 +108,7 @@ uv run legal-ai index load laboral    # JSONL → Postgres
 uv run legal-ai index chunk laboral   # una versión vigente por artículo, con prefijo de contexto
 uv run legal-ai index embed laboral   # bge-m3 (o --model hashing, sin descarga)
 
-uv run legal-ai search "¿Cuánto dura el período de prueba?"   # sólo retrieval (--retriever vector|bm25|rrf|hybrid)
+uv run legal-ai search "¿Cuánto dura el período de prueba?"   # retrieval (--retriever vector|bm25|rrf|hybrid, --rewrite, --rerank --pool N)
 uv run legal-ai ask "¿Cuánto dura el período de prueba?"      # retrieval + Claude con citas
 uv run legal-ai serve                                          # GET /health, POST /ask
 uv run legal-ai bench smoke --no-generate                      # 20 preguntas de humo → experiments/
@@ -124,10 +124,12 @@ Cada `ask` deja sus spans en `data/traces/spans.jsonl`; la respuesta trae el
 
 Fases 0 a 5 completas: arquitectura, ingestion, parser, índice en Postgres con
 RAG baseline (vector → Claude con citas → trazas), benchmark de 50 preguntas
-en 8 categorías, y BM25 + híbrido medidos contra el vector. Después de la
-Fase 5 se corrigió un bug del parser (epígrafes partidos en una de cada
-cuatro versiones) y se volvió a medir: no cambió el retrieval. Números reales
-en `docs/ROADMAP.md`. Fase 6 (reranking) es la siguiente.
+en 8 categorías, BM25 + híbrido, reranker local (Fase 6) y reescritura de la
+pregunta con Claude más multi-query (Fase 7), que es el default: hit@8 pasó
+de 0,80 a 0,86 en el benchmark. Primer smoke con generación medido: abstención
+correcta en las preguntas sin respuesta y cero citas fuera del contexto.
+Números reales en `docs/ROADMAP.md`. Fase 8 (generación fundamentada medida)
+es la siguiente.
 
 ## Cuaderno
 

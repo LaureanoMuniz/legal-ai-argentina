@@ -13,6 +13,7 @@ from legal_ai.index.embeddings import get_embedder
 from legal_ai.observability.tracing import setup_tracing
 from legal_ai.retrieval.rerank import get_reranker
 from legal_ai.retrieval.retriever import Mode, Retriever
+from legal_ai.retrieval.rewrite import ClaudeRewriter
 from legal_ai.retrieval.types import Candidate
 from legal_ai.settings import Settings
 
@@ -53,6 +54,7 @@ class Pipeline:
         with self._tracer.start_as_current_span("ask") as root:
             root.set_attribute("legal_ai.question", question)
             root.set_attribute("legal_ai.k", k)
+            root.set_attribute("legal_ai.retriever", self.retriever.name)
             start = time.perf_counter()
             with self._tracer.start_as_current_span(f"retrieval.{self.retriever.mode}") as span:
                 candidates = self.retriever.search(question, k)
@@ -116,6 +118,13 @@ def build_pipeline(
 ) -> Pipeline:
     settings = settings or Settings()
     tracer = setup_tracing("legal-ai", settings.otlp_endpoint, settings.traces_path)
+    rewriter = None
+    if settings.rewrite_model and settings.anthropic_api_key:
+        rewriter = ClaudeRewriter(
+            make_client(settings.anthropic_api_key),
+            settings.rewrite_model,
+            settings.data_dir / "cache" / "rewrites" / f"{settings.rewrite_model}.json",
+        )
     retriever = Retriever(
         make_engine(settings.database_url),
         get_embedder(embedder_name or settings.embedding_model),
@@ -124,6 +133,8 @@ def build_pipeline(
         alpha=settings.hybrid_alpha,
         reranker=get_reranker(settings.reranker_model) if settings.reranker_model else None,
         pool=settings.rerank_pool,
+        rewriter=rewriter,
+        multi_query=settings.rewrite_multi_query,
     )
     generator = (
         ClaudeGenerator(make_client(settings.anthropic_api_key), settings.llm_model)

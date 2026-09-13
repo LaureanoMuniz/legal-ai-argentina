@@ -1,0 +1,1459 @@
+{
+  "name": "phase7-rewrite-multi-vector",
+  "ran_at": "2026-09-13T13:29:12.586382Z",
+  "catalog_date": "2026-09-12",
+  "k": 8,
+  "embedding_model": "BAAI/bge-m3",
+  "retriever": "vector(BAAI/bge-m3)+rewrite(claude-opus-5)+multi",
+  "questions_path": "eval/benchmark.jsonl",
+  "overall": {
+    "n": 50,
+    "n_scored": 44,
+    "hit_at_k": 0.8636363636363636,
+    "recall_at_k": 0.8295454545454546,
+    "precision_at_k": 0.13920454545454544,
+    "mrr": 0.6214285714285714,
+    "ndcg_at_k": 0.6459715759240902,
+    "p50_retrieval_ms": 114.21645898371935,
+    "p95_retrieval_ms": 124.06341702444479
+  },
+  "by_category": {
+    "confusable": {
+      "n": 6,
+      "n_scored": 6,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.14583333333333334,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "p50_retrieval_ms": 112.87512502167374,
+      "p95_retrieval_ms": 121.66816601529717
+    },
+    "cross_reference": {
+      "n": 6,
+      "n_scored": 6,
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.9166666666666666,
+      "precision_at_k": 0.15178571428571427,
+      "mrr": 0.7277777777777777,
+      "ndcg_at_k": 0.7260345311846703,
+      "p50_retrieval_ms": 111.19604198029265,
+      "p95_retrieval_ms": 117.16479202732444
+    },
+    "derogated": {
+      "n": 5,
+      "n_scored": 5,
+      "hit_at_k": 0.2,
+      "recall_at_k": 0.2,
+      "precision_at_k": 0.02857142857142857,
+      "mrr": 0.02857142857142857,
+      "ndcg_at_k": 0.06666666666666667,
+      "p50_retrieval_ms": 112.6733329729177,
+      "p95_retrieval_ms": 116.40354100381956
+    },
+    "direct": {
+      "n": 8,
+      "n_scored": 8,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.1294642857142857,
+      "mrr": 0.5520833333333334,
+      "ndcg_at_k": 0.6638253449334057,
+      "p50_retrieval_ms": 115.29099999461323,
+      "p95_retrieval_ms": 178.97558299591765
+    },
+    "multi_article": {
+      "n": 7,
+      "n_scored": 7,
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.8571428571428571,
+      "precision_at_k": 0.2193877551020408,
+      "mrr": 0.8095238095238095,
+      "ndcg_at_k": 0.7396029235832497,
+      "p50_retrieval_ms": 115.59545795898885,
+      "p95_retrieval_ms": 118.56683297082782
+    },
+    "negation": {
+      "n": 6,
+      "n_scored": 6,
+      "hit_at_k": 0.8333333333333334,
+      "recall_at_k": 0.8333333333333334,
+      "precision_at_k": 0.16666666666666666,
+      "mrr": 0.611111111111111,
+      "ndcg_at_k": 0.6139632140039609,
+      "p50_retrieval_ms": 112.5760410213843,
+      "p95_retrieval_ms": 124.06341702444479
+    },
+    "not_in_corpus": {
+      "n": 6,
+      "n_scored": 0,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": null,
+      "ndcg_at_k": null,
+      "p50_retrieval_ms": 116.16945802234113,
+      "p95_retrieval_ms": 125.01337501453236
+    },
+    "temporal": {
+      "n": 6,
+      "n_scored": 6,
+      "hit_at_k": 0.8333333333333334,
+      "recall_at_k": 0.8333333333333334,
+      "precision_at_k": 0.10416666666666667,
+      "mrr": 0.513888888888889,
+      "ndcg_at_k": 0.5936010519408085,
+      "p50_retrieval_ms": 113.60133299604058,
+      "p95_retrieval_ms": 117.80566704692319
+    }
+  },
+  "results": [
+    {
+      "id": "b01",
+      "category": "direct",
+      "question": "¿Cuánto dura el período de prueba en un contrato por tiempo indeterminado?",
+      "expected_articles": [
+        "25552:92bis"
+      ],
+      "retrieved_articles": [
+        "210489:7",
+        "53159:3",
+        "395521:71",
+        "93595:2",
+        "63208:1",
+        "25552:92bis",
+        "401266:91",
+        "25552:231"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.3562071871080222,
+      "first_hit_rank": 6,
+      "retrieval_ms": 178.97558299591765
+    },
+    {
+      "id": "b02",
+      "category": "direct",
+      "question": "¿Qué plazo de preaviso debe dar el empleador según la antigüedad del trabajador?",
+      "expected_articles": [
+        "25552:231"
+      ],
+      "retrieved_articles": [
+        "25552:231",
+        "210489:42",
+        "93595:3",
+        "25552:94",
+        "423680:48",
+        "25552:236",
+        "210489:43",
+        "423680:9"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 115.2664580149576
+    },
+    {
+      "id": "b03",
+      "category": "direct",
+      "question": "¿Cómo se calcula la indemnización por antigüedad en caso de despido sin causa?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "395521:81",
+        "210489:48",
+        "412:153",
+        "25552:245",
+        "423680:51",
+        "192152:22",
+        "412:155"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.14285714285714285,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "first_hit_rank": 4,
+      "retrieval_ms": 111.53824999928474
+    },
+    {
+      "id": "b04",
+      "category": "direct",
+      "question": "¿Qué es el despido indirecto y qué indemnización corresponde?",
+      "expected_articles": [
+        "25552:246"
+      ],
+      "retrieved_articles": [
+        "210489:49",
+        "25552:246",
+        "25552:245",
+        "412:153",
+        "25552:243",
+        "25552:233",
+        "423680:144"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.14285714285714285,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 118.74987499322742
+    },
+    {
+      "id": "b05",
+      "category": "direct",
+      "question": "¿En qué plazo debe el empleador entregar los certificados de trabajo al terminar la relación?",
+      "expected_articles": [
+        "25552:80"
+      ],
+      "retrieved_articles": [
+        "423680:25",
+        "25552:80",
+        "7968:18",
+        "7968:22",
+        "192152:75",
+        "729:6",
+        "167661:1",
+        "215351:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 113.41445799916983
+    },
+    {
+      "id": "b06",
+      "category": "direct",
+      "question": "¿Cuántos días de vacaciones corresponden según la antigüedad del trabajador?",
+      "expected_articles": [
+        "25552:150"
+      ],
+      "retrieved_articles": [
+        "210489:29",
+        "25552:150",
+        "210489:31",
+        "210489:30",
+        "25552:153",
+        "423680:41",
+        "25552:155",
+        "25552:151"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 112.82862501684576
+    },
+    {
+      "id": "b07",
+      "category": "direct",
+      "question": "¿Cuántos días de licencia corresponden por nacimiento de hijo, matrimonio o fallecimiento de un familiar?",
+      "expected_articles": [
+        "25552:158"
+      ],
+      "retrieved_articles": [
+        "25552:158",
+        "210489:38",
+        "192152:52",
+        "210489:30",
+        "25552:161",
+        "25552:159",
+        "39995:3",
+        "25552:160"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 115.29099999461323
+    },
+    {
+      "id": "b08",
+      "category": "direct",
+      "question": "¿En cuánto tiempo prescriben los créditos laborales?",
+      "expected_articles": [
+        "25552:256"
+      ],
+      "retrieved_articles": [
+        "210489:69",
+        "25552:256",
+        "27971:44",
+        "21976:9",
+        "25552:257",
+        "25552:220",
+        "426270:13",
+        "21976:7"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 116.88645801041275
+    },
+    {
+      "id": "b09",
+      "category": "multi_article",
+      "question": "¿Qué pasa si el empleador despide a una trabajadora embarazada?",
+      "expected_articles": [
+        "25552:178",
+        "25552:182"
+      ],
+      "retrieved_articles": [
+        "25552:178",
+        "210489:40",
+        "210489:41",
+        "25552:177",
+        "69649:15",
+        "192152:51",
+        "395521:78",
+        "210489:39"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "first_hit_rank": 1,
+      "retrieval_ms": 118.56683297082782
+    },
+    {
+      "id": "b10",
+      "category": "multi_article",
+      "question": "¿Qué es el sueldo anual complementario y cuándo se paga?",
+      "expected_articles": [
+        "25552:121",
+        "25552:122"
+      ],
+      "retrieved_articles": [
+        "28165:1",
+        "25552:121",
+        "210489:26",
+        "25552:122",
+        "210489:27",
+        "241014:1",
+        "336003:8",
+        "25552:123"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6509209298071326,
+      "first_hit_rank": 2,
+      "retrieval_ms": 115.59545795898885
+    },
+    {
+      "id": "b11",
+      "category": "multi_article",
+      "question": "Si un trabajador se enferma, ¿por cuánto tiempo cobra el sueldo y por cuánto se le conserva el empleo?",
+      "expected_articles": [
+        "25552:208",
+        "25552:211"
+      ],
+      "retrieved_articles": [
+        "25552:208",
+        "25552:211",
+        "25552:212",
+        "210489:34",
+        "25552:213",
+        "192152:53",
+        "25552:150",
+        "210489:29"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 113.2205409812741
+    },
+    {
+      "id": "b12",
+      "category": "multi_article",
+      "question": "¿Qué cobra un trabajador despedido mientras está de licencia por enfermedad inculpable?",
+      "expected_articles": [
+        "25552:213",
+        "25552:208"
+      ],
+      "retrieved_articles": [
+        "25552:213",
+        "25552:208",
+        "192152:53",
+        "25552:245",
+        "412:153",
+        "210489:48",
+        "25552:254",
+        "25552:212"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 118.10070904903114
+    },
+    {
+      "id": "b13",
+      "category": "multi_article",
+      "question": "¿Qué obligación de registro tiene el empleador y qué pasa si omite registrar al trabajador?",
+      "expected_articles": [
+        "25552:52",
+        "25552:55"
+      ],
+      "retrieved_articles": [
+        "8767:13",
+        "230592:9",
+        "230592:2",
+        "412:7",
+        "412:18",
+        "25552:52",
+        "426580:2",
+        "122396:20"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.21840743681816419,
+      "first_hit_rank": 6,
+      "retrieval_ms": 113.19108301540837
+    },
+    {
+      "id": "b14",
+      "category": "multi_article",
+      "question": "¿Qué formalidades exige la ley para la renuncia y para la extinción por mutuo acuerdo?",
+      "expected_articles": [
+        "25552:240",
+        "25552:241"
+      ],
+      "retrieved_articles": [
+        "25552:240",
+        "423680:49",
+        "423680:50",
+        "25552:241",
+        "210489:46",
+        "25552:244",
+        "401266:68"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2857142857142857,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493,
+      "first_hit_rank": 1,
+      "retrieval_ms": 117.26895900210366
+    },
+    {
+      "id": "b15",
+      "category": "multi_article",
+      "question": "¿Qué requisitos debe cumplir una suspensión por falta de trabajo y cuál es su plazo máximo?",
+      "expected_articles": [
+        "25552:218",
+        "25552:220"
+      ],
+      "retrieved_articles": [
+        "25552:220",
+        "25552:221",
+        "12367:14",
+        "246009:2",
+        "25552:219",
+        "25552:153",
+        "25552:218",
+        "221801:23"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8175295903539445,
+      "first_hit_rank": 1,
+      "retrieval_ms": 114.61133399279788
+    },
+    {
+      "id": "b16",
+      "category": "negation",
+      "question": "¿En qué casos el despido no genera derecho a indemnización por antigüedad?",
+      "expected_articles": [
+        "25552:242",
+        "25552:244"
+      ],
+      "retrieved_articles": [
+        "25552:245",
+        "423680:51",
+        "395521:81",
+        "412:153",
+        "25552:247",
+        "210489:48",
+        "25552:156"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": false,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "first_hit_rank": null,
+      "retrieval_ms": 124.06341702444479
+    },
+    {
+      "id": "b17",
+      "category": "negation",
+      "question": "¿A qué trabajadores no se les aplica la Ley de Contrato de Trabajo?",
+      "expected_articles": [
+        "25552:2"
+      ],
+      "retrieved_articles": [
+        "25552:2",
+        "423680:1",
+        "379858:1",
+        "12367:2",
+        "192152:3",
+        "192152:100",
+        "412:112",
+        "10298:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 112.5760410213843
+    },
+    {
+      "id": "b18",
+      "category": "negation",
+      "question": "¿Qué descuentos no puede hacer el empleador sobre el salario?",
+      "expected_articles": [
+        "25552:131",
+        "25552:132"
+      ],
+      "retrieved_articles": [
+        "25552:131",
+        "25552:133",
+        "192152:39",
+        "25552:132",
+        "423680:37",
+        "25552:147",
+        "354815:2",
+        "219607:3"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8772153153380493,
+      "first_hit_rank": 1,
+      "retrieval_ms": 110.92987499432638
+    },
+    {
+      "id": "b19",
+      "category": "negation",
+      "question": "¿Cuándo el trabajador no cobra el salario del día feriado?",
+      "expected_articles": [
+        "25552:168"
+      ],
+      "retrieved_articles": [
+        "25552:166",
+        "25552:168",
+        "25552:169",
+        "25552:170",
+        "25552:167",
+        "25552:165",
+        "242848:6",
+        "25552:155"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 118.83233301341534
+    },
+    {
+      "id": "b20",
+      "category": "negation",
+      "question": "¿Qué servicios no pueden ser objeto de un contrato de trabajo?",
+      "expected_articles": [
+        "25552:38",
+        "25552:39",
+        "25552:40"
+      ],
+      "retrieved_articles": [
+        "25552:38",
+        "25552:42",
+        "25552:23",
+        "25552:40",
+        "93595:24",
+        "25552:41",
+        "423680:11",
+        "25552:39"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.375,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.8194270280062366,
+      "first_hit_rank": 1,
+      "retrieval_ms": 110.7964999973774
+    },
+    {
+      "id": "b21",
+      "category": "negation",
+      "question": "¿Puede el trabajador renunciar a los derechos que le da la ley?",
+      "expected_articles": [
+        "25552:12"
+      ],
+      "retrieved_articles": [
+        "25552:75",
+        "25552:7",
+        "25552:42",
+        "25552:66",
+        "115745:1",
+        "25552:12",
+        "25552:44",
+        "423680:23"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.3562071871080222,
+      "first_hit_rank": 6,
+      "retrieval_ms": 114.25420898012817
+    },
+    {
+      "id": "b22",
+      "category": "confusable",
+      "question": "¿Cuánto dura el período de prueba para el personal de casas particulares?",
+      "expected_articles": [
+        "210489:7"
+      ],
+      "retrieved_articles": [
+        "210489:7",
+        "210489:45",
+        "210489:73",
+        "210489:15",
+        "210489:65",
+        "51089:1",
+        "63208:1",
+        "210489:6"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 112.87512502167374
+    },
+    {
+      "id": "b23",
+      "category": "confusable",
+      "question": "¿Cuántos días de vacaciones tiene una empleada de casas particulares?",
+      "expected_articles": [
+        "210489:29"
+      ],
+      "retrieved_articles": [
+        "210489:29",
+        "210489:31",
+        "210489:32",
+        "25552:150",
+        "151043:1",
+        "25552:158",
+        "149526:1",
+        "210489:30"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 114.21645898371935
+    },
+    {
+      "id": "b24",
+      "category": "confusable",
+      "question": "¿Cuál es la jornada máxima de trabajo del trabajador agrario?",
+      "expected_articles": [
+        "192152:40"
+      ],
+      "retrieved_articles": [
+        "192152:40",
+        "192152:41",
+        "192152:42",
+        "192152:45",
+        "192152:16",
+        "192152:44",
+        "25552:199",
+        "398816:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 112.21495800418779
+    },
+    {
+      "id": "b25",
+      "category": "confusable",
+      "question": "¿Qué recargo corresponde si el empleador, intimado, no paga las indemnizaciones por despido y obliga al trabajador a iniciar juicio?",
+      "expected_articles": [
+        "64555:2"
+      ],
+      "retrieved_articles": [
+        "64555:2",
+        "210489:43",
+        "64555:1",
+        "412:153",
+        "395521:85",
+        "210489:48",
+        "395521:81",
+        "93595:5"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 121.66816601529717
+    },
+    {
+      "id": "b26",
+      "category": "confusable",
+      "question": "¿Cómo se calcula y cuándo se paga el aguinaldo del personal de casas particulares?",
+      "expected_articles": [
+        "210489:26",
+        "210489:27"
+      ],
+      "retrieved_articles": [
+        "210489:27",
+        "210489:26",
+        "425989:1",
+        "28165:1",
+        "389071:3",
+        "25552:122",
+        "376814:7",
+        "210489:37"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 116.87566700857133
+    },
+    {
+      "id": "b27",
+      "category": "confusable",
+      "question": "¿Qué presume la ley cuando alguien presta servicios para otro en relación de dependencia?",
+      "expected_articles": [
+        "25552:23"
+      ],
+      "retrieved_articles": [
+        "25552:23",
+        "423680:13",
+        "401266:89",
+        "25552:22",
+        "423680:12",
+        "395521:68",
+        "210489:1",
+        "25552:58"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 106.66191700147465
+    },
+    {
+      "id": "b28",
+      "category": "derogated",
+      "question": "¿Qué establecía el artículo 28 de la LCT sobre los auxiliares del trabajador?",
+      "expected_articles": [
+        "25552:28"
+      ],
+      "retrieved_articles": [
+        "25552:29",
+        "423680:14",
+        "25552:25",
+        "25552:29bis",
+        "25552:89",
+        "192152:104",
+        "25552:26",
+        "192152:88"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": false,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "first_hit_rank": null,
+      "retrieval_ms": 116.40354100381956
+    },
+    {
+      "id": "b29",
+      "category": "derogated",
+      "question": "¿Qué multa fijaba el artículo 8 de la Ley de Empleo 24.013 por no registrar la relación laboral?",
+      "expected_articles": [
+        "412:8"
+      ],
+      "retrieved_articles": [
+        "8767:13",
+        "412:7",
+        "148719:11",
+        "230592:9",
+        "412:153",
+        "230592:2",
+        "64555:2",
+        "426580:2"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": false,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "first_hit_rank": null,
+      "retrieval_ms": 112.94991697650403
+    },
+    {
+      "id": "b30",
+      "category": "derogated",
+      "question": "¿Qué decía el artículo 54 de la LCT antes de su derogación?",
+      "expected_articles": [
+        "25552:54"
+      ],
+      "retrieved_articles": [
+        "25552:58",
+        "25552:50",
+        "25552:92",
+        "27971:34",
+        "269015:1",
+        "25552:53",
+        "27971:25",
+        "162205:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": false,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "first_hit_rank": null,
+      "retrieval_ms": 110.11358298128471
+    },
+    {
+      "id": "b31",
+      "category": "derogated",
+      "question": "¿Qué disponía la LCT sobre el ahorro obligatorio de los trabajadores menores de edad?",
+      "expected_articles": [
+        "25552:192",
+        "25552:193"
+      ],
+      "retrieved_articles": [
+        "77208:1",
+        "423680:36",
+        "21976:11",
+        "25552:124",
+        "141792:5",
+        "25552:34",
+        "21976:2",
+        "46277:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": false,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "first_hit_rank": null,
+      "retrieval_ms": 110.59629102237523
+    },
+    {
+      "id": "b32",
+      "category": "derogated",
+      "question": "¿Está vigente la Ley 25.250 de reforma laboral?",
+      "expected_articles": [
+        "93595:1"
+      ],
+      "retrieved_articles": [
+        "53159:22",
+        "63208:1",
+        "63208:10",
+        "63208:5",
+        "63208:34",
+        "63208:35",
+        "93595:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.14285714285714285,
+      "reciprocal_rank": 0.14285714285714285,
+      "ndcg_at_k": 0.3333333333333333,
+      "first_hit_rank": 7,
+      "retrieval_ms": 112.6733329729177
+    },
+    {
+      "id": "b33",
+      "category": "temporal",
+      "question": "¿Cuánto duraba el período de prueba en 2023?",
+      "expected_articles": [
+        "25552:92bis"
+      ],
+      "retrieved_articles": [
+        "53159:3",
+        "395521:71",
+        "210489:7",
+        "25552:92bis",
+        "401266:91",
+        "63208:1",
+        "93595:2",
+        "20421:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.25,
+      "ndcg_at_k": 0.43067655807339306,
+      "first_hit_rank": 4,
+      "retrieval_ms": 113.70408395305276
+    },
+    {
+      "id": "b34",
+      "category": "temporal",
+      "question": "¿Cómo se calculaba la indemnización por antigüedad en 2020?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "395521:81",
+        "423680:51",
+        "25552:245",
+        "210489:48",
+        "412:153",
+        "395521:83",
+        "423680:52",
+        "412:155"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg_at_k": 0.5,
+      "first_hit_rank": 3,
+      "retrieval_ms": 112.8434999845922
+    },
+    {
+      "id": "b35",
+      "category": "temporal",
+      "question": "¿Qué plazo de preaviso regía en el año 2000 para un trabajador con más de cinco años de antigüedad?",
+      "expected_articles": [
+        "25552:231"
+      ],
+      "retrieved_articles": [
+        "25552:231",
+        "210489:42",
+        "25552:236",
+        "25552:94",
+        "25552:233",
+        "93595:3",
+        "15932:95",
+        "25552:95"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 117.74233297910541
+    },
+    {
+      "id": "b36",
+      "category": "temporal",
+      "question": "¿Cuál era la edad mínima para trabajar antes de la Ley 26.390?",
+      "expected_articles": [
+        "25552:32",
+        "25552:187"
+      ],
+      "retrieved_articles": [
+        "141792:2",
+        "141792:23",
+        "141792:6",
+        "141792:17",
+        "192152:54",
+        "141792:19",
+        "141792:7",
+        "141792:9"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": false,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "ndcg_at_k": 0.0,
+      "first_hit_rank": null,
+      "retrieval_ms": 110.805457981769
+    },
+    {
+      "id": "b37",
+      "category": "temporal",
+      "question": "¿Qué tope indemnizatorio fijaba el artículo 245 de la LCT en 2010?",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "99777:1",
+        "25552:245",
+        "95487:1",
+        "184483:1",
+        "423680:51",
+        "147295:1",
+        "395521:81",
+        "412:153"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "first_hit_rank": 2,
+      "retrieval_ms": 117.80566704692319
+    },
+    {
+      "id": "b38",
+      "category": "temporal",
+      "question": "¿Qué decía el artículo 198 de la LCT sobre jornada reducida antes de 2026?",
+      "expected_articles": [
+        "25552:198"
+      ],
+      "retrieved_articles": [
+        "25552:198",
+        "423680:43",
+        "412:25",
+        "25552:197",
+        "25552:200",
+        "25552:92ter",
+        "25552:199",
+        "353199:5"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 113.60133299604058
+    },
+    {
+      "id": "b39",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es el tope indemnizatorio vigente para el convenio colectivo de comercio?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "99777:6",
+        "272031:1",
+        "25552:245",
+        "94005:1",
+        "423680:51",
+        "395521:81",
+        "217407:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 116.73116602469236
+    },
+    {
+      "id": "b40",
+      "category": "not_in_corpus",
+      "question": "¿Qué dice el artículo 14 bis de la Constitución Nacional?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "412:139",
+        "425373:2",
+        "412:140",
+        "69724:18",
+        "25552:103",
+        "412995:14",
+        "25552:116",
+        "401266:108"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 125.01337501453236
+    },
+    {
+      "id": "b41",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es la jornada máxima diaria y semanal según la Ley 11.544?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "25552:198",
+        "25552:196",
+        "412:25",
+        "25552:199",
+        "423680:43",
+        "192152:40",
+        "25552:197",
+        "25552:200"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 116.16945802234113
+    },
+    {
+      "id": "b42",
+      "category": "not_in_corpus",
+      "question": "¿Cuántos días de licencia por paternidad establece el convenio colectivo 130/75 de empleados de comercio?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "210489:38",
+        "192152:52",
+        "25552:158",
+        "25552:179",
+        "25552:159",
+        "395521:78",
+        "192152:51",
+        "352106:3"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 116.73599999630824
+    },
+    {
+      "id": "b43",
+      "category": "not_in_corpus",
+      "question": "¿Qué dice el Código Civil y Comercial sobre el contrato de servicios?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "25552:21",
+        "25552:38",
+        "25552:23",
+        "423680:11",
+        "25552:30",
+        "25552:22",
+        "395521:252",
+        "25379:20"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 114.23395900055766
+    },
+    {
+      "id": "b44",
+      "category": "not_in_corpus",
+      "question": "¿Cuál es el porcentaje de aporte jubilatorio que se descuenta al trabajador según la Ley 24.241?",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "425538:3",
+        "729:1",
+        "37881:6",
+        "412:145",
+        "412:87",
+        "423680:159",
+        "192152:81",
+        "230592:22"
+      ],
+      "retrieved_chunks": 8,
+      "scored": false,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "reciprocal_rank": null,
+      "ndcg_at_k": null,
+      "first_hit_rank": null,
+      "retrieval_ms": 113.415666972287
+    },
+    {
+      "id": "b45",
+      "category": "cross_reference",
+      "question": "¿Qué ley sustituyó el artículo 92 bis de la LCT en 2024 y qué artículo de esa ley lo hizo?",
+      "expected_articles": [
+        "401266:91"
+      ],
+      "retrieved_articles": [
+        "423680:27",
+        "93595:2",
+        "149688:1",
+        "25552:92",
+        "379858:3",
+        "401266:91",
+        "25552:50",
+        "21976:11"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.16666666666666666,
+      "ndcg_at_k": 0.3562071871080222,
+      "first_hit_rank": 6,
+      "retrieval_ms": 111.19604198029265
+    },
+    {
+      "id": "b46",
+      "category": "cross_reference",
+      "question": "¿Qué artículo de la Ley 27.802 modificó la entrega de certificados de trabajo del artículo 80 de la LCT?",
+      "expected_articles": [
+        "423680:25"
+      ],
+      "retrieved_articles": [
+        "423680:25",
+        "248688:12",
+        "423680:45",
+        "369835:10",
+        "192152:75",
+        "25552:80",
+        "248688:10",
+        "425871:1"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 117.16479202732444
+    },
+    {
+      "id": "b47",
+      "category": "cross_reference",
+      "question": "¿A qué ley remite la LCT para la extensión de la jornada de trabajo?",
+      "expected_articles": [
+        "25552:196"
+      ],
+      "retrieved_articles": [
+        "25552:196",
+        "25552:198",
+        "423680:43",
+        "25552:197bis",
+        "25552:199",
+        "27971:40",
+        "25552:197",
+        "25552:200"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 110.99166702479124
+    },
+    {
+      "id": "b48",
+      "category": "cross_reference",
+      "question": "¿Qué indemnización cobran los familiares por muerte del trabajador y a qué artículo remite?",
+      "expected_articles": [
+        "25552:248",
+        "25552:247"
+      ],
+      "retrieved_articles": [
+        "25552:248",
+        "423680:52",
+        "25552:156",
+        "25552:249",
+        "203798:3",
+        "27971:18",
+        "25552:251",
+        "25552:255"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 0.6131471927654584,
+      "first_hit_rank": 1,
+      "retrieval_ms": 112.44387499755248
+    },
+    {
+      "id": "b49",
+      "category": "cross_reference",
+      "question": "¿Qué agravamiento indemnizatorio por despido discriminatorio incorporó la Ley 27.742 a la LCT?",
+      "expected_articles": [
+        "25552:245bis",
+        "401266:95"
+      ],
+      "retrieved_articles": [
+        "401266:95",
+        "25552:245bis",
+        "395521:82",
+        "64555:1",
+        "412:153",
+        "27971:14",
+        "401266:96"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2857142857142857,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "first_hit_rank": 1,
+      "retrieval_ms": 117.11795802693814
+    },
+    {
+      "id": "b50",
+      "category": "cross_reference",
+      "question": "¿Qué norma derogó la Ley 25.250 y sus reglamentaciones?",
+      "expected_articles": [
+        "93595:1"
+      ],
+      "retrieved_articles": [
+        "63208:34",
+        "93595:42",
+        "93595:41",
+        "401266:100",
+        "93595:1",
+        "75926:5",
+        "369835:16",
+        "53159:22"
+      ],
+      "retrieved_chunks": 8,
+      "scored": true,
+      "hit_at_k": true,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.125,
+      "reciprocal_rank": 0.2,
+      "ndcg_at_k": 0.38685280723454163,
+      "first_hit_rank": 5,
+      "retrieval_ms": 108.4289580467157
+    }
+  ]
+}

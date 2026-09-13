@@ -1,0 +1,560 @@
+{
+  "name": "phase3-baseline-generation",
+  "ran_at": "2026-09-13T13:20:37.854487Z",
+  "catalog_date": "2026-09-12",
+  "k": 8,
+  "embedding_model": "BAAI/bge-m3",
+  "llm_model": "claude-opus-5",
+  "n": 20,
+  "hit_rate_at_k": 0.8,
+  "p50_retrieval_ms": 324.4573750416748,
+  "p95_retrieval_ms": 693.9852920477279,
+  "p50_total_ms": 15458.412915992085,
+  "p95_total_ms": 19665.3299999889,
+  "total_input_tokens": 67771,
+  "total_output_tokens": 24955,
+  "estimated_cost_usd": 0.96273,
+  "results": [
+    {
+      "id": "s01",
+      "question": "¿Cuánto dura el período de prueba en un contrato por tiempo indeterminado?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:92bis"
+      ],
+      "retrieved_articles": [
+        "210489:7",
+        "53159:3",
+        "395521:71",
+        "63208:1",
+        "25552:92bis",
+        "401266:91",
+        "93595:2",
+        "423680:107"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 146.27208397723734,
+      "llm_ms": 19518.80020799581,
+      "total_ms": 19665.3299999889,
+      "input_tokens": 5959,
+      "output_tokens": 1702,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "b3ffcb6c207d5642c6c1b93f73ae9e8d"
+    },
+    {
+      "id": "s02",
+      "question": "¿Qué plazo de preaviso debe dar el empleador a un trabajador con más de cinco años de antigüedad?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:231"
+      ],
+      "retrieved_articles": [
+        "25552:231",
+        "93595:3",
+        "210489:42",
+        "423680:48",
+        "25552:94",
+        "423680:9",
+        "423680:51",
+        "210489:43"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 296.2133329710923,
+      "llm_ms": 10769.267708004918,
+      "total_ms": 11065.650333010126,
+      "input_tokens": 3126,
+      "output_tokens": 748,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "fafff5a374cc00b963db7d97c2707e37"
+    },
+    {
+      "id": "s03",
+      "question": "¿Cómo se calcula la indemnización por antigüedad en caso de despido sin causa?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:245"
+      ],
+      "retrieved_articles": [
+        "395521:81",
+        "210489:48",
+        "412:153",
+        "25552:245",
+        "423680:51",
+        "25552:245",
+        "192152:22",
+        "4215:51"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 108.28429198591039,
+      "llm_ms": 29130.12816698756,
+      "total_ms": 29238.63979196176,
+      "input_tokens": 5528,
+      "output_tokens": 2494,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "4d042a4f1f48ea0d1556068618ca7d38"
+    },
+    {
+      "id": "s04",
+      "question": "¿Qué es el despido indirecto?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:246"
+      ],
+      "retrieved_articles": [
+        "210489:49",
+        "25552:246",
+        "334610:3",
+        "423680:144",
+        "25379:202",
+        "25552:243",
+        "25552:245bis",
+        "25552:245"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 426.19245895184577,
+      "llm_ms": 12913.727374980226,
+      "total_ms": 13340.186957968399,
+      "input_tokens": 3710,
+      "output_tokens": 921,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "865cf1f34b118bcf9c850ddce080d3cd"
+    },
+    {
+      "id": "s05",
+      "question": "¿Cuáles son las fuentes de regulación del contrato de trabajo?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:1"
+      ],
+      "retrieved_articles": [
+        "25552:1",
+        "192152:2",
+        "25552:4",
+        "25552:21",
+        "423680:2",
+        "423680:11",
+        "395521:252",
+        "414812:17"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 157.10812498582527,
+      "llm_ms": 12239.149916975293,
+      "total_ms": 12396.760167030152,
+      "input_tokens": 2195,
+      "output_tokens": 1099,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "4913e9f2d3fd2cca923439c45c5ecf88"
+    },
+    {
+      "id": "s06",
+      "question": "¿Qué se entiende por contrato de trabajo?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:21"
+      ],
+      "retrieved_articles": [
+        "25552:21",
+        "25552:4",
+        "423680:2",
+        "423680:11",
+        "25552:37",
+        "63208:1",
+        "25552:90",
+        "25552:22"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 148.50633399328217,
+      "llm_ms": 14209.530416992493,
+      "total_ms": 14358.671958034392,
+      "input_tokens": 2738,
+      "output_tokens": 1295,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "6665182031cbef9be5980a98598a80d3"
+    },
+    {
+      "id": "s07",
+      "question": "¿Qué obligación tiene el empleador de entregar certificados al terminar la relación laboral?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:80"
+      ],
+      "retrieved_articles": [
+        "423680:25",
+        "25552:80",
+        "192152:75",
+        "7968:22",
+        "7968:18",
+        "215351:1",
+        "7968:17",
+        "215351:2"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 151.6983750043437,
+      "llm_ms": 15115.564458013978,
+      "total_ms": 15267.4709999701,
+      "input_tokens": 2554,
+      "output_tokens": 1322,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "cf9777ac4c415f2c234384ccbd7e7da8"
+    },
+    {
+      "id": "s08",
+      "question": "¿Cuántos días de vacaciones corresponden según la antigüedad?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:150"
+      ],
+      "retrieved_articles": [
+        "25552:150",
+        "210489:31",
+        "210489:29",
+        "423680:41",
+        "25552:155",
+        "25552:154",
+        "25552:164",
+        "25552:151"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 155.76616703765467,
+      "llm_ms": 10425.739625003189,
+      "total_ms": 10581.80587500101,
+      "input_tokens": 4195,
+      "output_tokens": 861,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "01ca17e414fd765a242942354df9e573"
+    },
+    {
+      "id": "s09",
+      "question": "¿Qué licencias especiales tiene el trabajador, por ejemplo por nacimiento de hijo o matrimonio?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:158"
+      ],
+      "retrieved_articles": [
+        "25552:158",
+        "210489:38",
+        "192152:52",
+        "39995:1",
+        "192152:51",
+        "25552:161",
+        "210489:30",
+        "25552:159"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 780.0617500324734,
+      "llm_ms": 17937.440667010378,
+      "total_ms": 18718.337790982332,
+      "input_tokens": 2396,
+      "output_tokens": 1611,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "80dd31c70b08a098f25e830c0f1e78d6"
+    },
+    {
+      "id": "s10",
+      "question": "¿Qué pasa si el empleador despide a una trabajadora embarazada?",
+      "category": "multi",
+      "expected_articles": [
+        "25552:178",
+        "25552:182"
+      ],
+      "retrieved_articles": [
+        "210489:40",
+        "25552:178",
+        "210489:41",
+        "25552:177",
+        "210489:39",
+        "395521:78",
+        "77209:1",
+        "25552:213"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 479.3892909656279,
+      "llm_ms": 14978.527042025235,
+      "total_ms": 15458.412915992085,
+      "input_tokens": 4161,
+      "output_tokens": 1244,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "7403cbc8942014f1e67322bdc83a1272"
+    },
+    {
+      "id": "s11",
+      "question": "¿Cuál es la jornada máxima de trabajo?",
+      "category": "context",
+      "expected_articles": [
+        "25552:196"
+      ],
+      "retrieved_articles": [
+        "25552:198",
+        "412:25",
+        "423680:43",
+        "25552:200",
+        "25552:199",
+        "25552:197",
+        "192152:41",
+        "210489:11"
+      ],
+      "hit_at_k": false,
+      "retrieval_ms": 165.4704170068726,
+      "llm_ms": 19371.4906660025,
+      "total_ms": 19537.216249969788,
+      "input_tokens": 3170,
+      "output_tokens": 1587,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "65266e1fdfe614b84530325bb4f21780"
+    },
+    {
+      "id": "s12",
+      "question": "¿Cómo se paga el sueldo anual complementario?",
+      "category": "multi",
+      "expected_articles": [
+        "25552:121",
+        "25552:122"
+      ],
+      "retrieved_articles": [
+        "28165:1",
+        "25552:122",
+        "25552:121",
+        "210489:26",
+        "210489:27",
+        "241014:1",
+        "25552:123",
+        "336003:8"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 340.98929102765396,
+      "llm_ms": 14798.901250003837,
+      "total_ms": 15140.068458975293,
+      "input_tokens": 2223,
+      "output_tokens": 1340,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "779b9600cee88a306034e1e1ec94ab8f"
+    },
+    {
+      "id": "s13",
+      "question": "¿Qué es la justa causa de despido?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:242"
+      ],
+      "retrieved_articles": [
+        "25552:243",
+        "25552:246",
+        "12367:4",
+        "25552:245",
+        "25552:219",
+        "25552:245",
+        "25552:245bis",
+        "25552:242"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 413.1592079647817,
+      "llm_ms": 15570.36487502046,
+      "total_ms": 15983.732957975008,
+      "input_tokens": 3913,
+      "output_tokens": 1254,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "95abe22371cefd00820e844bc64f93e7"
+    },
+    {
+      "id": "s14",
+      "question": "¿Qué indemnización corresponde por falta de registración del trabajador?",
+      "category": "multi",
+      "expected_articles": [
+        "412:8",
+        "64555:1"
+      ],
+      "retrieved_articles": [
+        "8767:13",
+        "230592:2",
+        "21976:8",
+        "230592:9",
+        "153267:2",
+        "395521:61",
+        "423680:22",
+        "70518:1"
+      ],
+      "hit_at_k": false,
+      "retrieval_ms": 380.57925004977733,
+      "llm_ms": 16628.916207992006,
+      "total_ms": 17009.796375001315,
+      "input_tokens": 3890,
+      "output_tokens": 1284,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "cecc35ca8955336f9b63f6b5af2502ff"
+    },
+    {
+      "id": "s15",
+      "question": "¿Cuál es el tope indemnizatorio vigente para el convenio de comercio?",
+      "category": "not_in_corpus",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "94005:1",
+        "99777:6",
+        "99777:6",
+        "272031:1",
+        "219896:1",
+        "95487:2",
+        "54458:2",
+        "235595:1"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 445.0290419626981,
+      "llm_ms": 16435.84012502106,
+      "total_ms": 16881.068082991987,
+      "input_tokens": 4050,
+      "output_tokens": 1384,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "5015d3f9ea206fc09142981e74bf4d41"
+    },
+    {
+      "id": "s16",
+      "question": "¿Qué dice el artículo 14 bis de la Constitución Nacional?",
+      "category": "not_in_corpus",
+      "expected_articles": [],
+      "retrieved_articles": [
+        "425373:2",
+        "69724:18",
+        "412995:14",
+        "401266:108",
+        "69724:21",
+        "305736:15",
+        "305736:4",
+        "305736:150"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 192.3180419835262,
+      "llm_ms": 8645.970708981622,
+      "total_ms": 8838.496707961895,
+      "input_tokens": 2244,
+      "output_tokens": 583,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "786cc03ef23d81e6f805b8920cea6e3d"
+    },
+    {
+      "id": "s17",
+      "question": "¿Puede el trabajador renunciar a derechos que le da la ley?",
+      "category": "direct",
+      "expected_articles": [
+        "25552:12"
+      ],
+      "retrieved_articles": [
+        "25552:75",
+        "115745:1",
+        "25552:66",
+        "423680:23",
+        "25552:73",
+        "25552:58",
+        "423680:144",
+        "93595:3"
+      ],
+      "hit_at_k": false,
+      "retrieval_ms": 324.4573750416748,
+      "llm_ms": 10984.212332987227,
+      "total_ms": 11308.946917008143,
+      "input_tokens": 3298,
+      "output_tokens": 761,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "595c49ed18eab40e175d8cc22e5e3fbf"
+    },
+    {
+      "id": "s18",
+      "question": "¿En qué casos no hay derecho a indemnización por despido?",
+      "category": "negation",
+      "expected_articles": [
+        "25552:242",
+        "25552:247"
+      ],
+      "retrieved_articles": [
+        "412:153",
+        "395521:81",
+        "93595:5",
+        "93595:4",
+        "25552:247",
+        "25552:245",
+        "25552:245",
+        "210489:41"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 693.9852920477279,
+      "llm_ms": 14982.478416990489,
+      "total_ms": 15676.851042022463,
+      "input_tokens": 4821,
+      "output_tokens": 1186,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "e05941d082d4bd3c5f96d68a38017d09"
+    },
+    {
+      "id": "s19",
+      "question": "¿Qué diferencia hay entre suspensión por falta de trabajo y despido por fuerza mayor?",
+      "category": "confusable",
+      "expected_articles": [
+        "25552:219",
+        "25552:247"
+      ],
+      "retrieved_articles": [
+        "25552:221",
+        "25552:247",
+        "344201:17",
+        "360071:15",
+        "25552:219",
+        "25552:220",
+        "412:71",
+        "25552:222"
+      ],
+      "hit_at_k": true,
+      "retrieval_ms": 657.0256249979138,
+      "llm_ms": 15111.368958023377,
+      "total_ms": 15768.753458047286,
+      "input_tokens": 2150,
+      "output_tokens": 1360,
+      "insufficient_evidence": false,
+      "unsupported_sources": [],
+      "trace_id": "08d45f78b8b76b8b6b188fb4d8f7ac70"
+    },
+    {
+      "id": "s20",
+      "question": "¿Está derogado el artículo 28 de la Ley de Contrato de Trabajo?",
+      "category": "derogated",
+      "expected_articles": [
+        "25552:28"
+      ],
+      "retrieved_articles": [
+        "162205:1",
+        "37882:1",
+        "25552:58",
+        "423680:28",
+        "25552:12",
+        "423680:26",
+        "412:75",
+        "423680:47"
+      ],
+      "hit_at_k": false,
+      "retrieval_ms": 306.50508299004287,
+      "llm_ms": 10780.380958982278,
+      "total_ms": 11087.317375000566,
+      "input_tokens": 1450,
+      "output_tokens": 919,
+      "insufficient_evidence": true,
+      "unsupported_sources": [],
+      "trace_id": "765131bd538b769a0957eaead27529be"
+    }
+  ]
+}
