@@ -758,6 +758,57 @@ b25 (pregunta en presente sobre una ley derogada, caso abierto), b30 (el texto
 del art. 54 derogado no existe en el corpus) y b45 (qué ley sustituyó al 92
 bis). Reporte: `experiments/2026-09-14-phase16-final-default.json`.
 
+## Fase 18: el corpus crece y se mide en cada paso (2026-09-14)
+
+**La descarga era nuestra, no del servidor.** El fetcher esperaba medio
+segundo entre requests por una cortesía que nadie pidió. Medido contra
+Infoleg con 60 páginas al azar: 31 req/s con 4 conexiones, 65 con 8 y 80 con
+16, sin un solo error y sin `robots.txt` que lo prohíba. Ahora la descarga es
+concurrente (8 hilos, sin espera): 918 normas nuevas en 7,7 minutos.
+
+**Diez leyes nuevas como semillas**: jornada 11.544, convenios colectivos
+14.250, asociaciones sindicales 23.551, obras sociales 23.660 y 23.661,
+pasantías 25.165, accidentes 24.028 (derogada, como base histórica),
+construcción 22.250, encargados de casas de renta 12.981 y viajantes 14.546.
+Quedaron afuera jubilaciones 24.241 y procedimiento laboral 18.345 por
+decisión del usuario.
+
+**El filtro por semilla evitó un corpus de 46.878 normas.** La Ley 14.250
+tiene 42.424 "modificatorias" en Infoleg, porque cada homologación de un
+convenio colectivo figura como tal (28.934 resoluciones y 13.445
+disposiciones); la 23.551 suma 2.717 resoluciones de inscripción gremial.
+Esas dos semillas, y las de obras sociales, expanden sólo por `Ley` y
+`Decreto` (`expand_tipos` en el manifest). Corpus resultante: **1.224 normas**
+(antes 933), 14.926 artículos, 20.572 versiones, 14.552 chunks, índice de
+310 MB con 184 MB de HNSW.
+
+Benchmark antes y después, mismo retriever (vector + reescritura +
+multi-query + descomposición), hit@8 / nDCG@8:
+
+| Categoría | 933 normas | 1.224 normas |
+|---|---|---|
+| **overall** | 0,91 / 0,76 (44 preg.) | 0,91 / 0,77 (45 preg.) |
+| direct | 1,00 / 0,77 | 1,00 / 0,84 |
+| multi_article | 0,86 / 0,75 | 0,86 / 0,76 |
+| negation | 1,00 / 0,89 | 1,00 / 0,89 |
+| confusable | 1,00 / 0,97 | 1,00 / 0,90 |
+| derogated | 0,67 / 0,57 | 0,67 / 0,56 |
+| temporal | 1,00 / 0,76 | 1,00 / 0,76 |
+| cross_reference | 0,83 / 0,66 | 0,83 / 0,65 |
+
+Ninguna categoría empeoró, y hay una pregunta puntuable más: la jornada
+máxima dejó de ser "sin respuesta en el corpus" porque entró la Ley 11.544,
+a la que remite el art. 196 de la LCT. Latencia de retrieval: 50 ms p50
+(antes 83 ms con 11.066 chunks; la diferencia es ruido de caché, no una
+mejora real).
+
+**Profundidad.** Con las 16 semillas: profundidad 1 son 1.224 normas,
+profundidad 2 son 11.062 (9.838 nuevas, en su mayoría resoluciones) y
+profundidad 3 son 24.242. La descarga de la profundidad 2 tarda alrededor de
+una hora al ritmo medido; el cuello de botella es el embebido, que a 600-960
+chunks por minuto significa horas. La medición de profundidad 2 y 3 queda
+encadenada: bajar, indexar y correr el mismo benchmark.
+
 ## Problemas que esperamos encontrar (y medir)
 
 - **Temporal Misgrounding**: preguntar por 2021 y recibir el texto de 2026.

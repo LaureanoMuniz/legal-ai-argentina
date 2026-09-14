@@ -14,7 +14,8 @@ def test_defaults_point_to_local_data_dir(monkeypatch):
     monkeypatch.delenv("LEGAL_AI_DATA_DIR", raising=False)
     settings = Settings()
     assert settings.data_dir == Path("data")
-    assert settings.infoleg_min_interval_seconds == 0.5
+    assert settings.infoleg_min_interval_seconds == 0.0
+    assert settings.infoleg_workers == 8
     assert "Mozilla/5.0" in settings.infoleg_user_agent
 
 

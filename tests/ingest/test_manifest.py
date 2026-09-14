@@ -29,8 +29,13 @@ def make_catalog() -> InMemoryCatalog:
 def test_load_manifest_from_repo_yaml():
     manifest = load_manifest(Path("corpus/laboral.yaml"))
     assert manifest.name == "laboral"
-    assert [s.numero for s in manifest.seeds] == [20744, 24013, 25323, 25877, 27742, 27802]
+    numeros = [s.numero for s in manifest.seeds]
+    assert numeros[:6] == [20744, 24013, 25323, 25877, 27742, 27802]
+    assert {11544, 14250, 23551, 22250, 14546} <= set(numeros)
     assert manifest.expand.tipos is None
+    convenios = next(s for s in manifest.seeds if s.numero == 14250)
+    assert convenios.expand_tipos == ["Ley", "Decreto"]
+    assert next(s for s in manifest.seeds if s.numero == 20744).expand_tipos is None
 
 
 def test_resolve_seeds_and_expand_depth_1_includes_every_tipo_by_default():
