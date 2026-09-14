@@ -57,4 +57,6 @@ visibles cuando la hubo.
 | 45 | 16 | Cambiar el prompt del reescritor no invalidaba su caché: las preguntas seguían usando reescrituras viejas | Las subqueries llegaban vacías | La clave de caché lleva una versión de prompt | Una caché sin versión miente cuando cambia lo que la produce |
 | 46 | 16 | Descomponer la pregunta y fusionar todo por RRF subía el recall y empeoraba el orden | Barrido offline de estrategias de fusión | Cuota: dos lugares reservados por sub-búsqueda | Promediar rankings diluye lo que sólo una lista sabe |
 | 47 | 16 | Una etiqueta del benchmark pedía como vigente un recargo de una ley derogada en 2023 | El sistema dejó de traerlo al marcar derogaciones y el fallo obligó a revisar | Etiqueta corregida, caso abierto documentado | El sistema puede tener razón contra el benchmark |
+| 48 | 17 | El benchmark final seguía corriendo en híbrido con el default ya cambiado | El nombre del retriever en la salida | `.env` tenía la variable vieja, y además duplicada | Un default en el código no gana contra un `.env` olvidado |
+| 49 | 17 | e5-large necesita prefijos `query:` y `passage:`; con la misma función para los dos, mide otra cosa | Documentación del modelo | El embedder expone `embed_queries` aparte y el retriever la usa si existe | Los modelos asimétricos no son intercambiables sin mirar cómo se usan |
 

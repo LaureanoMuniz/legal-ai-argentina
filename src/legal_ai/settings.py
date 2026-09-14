@@ -24,14 +24,14 @@ class Settings(BaseSettings):
     embedding_model: str = "BAAI/bge-m3"
     embedding_dim: int = 1024
     llm_model: str = "claude-opus-5"
-    retrieval_mode: Literal["vector", "bm25", "rrf", "hybrid"] = "hybrid"
+    retrieval_mode: Literal["vector", "bm25", "rrf", "hybrid"] = "vector"
     hybrid_alpha: float = 0.8
     reranker_model: str | None = None
     rerank_pool: int = 30
     rewrite_model: str | None = "claude-sonnet-5"
     rewrite_multi_query: bool = True
     graph_extra: int = 0
-    decompose: bool = False
+    decompose: bool = True
     retrieval_dedupe: bool = False
     otlp_endpoint: str | None = None
     traces_path: Path = Path("data/traces/spans.jsonl")

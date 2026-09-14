@@ -708,6 +708,56 @@ debería recuperar el artículo derogado con su marca o el que la deroga, y el
 índice por defecto excluye los derogados. Es exactamente el tipo de error que
 sólo aparece cuando alguien mira los fallos uno por uno.
 
+## Fase 17: comparación de embedders y vuelta a vector (2026-09-14)
+
+Primera comparación de modelos de embeddings, ahora que los datos están
+limpios. `multilingual-e5-large` (asimétrico, con prefijos `query:` y
+`passage:`, 1024 dimensiones como bge-m3) contra el baseline, mismo corpus,
+mismas 44 preguntas, misma reescritura cacheada.
+
+| Embedder y modo | hit@8 | recall@8 | MRR | nDCG@8 | p50 |
+|---|---|---|---|---|---|
+| bge-m3 · vector | 0,91 | 0,89 | 0,76 | 0,76 | 83 ms |
+| bge-m3 · híbrido | 0,91 | 0,89 | 0,73 | 0,74 | 115 ms |
+| e5-large · vector | 0,89 | 0,83 | 0,64 | 0,66 | 83 ms |
+| e5-large · híbrido | 0,91 | 0,85 | 0,66 | 0,68 | 122 ms |
+
+bge-m3 gana en las cuatro métricas con los dos modos. e5 no es malo (hit
+0,89 en vector) pero ordena peor: nDCG 0,66 contra 0,76. Embeber el corpus con
+e5 tardó lo mismo que con bge-m3 y la caché permitió volver al baseline sin
+recalcular nada. Voyage y Cohere quedan pendientes: necesitan clave propia.
+
+**El híbrido dejó de aportar.** Con el índice y la reescritura actuales, el
+vector solo supera al híbrido en cinco de siete categorías y empata en dos:
+nDCG 0,76 contra 0,74, mismo hit y recall, y 83 ms contra 125 ms. La razón es
+comprensible: lo único que BM25 aportaba de forma consistente era la
+coincidencia exacta en preguntas sobre derogaciones ("derógase la ley
+25.250"), y eso ahora está modelado como estado de la versión (ADR-031), no
+como texto a encontrar. El default vuelve a `vector` (ADR-032); `hybrid`,
+`rrf` y `bm25` siguen disponibles y medidos.
+
+**Configuración final y números** (`vector + reescritura Sonnet 5 +
+multi-query + descomposición con cuota`, k = 8, índice con versiones
+históricas y derogaciones):
+
+hit@8 0,91 · recall@8 0,89 · MRR 0,76 · nDCG@8 0,76 · retrieval p50
+83 ms · versión correcta en las temporales 6/6.
+
+| Categoría | hit@8 / nDCG@8 |
+|---|---|
+| direct | 1,00 / 0,77 |
+| multi_article | 0,86 / 0,75 |
+| negation | 1,00 / 0,89 |
+| confusable | 1,00 / 0,97 |
+| derogated | 0,67 / 0,57 |
+| temporal | 1,00 / 0,76 |
+| cross_reference | 0,83 / 0,66 |
+
+Los cuatro fallos que quedan: b13 (registro: trae el art. 52 pero no el 55),
+b25 (pregunta en presente sobre una ley derogada, caso abierto), b30 (el texto
+del art. 54 derogado no existe en el corpus) y b45 (qué ley sustituyó al 92
+bis). Reporte: `experiments/2026-09-14-phase16-final-default.json`.
+
 ## Problemas que esperamos encontrar (y medir)
 
 - **Temporal Misgrounding**: preguntar por 2021 y recibir el texto de 2026.

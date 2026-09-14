@@ -512,3 +512,22 @@ recargo de una ley derogada en 2023.
 del artículo 29" (derogación parcial) y "Derógase toda disposición que se
 oponga" quedan afuera a propósito: no se puede saber qué texto sobrevive.
 
+## ADR-032: bge-m3 sigue siendo el embedder y el default vuelve a vector solo
+
+**Decisión.** `BAAI/bge-m3` queda como embedder del sistema tras compararlo
+con `intfloat/multilingual-e5-large` sobre el mismo índice y benchmark: 0,76
+contra 0,66 de nDCG@8 en modo vector. El modo de retrieval por default vuelve
+a `vector`, revisando ADR-022.
+
+**Por qué se revisa ADR-022.** Cuando se adoptó el híbrido, su única ganancia
+clara era encontrar "Derógase la Ley 25.250" por coincidencia exacta. Esa
+información ahora es estado de la versión (ADR-031) y no hace falta buscarla
+como texto. Medido: vector 0,91/0,89/0,76/0,76 (hit, recall, MRR, nDCG) contra
+híbrido 0,91/0,89/0,73/0,74, y 83 ms contra 125 ms. El híbrido gana sólo en
+temporal; vector gana en negación, confundibles, multi-artículo y derogadas.
+
+**Consecuencias.** `LEGAL_AI_RETRIEVAL_MODE` sigue aceptando `hybrid`, `rrf` y
+`bm25`, y el índice BM25 se mantiene: es la base de la Fase 5 y el candidato
+natural si el benchmark de abogados trae preguntas por número de norma. La
+comparación con embedders de API (Voyage legal, Cohere) queda pendiente.
+
