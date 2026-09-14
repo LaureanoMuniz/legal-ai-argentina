@@ -95,23 +95,49 @@ def fetch(
     limit: Annotated[
         int | None, typer.Option("--limit", help="Procesa solo las primeras N normas.")
     ] = None,
+    workers: Annotated[
+        int | None, typer.Option("--workers", help="Descargas en paralelo (default: settings).")
+    ] = None,
+    quiet: Annotated[bool, typer.Option("--quiet", help="Sólo progreso cada 100 normas.")] = False,
 ) -> None:
     """Descarga norma.htm, texact.htm y las páginas de vínculos de cada norma del corpus."""
+    import time
+    from concurrent.futures import ThreadPoolExecutor
+
     settings = Settings()
     raw = RawLayout(settings.data_dir)
     resolved = read_resolved(ProcessedLayout(settings.data_dir).resolved_path(corpus))
     norms = resolved.norms[:limit] if limit is not None else resolved.norms
+    n_workers = workers if workers is not None else settings.infoleg_workers
     totals: Counter[FetchOutcome] = Counter()
+    started = time.monotonic()
     with _http(settings) as http:
         client = InfolegClient(http, min_interval=settings.infoleg_min_interval_seconds)
-        for i, norm in enumerate(norms, 1):
-            report = fetch_norm(client, raw, norm, force=force)
-            totals.update(report.outcomes.values())
-            summary = " ".join(f"{k}={v.value}" for k, v in report.outcomes.items())
-            label = f"{norm.tipo_norma} {norm.numero_norma} ({norm.id_norma})"
-            typer.echo(f"[{i}/{len(norms)}] {label} {summary}")
-            for name, error in report.errors.items():
-                typer.echo(f"    {name}: {error}", err=True)
-    typer.echo("total: " + " ".join(f"{o.value}={totals.get(o, 0)}" for o in FetchOutcome))
+
+        def one(norm):
+            return norm, fetch_norm(client, raw, norm, force=force)
+
+        with ThreadPoolExecutor(max_workers=n_workers) as pool:
+            for i, (norm, report) in enumerate(pool.map(one, norms), 1):
+                totals.update(report.outcomes.values())
+                label = f"{norm.tipo_norma} {norm.numero_norma} ({norm.id_norma})"
+                if quiet:
+                    if i % 100 == 0 or i == len(norms):
+                        rate = i / max(time.monotonic() - started, 0.001)
+                        left = (len(norms) - i) / rate / 60
+                        typer.echo(
+                            f"[{i}/{len(norms)}] {rate:.1f} normas/s · faltan {left:.0f} min"
+                        )
+                else:
+                    summary = " ".join(f"{k}={v.value}" for k, v in report.outcomes.items())
+                    typer.echo(f"[{i}/{len(norms)}] {label} {summary}")
+                for name, error in report.errors.items():
+                    typer.echo(f"    {label} {name}: {error}", err=True)
+    elapsed = time.monotonic() - started
+    typer.echo(
+        "total: "
+        + " ".join(f"{o.value}={totals.get(o, 0)}" for o in FetchOutcome)
+        + f" · {elapsed / 60:.1f} min · {len(norms) / max(elapsed, 0.001):.1f} normas/s"
+    )
     if totals.get(FetchOutcome.FAILED):
         raise typer.Exit(1)

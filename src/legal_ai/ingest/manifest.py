@@ -19,6 +19,8 @@ class Seed(BaseModel):
     why: str
     sancion_year: int | None = None
     original_from: SeedRef | None = None
+    expand_tipos: list[str] | None = None
+    """Tipos que se aceptan al expandir ESTA semilla; None usa el filtro global."""
 
 
 class Expand(BaseModel):
@@ -141,6 +143,7 @@ def _expand_once(
     catalog: Catalog,
     tipos: list[str] | None,
     depth: int,
+    tipos_por_padre: dict[int, list[str]] | None = None,
 ) -> dict[int, ResolvedNorm]:
     parent_of: dict[int, int] = {}
     for rel in catalog.relations():
@@ -148,12 +151,25 @@ def _expand_once(
             parent_of.setdefault(rel.id_norma_modificatoria, rel.id_norma_modificada)
     if not parent_of:
         return {}
+    per_parent = tipos_por_padre or {}
     added: dict[int, ResolvedNorm] = {}
     for row in catalog.norms():
         parent = parent_of.get(row.id_norma)
-        if parent is not None and (tipos is None or row.tipo_norma in tipos):
+        if parent is None:
+            continue
+        allowed = per_parent.get(parent, tipos)
+        if allowed is None or row.tipo_norma in allowed:
             added[row.id_norma] = _to_resolved(row, f"modifies:{parent}", depth)
     return added
+
+
+def _seed_ids(manifest: CorpusManifest, known: dict[int, ResolvedNorm]) -> dict[int, Seed]:
+    out: dict[int, Seed] = {}
+    for norm_id, norm in known.items():
+        for seed in manifest.seeds:
+            if norm.tipo_norma == seed.tipo and norm.numero_norma == str(seed.numero):
+                out[norm_id] = seed
+    return out
 
 
 def resolve_corpus(
@@ -161,9 +177,16 @@ def resolve_corpus(
 ) -> ResolvedCorpus:
     known, sources = _find_seeds(manifest, catalog)
     frontier = set(known)
+    tipos_por_padre = {
+        norm_id: seed.expand_tipos
+        for norm_id, seed in _seed_ids(manifest, known).items()
+        if seed.expand_tipos is not None
+    }
     if manifest.expand.modificatorias_de_seeds:
         for depth in range(1, manifest.expand.max_depth + 1):
-            added = _expand_once(frontier, known, catalog, manifest.expand.tipos, depth)
+            added = _expand_once(
+                frontier, known, catalog, manifest.expand.tipos, depth, tipos_por_padre
+            )
             if not added:
                 break
             known.update(added)

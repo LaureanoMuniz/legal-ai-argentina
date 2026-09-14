@@ -148,3 +148,44 @@ def test_load_manifest_reads_original_from():
         390,
         1976,
     )
+
+
+def test_expand_tipos_per_seed_limits_only_that_seed():
+    from legal_ai.ingest.catalog_reader import InMemoryCatalog, NormRow, RelationRow
+    from legal_ai.ingest.manifest import CorpusManifest, Expand, Seed, resolve_corpus
+
+    norms = [
+        NormRow(id_norma=1, tipo_norma="Ley", numero_norma="14250", titulo_resumido="convenios"),
+        NormRow(id_norma=2, tipo_norma="Ley", numero_norma="20744", titulo_resumido="lct"),
+        NormRow(
+            id_norma=10, tipo_norma="Resolución", numero_norma="900", titulo_resumido="homologa cct"
+        ),
+        NormRow(id_norma=11, tipo_norma="Ley", numero_norma="25877", titulo_resumido="reforma"),
+        NormRow(id_norma=12, tipo_norma="Resolución", numero_norma="7", titulo_resumido="tope"),
+    ]
+    relations = [
+        RelationRow(
+            id_norma_modificatoria=10,
+            id_norma_modificada=1,
+            tipo_norma="Resolución",
+            nro_norma="900",
+        ),
+        RelationRow(
+            id_norma_modificatoria=11, id_norma_modificada=1, tipo_norma="Ley", nro_norma="25877"
+        ),
+        RelationRow(
+            id_norma_modificatoria=12, id_norma_modificada=2, tipo_norma="Resolución", nro_norma="7"
+        ),
+    ]
+    manifest = CorpusManifest(
+        name="t",
+        description="test",
+        seeds=[
+            Seed(tipo="Ley", numero=14250, why="convenios", expand_tipos=["Ley", "Decreto"]),
+            Seed(tipo="Ley", numero=20744, why="lct"),
+        ],
+        expand=Expand(max_depth=1),
+    )
+    resolved = resolve_corpus(manifest, InMemoryCatalog(norms, relations), date(2026, 9, 12))
+    ids = {n.id_norma for n in resolved.norms}
+    assert ids == {1, 2, 11, 12}

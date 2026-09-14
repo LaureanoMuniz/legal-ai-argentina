@@ -1,4 +1,5 @@
 import hashlib
+import threading
 import time
 from collections.abc import Callable
 from datetime import UTC, datetime
@@ -34,13 +35,17 @@ class InfolegClient:
         self._sleep = sleep
         self._clock = clock
         self._last_request: float | None = None
+        self._lock = threading.Lock()
 
     def _wait_turn(self) -> None:
-        if self._last_request is not None:
-            elapsed = self._clock() - self._last_request
-            if elapsed < self._min_interval:
-                self._sleep(self._min_interval - elapsed)
-        self._last_request = self._clock()
+        if self._min_interval <= 0:
+            return
+        with self._lock:
+            if self._last_request is not None:
+                elapsed = self._clock() - self._last_request
+                if elapsed < self._min_interval:
+                    self._sleep(self._min_interval - elapsed)
+            self._last_request = self._clock()
 
     def get(self, url: str) -> httpx.Response:
         last_error: Exception | None = None

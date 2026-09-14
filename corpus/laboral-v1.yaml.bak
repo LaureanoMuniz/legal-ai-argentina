@@ -1,0 +1,16 @@
+name: laboral
+description: Ley de Contrato de Trabajo y su entorno normativo
+seeds:
+  - tipo: Ley
+    numero: 20744
+    why: "Ley de Contrato de Trabajo, núcleo del corpus"
+    original_from: {tipo: Decreto, numero: 390, sancion_year: 1976}
+  - {tipo: Ley, numero: 24013, why: "Ley Nacional de Empleo: registración, multas, despido"}
+  - {tipo: Ley, numero: 25323, why: "agravamiento indemnizatorio por falta de registración"}
+  - {tipo: Ley, numero: 25877, why: "régimen de ordenamiento laboral 2004: preaviso, período de prueba"}
+  - {tipo: Ley, numero: 27742, why: "Ley Bases 2024: reforma laboral"}
+  - {tipo: Ley, numero: 27802, why: "reforma laboral 2026"}
+expand:
+  modificatorias_de_seeds: true
+  max_depth: 1
+  tipos: null

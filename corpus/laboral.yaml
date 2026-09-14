@@ -10,6 +10,16 @@ seeds:
   - {tipo: Ley, numero: 25877, why: "régimen de ordenamiento laboral 2004: preaviso, período de prueba"}
   - {tipo: Ley, numero: 27742, why: "Ley Bases 2024: reforma laboral"}
   - {tipo: Ley, numero: 27802, why: "reforma laboral 2026"}
+  - {tipo: Ley, numero: 11544, why: "jornada de trabajo: el art. 196 de la LCT remite a ella"}
+  - {tipo: Ley, numero: 14250, why: "convenios colectivos de trabajo", expand_tipos: [Ley, Decreto]}
+  - {tipo: Ley, numero: 23551, why: "asociaciones sindicales", expand_tipos: [Ley, Decreto]}
+  - {tipo: Ley, numero: 23660, why: "obras sociales", expand_tipos: [Ley, Decreto]}
+  - {tipo: Ley, numero: 23661, why: "sistema nacional del seguro de salud", expand_tipos: [Ley, Decreto]}
+  - {tipo: Ley, numero: 25165, why: "pasantías educativas"}
+  - {tipo: Ley, numero: 24028, why: "accidentes de trabajo, derogada por la 24.557: base histórica"}
+  - {tipo: Ley, numero: 22250, why: "estatuto de la industria de la construcción"}
+  - {tipo: Ley, numero: 12981, why: "estatuto de encargados de casas de renta"}
+  - {tipo: Ley, numero: 14546, why: "estatuto del viajante de comercio"}
 expand:
   modificatorias_de_seeds: true
   max_depth: 1

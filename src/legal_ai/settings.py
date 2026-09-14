@@ -16,7 +16,8 @@ class Settings(BaseSettings):
 
     data_dir: Path = Path("data")
     infoleg_user_agent: str = DEFAULT_USER_AGENT
-    infoleg_min_interval_seconds: float = 0.5
+    infoleg_min_interval_seconds: float = 0.0
+    infoleg_workers: int = 8
     infoleg_timeout_seconds: float = 60.0
     database_url: str = "postgresql+psycopg://legal_ai:legal_ai@localhost:5433/legal_ai"
     test_database_url: str = "postgresql+psycopg://legal_ai:legal_ai@localhost:5433/legal_ai_test"
