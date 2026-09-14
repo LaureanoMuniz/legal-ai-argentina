@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Legal AI Argentina</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root {
   --paper: #F5F7F4; --paper-2: #EDF0EB; --ink: #1B2430; --ink-2: #4A5561; --muted: #7A838D;
@@ -22,366 +22,409 @@
   }
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.55; padding-block: 0 3rem; padding-inline: clamp(16px, 3vw, 32px); }
+html, body { height: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.55; display: flex; flex-direction: column; }
 a { color: var(--accent); }
 button { font: inherit; }
-.masthead { max-width: 1240px; margin: 0 auto; padding-block: 1.5rem 1rem; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: .5rem 2rem; align-items: baseline; }
-.masthead h1 { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.7rem; margin: 0; letter-spacing: -.01em; }
-.masthead .sub { color: var(--ink-2); font-size: .95rem; }
-.masthead .disclaimer { margin-left: auto; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--warn); }
+.masthead { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; align-items: baseline; padding: .8rem clamp(16px, 3vw, 28px); border-bottom: 1px solid var(--rule); background: var(--paper); }
+.masthead h1 { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.35rem; margin: 0; }
+.masthead .sub { color: var(--ink-2); font-size: .88rem; }
+.masthead .right { margin-left: auto; display: flex; gap: 1rem; align-items: center; font-size: .8rem; }
+.masthead .disclaimer { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--warn); }
 .eyebrow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.layout { max-width: 1240px; margin: 1.5rem auto 0; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 2rem; }
-@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
-aside details { border-top: 1px solid var(--rule); padding: .45rem 0; }
-aside summary { cursor: pointer; font-weight: 500; font-size: .95rem; padding: .25rem 0; }
-aside ul { list-style: none; margin: .25rem 0 .5rem; padding: 0; display: grid; gap: .2rem; }
-aside li button { width: 100%; text-align: left; background: none; border: 0; padding: .35rem .5rem; border-radius: 6px; color: var(--ink-2); cursor: pointer; font-size: .9rem; line-height: 1.4; }
+.layout { flex: 1; display: grid; grid-template-columns: 288px minmax(0, 1fr); min-height: 0; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } aside { display: none; } }
+aside { border-right: 1px solid var(--rule); padding: 1rem clamp(12px, 1.5vw, 18px); overflow-y: auto; background: var(--paper); }
+aside details { border-top: 1px solid var(--rule); padding: .35rem 0; }
+aside details:first-of-type { border-top: 0; }
+aside summary { cursor: pointer; font-weight: 500; font-size: .92rem; padding: .2rem 0; }
+aside ul { list-style: none; margin: .2rem 0 .4rem; padding: 0; display: grid; gap: .15rem; }
+aside li button { width: 100%; text-align: left; background: none; border: 0; padding: .3rem .45rem; border-radius: 6px; color: var(--ink-2); cursor: pointer; font-size: .87rem; line-height: 1.35; }
 aside li button:hover { background: var(--accent-soft); color: var(--ink); }
+aside .newchat { width: 100%; margin-bottom: .8rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 8px; padding: .45rem; cursor: pointer; font-size: .9rem; }
 
-.askbox { display: grid; gap: .6rem; margin-bottom: 1.25rem; }
-.askbox textarea { width: 100%; min-height: 84px; padding: .8rem .9rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper-2); color: var(--ink); font: inherit; resize: vertical; }
-.askbox textarea:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.controls { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; }
-.controls label { font-size: .88rem; color: var(--ink-2); display: inline-flex; gap: .4rem; align-items: center; }
-.controls input[type=date] { font: inherit; font-size: .88rem; padding: .3rem .4rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper-2); color: var(--ink); }
-.btn { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: .6rem 1.1rem; font-weight: 600; cursor: pointer; }
-.btn[disabled] { opacity: .6; cursor: wait; }
-.btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+main { display: flex; flex-direction: column; min-height: 0; }
+.thread { flex: 1; overflow-y: auto; padding: 1.25rem clamp(16px, 4vw, 40px) 1rem; }
+.inner { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.1rem; }
+.intro { border: 1px dashed var(--rule); border-radius: 12px; padding: 1.1rem 1.25rem; color: var(--ink-2); }
+.intro h2 { font-family: "Newsreader", Georgia, serif; font-size: 1.25rem; margin: 0 0 .4rem; color: var(--ink); }
+.intro ul { margin: .5rem 0 0; padding-left: 1.1rem; }
+.intro li { margin-bottom: .25rem; }
 
-.stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; margin: 0 0 1.25rem; }
-@media (max-width: 600px) { .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.stage { border: 1px solid var(--rule); border-radius: 8px; padding: .55rem .7rem; background: var(--paper-2); font-size: .82rem; color: var(--muted); }
-.stage b { display: block; color: var(--ink-2); font-weight: 500; font-size: .85rem; }
-.stage.active { border-color: var(--brass); color: var(--brass); }
-.stage.active b { color: var(--brass); }
-.stage.done { border-color: var(--accent); }
-.stage.done b { color: var(--accent); }
-.stage .ms { font-family: "IBM Plex Mono", ui-monospace, monospace; }
-
-.card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--paper-2); margin-bottom: 1.25rem; }
-.answer { font-family: "Newsreader", Georgia, serif; font-size: 1.15rem; line-height: 1.6; }
-.answer .cite { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: .05rem .35rem; cursor: pointer; border: 0; vertical-align: middle; }
-.flag { display: inline-block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; padding: .15rem .5rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); margin-right: .4rem; }
+.msg.user { align-self: flex-end; max-width: 80%; background: var(--accent-soft); border: 1px solid var(--accent); color: var(--ink); border-radius: 14px 14px 4px 14px; padding: .6rem .9rem; }
+.msg.bot { align-self: stretch; }
+.bubble { border: 1px solid var(--rule); background: var(--paper-2); border-radius: 4px 14px 14px 14px; padding: 1rem 1.15rem; }
+.answer { font-family: "Newsreader", Georgia, serif; font-size: 1.1rem; line-height: 1.6; white-space: pre-wrap; }
+.answer .cite { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: .05rem .35rem; cursor: pointer; border: 0; vertical-align: middle; }
+.flags { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .5rem; }
+.flag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; padding: .12rem .5rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); }
 .flag.warn { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
 .flag.ok { border-color: var(--accent); color: var(--accent); }
-.claims { margin: 1rem 0 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
-.claims li { display: grid; grid-template-columns: 1fr; gap: .2rem; padding: .55rem .7rem; border-left: 3px solid var(--accent); background: var(--paper); border-radius: 0 6px 6px 0; font-size: .95rem; }
-.claims .srcs { display: flex; flex-wrap: wrap; gap: .3rem; }
-
-.feedback { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: 1rem; padding-top: .9rem; border-top: 1px dashed var(--rule); }
-.feedback .fb { border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); border-radius: 999px; padding: .3rem .7rem; font-size: .82rem; cursor: pointer; }
-.feedback .fb:hover, .feedback .fb.sel { border-color: var(--accent); color: var(--accent); }
-.feedback input[type=text] { flex: 1 1 220px; font: inherit; font-size: .85rem; padding: .35rem .5rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink); }
-.feedback .who { flex: 0 1 140px; }
-.feedback .thanks { color: var(--accent); font-size: .85rem; }
-
-.hood h2 { font-family: "Newsreader", Georgia, serif; font-size: 1.35rem; margin: 0 0 .25rem; }
-.hood summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 1rem; }
-.hood summary::-webkit-details-marker { display: none; }
-.hood summary .eyebrow::before { content: "▸ "; }
-.hood[open] summary .eyebrow::before { content: "▾ "; }
-.timeline { display: grid; gap: .35rem; margin: 1rem 0; }
-.tl { display: grid; grid-template-columns: 150px minmax(0,1fr) 70px; gap: .6rem; align-items: center; font-size: .82rem; }
-.tl .name { font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tl .bar { height: 12px; border-radius: 4px; background: var(--accent-soft); position: relative; }
-.tl .bar i { position: absolute; top: 0; bottom: 0; background: var(--accent); border-radius: 4px; min-width: 2px; }
-.tl .bar.llm i { background: var(--brass); }
-.tl .ms { font-family: "IBM Plex Mono", ui-monospace, monospace; text-align: right; color: var(--ink-2); }
-.kv { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; font-size: .9rem; margin: .5rem 0 1rem; }
-.kv span:first-child { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; padding-top: .2rem; }
+.flag.time { border-color: var(--brass); color: var(--brass); background: var(--brass-soft); }
+.claims { margin: .9rem 0 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
+.claims li { padding: .5rem .7rem; border-left: 3px solid var(--accent); background: var(--paper); border-radius: 0 6px 6px 0; font-size: .93rem; }
+.claims .srcs { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .25rem; }
+.stages { display: flex; flex-wrap: wrap; gap: .3rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; color: var(--muted); align-items: center; }
+.tools { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .8rem; padding-top: .7rem; border-top: 1px dashed var(--rule); }
+.fb { border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); border-radius: 999px; padding: .22rem .6rem; font-size: .78rem; cursor: pointer; }
+.fb:hover, .fb.sel { border-color: var(--accent); color: var(--accent); }
+.tools input[type=text] { flex: 1 1 200px; font: inherit; font-size: .82rem; padding: .3rem .5rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); color: var(--ink); }
+.tools .thanks { color: var(--accent); font-size: .8rem; }
+.hood { margin-top: .7rem; }
+.hood summary { cursor: pointer; font-size: .8rem; color: var(--muted); }
+.hood summary:hover { color: var(--accent); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; font-size: .84rem; margin: .6rem 0; }
+.kv span:first-child { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; padding-top: .15rem; }
 .table-wrap { overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
-th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
-th { font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+table { border-collapse: collapse; width: 100%; font-size: .82rem; }
+th, td { text-align: left; padding: .3rem .45rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
 td.num { font-family: "IBM Plex Mono", ui-monospace, monospace; white-space: nowrap; }
-.tag { display: inline-block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; padding: .05rem .4rem; border-radius: 4px; background: var(--code-bg); color: var(--ink-2); }
-.tag.graph { background: var(--graph-soft); color: var(--graph); }
-.tag.hist { background: var(--brass-soft); color: var(--brass); }
-.tag.exp { background: var(--warn-soft); color: var(--warn); }
 tr.chunk td { cursor: pointer; }
-tr.chunktext td { background: var(--paper); font-size: .85rem; white-space: pre-wrap; color: var(--ink-2); }
-pre.raw { background: var(--code-bg); border-radius: 6px; padding: .7rem .9rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .74rem; overflow-x: auto; max-height: 320px; }
-.small { font-size: .82rem; color: var(--muted); }
-.error { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: .7rem .9rem; border-radius: 0 6px 6px 0; }
+tr.chunktext td { background: var(--paper); white-space: pre-wrap; color: var(--ink-2); font-size: .82rem; }
+.tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; padding: .05rem .35rem; border-radius: 4px; background: var(--code-bg); color: var(--ink-2); }
+.tag.hist { background: var(--brass-soft); color: var(--brass); }
+.tag.graph { background: var(--graph-soft); color: var(--graph); }
+pre.raw { background: var(--code-bg); border-radius: 6px; padding: .6rem .8rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; overflow-x: auto; max-height: 260px; }
 
-dialog { border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); color: var(--ink); max-width: min(760px, 92vw); padding: 1.25rem 1.5rem; }
+.composer { border-top: 1px solid var(--rule); background: var(--paper); padding: .8rem clamp(16px, 4vw, 40px) 1rem; }
+.composer .inner { gap: .5rem; }
+.row { display: flex; gap: .5rem; align-items: flex-end; }
+textarea { flex: 1; min-height: 52px; max-height: 180px; padding: .7rem .85rem; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-2); color: var(--ink); font: inherit; resize: vertical; }
+textarea:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.send { background: var(--accent); color: #fff; border: 0; border-radius: 10px; padding: .7rem 1.2rem; font-weight: 600; cursor: pointer; }
+.send[disabled] { opacity: .55; cursor: wait; }
+.opts { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; font-size: .82rem; color: var(--ink-2); }
+.opts input[type=date] { font: inherit; font-size: .82rem; padding: .2rem .35rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper-2); color: var(--ink); }
+.typing { display: inline-flex; gap: .2rem; }
+.typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--brass); animation: blink 1.2s infinite; }
+.typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .typing i { animation: none; opacity: .6; } }
+.error { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: .6rem .8rem; border-radius: 0 6px 6px 0; font-size: .9rem; }
+
+dialog { border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); color: var(--ink); max-width: min(760px, 92vw); padding: 1.2rem 1.4rem; }
 dialog::backdrop { background: rgba(0,0,0,.35); }
-dialog h3 { font-family: "Newsreader", Georgia, serif; margin: 0 0 .5rem; }
-.versions { display: grid; gap: .6rem; margin-top: .75rem; }
+dialog h3 { font-family: "Newsreader", Georgia, serif; margin: 0 0 .3rem; }
+.versions { display: grid; gap: .6rem; margin-top: .7rem; max-height: 60vh; overflow-y: auto; }
 .version { border-left: 3px solid var(--rule); padding: .4rem .7rem; font-size: .9rem; }
 .version.current { border-color: var(--accent); }
 .version.historico, .version.original { border-color: var(--brass); }
 .version.derogado { border-color: var(--warn); }
 .version .meta { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; color: var(--muted); }
-.version p { margin: .3rem 0 0; white-space: pre-wrap; }
+.version p { margin: .25rem 0 0; white-space: pre-wrap; }
 </style>
 </head>
 <body>
 <header class="masthead">
   <h1>Legal AI Argentina</h1>
-  <span class="sub">Preguntas sobre derecho laboral, respondidas con el texto de la ley y sus fuentes.</span>
-  <a href="/review" class="disclaimer" style="text-decoration:none">Revisión de respuestas →</a>
-  <span class="disclaimer">No es asesoramiento jurídico</span>
+  <span class="sub">Conversación sobre derecho laboral, con el texto de la ley y sus versiones.</span>
+  <span class="right"><a href="/review">Respuestas calificadas →</a><span class="disclaimer">No es asesoramiento jurídico</span></span>
 </header>
 
 <div class="layout">
   <aside>
-    <div class="eyebrow" style="margin-bottom:.5rem">Preguntas para probar</div>
+    <button class="newchat" id="newchat" type="button">Nueva conversación</button>
+    <div class="eyebrow" style="margin-bottom:.4rem">Preguntas para probar</div>
     <div id="catalog"></div>
   </aside>
 
   <main>
-    <form class="askbox" id="askform">
-      <textarea id="question" placeholder="Escribí una pregunta, por ejemplo: ¿Cuántos días de vacaciones me corresponden con ocho años de antigüedad?"></textarea>
-      <div class="controls">
-        <button type="submit" class="btn" id="askbtn">Preguntar</button>
-        <label title="Para preguntar cómo era la ley en una fecha"><span>¿Cómo era el</span><input type="date" id="asof"></label>
-        <label><input type="checkbox" id="historical"> incluir textos derogados</label>
-        <span class="small" id="status"></span>
+    <div class="thread" id="thread">
+      <div class="inner" id="inner">
+        <div class="intro">
+          <h2>Preguntá como le preguntarías a un colega</h2>
+          <p>Podés repreguntar: el sistema recuerda lo que venían hablando. "¿Cuántos días de vacaciones corresponden?" y después "¿y con doce años de antigüedad?" o "¿y en casas particulares?".</p>
+          <ul>
+            <li>Cada afirmación viene con el artículo que la sostiene: se hace clic y se abre el texto con <b>todas sus versiones</b> y quién modificó cada una.</li>
+            <li>Podés preguntar por una fecha: <i>"¿cuánto duraba el período de prueba en 2023?"</i> y responde con el texto que regía entonces.</li>
+            <li>Si la respuesta no está en el corpus, lo dice en vez de inventarla.</li>
+            <li>Abajo de cada respuesta podés calificarla y marcar cuál era el artículo correcto.</li>
+          </ul>
+        </div>
       </div>
-    </form>
-
-    <div class="stages" id="stages" hidden>
-      <div class="stage" data-stage="plan"><b>1 · Entender la pregunta</b><span>reescritura y fecha</span> <span class="ms"></span></div>
-      <div class="stage" data-stage="retrieval"><b>2 · Buscar en la ley</b><span>vector + palabras</span> <span class="ms"></span></div>
-      <div class="stage" data-stage="context"><b>3 · Armar el contexto</b><span>fragmentos citables</span> <span class="ms"></span></div>
-      <div class="stage" data-stage="generation"><b>4 · Redactar con citas</b><span>Claude</span> <span class="ms"></span></div>
     </div>
 
-    <section class="card" id="answercard" hidden>
-      <div id="flags"></div>
-      <div class="answer" id="answer"></div>
-      <ul class="claims" id="claims"></ul>
-      <div class="feedback" id="feedback">
-        <span class="eyebrow" style="width:100%">¿Cómo estuvo esta respuesta?</span>
-        <button class="fb" data-label="correct">Correcta</button>
-        <button class="fb" data-label="partially_correct">Parcial</button>
-        <button class="fb" data-label="incorrect">Incorrecta</button>
-        <button class="fb" data-label="unsupported">No la sostiene la fuente</button>
-        <button class="fb" data-label="wrong_source">Fuente equivocada</button>
-        <button class="fb" data-label="wrong_version">Versión equivocada</button>
-        <button class="fb" data-label="incomplete">Incompleta</button>
-        <input type="text" id="fbcomment" placeholder="¿Qué estuvo mal o qué faltó? (opcional)">
-        <input type="text" id="fbwho" class="who" placeholder="Tu nombre">
-        <span class="thanks" id="fbthanks"></span>
-        <span class="small" id="fbexpected" style="width:100%">Si el sistema no trajo el artículo correcto, marcalo con ✓ en la tabla de abajo y queda guardado con tu calificación.</span>
-      </div>
-    </section>
-
-    <div class="error" id="error" hidden></div>
-
-    <details class="hood card" id="hood" hidden open>
-      <summary><span class="eyebrow">Por debajo del capó</span><span class="small" id="hoodsum"></span></summary>
-      <div class="timeline" id="timeline"></div>
-      <div class="kv" id="plan"></div>
-      <div class="eyebrow">Candidatos que vio el modelo (clic para leer el fragmento)</div>
-      <div class="table-wrap"><table id="cands"><thead><tr><th title="Marcá el artículo que debería haber respondido">✓</th><th>#</th><th>Cómo llegó</th><th>Score</th><th>Artículo</th><th>Vigencia</th><th>Contexto</th></tr></thead><tbody></tbody></table></div>
-      <div class="kv" id="usage" style="margin-top:1rem"></div>
-      <details><summary class="small">Spans crudos (OpenTelemetry)</summary><pre class="raw" id="rawspans"></pre></details>
-    </details>
+    <div class="composer">
+      <form class="inner" id="form">
+        <div class="row">
+          <textarea id="q" placeholder="Escribí tu consulta y apretá Enter…" autofocus></textarea>
+          <button class="send" id="send" type="submit">Enviar</button>
+        </div>
+        <div class="opts">
+          <label title="Para preguntar cómo era la ley en una fecha">Ley vigente al <input type="date" id="asof"></label>
+          <label><input type="checkbox" id="historical"> incluir textos derogados</label>
+          <span class="eyebrow" id="ctx"></span>
+        </div>
+      </form>
+    </div>
   </main>
 </div>
 
-<dialog id="articledlg">
+<dialog id="dlg">
   <h3 id="dlgtitle"></h3>
-  <div class="small" id="dlgmeta"></div>
+  <div class="eyebrow" id="dlgmeta"></div>
   <div class="versions" id="dlgversions"></div>
-  <p><button class="btn ghost" id="dlgclose" type="button">Cerrar</button></p>
+  <p><button class="fb" id="dlgclose" type="button">Cerrar</button></p>
 </dialog>
 
 <script>
-const $ = (s) => document.querySelector(s);
-const state = { response: null, label: null, expected: new Set(), conversation: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())) };
-const LABELS = { plan: "1 · Entender la pregunta", retrieval: "2 · Buscar en la ley", context: "3 · Armar el contexto", generation: "4 · Redactar con citas" };
-const RETRIEVER_LABEL = (r) => ({ vector: "vector", bm25: "palabras", hybrid: "híbrido", rrf: "fusión", graph: "referencia cruzada" })[r.split("+")[0]] || r;
+const $ = (id) => document.getElementById(id);
+const state = { history: [], conversation: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())), busy: false };
+const RET = (r) => ({ vector: "vector", bm25: "palabras", hybrid: "híbrido", rrf: "fusión", graph: "referencia cruzada", agent: "agente" })[r.split("+")[0]] || r;
 
 async function loadCatalog() {
   const groups = await (await fetch("/questions")).json();
-  const box = $("#catalog");
+  const box = $("catalog");
   groups.forEach((g, i) => {
     const d = document.createElement("details"); if (i === 0) d.open = true;
-    const s = document.createElement("summary"); s.textContent = g.group; d.append(s);
+    d.append(Object.assign(document.createElement("summary"), { textContent: g.group }));
     const ul = document.createElement("ul");
     g.questions.forEach((q) => {
-      const li = document.createElement("li"); const b = document.createElement("button"); b.type = "button"; b.textContent = q;
-      b.addEventListener("click", () => { $("#question").value = q; $("#asof").value = ""; $("#historical").checked = false; ask(); });
+      const li = document.createElement("li");
+      const b = document.createElement("button"); b.type = "button"; b.textContent = q;
+      b.addEventListener("click", () => { $("q").value = q; send(); });
       li.append(b); ul.append(li);
     });
     d.append(ul); box.append(d);
   });
 }
 
-function setStage(name, cls, ms) {
-  const el = document.querySelector(`.stage[data-stage="${name}"]`);
-  if (!el) return;
-  el.classList.remove("active", "done"); if (cls) el.classList.add(cls);
-  el.querySelector(".ms").textContent = ms != null ? `${Math.round(ms)} ms` : "";
+function scrollDown() { const t = $("thread"); t.scrollTop = t.scrollHeight; }
+
+function addUser(text) {
+  const d = document.createElement("div"); d.className = "msg user"; d.textContent = text;
+  $("inner").append(d); scrollDown();
 }
 
-async function ask() {
-  const question = $("#question").value.trim();
-  if (question.length < 3) return;
-  state.response = null; state.label = null; state.expected = new Set();
-  $("#answercard").hidden = true; $("#hood").hidden = true; $("#error").hidden = true; $("#fbthanks").textContent = "";
-  document.querySelectorAll(".fb").forEach((b) => b.classList.remove("sel"));
-  $("#stages").hidden = false; Object.keys(LABELS).forEach((s) => setStage(s, null, null)); setStage("plan", "active");
-  $("#askbtn").disabled = true; $("#status").textContent = "";
-  const body = { question, k: 8 };
-  if ($("#asof").value) body.as_of = $("#asof").value;
-  if ($("#historical").checked) body.historical = true;
-  const t0 = performance.now();
-  try {
-    const res = await fetch("/ask/stream", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = "";
-    while (true) {
-      const { value, done } = await reader.read(); if (done) break;
-      buf += dec.decode(value, { stream: true });
-      let idx;
-      while ((idx = buf.indexOf("\n\n")) >= 0) {
-        const block = buf.slice(0, idx); buf = buf.slice(idx + 2);
-        const ev = /^event: (\w+)/.exec(block); const data = block.split("\ndata: ")[1];
-        if (ev) handle(ev[1], data ? JSON.parse(data) : {}, t0);
-      }
-    }
-  } catch (e) {
-    $("#error").hidden = false; $("#error").textContent = `No se pudo responder: ${e.message}. ¿Está corriendo el servidor y la base de datos?`;
-  } finally { $("#askbtn").disabled = false; }
-}
-
-function handle(stage, payload, t0) {
-  if (stage === "plan") { setStage("plan", "done", performance.now() - t0); setStage("retrieval", "active"); }
-  if (stage === "retrieval") { setStage("retrieval", "done", payload.ms); setStage("context", "active"); }
-  if (stage === "context") { setStage("context", "done", payload.ms); setStage("generation", "active"); $("#status").textContent = "Claude está leyendo los fragmentos…"; }
-  if (stage === "generation") { setStage("generation", "done", payload.ms); $("#status").textContent = ""; }
-  if (stage === "error") { $("#error").hidden = false; $("#error").textContent = payload.message; }
-  if (stage === "done") { state.response = payload; if (!payload.answer) setStage("generation", null, null); render(payload); }
+function addBot() {
+  const wrap = document.createElement("div"); wrap.className = "msg bot";
+  const bubble = document.createElement("div"); bubble.className = "bubble";
+  const stages = document.createElement("div"); stages.className = "stages";
+  const dots = document.createElement("span"); dots.className = "typing";
+  dots.append(document.createElement("i"), document.createElement("i"), document.createElement("i"));
+  const label = document.createElement("span"); label.textContent = "entendiendo la pregunta…";
+  stages.append(dots, label);
+  bubble.append(stages); wrap.append(bubble); $("inner").append(wrap); scrollDown();
+  return { wrap, bubble, label };
 }
 
 function citeButton(id) {
-  const b = document.createElement("button"); b.type = "button"; b.className = "cite"; b.textContent = id;
+  const b = document.createElement("button"); b.type = "button"; b.className = "cite";
+  b.textContent = id.split("@")[0]; b.title = id;
   b.addEventListener("click", () => openArticle(id.split("@")[0]));
   return b;
 }
 
-function renderAnswerText(text) {
-  const el = $("#answer"); el.replaceChildren();
+function renderAnswerText(target, text) {
   const re = /\[([0-9]+:[^\]@\s]+@[^\]\s]+)\]/g; let last = 0, m;
-  while ((m = re.exec(text))) { el.append(document.createTextNode(text.slice(last, m.index))); el.append(citeButton(m[1])); last = re.lastIndex; }
-  el.append(document.createTextNode(text.slice(last)));
-}
-
-function render(r) {
-  $("#answercard").hidden = false;
-  const flags = $("#flags"); flags.replaceChildren();
-  if (!r.answer) {
-    flags.append(Object.assign(document.createElement("span"), { className: "flag warn", textContent: "sin generación (falta ANTHROPIC_API_KEY)" }));
-    $("#answer").textContent = "El buscador encontró estos fragmentos; sin clave de API no hay redacción.";
-  } else {
-    if (r.answer.insufficient_evidence) flags.append(Object.assign(document.createElement("span"), { className: "flag warn", textContent: "evidencia insuficiente: el sistema prefiere no responder" }));
-    flags.append(Object.assign(document.createElement("span"), { className: "flag " + (r.answer.confidence === "high" ? "ok" : ""), textContent: `confianza ${r.answer.confidence}` }));
-    if (r.unsupported_sources.length) flags.append(Object.assign(document.createElement("span"), { className: "flag warn", textContent: `citas fuera del contexto: ${r.unsupported_sources.join(", ")}` }));
-    if (r.plan.as_of) flags.append(Object.assign(document.createElement("span"), { className: "flag", textContent: `ley vigente al ${r.plan.as_of}` }));
-    if (r.plan.historical) flags.append(Object.assign(document.createElement("span"), { className: "flag", textContent: "incluye textos derogados" }));
-    renderAnswerText(r.answer.answer || "(sin texto)");
+  while ((m = re.exec(text))) {
+    target.append(document.createTextNode(text.slice(last, m.index)));
+    target.append(citeButton(m[1]));
+    last = re.lastIndex;
   }
-  const claims = $("#claims"); claims.replaceChildren();
-  (r.answer ? r.answer.claims : []).forEach((c) => {
-    const li = document.createElement("li"); li.append(document.createTextNode(c.claim));
-    const s = document.createElement("div"); s.className = "srcs"; c.sources.forEach((id) => s.append(citeButton(id))); li.append(s); claims.append(li);
-  });
-  renderHood(r);
+  target.append(document.createTextNode(text.slice(last)));
 }
 
-function renderHood(r) {
-  $("#hood").hidden = false;
-  const t = r.timing;
-  $("#hoodsum").textContent = `retrieval ${Math.round(t.retrieval_ms)} ms · redacción ${t.llm_ms ? Math.round(t.llm_ms) + " ms" : "–"} · total ${(t.total_ms / 1000).toFixed(1)} s · trace ${r.trace_id}`;
-  const tl = $("#timeline"); tl.replaceChildren();
-  const total = Math.max(t.total_ms, 1);
-  let offset = 0;
-  [[r.plan.rewritten ? "reescritura + búsqueda" : "búsqueda", t.retrieval_ms, ""], ["contexto", t.context_ms, ""], ["redacción (Claude)", t.llm_ms || 0, "llm"]].forEach(([name, ms, cls]) => {
-    const row = document.createElement("div"); row.className = "tl";
-    const n = document.createElement("span"); n.className = "name"; n.textContent = name;
-    const bar = document.createElement("div"); bar.className = "bar " + cls; const i = document.createElement("i");
-    i.style.left = (offset / total * 100) + "%"; i.style.width = Math.max(ms / total * 100, .3) + "%"; bar.append(i);
-    const m = document.createElement("span"); m.className = "ms"; m.textContent = `${Math.round(ms)} ms`;
-    row.append(n, bar, m); tl.append(row); offset += ms;
+async function send() {
+  if (state.busy) return;
+  const question = $("q").value.trim();
+  if (question.length < 3) return;
+  $("q").value = ""; state.busy = true; $("send").disabled = true;
+  addUser(question);
+  const slot = addBot();
+  const body = { question, k: 8, history: state.history };
+  if ($("asof").value) body.as_of = $("asof").value;
+  if ($("historical").checked) body.historical = true;
+  try {
+    const res = await fetch("/ask/stream", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = "";
+    while (true) {
+      const { value, done } = await reader.read(); if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let i;
+      while ((i = buf.indexOf("\n\n")) >= 0) {
+        const block = buf.slice(0, i); buf = buf.slice(i + 2);
+        const ev = /^event: (\w+)/.exec(block); const data = block.split("\ndata: ")[1];
+        if (ev) handle(ev[1], data ? JSON.parse(data) : {}, slot, question);
+      }
+    }
+  } catch (e) {
+    slot.bubble.replaceChildren(Object.assign(document.createElement("div"), { className: "error", textContent: "No pude responder: " + e.message + ". ¿Está corriendo el servidor?" }));
+  } finally { state.busy = false; $("send").disabled = false; $("q").focus(); }
+}
+
+function handle(stage, payload, slot, question) {
+  if (stage === "plan") slot.label.textContent = payload.as_of ? "buscando la ley vigente al " + payload.as_of + "…" : "buscando en la ley…";
+  if (stage === "retrieval") slot.label.textContent = "leyendo " + payload.candidates.length + " fragmentos…";
+  if (stage === "context") slot.label.textContent = "redactando con citas…";
+  if (stage === "error") slot.bubble.replaceChildren(Object.assign(document.createElement("div"), { className: "error", textContent: payload.message }));
+  if (stage === "done") renderAnswer(slot, payload, question);
+}
+
+function renderAnswer(slot, r, question) {
+  slot.bubble.replaceChildren();
+  const flags = document.createElement("div"); flags.className = "flags";
+  const flag = (text, cls) => flags.append(Object.assign(document.createElement("span"), { className: "flag " + (cls || ""), textContent: text }));
+  if (r.plan.as_of) flag("ley vigente al " + r.plan.as_of, "time");
+  if (r.plan.historical) flag("incluye textos derogados", "time");
+  if (r.answer && r.answer.insufficient_evidence) flag("evidencia insuficiente: prefiero no responder", "warn");
+  if (r.answer && !r.answer.insufficient_evidence) flag("confianza " + r.answer.confidence, r.answer.confidence === "high" ? "ok" : "");
+  if (r.unsupported_sources.length) flag("citas fuera del contexto: " + r.unsupported_sources.join(", "), "warn");
+  if (flags.children.length) slot.bubble.append(flags);
+
+  const ans = document.createElement("div"); ans.className = "answer";
+  if (!r.answer) ans.textContent = "Encontré estos fragmentos, pero no hay clave de API para redactar la respuesta.";
+  else renderAnswerText(ans, r.answer.answer || "(sin texto)");
+  slot.bubble.append(ans);
+
+  if (r.answer && r.answer.claims.length) {
+    const ul = document.createElement("ul"); ul.className = "claims";
+    r.answer.claims.forEach((c) => {
+      const li = document.createElement("li"); li.append(document.createTextNode(c.claim));
+      const s = document.createElement("div"); s.className = "srcs";
+      c.sources.forEach((id) => s.append(citeButton(id)));
+      li.append(s); ul.append(li);
+    });
+    slot.bubble.append(ul);
+  }
+  const toolbar = tools(r, question);
+  slot.bubble.append(toolbar);
+  slot.bubble.append(hood(r, toolbar));
+  if (r.answer && r.answer.answer) {
+    state.history.push([question, r.answer.answer]);
+    if (state.history.length > 6) state.history = state.history.slice(-6);
+    $("ctx").textContent = state.history.length + (state.history.length === 1 ? " intercambio" : " intercambios") + " en esta conversación";
+  }
+  scrollDown();
+}
+
+function tools(r, question) {
+  const box = document.createElement("div"); box.className = "tools";
+  const expected = new Set();
+  box.expected = expected;
+  const thanks = document.createElement("span"); thanks.className = "thanks";
+  const comment = document.createElement("input"); comment.type = "text"; comment.placeholder = "¿Qué estuvo mal o qué faltó? (opcional)";
+  const who = document.createElement("input"); who.type = "text"; who.placeholder = "Tu nombre"; who.style.flex = "0 1 130px";
+  try { who.value = localStorage.getItem("legal-ai:who") || ""; } catch (e) {}
+  const labels = [["correct", "Correcta"], ["partially_correct", "Parcial"], ["incorrect", "Incorrecta"], ["unsupported", "No la sostiene la fuente"], ["wrong_source", "Fuente equivocada"], ["wrong_version", "Versión equivocada"], ["incomplete", "Incompleta"]];
+  labels.forEach(([value, text]) => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "fb"; b.textContent = text;
+    b.addEventListener("click", async () => {
+      box.querySelectorAll(".fb").forEach((x) => x.classList.remove("sel"));
+      b.classList.add("sel");
+      try { localStorage.setItem("legal-ai:who", who.value.trim()); } catch (e) {}
+      const payload = {
+        trace_id: r.trace_id, question, answer: r.answer ? r.answer.answer : null, label: value,
+        comment: comment.value || null, reviewer: who.value.trim() || null, sources: r.sources,
+        expected_articles: Array.from(expected),
+        retrieved_articles: Array.from(new Set(r.candidates.map((c) => c.article_id))),
+        as_of: r.plan.as_of, historical: r.plan.historical, conversation_id: state.conversation
+      };
+      const res = await fetch("/feedback", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      thanks.textContent = res.ok ? "Gracias, quedó guardado." : "No se pudo guardar.";
+    });
+    box.append(b);
   });
-  const plan = $("#plan"); plan.replaceChildren();
-  const kv = (k, v) => { const a = document.createElement("span"); a.textContent = k; const b = document.createElement("span"); b.textContent = v; plan.append(a, b); };
-  kv("pregunta", r.plan.query);
-  kv("reescrita para buscar", r.plan.rewritten || "(sin reescritura)");
-  kv("fecha de vigencia", r.plan.as_of || "hoy (sólo textos vigentes)");
-  kv("textos derogados", r.plan.historical ? "incluidos" : "excluidos");
-  kv("retriever", (r.candidates[0] && r.candidates[0].retriever) || "–");
-  const tb = $("#cands tbody"); tb.replaceChildren();
+  box.append(comment, who, thanks);
+  return box;
+}
+
+function hood(r, toolbar) {
+  const det = document.createElement("details"); det.className = "hood";
+  const t = r.timing;
+  const sum = document.createElement("summary");
+  sum.textContent = "Por debajo del capó · búsqueda " + Math.round(t.retrieval_ms) + " ms · redacción " + (t.llm_ms ? (Math.round(t.llm_ms / 100) / 10) + " s" : "–") + " · " + r.candidates.length + " fragmentos";
+  det.append(sum);
+
+  const kv = document.createElement("div"); kv.className = "kv";
+  const row = (k, v) => kv.append(Object.assign(document.createElement("span"), { textContent: k }), Object.assign(document.createElement("span"), { textContent: v }));
+  row("pregunta entendida", r.plan.query);
+  row("reescrita para buscar", r.plan.rewritten || "(sin reescritura)");
+  if (r.plan.subqueries && r.plan.subqueries.length) row("búsquedas separadas", r.plan.subqueries.join(" · "));
+  row("fecha de vigencia", r.plan.as_of || "hoy (sólo textos vigentes)");
+  row("derogados", r.plan.historical ? "incluidos" : "excluidos");
+  if (r.usage) row("tokens y costo", r.usage.input_tokens + "/" + r.usage.output_tokens + " · $" + ((r.usage.input_tokens * 5 + r.usage.output_tokens * 25) / 1e6).toFixed(4) + " · " + (r.model || ""));
+  row("trace", r.trace_id);
+  det.append(kv);
+
+  const wrap = document.createElement("div"); wrap.className = "table-wrap";
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const htr = document.createElement("tr");
+  ["✓", "#", "Cómo llegó", "Score", "Artículo", "Vigencia", "Contexto"].forEach((h) => htr.append(Object.assign(document.createElement("th"), { textContent: h })));
+  thead.append(htr); table.append(thead);
+  const tb = document.createElement("tbody");
   const cited = new Set((r.answer ? r.answer.claims : []).flatMap((c) => c.sources));
   r.candidates.forEach((c) => {
     const tr = document.createElement("tr"); tr.className = "chunk";
-    const period = c.status === "derogado" ? `derogado ${c.effective_until || ""}` : c.effective_until ? `${c.effective_from} → ${c.effective_until}` : `desde ${c.effective_from || "?"}`;
-    const how = document.createElement("span"); how.className = "tag" + (c.retriever.startsWith("graph") ? " graph" : ""); how.textContent = RETRIEVER_LABEL(c.retriever);
     const mark = document.createElement("input"); mark.type = "checkbox"; mark.title = "Este era el artículo correcto";
-    mark.addEventListener("click", (e) => { e.stopPropagation(); mark.checked ? state.expected.add(c.article_id) : state.expected.delete(c.article_id); updateExpected(); });
-    const cells = [mark, String(c.rank), how, c.score.toFixed(3), c.article_id + (cited.has(c.version_id) ? " ✓ citado" : ""), period, c.context_prefix.replace(/^.*?· /, "").slice(0, 110)];
-    cells.forEach((v, i) => { const td = document.createElement("td"); if (i === 1 || i === 3) td.className = "num"; if (v instanceof HTMLElement) td.append(v); else td.textContent = v; tr.append(td); });
+    mark.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (mark.checked) toolbar.expected.add(c.article_id); else toolbar.expected.delete(c.article_id);
+    });
+    const how = document.createElement("span"); how.className = "tag" + (c.retriever.indexOf("graph") === 0 ? " graph" : ""); how.textContent = RET(c.retriever);
+    const period = c.status === "derogado" ? ("derogado " + (c.effective_until || "")) : c.effective_until ? (c.effective_from + " → " + c.effective_until) : ("desde " + (c.effective_from || "?"));
+    const cells = [mark, String(c.rank), how, c.score.toFixed(3), c.article_id + (cited.has(c.version_id) ? " ✓ citado" : ""), period, c.context_prefix.replace(/^.*?· /, "").slice(0, 90)];
+    cells.forEach((v, i) => {
+      const td = document.createElement("td");
+      if (i === 1 || i === 3) td.className = "num";
+      if (v instanceof HTMLElement) td.append(v); else td.textContent = v;
+      tr.append(td);
+    });
     if (c.status === "historico" || c.status === "derogado") tr.children[5].prepend(Object.assign(document.createElement("span"), { className: "tag hist", textContent: c.status + " " }));
-    const tr2 = document.createElement("tr"); tr2.className = "chunktext"; tr2.hidden = true; const td2 = document.createElement("td"); td2.colSpan = 7; td2.textContent = c.context_prefix + "\n\n" + c.text; tr2.append(td2);
+    const tr2 = document.createElement("tr"); tr2.className = "chunktext"; tr2.hidden = true;
+    const td2 = document.createElement("td"); td2.colSpan = 7; td2.textContent = c.context_prefix + "\n\n" + c.text;
+    tr2.append(td2);
     tr.addEventListener("click", () => { tr2.hidden = !tr2.hidden; });
     tb.append(tr, tr2);
   });
-  const usage = $("#usage"); usage.replaceChildren();
-  const ukv = (k, v) => { const a = document.createElement("span"); a.textContent = k; const b = document.createElement("span"); b.textContent = v; usage.append(a, b); };
-  if (r.usage) {
-    const cost = (r.usage.input_tokens * 5 + r.usage.output_tokens * 25) / 1e6;
-    ukv("modelo", r.model || "–"); ukv("tokens entrada / salida", `${r.usage.input_tokens} / ${r.usage.output_tokens}`);
-    ukv("costo a precio de lista", `$${cost.toFixed(4)}`);
-  }
-  ukv("fragmentos en el contexto", String(r.candidates.length));
-  ukv("trace id", r.trace_id);
-  fetch(`/trace/${r.trace_id}`).then((x) => x.json()).then((spans) => {
-    $("#rawspans").textContent = JSON.stringify(spans.map((s) => ({ name: s.name, ms: Math.round(s.duration_ms), attributes: s.attributes })), null, 1);
-  }).catch(() => { $("#rawspans").textContent = "(sin spans todavía)"; });
-}
+  table.append(tb); wrap.append(table); det.append(wrap);
 
-function updateExpected() {
-  const n = state.expected.size;
-  $("#fbexpected").textContent = n
-    ? `Marcaste ${n} artículo${n > 1 ? "s" : ""} como correcto${n > 1 ? "s" : ""}: ${[...state.expected].join(", ")}. Se guarda con tu calificación.`
-    : "Si el sistema no trajo el artículo correcto, marcalo con ✓ en la tabla de abajo y queda guardado con tu calificación.";
+  const spans = document.createElement("details");
+  spans.append(Object.assign(document.createElement("summary"), { textContent: "spans (OpenTelemetry)", className: "eyebrow" }));
+  const pre = document.createElement("pre"); pre.className = "raw"; pre.textContent = "…";
+  spans.append(pre);
+  spans.addEventListener("toggle", async () => {
+    if (!spans.open || pre.dataset.loaded) return;
+    pre.dataset.loaded = "1";
+    try {
+      const list = await (await fetch("/trace/" + r.trace_id)).json();
+      pre.textContent = JSON.stringify(list.map((s) => ({ name: s.name, ms: Math.round(s.duration_ms), attributes: s.attributes })), null, 1);
+    } catch (e) { pre.textContent = "(sin spans)"; }
+  });
+  det.append(spans);
+  return det;
 }
 
 async function openArticle(id) {
-  const res = await fetch(`/article/${encodeURIComponent(id)}`);
+  const res = await fetch("/article/" + encodeURIComponent(id));
   if (!res.ok) return;
   const a = await res.json();
-  $("#dlgtitle").textContent = `${a.norm} · Art. ${a.label}${a.heading ? " — " + a.heading : ""}`;
-  $("#dlgmeta").textContent = a.sections.join(" › ");
-  const box = $("#dlgversions"); box.replaceChildren();
+  $("dlgtitle").textContent = a.norm + " · Art. " + a.label + (a.heading ? " — " + a.heading : "");
+  $("dlgmeta").textContent = a.sections.join(" › ");
+  const box = $("dlgversions"); box.replaceChildren();
   a.versions.forEach((v) => {
-    const d = document.createElement("div"); d.className = `version ${v.version_kind} ${v.status}`;
-    const m = document.createElement("div"); m.className = "meta";
-    m.textContent = `${v.version_kind} · ${v.status} · ${v.effective_from || "?"} → ${v.effective_until || "hoy"}${v.modified_by ? " · por " + v.modified_by : ""}`;
-    const p = document.createElement("p"); p.textContent = v.text; d.append(m, p); box.append(d);
+    const d = document.createElement("div"); d.className = "version " + v.version_kind + " " + v.status;
+    d.append(Object.assign(document.createElement("div"), { className: "meta", textContent: v.version_kind + " · " + v.status + " · " + (v.effective_from || "?") + " → " + (v.effective_until || "hoy") + (v.modified_by ? " · por " + v.modified_by : "") }));
+    d.append(Object.assign(document.createElement("p"), { textContent: v.text }));
+    box.append(d);
   });
-  $("#articledlg").showModal();
+  $("dlg").showModal();
 }
 
-$("#dlgclose").addEventListener("click", () => $("#articledlg").close());
-$("#askform").addEventListener("submit", (e) => { e.preventDefault(); ask(); });
-$("#question").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) ask(); });
-try { $("#fbwho").value = localStorage.getItem("legal-ai:who") || ""; } catch (_) {}
-document.querySelectorAll(".fb").forEach((b) => b.addEventListener("click", async () => {
-  if (!state.response) return;
-  document.querySelectorAll(".fb").forEach((x) => x.classList.remove("sel")); b.classList.add("sel");
-  const who = $("#fbwho").value.trim(); try { localStorage.setItem("legal-ai:who", who); } catch (_) {}
-  const r = state.response;
-  const payload = { trace_id: r.trace_id, question: r.question, answer: r.answer ? r.answer.answer : null, label: b.dataset.label, comment: $("#fbcomment").value || null, reviewer: who || null, sources: r.sources,
-    expected_articles: [...state.expected], retrieved_articles: [...new Set(r.candidates.map((c) => c.article_id))], as_of: r.plan.as_of, historical: r.plan.historical, conversation_id: state.conversation };
-  const res = await fetch("/feedback", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-  $("#fbthanks").textContent = res.ok ? "Gracias, quedó guardado." : "No se pudo guardar.";
-}));
+$("dlgclose").addEventListener("click", () => $("dlg").close());
+$("form").addEventListener("submit", (e) => { e.preventDefault(); send(); });
+$("q").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
+$("newchat").addEventListener("click", () => {
+  state.history = [];
+  state.conversation = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
+  $("inner").replaceChildren();
+  $("ctx").textContent = "";
+  $("q").focus();
+});
 loadCatalog();
 </script>
 </body>

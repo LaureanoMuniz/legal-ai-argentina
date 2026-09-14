@@ -428,6 +428,50 @@ def feedback_export(
     typer.echo(f"{len(rows)} etiquetas escritas en {path} ({with_expected} con artículo marcado)")
 
 
+@bench_app.command("chat")
+def bench_chat(
+    k: Annotated[int, typer.Option("--k")] = 8,
+    name: Annotated[str, typer.Option("--name")] = "chat",
+    conversations: Annotated[str, typer.Option("--conversations")] = "eval/conversations.jsonl",
+    history: Annotated[bool, typer.Option("--history/--no-history")] = True,
+    generate: Annotated[bool, typer.Option("--generate/--no-generate")] = True,
+) -> None:
+    """Benchmark de conversación: cada turno se mide con el historial de los anteriores."""
+    from pathlib import Path
+
+    from legal_ai.eval.chat_bench import run_chat_benchmark, write_report
+    from legal_ai.pipeline import build_pipeline
+
+    report = run_chat_benchmark(
+        build_pipeline(), Path(conversations), k, name, with_history=history, generate=generate
+    )
+    path = write_report(report, Path("experiments"))
+
+    def fmt(agg) -> str:
+        def pct(v: float | None) -> str:
+            return "  -  " if v is None else f"{v:5.2f}"
+
+        return (
+            f"n={agg.n_scored:<3} hit@k={pct(agg.hit_at_k)} "
+            f"recall={pct(agg.recall_at_k)} ndcg={pct(agg.ndcg_at_k)}"
+        )
+
+    typer.echo(f"historial={'sí' if report.with_history else 'no'} · {report.retriever}")
+    typer.echo(f"  todos los turnos   {fmt(report.overall)}")
+    typer.echo(f"  primer turno       {fmt(report.first_turns)}")
+    typer.echo(f"  repreguntas        {fmt(report.follow_ups)}")
+    for kind, agg in report.by_kind.items():
+        typer.echo(f"  {kind:<18} {fmt(agg)}")
+    typer.echo(f"p50 por turno {report.p50_total_ms / 1000:.1f} s")
+    for r in report.results:
+        if r.scored and not r.hit_at_k:
+            typer.echo(
+                f"✗ {r.turn_id} ({r.kind}) {r.question[:52]} · esperado {r.expected_articles}"
+            )
+            typer.echo(f"    entendida como: {r.standalone or '(sin reescritura de contexto)'}")
+    typer.echo(f"escrito: {path}")
+
+
 @app.command("mcp")
 def mcp_serve() -> None:
     """Levanta el servidor MCP por stdio (search_laws, get_article, get_law_version, ...)."""
